@@ -1,0 +1,2254 @@
+{
+  "id": "w6-async-modern",
+  "order": 6,
+  "track": "modern-csharp",
+  "title": {
+    "en": "Async, Records & Patterns",
+    "es": "Async, records y patrones"
+  },
+  "subtitle": {
+    "en": "async/await, records, pattern matching and nullability — modern C# in full",
+    "es": "async/await, records, pattern matching y nullability — el C# moderno completo"
+  },
+  "intro": {
+    "en": "The modern C# toolkit: async/await keeps apps responsive, records kill boilerplate, pattern matching expresses logic beautifully. Real awaited code in every exercise!",
+    "es": "El kit moderno de C#: async/await mantiene las apps ágiles, records eliminan boilerplate y el pattern matching expresa lógica con elegancia. ¡Código await real en cada ejercicio!"
+  },
+  "icon": "🚀",
+  "color": "#ef4444",
+  "cheatSheet": [
+    {
+      "title": {
+        "en": "async / await",
+        "es": "async / await"
+      },
+      "items": [
+        {
+          "en": "async Task DoWorkAsync() { await Task.Delay(100); }",
+          "es": "async Task DoWorkAsync() { await Task.Delay(100); }"
+        },
+        {
+          "en": "await DoWorkAsync();  // pauses THIS method, not the app",
+          "es": "await DoWorkAsync();  // pausa ESTE método, no la app"
+        },
+        {
+          "en": "Task<int> GetScoreAsync() ... int s = await GetScoreAsync();",
+          "es": "Task<int> GetScoreAsync() ... int s = await GetScoreAsync();"
+        },
+        {
+          "en": "await Task.WhenAll(t1, t2);  // run in parallel, wait for both",
+          "es": "await Task.WhenAll(t1, t2);  // en paralelo, espera ambas"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Records",
+        "es": "Records"
+      },
+      "items": [
+        {
+          "en": "record Point(int X, int Y);",
+          "es": "record Point(int X, int Y);"
+        },
+        {
+          "en": "var p2 = p with { X = 10 };  // non-destructive copy",
+          "es": "var p2 = p with { X = 10 };  // copia no destructiva"
+        },
+        {
+          "en": "Value equality built in: p1 == p2 compares contents",
+          "es": "Igualdad por valor: p1 == p2 compara contenidos"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Pattern matching",
+        "es": "Pattern matching"
+      },
+      "items": [
+        {
+          "en": "result = score switch { >= 90 => \"A\", >= 80 => \"B\", _ => \"C\" };",
+          "es": "result = score switch { >= 90 => \"A\", >= 80 => \"B\", _ => \"C\" };"
+        },
+        {
+          "en": "if (obj is Player p) { ... }  // type test + cast in one",
+          "es": "if (obj is Player p) { ... }  // test de tipo y cast en uno"
+        },
+        {
+          "en": "p is Player { Hp: 0 }  // property pattern",
+          "es": "p is Player { Hp: 0 }  // patrón de propiedades"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Nullability",
+        "es": "Nullabilidad"
+      },
+      "items": [
+        {
+          "en": "string? maybe = null;  // ? = can be null",
+          "es": "string? maybe = null;  // ? = puede ser null"
+        },
+        {
+          "en": "name?.Length  // null-safe: null if name is null",
+          "es": "name?.Length  // seguro: null si name es null"
+        },
+        {
+          "en": "x ?? fallback  // use fallback when x is null",
+          "es": "x ?? fallback  // usa fallback si x es null"
+        }
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "u1",
+      "title": {
+        "en": "async / await",
+        "es": "async / await"
+      },
+      "lessons": [
+        {
+          "id": "w6-l01-async",
+          "kind": "lesson",
+          "title": {
+            "en": "Why Async Exists",
+            "es": "Para qué existe async"
+          },
+          "tip": {
+            "en": "Slow work (network, disk, timers) shouldn't freeze your app. await = 'pause THIS method, keep the app alive, resume when ready'.",
+            "es": "El trabajo lento (red, disco, temporizadores) no debe congelar tu app. await = 'pausa ESTE método, mantén viva la app y reanuda cuando esté listo'."
+          },
+          "exercises": [
+            {
+              "id": "w6-l01e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What does `await` do to your APPLICATION while a download runs?",
+                "es": "¿Qué hace `await` con tu APLICACIÓN mientras corre una descarga?"
+              },
+              "options": [
+                {
+                  "en": "Nothing — the app stays responsive; only the method pauses",
+                  "es": "Nada: la app sigue ágil; solo el método se pausa"
+                },
+                {
+                  "en": "Freezes the entire app until done",
+                  "es": "Congela toda la app hasta terminar"
+                },
+                {
+                  "en": "Closes the app",
+                  "es": "Cierra la app"
+                },
+                {
+                  "en": "Runs it on another computer",
+                  "es": "La ejecuta en otra computadora"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "await releases the thread back to the app. The method resumes later — responsiveness preserved.",
+                "es": "await devuelve el hilo a la app y el método se reanuda después: capacidad de respuesta intacta."
+              },
+              "hints": [
+                {
+                  "en": "The whole point of async is responsiveness.",
+                  "es": "El objetivo de async es la capacidad de respuesta."
+                }
+              ]
+            },
+            {
+              "id": "w6-l01e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which method name follows the async convention?",
+                "es": "¿Qué nombre sigue la convención async?"
+              },
+              "options": [
+                {
+                  "en": "SaveScoreAsync",
+                  "es": "SaveScoreAsync"
+                },
+                {
+                  "en": "SaveScore",
+                  "es": "SaveScore"
+                },
+                {
+                  "en": "DoAsyncSave",
+                  "es": "DoAsyncSave"
+                },
+                {
+                  "en": "SaveTheScoreNow",
+                  "es": "SaveTheScoreNow"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Async methods end in Async by convention — callers instantly know to await.",
+                "es": "Por convención los métodos async terminan en Async: quien llama sabe que debe esperarlos."
+              },
+              "hints": [
+                {
+                  "en": "Suffix, not prefix.",
+                  "es": "Sufijo, no prefijo."
+                }
+              ]
+            },
+            {
+              "id": "w6-l01e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "An async method runs on a brand-new thread by default.",
+                "es": "Un método async corre por defecto en un hilo completamente nuevo."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — async is about NOT blocking threads. Work resumes on available threads; no thread is pinned while waiting.",
+                "es": "Falso: async trata de NO bloquear hilos. El trabajo se reanuda en hilos disponibles; ninguno queda esperando."
+              },
+              "hints": [
+                {
+                  "en": "Async ≠ more threads; async = fewer blocked threads.",
+                  "es": "Async ≠ más hilos; async = menos hilos bloqueados."
+                }
+              ]
+            },
+            {
+              "id": "w6-l01e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Write async method AnnounceAsync that awaits Task.Delay(50) then prints \"ta-da!\". Await it from the top level.",
+                "es": "Escribe el método async AnnounceAsync que espere Task.Delay(50), muestre \"ta-da!\" y espéralo desde el nivel superior."
+              },
+              "starter": "// async Task AnnounceAsync + await it\n",
+              "tests": [
+                {
+                  "name": "async announce",
+                  "expectedOutput": "ta-da!",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Your first awaited program! The runner truly awaited your Task.",
+                "es": "¡Tu primer programa con await! El sistema esperó tu Task de verdad."
+              },
+              "hints": [
+                {
+                  "en": "async Task AnnounceAsync() { await Task.Delay(50); Console.WriteLine(\"ta-da!\"); }  then: await AnnounceAsync();",
+                  "es": "async Task AnnounceAsync() { await Task.Delay(50); Console.WriteLine(\"ta-da!\"); }  luego: await AnnounceAsync();"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w6-l02-task",
+          "kind": "lesson",
+          "title": {
+            "en": "Task<T>: A Future Value",
+            "es": "Task<T>: un valor futuro"
+          },
+          "tip": {
+            "en": "Task = 'work in progress'. Task<int> = 'an int is coming'. await unwraps it: int score = await GetScoreAsync();",
+            "es": "Task = 'trabajo en curso'. Task<int> = 'viene un int'. await lo desenvuelve: int score = await GetScoreAsync();"
+          },
+          "exercises": [
+            {
+              "id": "w6-l02e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "Console.WriteLine(\"A\");\nawait RollAsync();\nConsole.WriteLine(\"C\");\n\nasync Task RollAsync()\n{\n    await Task.Delay(30);\n    Console.WriteLine(\"B\");\n}",
+              "options": [
+                {
+                  "en": "A\nB\nC",
+                  "es": "A\nB\nC"
+                },
+                {
+                  "en": "A\nC\nB",
+                  "es": "A\nC\nB"
+                },
+                {
+                  "en": "B\nA\nC",
+                  "es": "B\nA\nC"
+                },
+                {
+                  "en": "A\nC",
+                  "es": "A\nC"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "await pauses THIS method until the task completes — so B lands before C.",
+                "es": "await pausa ESTE método hasta que la tarea termina: B cae antes que C."
+              },
+              "hints": [
+                {
+                  "en": "Awaiting is orderly.",
+                  "es": "Esperar es ordenado."
+                }
+              ]
+            },
+            {
+              "id": "w6-l02e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the async method's return type for returning a score:",
+                "es": "Completa el tipo de retorno del método async que devuelve un score:"
+              },
+              "code": "async Task<___> GetScoreAsync()\n{\n    await Task.Delay(10);\n    return 900;\n}",
+              "blanks": [
+                {
+                  "answer": "int",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Task<int> promises an int will arrive; await unwraps it.",
+                "es": "Task<int> promete un int; await lo desenvuelve."
+              },
+              "hints": [
+                {
+                  "en": "The whole-number type.",
+                  "es": "El tipo de números enteros."
+                }
+              ]
+            },
+            {
+              "id": "w6-l02e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Write GetXpAsync() returning Task<int> with value 150 after a small delay; print \"xp:\" + the awaited result.",
+                "es": "Escribe GetXpAsync() que devuelva Task<int> con 150 tras una pequeña espera; muestra \"xp:\" + el resultado esperado."
+              },
+              "starter": "// async Task<int> + await + print\n",
+              "tests": [
+                {
+                  "name": "xp await",
+                  "expectedOutput": "xp:150",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "await turned a Task<int> into a plain int — the future became the present.",
+                "es": "await convirtió un Task<int> en un int simple: el futuro se volvió presente."
+              },
+              "hints": [
+                {
+                  "en": "Console.WriteLine($\"xp:{await GetXpAsync()}\");",
+                  "es": "Console.WriteLine($\"xp:{await GetXpAsync()}\");"
+                }
+              ]
+            },
+            {
+              "id": "w6-l02e4",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": {
+                "en": "This prints the TYPE instead of the score. Fix it!",
+                "es": "Esto muestra el TIPO en vez del score. ¡Arréglalo!"
+              },
+              "starter": "async Task<int> GetScoreAsync()\n{\n    await Task.Delay(10);\n    return 99;\n}\n\nConsole.WriteLine(\"score:\" + GetScoreAsync());",
+              "tests": [
+                {
+                  "name": "awaits properly",
+                  "expectedOutput": "score:99",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Without await, you printed the Task object itself. Add await before the call.",
+                "es": "Sin await imprimiste el objeto Task. Añade await antes de la llamada."
+              },
+              "hints": [
+                {
+                  "en": "score:\" + await GetScoreAsync()",
+                  "es": "score:\" + await GetScoreAsync()"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w6-l02b-real",
+          "kind": "lesson",
+          "title": {
+            "en": "Async in Real Apps",
+            "es": "Async en apps reales"
+          },
+          "tip": {
+            "en": "Real async = I/O: HTTP calls, file reads, database queries. Those APIs all end in Async and return Tasks — await them and your app never freezes.",
+            "es": "El async real es I/O: llamadas HTTP, lectura de archivos, consultas. Esas APIs terminan en Async y devuelven Tasks: espéralas y tu app nunca se congela."
+          },
+          "exercises": [
+            {
+              "id": "w6-l02be1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Which of these is genuinely asynchronous work?",
+                "es": "¿Cuál de estas es trabajo realmente asíncrono?"
+              },
+              "options": [
+                {
+                  "en": "Downloading data from a server",
+                  "es": "Descargar datos de un servidor"
+                },
+                {
+                  "en": "Adding two numbers",
+                  "es": "Sumar dos números"
+                },
+                {
+                  "en": "Sorting a small list",
+                  "es": "Ordenar una lista pequeña"
+                },
+                {
+                  "en": "Formatting a string",
+                  "es": "Formatear un string"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "I/O (network, disk) is where async shines: the CPU waits, so let it wait productively.",
+                "es": "La I/O (red, disco) es donde brilla async: la CPU espera, así que que espere productivamente."
+              },
+              "hints": [
+                {
+                  "en": "Waiting for the outside world.",
+                  "es": "Esperar al mundo exterior."
+                }
+              ]
+            },
+            {
+              "id": "w6-l02be2",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the real API to its async flavor:",
+                "es": "Relaciona la API real con su versión async:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "HttpClient",
+                    "es": "HttpClient"
+                  },
+                  "right": {
+                    "en": "GetStringAsync",
+                    "es": "GetStringAsync"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "File",
+                    "es": "File"
+                  },
+                  "right": {
+                    "en": "ReadAllTextAsync",
+                    "es": "ReadAllTextAsync"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "EF Core query",
+                    "es": "Consulta de EF Core"
+                  },
+                  "right": {
+                    "en": "ToListAsync",
+                    "es": "ToListAsync"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Task.Delay",
+                    "es": "Task.Delay"
+                  },
+                  "right": {
+                    "en": "returns a Task itself",
+                    "es": "devuelve un Task ella misma"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The whole .NET platform grew Async twins of every I/O method.",
+                "es": "Toda la plataforma .NET tiene gemelos Async para cada método de I/O."
+              },
+              "hints": [
+                {
+                  "en": "They all end in Async.",
+                  "es": "Todos terminan en Async."
+                }
+              ]
+            },
+            {
+              "id": "w6-l02be3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "This game's AI tutor replies are fetched with a real awaited HTTP call.",
+                "es": "Las respuestas del tutor IA de este juego se obtienen con una llamada HTTP real esperada con await."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — Bit's streaming answers arrive through awaited HTTP calls. Your UI never froze while Bit thinks!",
+                "es": "Verdadero: las respuestas de Bit llegan por llamadas HTTP esperadas. ¡Tu UI nunca se congeló mientras Bit piensa!"
+              },
+              "hints": [
+                {
+                  "en": "Did the game freeze while Bit typed?",
+                  "es": "¿Se congeló el juego mientras Bit escribía?"
+                }
+              ]
+            },
+            {
+              "id": "w6-l02be4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Simulate a download: DownloadAsync(string file) delays 30ms and returns $\"{file}:done\". Await two downloads (\"map\", \"skin\") sequentially and print both lines.",
+                "es": "Simula una descarga: DownloadAsync(string file) espera 30ms y devuelve \"{file}:done\". Espera dos descargas (\"map\", \"skin\") en secuencia y muestra ambas líneas."
+              },
+              "starter": "// async Task<string> + two awaits\n",
+              "tests": [
+                {
+                  "name": "downloads",
+                  "expectedOutput": "map:done\nskin:done",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "This is the exact shape of real download-code, minus the network.",
+                "es": "Esta es la forma exacta del código real de descargas, sin la red."
+              },
+              "hints": [
+                {
+                  "en": "Console.WriteLine(await DownloadAsync(\"map\")); twice.",
+                  "es": "Console.WriteLine(await DownloadAsync(\"map\")); dos veces."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w6-l03-whenall",
+          "kind": "lesson",
+          "title": {
+            "en": "Parallel with WhenAll",
+            "es": "Paralelo con WhenAll"
+          },
+          "tip": {
+            "en": "Start several tasks WITHOUT awaiting each (they run concurrently), then await Task.WhenAll(all) once. Wait for the feast, not each dish.",
+            "es": "Arranca varias tareas SIN esperar cada una (corren en paralelo) y espera Task.WhenAll una sola vez. Espera el banquete, no cada plato."
+          },
+          "exercises": [
+            {
+              "id": "w6-l03e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Three downloads take 1s each. Sequential awaits = 3s. What does Task.WhenAll take roughly?",
+                "es": "Tres descargas de 1s cada una: esperarlas en secuencia son 3s. ¿Cuánto tarda Task.WhenAll aproximadamente?"
+              },
+              "options": [
+                {
+                  "en": "~1s — they run concurrently",
+                  "es": "~1s: corren en paralelo"
+                },
+                {
+                  "en": "~3s — same as sequential",
+                  "es": "~3s: igual que en secuencia"
+                },
+                {
+                  "en": "9s",
+                  "es": "9s"
+                },
+                {
+                  "en": "0s — instant",
+                  "es": "0s: instantáneo"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "WhenAll waits for the SLOWEST, not the sum — that's the speedup.",
+                "es": "WhenAll espera al MÁS LENTO, no a la suma: ese es el ahorro."
+              },
+              "hints": [
+                {
+                  "en": "Parallel ≠ sequential.",
+                  "es": "Paralelo ≠ secuencial."
+                }
+              ]
+            },
+            {
+              "id": "w6-l03e2",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": {
+                "en": "This intends to run tasks in parallel but awaits each immediately (sequential!). Restructure with WhenAll.",
+                "es": "Esto pretende correr en paralelo pero espera cada una al instante (¡secuencial!). Reestrúcturalo con WhenAll."
+              },
+              "starter": "async Task<string> LoadAsync(string name)\n{\n    await Task.Delay(30);\n    return name + \"!\";\n}\n\nvar a = await LoadAsync(\"a\");\nvar b = await LoadAsync(\"b\");\nConsole.WriteLine(a + b);",
+              "tests": [
+                {
+                  "name": "parallel load",
+                  "expectedOutput": "a!b!",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Start both tasks first (no await), THEN await Task.WhenAll, then read the results.",
+                "es": "Arranca ambas tareas (sin await), luego await Task.WhenAll y lee los resultados."
+              },
+              "hints": [
+                {
+                  "en": "var ta = LoadAsync(\"a\"); var tb = LoadAsync(\"b\"); await Task.WhenAll(ta, tb); Console.WriteLine(ta.Result + tb.Result);",
+                  "es": "var ta = LoadAsync(\"a\"); var tb = LoadAsync(\"b\"); await Task.WhenAll(ta, tb); Console.WriteLine(ta.Result + tb.Result);"
+                }
+              ]
+            },
+            {
+              "id": "w6-l03e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "When should you NOT parallelize with WhenAll?",
+                "es": "¿Cuándo NO conviene paralelizar con WhenAll?"
+              },
+              "options": [
+                {
+                  "en": "When each step needs the previous step's result",
+                  "es": "Cuando cada paso necesita el resultado del anterior"
+                },
+                {
+                  "en": "When there are exactly two tasks",
+                  "es": "Cuando hay exactamente dos tareas"
+                },
+                {
+                  "en": "When the tasks are fast",
+                  "es": "Cuando las tareas son rápidas"
+                },
+                {
+                  "en": "Never — always parallelize",
+                  "es": "Nunca: siempre paraleliza"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Dependent steps are inherently sequential — parallelizing them is impossible.",
+                "es": "Los pasos dependientes son secuenciales por naturaleza: no se pueden paralelizar."
+              },
+              "hints": [
+                {
+                  "en": "Can step 2 run before step 1 finishes?",
+                  "es": "¿Puede el paso 2 correr antes de que termine el 1?"
+                }
+              ]
+            },
+            {
+              "id": "w6-l03e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Run THREE 50ms delays concurrently via WhenAll, then print \"all done\". Total runtime must stay under ~200ms (the runner enforces it).",
+                "es": "Corre TRES delays de 50ms en paralelo con WhenAll y muestra \"all done\". El tiempo total debe quedar bajo ~200ms (el sistema lo exige)."
+              },
+              "starter": "// three tasks + WhenAll\n",
+              "tests": [
+                {
+                  "name": "parallel finish",
+                  "expectedOutput": "all done",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "150ms sequential became ~50ms parallel. Free speed!",
+                "es": "150ms secuenciales se volvieron ~50ms en paralelo. ¡Velocidad gratis!"
+              },
+              "hints": [
+                {
+                  "en": "var t = Task.Delay(50); ... await Task.WhenAll(...); Console.WriteLine(\"all done\");",
+                  "es": "var t = Task.Delay(50); ... await Task.WhenAll(...); Console.WriteLine(\"all done\");"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w6-l04-quiz1",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 1 Quiz",
+            "es": "Examen de la unidad 1"
+          },
+          "tip": {
+            "en": "Async fundamentals — check!",
+            "es": "¡Fundamentos de async!"
+          },
+          "exercises": [
+            {
+              "id": "w6-l04e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the async piece to its meaning:",
+                "es": "Relaciona la pieza async con su significado:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "async",
+                    "es": "async"
+                  },
+                  "right": {
+                    "en": "marks a method as awaitable inside",
+                    "es": "marca un método esperable por dentro"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "await",
+                    "es": "await"
+                  },
+                  "right": {
+                    "en": "pause this method until the task completes",
+                    "es": "pausa este método hasta que la tarea termine"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Task",
+                    "es": "Task"
+                  },
+                  "right": {
+                    "en": "work in progress (no result)",
+                    "es": "trabajo en curso (sin resultado)"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Task<T>",
+                    "es": "Task<T>"
+                  },
+                  "right": {
+                    "en": "work in progress producing a T",
+                    "es": "trabajo en curso que produce un T"
+                  }
+                }
+              ],
+              "explanation": {
+                "en": "async enables await; await unwraps Tasks.",
+                "es": "async habilita await; await desenvuelve los Task."
+              },
+              "hints": [
+                {
+                  "en": "Task<T> carries a future value.",
+                  "es": "Task<T> lleva un valor futuro."
+                }
+              ]
+            },
+            {
+              "id": "w6-l04e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What does an `async Task` method return if it has no return statement?",
+                "es": "¿Qué devuelve un método `async Task` sin instrucción return?"
+              },
+              "options": [
+                {
+                  "en": "A completed Task — that's fine",
+                  "es": "Un Task completado: es correcto"
+                },
+                {
+                  "en": "It's a compile error",
+                  "es": "Es un error de compilación"
+                },
+                {
+                  "en": "null",
+                  "es": "null"
+                },
+                {
+                  "en": "An infinite loop",
+                  "es": "Un bucle infinito"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The compiler synthesizes a completed Task for you — no return needed.",
+                "es": "El compilador sintetiza un Task completado: no hace falta return."
+              },
+              "hints": [
+                {
+                  "en": "The compiler helps.",
+                  "es": "El compilador ayuda."
+                }
+              ]
+            },
+            {
+              "id": "w6-l04e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Forgetting `await` on a Task-returning call still lets the code compile.",
+                "es": "Olvidar `await` en una llamada que devuelve Task aún compila."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — and it's THE classic async bug: the code continues before the work finishes. Watch for compiler warnings!",
+                "es": "Verdadero, y es EL bug clásico de async: el código sigue antes de terminar. ¡Ojo con las advertencias del compilador!"
+              },
+              "hints": [
+                {
+                  "en": "Why does the compiler warn about it?",
+                  "es": "¿Por qué el compilador lo advierte?"
+                }
+              ]
+            },
+            {
+              "id": "w6-l04e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Print \"before\", then await a 40ms delay, then print \"after\" — with the delay in its own async method.",
+                "es": "Muestra \"before\", espera 40ms (en su propio método async) y muestra \"after\"."
+              },
+              "starter": "// before → await delay method → after\n",
+              "tests": [
+                {
+                  "name": "before/after",
+                  "expectedOutput": "before\nafter",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "The smallest possible async program — and the shape of every real one.",
+                "es": "El programa async más pequeño posible y la forma de todos los reales."
+              },
+              "hints": [
+                {
+                  "en": "async Task PauseAsync() { await Task.Delay(40); }",
+                  "es": "async Task PauseAsync() { await Task.Delay(40); }"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": {
+        "en": "Records",
+        "es": "Records"
+      },
+      "lessons": [
+        {
+          "id": "w6-l05-records",
+          "kind": "lesson",
+          "title": {
+            "en": "Records: Data With No Ceremony",
+            "es": "Records: datos sin ceremonia"
+          },
+          "tip": {
+            "en": "record Point(int X, int Y); — one line gives you constructor, properties, value equality, ToString and more. For data, records beat classes.",
+            "es": "record Point(int X, int Y); — una línea te da constructor, propiedades, igualdad por valor, ToString y más. Para datos, los records superan a las clases."
+          },
+          "exercises": [
+            {
+              "id": "w6-l05e1",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Define record Player(string Name, int Score); create \"ada\" with 200 and print \"ada:200\".",
+                "es": "Define record Player(string Name, int Score); crea \"ada\" con 200 y muestra \"ada:200\"."
+              },
+              "starter": "// one-line record + create + print\n",
+              "tests": [
+                {
+                  "name": "record player",
+                  "expectedOutput": "ada:200",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "One line replaced ~20 lines of class boilerplate.",
+                "es": "Una línea reemplazó ~20 líneas de boilerplate de clase."
+              },
+              "hints": [
+                {
+                  "en": "record Player(string Name, int Score); then var p = new Player(\"ada\", 200);",
+                  "es": "record Player(string Name, int Score); luego var p = new Player(\"ada\", 200);"
+                }
+              ]
+            },
+            {
+              "id": "w6-l05e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "var a = new Point(1, 2);\nvar b = new Point(1, 2);\nConsole.WriteLine(a == b);\n\nrecord Point(int X, int Y);",
+              "options": [
+                {
+                  "en": "True — records compare by VALUE",
+                  "es": "True: los records comparan por VALOR"
+                },
+                {
+                  "en": "False — different objects",
+                  "es": "False: objetos distintos"
+                },
+                {
+                  "en": "It crashes",
+                  "es": "Falla"
+                },
+                {
+                  "en": "It does not compile",
+                  "es": "No compila"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Value equality is built in — two records with equal data ARE equal. (Classes: reference equality → False.)",
+                "es": "La igualdad por valor viene de serie: dos records con los mismos datos SON iguales (las clases darían False)."
+              },
+              "hints": [
+                {
+                  "en": "This is THE records feature.",
+                  "es": "Esta es LA característica de los records."
+                }
+              ]
+            },
+            {
+              "id": "w6-l05e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Records are IMMUTABLE by default (init-only set). What does that buy you?",
+                "es": "Los records son INMUTABLES por defecto (set init-only). ¿Qué te da eso?"
+              },
+              "options": [
+                {
+                  "en": "Data that can't be accidentally changed after creation",
+                  "es": "Datos que no pueden cambiarse por accidente tras crearse"
+                },
+                {
+                  "en": "Faster performance in all cases",
+                  "es": "Mejor rendimiento en todos los casos"
+                },
+                {
+                  "en": "Smaller memory usage",
+                  "es": "Menor uso de memoria"
+                },
+                {
+                  "en": "Automatic database storage",
+                  "es": "Almacenamiento automático en base de datos"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Immutable data is predictable data — no spooky action at a distance.",
+                "es": "Datos inmutables son datos predecibles: sin efectos a distancia."
+              },
+              "hints": [
+                {
+                  "en": "Can anyone mutate your record after you make it?",
+                  "es": "¿Puede alguien mutar tu record tras crearlo?"
+                }
+              ]
+            },
+            {
+              "id": "w6-l05e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Make record Item(string Name, int Price). Create (\"sword\", 100) and print whether it equals (\"sword\", 100) — expect True.",
+                "es": "Crea record Item(string Name, int Price). Crea (\"sword\", 100) y muestra si es igual a (\"sword\", 100): espera True."
+              },
+              "starter": "// record + equality check\n",
+              "tests": [
+                {
+                  "name": "value equality",
+                  "expectedOutput": "True",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Try that with a regular class — you'd get False. Records knew you needed value semantics.",
+                "es": "Pruébalo con una clase normal: saldría False. Los records sabían que necesitabas igualdad por valor."
+              },
+              "hints": [
+                {
+                  "en": "Console.WriteLine(item1 == item2);",
+                  "es": "Console.WriteLine(item1 == item2);"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w6-l06-with",
+          "kind": "lesson",
+          "title": {
+            "en": "with: Non-Destructive Copies",
+            "es": "with: copias no destructivas"
+          },
+          "tip": {
+            "en": "var boosted = hero with { Score = hero.Score + 100 }; — a copy with changes. The original stays untouched. Perfect for immutable data.",
+            "es": "var boosted = hero with { Score = hero.Score + 100 }; — una copia con cambios. El original queda intacto. Perfecto para datos inmutables."
+          },
+          "exercises": [
+            {
+              "id": "w6-l06e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "var a = new Point(1, 9);\nvar b = a with { Y = 3 };\nConsole.WriteLine($\"{a.X},{a.Y} / {b.X},{b.Y}\");\n\nrecord Point(int X, int Y);",
+              "options": [
+                {
+                  "en": "1,9 / 1,3",
+                  "es": "1,9 / 1,3"
+                },
+                {
+                  "en": "1,3 / 1,3",
+                  "es": "1,3 / 1,3"
+                },
+                {
+                  "en": "1,9 / 1,9",
+                  "es": "1,9 / 1,9"
+                },
+                {
+                  "en": "1,3 / 1,9",
+                  "es": "1,3 / 1,9"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "`with` copied a and changed ONLY Y in the copy — a stayed pristine.",
+                "es": "`with` copió a y cambió SOLO Y en la copia: a quedó intacto."
+              },
+              "hints": [
+                {
+                  "en": "The original never changes.",
+                  "es": "El original nunca cambia."
+                }
+              ]
+            },
+            {
+              "id": "w6-l06e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the keyword for non-destructive copies:",
+                "es": "Completa la palabra clave de las copias no destructivas:"
+              },
+              "code": "var upgraded = sword ___ { Damage = 99 };",
+              "blanks": [
+                {
+                  "answer": "with",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "with = 'a copy of this, but with these changes'.",
+                "es": "with = 'una copia de esto, pero con estos cambios'."
+              },
+              "hints": [
+                {
+                  "en": "Four letters, starts with 'w'.",
+                  "es": "Cuatro letras, empieza con 'w'."
+                }
+              ]
+            },
+            {
+              "id": "w6-l06e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Why prefer `with` over mutating a property directly?",
+                "es": "¿Por qué preferir `with` en vez de mutar una propiedad directamente?"
+              },
+              "options": [
+                {
+                  "en": "The original survives — no accidental side effects elsewhere",
+                  "es": "El original sobrevive: sin efectos secundarios accidentales"
+                },
+                {
+                  "en": "It compiles faster",
+                  "es": "Compila más rápido"
+                },
+                {
+                  "en": "It uses less memory",
+                  "es": "Usa menos memoria"
+                },
+                {
+                  "en": "with also renames the variable",
+                  "es": "with también renombra la variable"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Anyone holding the old reference keeps their data — changes stay local to you.",
+                "es": "Quien tenga la referencia anterior conserva sus datos: los cambios quedan en tu ámbito."
+              },
+              "hints": [
+                {
+                  "en": "Who else might be watching that object?",
+                  "es": "¿Quién más podría estar mirando ese objeto?"
+                }
+              ]
+            },
+            {
+              "id": "w6-l06e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Level-up flow: record Hero(string Name, int Level). Create \"ada\" level 1; make a copy with Level 10 via with; print BOTH levels (1 then 10).",
+                "es": "Flujo de subida: record Hero(string Name, int Level). Crea \"ada\" nivel 1; haz una copia con Level 10 vía with; muestra AMBOS niveles (1 y 10)."
+              },
+              "starter": "// original stays, copy levels up\n",
+              "tests": [
+                {
+                  "name": "level up copy",
+                  "expectedOutput": "1\n10",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Game state transitions as with-copies: history preserved, no mutations.",
+                "es": "Transiciones de estado como copias with: historia preservada, sin mutaciones."
+              },
+              "hints": [
+                {
+                  "en": "var upgraded = hero with { Level = 10 }; print hero.Level then upgraded.Level",
+                  "es": "var upgraded = hero with { Level = 10 }; muestra hero.Level y luego upgraded.Level"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w6-l07-quiz2",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 2 Quiz",
+            "es": "Examen de la unidad 2"
+          },
+          "tip": {
+            "en": "Records check!",
+            "es": "¡Control de records!"
+          },
+          "exercises": [
+            {
+              "id": "w6-l07e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "When should you pick a record over a class?",
+                "es": "¿Cuándo elegir un record en vez de una clase?"
+              },
+              "options": [
+                {
+                  "en": "Mostly data (DTOs, messages, points, config)",
+                  "es": "Mayormente datos (DTOs, mensajes, puntos, configuración)"
+                },
+                {
+                  "en": "Rich behavior with private mutable state",
+                  "es": "Comportamiento rico con estado privado mutable"
+                },
+                {
+                  "en": "When you need many constructors",
+                  "es": "Cuando necesitas muchos constructores"
+                },
+                {
+                  "en": "Never — records are experimental",
+                  "es": "Nunca: los records son experimentales"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Records for data shapes; classes for behavior-centric types. Both have their place.",
+                "es": "Records para formas de datos; clases para tipos centrados en comportamiento."
+              },
+              "hints": [
+                {
+                  "en": "Data vs. behavior.",
+                  "es": "Datos contra comportamiento."
+                }
+              ]
+            },
+            {
+              "id": "w6-l07e2",
+              "type": "output",
+              "xp": 12,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "var p = new Point(3, 4);\nvar q = p with { X = 0 };\nConsole.WriteLine(q.X + q.Y);\n\nrecord Point(int X, int Y);",
+              "options": [
+                {
+                  "en": "4",
+                  "es": "4"
+                },
+                {
+                  "en": "7",
+                  "es": "7"
+                },
+                {
+                  "en": "0",
+                  "es": "0"
+                },
+                {
+                  "en": "3",
+                  "es": "3"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "q = (0, 4) — X replaced, Y inherited. 0 + 4 = 4.",
+                "es": "q = (0, 4): X reemplazada, Y heredada. 0 + 4 = 4."
+              },
+              "hints": [
+                {
+                  "en": "Only X changed.",
+                  "es": "Solo cambió X."
+                }
+              ]
+            },
+            {
+              "id": "w6-l07e3",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the record declaration:",
+                "es": "Completa la declaración del record:"
+              },
+              "code": "___ Quest(string Title, int Xp);",
+              "blanks": [
+                {
+                  "answer": "record",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "record + name + positional parameters.",
+                "es": "record + nombre + parámetros posicionales."
+              },
+              "hints": [
+                {
+                  "en": "Six letters, r start.",
+                  "es": "Seis letras, empieza con r."
+                }
+              ]
+            },
+            {
+              "id": "w6-l07e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Two quests: Quest(\"slay\", 100) twice. Print equality — then print whether a quest equals a MODIFIED copy (with Xp 200). Expect True then False.",
+                "es": "Dos misiones: Quest(\"slay\", 100) dos veces. Muestra la igualdad y luego si una misión es igual a una copia modificada (con Xp 200). Espera True y False."
+              },
+              "starter": "// equality of identical records + a modified copy\n",
+              "tests": [
+                {
+                  "name": "equality logic",
+                  "expectedOutput": "True\nFalse",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Value equality: same data = same record; any change = different.",
+                "es": "Igualdad por valor: mismos datos = mismo record; cualquier cambio = distinto."
+              },
+              "hints": [
+                {
+                  "en": "q1 == q2, then q1 == q2 with { Xp = 200 }",
+                  "es": "q1 == q2, luego q1 == q2 with { Xp = 200 }"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": {
+        "en": "Pattern Matching",
+        "es": "Pattern matching"
+      },
+      "lessons": [
+        {
+          "id": "w6-l08-switchexpr",
+          "kind": "lesson",
+          "title": {
+            "en": "Switch Expressions",
+            "es": "Expresiones switch"
+          },
+          "tip": {
+            "en": "The modern switch is an EXPRESSION: result = score switch { >= 90 => \"A\", >= 80 => \"B\", _ => \"C\" };. Arms, arrows, and the compiler checks you covered everything.",
+            "es": "El switch moderno es una EXPRESIÓN: result = score switch { >= 90 => \"A\", >= 80 => \"B\", _ => \"C\" };. Ramas con flechas y el compilador verifica que cubras todo."
+          },
+          "exercises": [
+            {
+              "id": "w6-l08e1",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Grade with a switch expression: >= 90 → \"A\", >= 80 → \"B\", else \"C\". Print grade(85).",
+                "es": "Nota con switch expression: >= 90 → \"A\", >= 80 → \"B\", si no \"C\". Muestra grade(85)."
+              },
+              "starter": "// switch expression with relational patterns\n",
+              "tests": [
+                {
+                  "name": "grade B",
+                  "expectedOutput": "B",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Arms are checked top to bottom; the _ arm catches the rest.",
+                "es": "Las ramas se evalúan de arriba a abajo; la rama _ atrapa el resto."
+              },
+              "hints": [
+                {
+                  "en": "int grade(int s) => s switch { >= 90 => \"A\", >= 80 => \"B\", _ => \"C\" };",
+                  "es": "int grade(int s) => s switch { >= 90 => \"A\", >= 80 => \"B\", _ => \"C\" };"
+                }
+              ]
+            },
+            {
+              "id": "w6-l08e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the catch-all arm:",
+                "es": "Completa el brazo comodín:"
+              },
+              "code": "result = value switch\n{\n    1 => \"one\",\n    ___ => \"many\"\n};",
+              "blanks": [
+                {
+                  "answer": "_",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "_ matches anything — required as the last arm (unless the compiler proves all cases covered).",
+                "es": "_ coincide con todo: requerido al final (salvo que el compilador pruebe que cubriste todo)."
+              },
+              "hints": [
+                {
+                  "en": "One underscore.",
+                  "es": "Un guion bajo."
+                }
+              ]
+            },
+            {
+              "id": "w6-l08e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "If a switch expression has no catch-all arm and a value matches none, what happens?",
+                "es": "Si una expresión switch no tiene brazo comodín y ningún valor coincide, ¿qué pasa?"
+              },
+              "options": [
+                {
+                  "en": "It throws at runtime — the compiler warns you first",
+                  "es": "Lanza error en ejecución: el compilador te avisa antes"
+                },
+                {
+                  "en": "Returns null silently",
+                  "es": "Devuelve null en silencio"
+                },
+                {
+                  "en": "Returns the default type value",
+                  "es": "Devuelve el valor por defecto"
+                },
+                {
+                  "en": "Nothing — it can't happen",
+                  "es": "Nada: no puede pasar"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Exhaustiveness is checked at compile time where possible — one of switch expressions' superpowers.",
+                "es": "La exhaustividad se comprueba al compilar cuando es posible: un superpoder del switch expression."
+              },
+              "hints": [
+                {
+                  "en": "The compiler nags, then the runtime enforces.",
+                  "es": "Primero insiste el compilador, luego exige el runtime."
+                }
+              ]
+            },
+            {
+              "id": "w6-l08e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Translate direction strings with a switch expression: \"n\" → \"up\", \"s\" → \"down\", \"e\" → \"right\", \"w\" → \"left\". Print dir(\"n\") and dir(\"e\").",
+                "es": "Traduce direcciones con switch expression: \"n\" → \"up\", \"s\" → \"down\", \"e\" → \"right\", \"w\" → \"left\". Muestra dir(\"n\") y dir(\"e\")."
+              },
+              "starter": "// string switch expression\n",
+              "tests": [
+                {
+                  "name": "directions",
+                  "expectedOutput": "up\nright",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "String constants as arms — a clean lookup table as code.",
+                "es": "Constantes de string como brazos: una tabla de búsqueda convertida en código."
+              },
+              "hints": [
+                {
+                  "en": "\"n\" => \"up\", \"s\" => \"down\", \"e\" => \"right\", \"w\" => \"left\", _ => \"???\"",
+                  "es": "\"n\" => \"up\", \"s\" => \"down\", \"e\" => \"right\", \"w\" => \"left\", _ => \"???\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w6-l09-typepatterns",
+          "kind": "lesson",
+          "title": {
+            "en": "Type & Property Patterns",
+            "es": "Patrones de tipo y propiedades"
+          },
+          "tip": {
+            "en": "`if (obj is Player p)` tests AND casts in one move. Property patterns go further: `p is Player { Hp: 0 }` matches a player whose HP is exactly 0.",
+            "es": "`if (obj is Player p)` comprueba y convierte en un paso. Los patrones de propiedades van más allá: `p is Player { Hp: 0 }` coincide con un jugador con HP exactamente 0."
+          },
+          "exercises": [
+            {
+              "id": "w6-l09e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "object box = \"hello\";\nif (box is string s)\n{\n    Console.WriteLine(s.Length);\n}",
+              "options": [
+                {
+                  "en": "5",
+                  "es": "5"
+                },
+                {
+                  "en": "It prints nothing",
+                  "es": "No muestra nada"
+                },
+                {
+                  "en": "hello",
+                  "es": "hello"
+                },
+                {
+                  "en": "It crashes — box is object",
+                  "es": "Falla: box es object"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "is-type pattern: tested, cast, and named in one declaration.",
+                "es": "Patrón is-type: probar, convertir y nombrar en una sola declaración."
+              },
+              "hints": [
+                {
+                  "en": "\"hello\" has five letters.",
+                  "es": "\"hello\" tiene cinco letras."
+                }
+              ]
+            },
+            {
+              "id": "w6-l09e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "record Player(string Name, int Hp). Write IsDefeated(Player p) => p is Player { Hp: 0 }; — print it for a player with Hp 0.",
+                "es": "record Player(string Name, int Hp). Escribe IsDefeated(Player p) => p is Player { Hp: 0 }; y muéstralo para un player con Hp 0."
+              },
+              "starter": "// property pattern on a record\n",
+              "tests": [
+                {
+                  "name": "defeated check",
+                  "expectedOutput": "True",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "The property pattern checks nested state declaratively — no && chains.",
+                "es": "El patrón de propiedades comprueba estado anidado de forma declarativa, sin cadenas de &&."
+              },
+              "hints": [
+                {
+                  "en": "The pattern is literally p is Player { Hp: 0 }",
+                  "es": "El patrón es literalmente p is Player { Hp: 0 }"
+                }
+              ]
+            },
+            {
+              "id": "w6-l09e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What does `shape switch { Circle c => $\"r={c.Radius}\", Square s => $\"side={s.Side}\" }` do?",
+                "es": "¿Qué hace `shape switch { Circle c => $\"r={c.Radius}\", Square s => $\"side={s.Side}\" }`?"
+              },
+              "options": [
+                {
+                  "en": "Picks the arm by the object's RUNTIME type and gives it typed",
+                  "es": "Elige la rama según el tipo del objeto en ejecución y lo entrega tipado"
+                },
+                {
+                  "en": "Always picks the first arm",
+                  "es": "Siempre elige la primera rama"
+                },
+                {
+                  "en": "Compiles only with if/else",
+                  "es": "Solo compila con if/else"
+                },
+                {
+                  "en": "Casts without checking",
+                  "es": "Convierte sin comprobar"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Type patterns in switch expressions: dispatch by type WITH a safely-typed variable. Polymorphism's explicit cousin.",
+                "es": "Patrones de tipo en switch: despacho por tipo con variable tipada y segura. El primo explícito del polimorfismo."
+              },
+              "hints": [
+                {
+                  "en": "Each arm names its type.",
+                  "es": "Cada rama nombra su tipo."
+                }
+              ]
+            },
+            {
+              "id": "w6-l09e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Shapes: record Circle(double R); record Square(double Side). Write Describe(object o) with type patterns: circle → \"circle\", square → \"square\". Print Describe(new Circle(2)).",
+                "es": "Figuras: record Circle(double R); record Square(double Side). Escribe Describe(object o) con patrones de tipo: círculo → \"circle\", cuadrado → \"square\". Muestra Describe(new Circle(2))."
+              },
+              "starter": "// switch expression with type patterns\n",
+              "tests": [
+                {
+                  "name": "circle describe",
+                  "expectedOutput": "circle",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Type dispatch without a single `is` + cast + if.",
+                "es": "Despacho por tipo sin un solo is + cast + if."
+              },
+              "hints": [
+                {
+                  "en": "o switch { Circle => \"circle\", Square => \"square\", _ => \"?\" }",
+                  "es": "o switch { Circle => \"circle\", Square => \"square\", _ => \"?\" }"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w6-l10-quiz3",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 3 Quiz",
+            "es": "Examen de la unidad 3"
+          },
+          "tip": {
+            "en": "Patterns check!",
+            "es": "¡Control de patrones!"
+          },
+          "exercises": [
+            {
+              "id": "w6-l10e1",
+              "type": "output",
+              "xp": 12,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "Console.WriteLine(15 switch { > 100 => \"huge\", > 10 => \"big\", _ => \"small\" });",
+              "options": [
+                {
+                  "en": "big",
+                  "es": "big"
+                },
+                {
+                  "en": "huge",
+                  "es": "huge"
+                },
+                {
+                  "en": "small",
+                  "es": "small"
+                },
+                {
+                  "en": "It does not compile",
+                  "es": "No compila"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "15 fails > 100, passes > 10 → \"big\". Order matters!",
+                "es": "15 falla > 100, pasa > 10 → \"big\". ¡El orden importa!"
+              },
+              "hints": [
+                {
+                  "en": "First matching arm wins.",
+                  "es": "Gana el primer brazo que coincida."
+                }
+              ]
+            },
+            {
+              "id": "w6-l10e2",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "The `_` arm can be placed in the middle of a switch expression.",
+                "es": "El brazo `_` puede ir en medio de una expresión switch."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — it's the discard catch-all; anything after it is unreachable (and the compiler says so).",
+                "es": "Falso: es el comodín descartable; lo que venga después es inalcanzable (y el compilador lo avisa)."
+              },
+              "hints": [
+                {
+                  "en": "Catch-all = LAST.",
+                  "es": "Comodín = ÚLTIMO."
+                }
+              ]
+            },
+            {
+              "id": "w6-l10e3",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the pattern testing a Player whose Hp is 0:",
+                "es": "Completa el patrón para un Player con Hp 0:"
+              },
+              "code": "bool dead = p is Player { ___: 0 };",
+              "blanks": [
+                {
+                  "answer": "Hp",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Property pattern: Player { Hp: 0 } reads 'a Player whose Hp is 0'.",
+                "es": "Patrón de propiedades: Player { Hp: 0 } se lee 'un Player cuyo Hp es 0'."
+              },
+              "hints": [
+                {
+                  "en": "The property you're testing.",
+                  "es": "La propiedad que compruebas."
+                }
+              ]
+            },
+            {
+              "id": "w6-l10e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Rewrite with a switch expression: if n is 0 print \"zero\", 1 → \"one\", 2 → \"two\", else \"many\". Print f(0), f(1), f(2), f(9) each per line.",
+                "es": "Reescribe con switch expression: n 0 → \"zero\", 1 → \"one\", 2 → \"two\", si no \"many\". Muestra f(0), f(1), f(2), f(9), cada una en su línea."
+              },
+              "starter": "// constant-arm switch expression\n",
+              "tests": [
+                {
+                  "name": "counting words",
+                  "expectedOutput": "zero\none\ntwo\nmany",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Constant arms, catch-all arm, four lines of logic — try doing THAT with if/else so cleanly.",
+                "es": "Brazos constantes, comodín y cuatro líneas de lógica. Difícil de igualar con if/else."
+              },
+              "hints": [
+                {
+                  "en": "n switch { 0 => \"zero\", 1 => \"one\", 2 => \"two\", _ => \"many\" }",
+                  "es": "n switch { 0 => \"zero\", 1 => \"one\", 2 => \"two\", _ => \"many\" }"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u4",
+      "title": {
+        "en": "Nullability & Boss",
+        "es": "Nullabilidad y Jefe"
+      },
+      "lessons": [
+        {
+          "id": "w6-l11-nullable",
+          "kind": "lesson",
+          "title": {
+            "en": "Nullable Reference Types",
+            "es": "Tipos de referencia nullables"
+          },
+          "tip": {
+            "en": "The ? suffix is a PROMISE TRACKER: string? may be null (check it!), string never will (compiler enforces). NullReferenceException becomes a compile-time conversation.",
+            "es": "El sufijo ? es un rastreador de promesas: string? puede ser null (¡revísalo!) y string nunca (el compilador lo exige). NullReferenceException pasa a ser conversación de compilación."
+          },
+          "exercises": [
+            {
+              "id": "w6-l11e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What's the difference between `string name` and `string? name`?",
+                "es": "¿Cuál es la diferencia entre `string name` y `string? name`?"
+              },
+              "options": [
+                {
+                  "en": "string? is allowed to be null; string is expected never to be",
+                  "es": "string? puede ser null; string nunca debería"
+                },
+                {
+                  "en": "string? is slower",
+                  "es": "string? es más lento"
+                },
+                {
+                  "en": "string doesn't exist",
+                  "es": "string no existe"
+                },
+                {
+                  "en": "They are identical",
+                  "es": "Son idénticas"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The ? declares intent; the compiler warns when you use a maybe-null without checking.",
+                "es": "El ? declara intención; el compilador avisa si usas un posible null sin comprobarlo."
+              },
+              "hints": [
+                {
+                  "en": "The ? is a flag for the compiler.",
+                  "es": "El ? es una bandera para el compilador."
+                }
+              ]
+            },
+            {
+              "id": "w6-l11e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Given string? hero = null; print hero?.Length (null-safe member access). What comes out? Nothing — a null prints as empty. Just write: Console.WriteLine(hero?.Length);",
+                "es": "Dado string? hero = null; muestra hero?.Length (acceso seguro). Un null se imprime vacío: escribe Console.WriteLine(hero?.Length);"
+              },
+              "starter": "string? hero = null;\n// null-safe print of hero?.Length\n",
+              "tests": [
+                {
+                  "name": "null safe",
+                  "expectedOutput": "",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "hero?.Length short-circuits: null in, null out — no crash.",
+                "es": "hero?.Length corta en corto: null entra, null sale, sin crash."
+              },
+              "hints": [
+                {
+                  "en": "The ?. operator does the null check for you.",
+                  "es": "El operador ?. hace la comprobación por ti."
+                }
+              ]
+            },
+            {
+              "id": "w6-l11e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the null-coalescing operator (fallback when null):",
+                "es": "Completa el operador de coalescencia (respaldo si es null):"
+              },
+              "code": "string display = hero ___ \"anonymous\";",
+              "blanks": [
+                {
+                  "answer": "??",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "?? = 'use the left unless it's null, then the right'.",
+                "es": "?? = 'usa el de la izquierda salvo que sea null; entonces el derecho'."
+              },
+              "hints": [
+                {
+                  "en": "Two question marks.",
+                  "es": "Dos signos de interrogación."
+                }
+              ]
+            },
+            {
+              "id": "w6-l11e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "string? nickname = null; print nickname ?? \"guest\" — then set nickname = \"bit\" and print nickname ?? \"guest\" again. Expect: guest, then bit.",
+                "es": "string? nickname = null; muestra nickname ?? \"guest\"; luego asigna \"bit\" y muestra de nuevo. Espera guest y bit."
+              },
+              "starter": "// null coalescing twice\n",
+              "tests": [
+                {
+                  "name": "fallback flow",
+                  "expectedOutput": "guest\nbit",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "?? gives defaults; once the value exists, it wins.",
+                "es": "?? da valores por defecto; cuando el valor existe, gana él."
+              },
+              "hints": [
+                {
+                  "en": "Console.WriteLine(nickname ?? \"guest\"); — twice with the assignment between.",
+                  "es": "Console.WriteLine(nickname ?? \"guest\"); dos veces con la asignación en medio."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w6-l11b-errors",
+          "kind": "lesson",
+          "title": {
+            "en": "Errors in Async Code",
+            "es": "Errores en código async"
+          },
+          "tip": {
+            "en": "Exceptions inside async methods travel INSIDE the Task. try/catch around the await catches them exactly like sync code — familiar, safe, sane.",
+            "es": "Las excepciones de los métodos async viajan DENTRO del Task. try/catch alrededor del await las captura igual que el código síncrono: familiar, seguro, sano."
+          },
+          "exercises": [
+            {
+              "id": "w6-l11be1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Where does an exception thrown inside an async method end up?",
+                "es": "¿Dónde acaba una excepción lanzada dentro de un método async?"
+              },
+              "options": [
+                {
+                  "en": "Stored in the Task — thrown when awaited",
+                  "es": "Guardada en el Task: se lanza al hacer await"
+                },
+                {
+                  "en": "Lost forever",
+                  "es": "Perdida para siempre"
+                },
+                {
+                  "en": "Immediately crashes the app",
+                  "es": "Crashea la app de inmediato"
+                },
+                {
+                  "en": "Printed to console",
+                  "es": "Se imprime en consola"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The Task carries the exception to the awaiting code — that's why awaiting matters SO much.",
+                "es": "El Task lleva la excepción al código que espera: por eso el await importa tanto."
+              },
+              "hints": [
+                {
+                  "en": "Another reason never to forget await.",
+                  "es": "Otra razón para nunca olvidar el await."
+                }
+              ]
+            },
+            {
+              "id": "w6-l11be2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RiskyAsync throws InvalidOperationException(\"boom\") after a tiny delay. Catch it and print the exception message.",
+                "es": "RiskyAsync lanza InvalidOperationException(\"boom\") tras una pequeña espera. Capta la excepción y muestra su mensaje."
+              },
+              "starter": "// try { await RiskyAsync(); } catch (Exception ex) { print ex.Message }\n",
+              "tests": [
+                {
+                  "name": "caught",
+                  "expectedOutput": "boom",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "try/catch works across await exactly as your instincts expect.",
+                "es": "try/catch funciona a través del await tal como esperan tus instintos."
+              },
+              "hints": [
+                {
+                  "en": "try { await RiskyAsync(); } catch (Exception ex) { Console.WriteLine(ex.Message); }",
+                  "es": "try { await RiskyAsync(); } catch (Exception ex) { Console.WriteLine(ex.Message); }"
+                }
+              ]
+            },
+            {
+              "id": "w6-l11be3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "An unawaited faulted task can crash the app later with an unobserved exception.",
+                "es": "Una task fallada y no esperada puede crashear la app después con una excepción no observada."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — always await (or explicitly observe) your tasks. Fire-and-forget is where crashes hide.",
+                "es": "Verdadero: siempre espera (u observa) tus tasks. El fire-and-forget es donde se esconden los crashes."
+              },
+              "hints": [
+                {
+                  "en": "Unwatched tasks grow up to be bugs.",
+                  "es": "Las tasks sin vigilar crecen y se vuelven bugs."
+                }
+              ]
+            },
+            {
+              "id": "w6-l11be4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Safe division: DivAsync(a, b) awaits Task.Yield() then returns a / b. Call it with 10 and 0 inside try/catch; on exception print \"guarded\".",
+                "es": "División segura: DivAsync(a, b) hace await Task.Yield() y devuelve a / b. Llámala con 10 y 0 dentro de try/catch; si falla, muestra \"guarded\"."
+              },
+              "starter": "// async divide + try/catch around the await\n",
+              "tests": [
+                {
+                  "name": "guarded division",
+                  "expectedOutput": "guarded",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "DivideByZeroException crossed the await boundary and landed in your catch. Async errors: tamed.",
+                "es": "La DivideByZeroException cruzó el await y cayó en tu catch. Errores async: domados."
+              },
+              "hints": [
+                {
+                  "en": "async Task<int> DivAsync(int a, int b) { await Task.Yield(); return a / b; }",
+                  "es": "async Task<int> DivAsync(int a, int b) { await Task.Yield(); return a / b; }"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w6-l12-quiz4",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 4 Quiz",
+            "es": "Examen de la unidad 4"
+          },
+          "tip": {
+            "en": "Final quiz of the modern world!",
+            "es": "¡Último examen del mundo moderno!"
+          },
+          "exercises": [
+            {
+              "id": "w6-l12e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the modern feature to its gift:",
+                "es": "Relaciona la característica moderna con su regalo:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "async/await",
+                    "es": "async/await"
+                  },
+                  "right": {
+                    "en": "responsiveness",
+                    "es": "capacidad de respuesta"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "records",
+                    "es": "records"
+                  },
+                  "right": {
+                    "en": "immutable data without boilerplate",
+                    "es": "datos inmutables sin boilerplate"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "switch expressions",
+                    "es": "switch expressions"
+                  },
+                  "right": {
+                    "en": "declarative dispatch",
+                    "es": "despacho declarativo"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "nullable reference types",
+                    "es": "tipos de referencia nullables"
+                  },
+                  "right": {
+                    "en": "null crashes caught at compile time",
+                    "es": "crashes de null atrapados al compilar"
+                  }
+                }
+              ],
+              "explanation": {
+                "en": "Modern C# = less boilerplate, more safety, more speed (responsiveness).",
+                "es": "C# moderno = menos boilerplate, más seguridad, más agilidad."
+              },
+              "hints": [
+                {
+                  "en": "Each one kills a classic bug or chore.",
+                  "es": "Cada una mata un bug o tarea clásica."
+                }
+              ]
+            },
+            {
+              "id": "w6-l12e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "hero?.Score ?? 0 reads as...",
+                "es": "hero?.Score ?? 0 se lee como..."
+              },
+              "options": [
+                {
+                  "en": "hero's score, or 0 if hero (or score) is null",
+                  "es": "el score de hero, o 0 si hero (o score) es null"
+                },
+                {
+                  "en": "hero's score times 0",
+                  "es": "el score de hero por 0"
+                },
+                {
+                  "en": "always 0",
+                  "es": "siempre 0"
+                },
+                {
+                  "en": "a syntax error",
+                  "es": "un error de sintaxis"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "?. and ?? chain into a complete null-safety sentence.",
+                "es": "?. y ?? se encadenan en una frase completa de seguridad ante null."
+              },
+              "hints": [
+                {
+                  "en": "Two operators, one sentence.",
+                  "es": "Dos operadores, una frase."
+                }
+              ]
+            },
+            {
+              "id": "w6-l12e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "`await` can only be used inside methods marked `async`.",
+                "es": "`await` solo puede usarse dentro de métodos marcados `async`."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True (top-level statements count as an implicit async Main). Anywhere else = compile error.",
+                "es": "Verdadero (las sentencias de nivel superior cuentan como un Main async implícito). En cualquier otro lugar: error de compilación."
+              },
+              "hints": [
+                {
+                  "en": "async unlocks await.",
+                  "es": "async desbloquea await."
+                }
+              ]
+            },
+            {
+              "id": "w6-l12e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Mini combo: record Item(string Name, int Qty); list of 3 items; use LINQ Any + property pattern to print whether any item has Qty 0 (expect True).",
+                "es": "Mini combo: record Item(string Name, int Qty); lista de 3 items; usa LINQ Any + patrón de propiedades para mostrar si alguno tiene Qty 0 (espera True)."
+              },
+              "starter": "// LINQ + records + patterns in one line\n",
+              "tests": [
+                {
+                  "name": "out of stock check",
+                  "expectedOutput": "True",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "items.Any(i => i is Item { Qty: 0 }) — three modern features in one expression.",
+                "es": "items.Any(i => i is Item { Qty: 0 }): tres características modernas en una expresión."
+              },
+              "hints": [
+                {
+                  "en": "items.Any(i => i is Item { Qty: 0 })",
+                  "es": "items.Any(i => i is Item { Qty: 0 })"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w6-l13-boss",
+          "kind": "boss",
+          "title": {
+            "en": "BOSS: The Race Condition",
+            "es": "JEFE: La Condición de carrera"
+          },
+          "tip": {
+            "en": "Async + records + patterns, all at once. Outrun the Race Condition and modern C# is yours! 🚀🏁",
+            "es": "Async + records + patrones, todo a la vez. ¡Gále a la Condición de carrera y el C# moderno es tuyo! 🚀🏁"
+          },
+          "exercises": [
+            {
+              "id": "w6-l13e1",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Trial 1: record Lap(int N, int Ms). Write RunLapAsync(int n) that delays n×10 ms and returns a Lap(n, n*10). Await laps 1, 2, 3 SEQUENTIALLY and print each lap's Ms.",
+                "es": "Prueba 1: record Lap(int N, int Ms). Escribe RunLapAsync(int n) que espere n×10 ms y devuelva Lap(n, n*10). Espera las vueltas 1, 2, 3 EN SECUENCIA y muestra cada Ms."
+              },
+              "starter": "// record + async method + sequential awaits\n",
+              "tests": [
+                {
+                  "name": "three laps",
+                  "expectedOutput": "10\n20\n30",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Records as results of async work — a very modern pattern.",
+                "es": "Records como resultados de trabajo async: un patrón muy moderno."
+              },
+              "hints": [
+                {
+                  "en": "foreach (var n in new[] {1,2,3}) { var lap = await RunLapAsync(n); Console.WriteLine(lap.Ms); }",
+                  "es": "foreach (var n in new[] {1,2,3}) { var lap = await RunLapAsync(n); Console.WriteLine(lap.Ms); }"
+                }
+              ]
+            },
+            {
+              "id": "w6-l13e2",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Trial 2: same three laps but run CONCURRENTLY (start all, WhenAll). Print the total elapsed ms of the whole thing (should be ~30, not 60).",
+                "es": "Prueba 2: las mismas vueltas pero EN PARALELO (arranca todas, WhenAll). Muestra los ms totales transcurridos (~30, no 60)."
+              },
+              "starter": "// start all three, WhenAll, measure elapsed\n",
+              "tests": [
+                {
+                  "name": "under 80ms",
+                  "expectedOutput": "fast",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "The elapsed check prints \"fast\" when the whole thing stayed under 80ms — concurrency proven.",
+                "es": "La comprobación imprime \"fast\" si todo quedó bajo 80ms: concurrencia demostrada."
+              },
+              "hints": [
+                {
+                  "en": "Start with var sw = Stopwatch.StartNew(); start all tasks, await Task.WhenAll, then Console.WriteLine(sw.ElapsedMilliseconds < 80 ? \"fast\" : \"slow\");",
+                  "es": "Empieza con var sw = Stopwatch.StartNew(); arranca las tareas, await Task.WhenAll, luego Console.WriteLine(sw.ElapsedMilliseconds < 80 ? \"fast\" : \"slow\");"
+                }
+              ]
+            },
+            {
+              "id": "w6-l13e3",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Trial 3: grade the laps with a switch expression on Ms: < 15 → \"fast\", < 25 => \"good\", else \"slow\". Print grade for lap Ms 10, 20, 30 (fast, good, slow).",
+                "es": "Prueba 3: califica las vueltas con switch expression sobre Ms: < 15 → \"fast\", < 25 => \"good\", si no \"slow\". Muestra para 10, 20, 30 (fast, good, slow)."
+              },
+              "starter": "// switch expression with relational patterns\n",
+              "tests": [
+                {
+                  "name": "lap grades",
+                  "expectedOutput": "fast\ngood\nslow",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Relational arms read like policy documents.",
+                "es": "Los brazos relacionales se leen como políticas."
+              },
+              "hints": [
+                {
+                  "en": "ms switch { < 15 => \"fast\", < 25 => \"good\", _ => \"slow\" }",
+                  "es": "ms switch { < 15 => \"fast\", < 25 => \"good\", _ => \"slow\" }"
+                }
+              ]
+            },
+            {
+              "id": "w6-l13e4",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Final trial: async method BestLapAsync returns Task<Lap?>; it returns null when the lap took over 25ms (simulate: delay 30ms and return null). Print (bestLap?.N ?? -1) — expect -1.",
+                "es": "Prueba final: BestLapAsync devuelve Task<Lap?>; devuelve null si la vuelta tardó más de 25ms (simula: delay 30ms y null). Muestra (bestLap?.N ?? -1): espera -1."
+              },
+              "starter": "// nullable record result + null-safe print with fallback\n",
+              "tests": [
+                {
+                  "name": "null handled",
+                  "expectedOutput": "-1",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Task<T?> + ?. + ?? in one flow — every modern C# feature defending you at once. The Race Condition is outrun! 🚀🏁",
+                "es": "Task<T?> + ?. + ?? en un solo flujo: todas las funciones modernas defendiéndote. ¡La Condición de carrera superada! 🚀🏁"
+              },
+              "hints": [
+                {
+                  "en": "BestLapAsync: await Task.Delay(30); return (Lap?)null; then var b = await BestLapAsync(); Console.WriteLine(b?.N ?? -1);",
+                  "es": "BestLapAsync: await Task.Delay(30); return (Lap?)null; luego var b = await BestLapAsync(); Console.WriteLine(b?.N ?? -1);"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

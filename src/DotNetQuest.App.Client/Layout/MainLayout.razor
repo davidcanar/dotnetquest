@@ -1,0 +1,57 @@
+@namespace DotNetQuest.App.Client.Layout
+@inherits LayoutComponentBase
+@using DotNetQuest.App.Client.Services
+@using DotNetQuest.App.Client.Components
+@inject GameState Game
+@inject I18nService I18n
+@inject NavigationManager Nav
+
+<main class="app-root @(Game.Player?.Settings.DarkMode == true ? "dark" : "")">
+    @if (!Game.Initialized)
+    {
+        <div class="app-loading">
+            <BitMascot Pose="@BitPoses.Wave" Size="120" />
+            <p class="muted">@I18n.T("app.loading")</p>
+        </div>
+    }
+    else
+    {
+        @* Anonymous or onboarding pages render without the game shell *@
+        if (Game.Player is null || !Game.Player.OnboardingComplete)
+        {
+            @Body
+        }
+        else
+        {
+            <TopBar />
+            <div class="app-body">
+                @Body
+            </div>
+            <nav class="bottom-nav">
+                <NavLink href="home" class="nav-item" ActiveClass="active" Match="NavLinkMatch.Prefix">
+                    <span class="nav-icon">🗺️</span><span>@I18n.T("nav.worlds")</span>
+                </NavLink>
+                <NavLink href="leaderboard" class="nav-item" ActiveClass="active">
+                    <span class="nav-icon">🏆</span><span>@I18n.T("nav.leaderboard")</span>
+                </NavLink>
+                <NavLink href="playground" class="nav-item" ActiveClass="active">
+                    <span class="nav-icon">🧪</span><span>@I18n.T("nav.playground")</span>
+                </NavLink>
+                <NavLink href="profile" class="nav-item" ActiveClass="active">
+                    <span class="nav-icon">👤</span><span>@I18n.T("nav.profile")</span>
+                </NavLink>
+            </nav>
+        }
+    }
+</main>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        Game.StateChanged += OnStateChanged;
+        I18n.LanguageChanged += OnStateChanged;
+        await Game.InitializeAsync();
+    }
+
+    private void OnStateChanged() => InvokeAsync(StateHasChanged);
+}

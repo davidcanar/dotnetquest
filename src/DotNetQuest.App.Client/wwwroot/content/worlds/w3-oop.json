@@ -1,0 +1,1079 @@
+{
+  "id": "w3-oop",
+  "order": 3,
+  "track": "foundations",
+  "title": { "en": "Object-Oriented C#", "es": "C# orientado a objetos" },
+  "subtitle": { "en": "Classes, constructors, properties, inheritance, interfaces and polymorphism", "es": "Clases, constructores, propiedades, herencia, interfaces y polimorfismo" },
+  "intro": { "en": "Objects are how real programs model the world: a Player, an Order, a Robot. Master classes and you can build anything.", "es": "Los objetos son la forma en que los programas reales modelan el mundo: un Player, un Order, un Robot. Domina las clases y podrás construir cualquier cosa." },
+  "icon": "🧬",
+  "color": "#8b5cf6",
+  "cheatSheet": [
+    {
+      "title": { "en": "Classes & objects", "es": "Clases y objetos" },
+      "items": [
+        { "en": "class Player { public string Name; public int Hp; }", "es": "class Player { public string Name; public int Hp; }" },
+        { "en": "var p = new Player();  p.Name = \"Ada\";", "es": "var p = new Player();  p.Name = \"Ada\";" },
+        { "en": "public Player(string name) { Name = name; }  // constructor", "es": "public Player(string name) { Name = name; }  // constructor" }
+      ]
+    },
+    {
+      "title": { "en": "Properties", "es": "Propiedades" },
+      "items": [
+        { "en": "public string Name { get; set; }", "es": "public string Name { get; set; }" },
+        { "en": "public int Hp { get; private set; }  // read-only outside", "es": "public int Hp { get; private set; }  // solo lectura fuera" },
+        { "en": "public bool Alive => Hp > 0;  // computed", "es": "public bool Alive => Hp > 0;  // calculada" }
+      ]
+    },
+    {
+      "title": { "en": "Inheritance", "es": "Herencia" },
+      "items": [
+        { "en": "class Mage : Player { }", "es": "class Mage : Player { }" },
+        { "en": "public override void Attack() { ... }  // base must be virtual", "es": "public override void Attack() { ... }  // la base debe ser virtual" },
+        { "en": "base.Attack();  // call parent version", "es": "base.Attack();  // llama a la versión padre" }
+      ]
+    },
+    {
+      "title": { "en": "Interfaces", "es": "Interfaces" },
+      "items": [
+        { "en": "interface IAttackable { void TakeHit(int dmg); }", "es": "interface IAttackable { void TakeHit(int dmg); }" },
+        { "en": "class Dragon : IAttackable { public void TakeHit(int dmg) { ... } }", "es": "class Dragon : IAttackable { public void TakeHit(int dmg) { ... } }" },
+        { "en": "List<IAttackable> targets = [new Dragon(), new Troll()];", "es": "List<IAttackable> targets = [new Dragon(), new Troll()];" }
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "u1",
+      "title": { "en": "Classes & Objects", "es": "Clases y objetos" },
+      "lessons": [
+        {
+          "id": "w3-l01-class",
+          "kind": "lesson",
+          "title": { "en": "Your First Class", "es": "Tu primera clase" },
+          "tip": { "en": "A class is a blueprint; an object is a thing built from it. One class, many objects — like one cookie cutter, many cookies!", "es": "Una clase es un plano; un objeto es una cosa construida con él. Una clase, muchos objetos: ¡como un molde y muchas galletas!" },
+          "exercises": [
+            {
+              "id": "w3-l01e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Which keyword creates a new object from a class?", "es": "¿Qué palabra clave crea un nuevo objeto a partir de una clase?" },
+              "options": [
+                { "en": "new", "es": "new" },
+                { "en": "make", "es": "make" },
+                { "en": "create", "es": "create" },
+                { "en": "class", "es": "class" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "new Player() allocates a fresh object and runs its constructor.", "es": "new Player() asigna un objeto nuevo y ejecuta su constructor." },
+              "hints": [ { "en": "Three letters. You used it for arrays and lists too.", "es": "Tres letras. También la usaste con arreglos y listas." } ]
+            },
+            {
+              "id": "w3-l01e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var hero = new Player();\nhero.Name = \"Ada\";\nhero.Hp = 100;\nConsole.WriteLine($\"{hero.Name}:{hero.Hp}\");\n\nclass Player\n{\n    public string Name = \"?\";\n    public int Hp;\n}",
+              "options": [
+                { "en": "Ada:100", "es": "Ada:100" },
+                { "en": "?:100", "es": "?:100" },
+                { "en": "Ada:0", "es": "Ada:0" },
+                { "en": "?:0", "es": "?:0" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Fields default first (\"?\" and 0), then the assignments overwrite them.", "es": "Los campos toman sus valores por defecto (\"?\" y 0) y luego las asignaciones los sobreescriben." },
+              "hints": [ { "en": "Follow each assignment in order.", "es": "Sigue cada asignación en orden." } ]
+            },
+            {
+              "id": "w3-l01e3",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": { "en": "This should print \"Bit\" but fails to compile. Fix it!", "es": "Esto debería mostrar \"Bit\" pero no compila. ¡Arréglalo!" },
+              "starter": "var bot = new Robot();\nConsole.WriteLine(bot.name);\n\nclass Robot\n{\n    public string name = \"Bit\";\n}",
+              "tests": [ { "name": "prints Bit", "expectedOutput": "Bit", "match": "exact" } ],
+              "explanation": { "en": "Public members use PascalCase by convention: name → Name (and update the access).", "es": "Por convención los miembros públicos usan PascalCase: name → Name (y actualiza el acceso)." },
+              "hints": [
+                { "en": "The field is lowercase; C# is case-sensitive — fix both places.", "es": "El campo está en minúsculas; C# distingue mayúsculas: arréglalo en ambos lugares." }
+              ]
+            },
+            {
+              "id": "w3-l01e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Create a class Cat with a string field Name, make two cats (\"Miau\" and \"Garfield\"), and print each name on its own line.", "es": "Crea una clase Cat con un campo string Name, haz dos gatos (\"Miau\" y \"Garfield\") y muestra cada nombre en su línea." },
+              "starter": "// Define the class, create two objects, print both names\n",
+              "tests": [ { "name": "prints both cats", "expectedOutput": "Miau\nGarfield", "match": "exact" } ],
+              "explanation": { "en": "Two objects from one class — independent cookies from the same cutter!", "es": "¡Dos objetos de una clase: galletas independientes del mismo molde!" },
+              "hints": [
+                { "en": "class Cat { public string Name; } — then two new Cat().", "es": "class Cat { public string Name; } — luego dos new Cat()." }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w3-l02-ctor",
+          "kind": "lesson",
+          "title": { "en": "Constructors", "es": "Constructores" },
+          "tip": { "en": "A constructor runs at birth: new Player(\"Ada\") can guarantee every player gets a name. Its name matches the class and it has no return type.", "es": "Un constructor se ejecuta al nacer: new Player(\"Ada\") garantiza que todo jugador tenga nombre. Se llama igual que la clase y no tiene tipo de retorno." },
+          "exercises": [
+            {
+              "id": "w3-l02e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var p = new Player(\"Ada\");\nConsole.WriteLine($\"{p.Name}:{p.Level}\");\n\nclass Player\n{\n    public string Name;\n    public int Level = 1;\n\n    public Player(string name)\n    {\n        Name = name;\n    }\n}",
+              "options": [
+                { "en": "Ada:1", "es": "Ada:1" },
+                { "en": "Ada:0", "es": "Ada:0" },
+                { "en": "?:1", "es": "?:1" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Field initializers run first (Level=1), then the constructor sets Name.", "es": "Los inicializadores de campo corren primero (Level=1) y luego el constructor asigna Name." },
+              "hints": [ { "en": "Initializer, then constructor body.", "es": "Primero el inicializador, luego el cuerpo del constructor." } ]
+            },
+            {
+              "id": "w3-l02e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "What is WRONG with this constructor?", "es": "¿Qué está MAL en este constructor?" },
+              "code": "class Enemy\n{\n    public int Hp;\n\n    public int Enemy(int hp)\n    {\n        Hp = hp;\n    }\n}",
+              "options": [
+                { "en": "Constructors have no return type — 'int' must go", "es": "Los constructores no tienen tipo de retorno: hay que quitar 'int'" },
+                { "en": "It must be static", "es": "Debe ser static" },
+                { "en": "It must be private", "es": "Debe ser private" },
+                { "en": "Nothing is wrong", "es": "Nada está mal" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Constructors never declare a return type — writing 'int' makes it a normal method with the same name as the class (illegal).", "es": "Los constructores nunca declaran retorno: escribir 'int' lo convierte en un método normal con el nombre de la clase (ilegal)." },
+              "hints": [ { "en": "Constructors birth objects; they don't hand values back.", "es": "Los constructores dan a luz objetos; no devuelven valores." } ]
+            },
+            {
+              "id": "w3-l02e3",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": { "en": "Build a Potion class with a constructor and print the potion's power:", "es": "Construye una clase Potion con constructor y muestra su poder:" },
+              "code": "var p = new Potion(50);\nConsole.WriteLine(p.Power);\nclass Potion\n{\n    public int Power;\n    public Potion(int power)\n    {\n        Power = power;\n    }\n}",
+              "explanation": { "en": "Use it, then define it — C# lets the call come first.", "es": "Úsalo y luego defínelo: C# permite que la llamada vaya primero." },
+              "hints": [ { "en": "Call, then class, then field, then constructor.", "es": "Llamada, clase, campo y constructor." } ]
+            },
+            {
+              "id": "w3-l02e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Give Robot a constructor taking a name; create two robots (\"Bit\", \"Rex\") and print name + \" online\" per robot.", "es": "Dale a Robot un constructor con nombre; crea dos robots (\"Bit\", \"Rex\") y muestra nombre + \" online\" por robot." },
+              "starter": "// class Robot with constructor; print \"Bit online\" and \"Rex online\"\n",
+              "tests": [ { "name": "both robots online", "expectedOutput": "Bit online\nRex online", "match": "exact" } ],
+              "explanation": { "en": "Constructors guarantee valid objects from the first millisecond.", "es": "Los constructores garantizan objetos válidos desde el primer milisegundo." },
+              "hints": [
+                { "en": "public Robot(string name) { Name = name; } then Console.WriteLine($\"{r.Name} online\");", "es": "public Robot(string name) { Name = name; } luego Console.WriteLine($\"{r.Name} online\");" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w3-l03-methods",
+          "kind": "lesson",
+          "title": { "en": "Object Behavior", "es": "Comportamiento del objeto" },
+          "tip": { "en": "Methods inside a class use its own data: hero.TakeDamage(30) changes hero's own HP. Data + behavior in one package = an object.", "es": "Los métodos de una clase usan sus propios datos: hero.TakeDamage(30) cambia el HP del propio hero. Datos + comportamiento en un paquete = un objeto." },
+          "exercises": [
+            {
+              "id": "w3-l03e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var a = new Battery();\nvar b = new Battery();\na.Charge();\nConsole.WriteLine($\"{a.Level}:{b.Level}\");\n\nclass Battery\n{\n    public int Level = 0;\n    public void Charge() => Level += 50;\n}",
+              "options": [
+                { "en": "50:0", "es": "50:0" },
+                { "en": "50:50", "es": "50:50" },
+                { "en": "0:0", "es": "0:0" },
+                { "en": "100:0", "es": "100:0" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Each object has its OWN fields — charging a does not touch b.", "es": "Cada objeto tiene sus PROPIOS campos: cargar a no toca b." },
+              "hints": [ { "en": "Two objects, two separate Levels.", "es": "Dos objetos, dos Level independientes." } ]
+            },
+            {
+              "id": "w3-l03e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the method that heals the player:", "es": "Completa el método que cura al jugador:" },
+              "code": "class Player\n{\n    public int Hp = 50;\n\n    public void Heal(int amount)\n    {\n        Hp ___ amount;\n    }\n}",
+              "blanks": [ { "answer": "+=", "caseSensitive": true } ],
+              "explanation": { "en": "Hp += amount adds inside the object — no parameters out, no globals.", "es": "Hp += amount suma dentro del objeto, sin globals ni parámetros de salida." },
+              "hints": [ { "en": "Add and assign in one operator.", "es": "Suma y asigna con un solo operador." } ]
+            },
+            {
+              "id": "w3-l03e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Build Counter with Count=0 and methods Tick() (+1) and Reset() (0). Tick twice, print, reset, print: expect 2 then 0.", "es": "Construye Counter con Count=0 y métodos Tick() (+1) y Reset() (0). Haz Tick dos veces, muestra, reinicia, muestra: espera 2 y 0." },
+              "starter": "// class Counter with Tick and Reset\n",
+              "tests": [ { "name": "counts and resets", "expectedOutput": "2\n0", "match": "exact" } ],
+              "explanation": { "en": "State (Count) + behavior (Tick/Reset) — the essence of a class.", "es": "Estado (Count) + comportamiento (Tick/Reset): la esencia de una clase." },
+              "hints": [
+                { "en": "public void Tick() => Count++; and public void Reset() => Count = 0;", "es": "public void Tick() => Count++; y public void Reset() => Count = 0;" }
+              ]
+            },
+            {
+              "id": "w3-l03e4",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": { "en": "The dog should bark twice (Woof! Woof!) but says something strange. Fix it!", "es": "El perro debería ladrar dos veces (Woof! Woof!) pero dice algo raro. ¡Arréglalo!" },
+              "starter": "var d = new Dog();\nd.Bark();\nd.Bark();\n\nclass Dog\n{\n    public void Bark() => Console.WriteLine(\"Meow?\");\n}",
+              "tests": [ { "name": "barks twice", "expectedOutput": "Woof!\nWoof!", "match": "exact" } ],
+              "explanation": { "en": "The behavior lives in the method body — a Dog should Bark like a dog!", "es": "El comportamiento vive en el cuerpo del método: ¡un Dog debe ladrar como perro!" },
+              "hints": [ { "en": "Cats meow. Dogs...", "es": "Los gatos maúllan. Los perros..." } ]
+            }
+          ]
+        },
+        {
+          "id": "w3-l04-quiz1",
+          "kind": "quiz",
+          "title": { "en": "Unit 1 Quiz", "es": "Examen de la unidad 1" },
+          "tip": { "en": "Classes, constructors, behavior — show your object muscles!", "es": "Clases, constructores, comportamiento: ¡muestra tus músculos de objetos!" },
+          "exercises": [
+            {
+              "id": "w3-l04e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match each OOP piece to its role:", "es": "Relaciona cada pieza OOP con su rol:" },
+              "pairs": [
+                { "left": { "en": "class", "es": "class" }, "right": { "en": "the blueprint", "es": "el plano" } },
+                { "left": { "en": "object", "es": "objeto" }, "right": { "en": "a thing built from the blueprint", "es": "una cosa construida con el plano" } },
+                { "left": { "en": "constructor", "es": "constructor" }, "right": { "en": "runs when the object is born", "es": "se ejecuta al nacer el objeto" } },
+                { "left": { "en": "method", "es": "método" }, "right": { "en": "behavior the object can perform", "es": "comportamiento que el objeto ejecuta" } }
+              ],
+              "explanation": { "en": "Blueprint → object, born via constructor, acts via methods.", "es": "Plano → objeto, nace con constructor, actúa con métodos." },
+              "hints": [ { "en": "Birth = constructor.", "es": "Nacimiento = constructor." } ]
+            },
+            {
+              "id": "w3-l04e2",
+              "type": "output",
+              "xp": 12,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var x = new Lamp();\nvar y = x;\ny.On = true;\nConsole.WriteLine(x.On);\n\nclass Lamp { public bool On; }",
+              "options": [
+                { "en": "True — x and y are the SAME object", "es": "True: x y y son el MISMO objeto" },
+                { "en": "False — they are independent", "es": "False: son independientes" },
+                { "en": "It does not compile", "es": "No compila" },
+                { "en": "null", "es": "null" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Assignment copies the REFERENCE, not the object. Two names, one lamp!", "es": "La asignación copia la REFERENCIA, no el objeto. ¡Dos nombres, una lámpara!" },
+              "hints": [ { "en": "Objects live on the heap; variables hold arrows to them.", "es": "Los objetos viven en el heap; las variables guardan flechas hacia ellos." } ]
+            },
+            {
+              "id": "w3-l04e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "A constructor must have the same name as its class.", "es": "Un constructor debe llamarse igual que su clase." },
+              "answerIndex": 1,
+              "explanation": { "en": "True — and it must not declare a return type.", "es": "Verdadero, y no debe declarar tipo de retorno." },
+              "hints": [ { "en": "It IS the class name.", "es": "ES el nombre de la clase." } ]
+            },
+            {
+              "id": "w3-l04e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Build an Account class: it starts with Balance 100, has Deposit(int) that adds, and PrintBalance(). Deposit 50 and print (150).", "es": "Construye una clase Account: empieza con Balance 100, tiene Deposit(int) que suma, y PrintBalance(). Deposita 50 y muestra (150)." },
+              "starter": "// class Account: Balance = 100, Deposit, PrintBalance\n",
+              "tests": [ { "name": "prints 150", "expectedOutput": "150", "match": "exact" } ],
+              "explanation": { "en": "A tiny bank — but a fully object-shaped one!", "es": "Un mini banco, ¡pero totalmente orientado a objetos!" },
+              "hints": [ { "en": "public void Deposit(int amount) => Balance += amount;", "es": "public void Deposit(int amount) => Balance += amount;" } ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": { "en": "Properties", "es": "Propiedades" },
+      "lessons": [
+        {
+          "id": "w3-l05-props",
+          "kind": "lesson",
+          "title": { "en": "Properties: Smart Fields", "es": "Propiedades: campos inteligentes" },
+          "tip": { "en": "A property looks like a field from outside but runs code inside: public int Hp { get; set; }. Add logic in get/set whenever you need it.", "es": "Una propiedad parece un campo por fuera pero ejecuta código por dentro: public int Hp { get; set; }. Añade lógica en get/set cuando la necesites." },
+          "exercises": [
+            {
+              "id": "w3-l05e1",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Turn the field into an auto-property:", "es": "Convierte el campo en auto-propiedad:" },
+              "code": "class Player\n{\n    public string Name { ___; set; }\n}",
+              "blanks": [ { "answer": "get", "caseSensitive": true } ],
+              "explanation": { "en": "{ get; set; } is the auto-property: the compiler makes the hidden storage for you.", "es": "{ get; set; } es la auto-propiedad: el compilador crea el almacenaje oculto por ti." },
+              "hints": [ { "en": "The read side of a property.", "es": "El lado de lectura de una propiedad." } ]
+            },
+            {
+              "id": "w3-l05e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var t = new Temp();\nt.Celsius = 100;\nConsole.WriteLine(t.Fahrenheit);\n\nclass Temp\n{\n    public double Celsius;\n    public double Fahrenheit => Celsius * 9 / 5 + 32;\n}",
+              "options": [
+                { "en": "212", "es": "212" },
+                { "en": "100", "es": "100" },
+                { "en": "0", "es": "0" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "A computed property (=>) has no storage — it calculates on every read.", "es": "Una propiedad calculada (=>) no tiene almacenaje: calcula en cada lectura." },
+              "hints": [ { "en": "100 × 9/5 + 32 = ...", "es": "100 × 9/5 + 32 = ..." } ]
+            },
+            {
+              "id": "w3-l05e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "What does `public int Hp { get; private set; }` mean?", "es": "¿Qué significa `public int Hp { get; private set; }`?" },
+              "options": [
+                { "en": "Anyone can read Hp; only the class itself can change it", "es": "Cualquiera puede leer Hp; solo la clase puede cambiarlo" },
+                { "en": "Nobody can read Hp", "es": "Nadie puede leer Hp" },
+                { "en": "Hp is a constant", "es": "Hp es una constante" },
+                { "en": "It is illegal syntax", "es": "Es sintaxis ilegal" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Asymmetric access — perfect for things like HP that only the game logic should modify.", "es": "Acceso asimétrico: perfecto para cosas como el HP que solo la lógica del juego debe modificar." },
+              "hints": [ { "en": "private applies only to the set side.", "es": "private aplica solo al lado de escritura." } ]
+            },
+            {
+              "id": "w3-l05e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Build Rectangle with properties Width and Height, and a computed Area (Width × Height). Make a 3×4 rectangle and print its Area.", "es": "Construye Rectangle con las propiedades Width y Height, y una Area calculada (Width × Height). Crea un rectángulo de 3×4 y muestra su Area." },
+              "starter": "// class Rectangle with Width, Height, computed Area\n",
+              "tests": [ { "name": "area is 12", "expectedOutput": "12", "match": "exact" } ],
+              "explanation": { "en": "public double Area => Width * Height; — data in, derived data out.", "es": "public double Area => Width * Height;: datos dentro, datos derivados fuera." },
+              "hints": [
+                { "en": "public int Area => Width * Height;  // print it with WriteLine(rect.Area)", "es": "public int Area => Width * Height;  // muéstralo con WriteLine(rect.Area)" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w3-l06-props2",
+          "kind": "lesson",
+          "title": { "en": "Guarded Properties", "es": "Propiedades protegidas" },
+          "tip": { "en": "The set accessor can REJECT bad values: never allow negative HP or an empty name. This is encapsulation — the object defends its own rules.", "es": "El set puede RECHAZAR valores inválidos: nunca HP negativo ni nombres vacíos. Eso es encapsulación: el objeto defiende sus propias reglas." },
+          "exercises": [
+            {
+              "id": "w3-l06e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var w = new Wallet();\nw.Money = 100;\nw.Money = -50;\nConsole.WriteLine(w.Money);\n\nclass Wallet\n{\n    private int _money;\n    public int Money\n    {\n        get => _money;\n        set => _money = value < 0 ? 0 : value;\n    }\n}",
+              "options": [
+                { "en": "100", "es": "100" },
+                { "en": "-50", "es": "-50" },
+                { "en": "0", "es": "0" },
+                { "en": "It crashes", "es": "Falla" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "The setter refused the negative value and stored 0 instead — the object defended its rule.", "es": "El setter rechazó el negativo y guardó 0: el objeto defendió su regla." },
+              "hints": [ { "en": "value < 0 was true on the second assignment...", "es": "value < 0 fue verdadero en la segunda asignación..." } ]
+            },
+            {
+              "id": "w3-l06e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the setter keyword that holds the incoming value:", "es": "Completa la palabra clave del setter que contiene el valor entrante:" },
+              "code": "set => _hp = value > 999 ? 999 : ___;",
+              "blanks": [ { "answer": "value", "caseSensitive": true } ],
+              "explanation": { "en": "Inside a setter, `value` is the value being assigned.", "es": "Dentro del setter, `value` es el valor que se está asignando." },
+              "hints": [ { "en": "Five letters — the incoming one.", "es": "Cinco letras: el que llega." } ]
+            },
+            {
+              "id": "w3-l06e3",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": { "en": "This should cap speed at 200, but it stores anything. Fix it!", "es": "Esto debería limitar la velocidad a 200, pero guarda cualquier cosa. ¡Arréglalo!" },
+              "starter": "var c = new Car();\nc.Speed = 500;\nConsole.WriteLine(c.Speed);\n\nclass Car\n{\n    public int Speed;\n}",
+              "tests": [ { "name": "speed capped", "expectedOutput": "200", "match": "exact" } ],
+              "explanation": { "en": "Convert Speed into a property with a backing field and cap value in the setter.", "es": "Convierte Speed en propiedad con campo de respaldo y limita value en el setter." },
+              "hints": [
+                { "en": "private int _speed; public int Speed { get => _speed; set => _speed = value > 200 ? 200 : value; }", "es": "private int _speed; public int Speed { get => _speed; set => _speed = value > 200 ? 200 : value; }" }
+              ]
+            },
+            {
+              "id": "w3-l06e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Build Player with property Hp (starts 100) that never goes below 0 via TakeDamage(int). Apply 150 damage and print Hp.", "es": "Construye Player con propiedad Hp (empieza en 100) que nunca baja de 0 mediante TakeDamage(int). Aplica 150 de daño y muestra Hp." },
+              "starter": "// Hp clamped at 0 by TakeDamage\n",
+              "tests": [ { "name": "hp never negative", "expectedOutput": "0", "match": "exact" } ],
+              "explanation": { "en": "Rules enforced inside the object mean no caller can ever break them.", "es": "Las reglas dentro del objeto implican que nadie puede violarlas." },
+              "hints": [
+                { "en": "public void TakeDamage(int d) => Hp = Hp - d < 0 ? 0 : Hp - d;", "es": "public void TakeDamage(int d) => Hp = Hp - d < 0 ? 0 : Hp - d;" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w3-l07-quiz2",
+          "kind": "quiz",
+          "title": { "en": "Unit 2 Quiz", "es": "Examen de la unidad 2" },
+          "tip": { "en": "Properties quick check!", "es": "¡Repaso rápido de propiedades!" },
+          "exercises": [
+            {
+              "id": "w3-l07e1",
+              "type": "output",
+              "xp": 12,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var p = new PingPong();\nConsole.WriteLine($\"{p.Hits}\");\np.Hit();\np.Hit();\np.Hit();\nConsole.WriteLine($\"{p.Hits}\");\n\nclass PingPong\n{\n    public int Hits { get; private set; }\n    public void Hit() => Hits++;\n}",
+              "options": [
+                { "en": "0\n3", "es": "0\n3" },
+                { "en": "3\n0", "es": "3\n0" },
+                { "en": "0\n0", "es": "0\n0" },
+                { "en": "It does not compile — Hits++ is illegal", "es": "No compila: Hits++ es ilegal" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "private set still allows the class's own methods to mutate it.", "es": "private set permite que los métodos propios de la clase lo modifiquen." },
+              "hints": [ { "en": "Who is allowed to change Hits?", "es": "¿Quién puede cambiar Hits?" } ]
+            },
+            {
+              "id": "w3-l07e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match the property form to its meaning:", "es": "Relaciona la forma de propiedad con su significado:" },
+              "pairs": [
+                { "left": { "en": "{ get; set; }", "es": "{ get; set; }" }, "right": { "en": "auto-property with storage", "es": "auto-propiedad con almacenaje" } },
+                { "left": { "en": "=> x * 2", "es": "=> x * 2" }, "right": { "en": "computed on every read", "es": "se calcula en cada lectura" } },
+                { "left": { "en": "{ get; private set; }", "es": "{ get; private set; }" }, "right": { "en": "readable by all, writable inside", "es": "legible por todos, escribible dentro" } },
+                { "left": { "en": "set => _x = value;", "es": "set => _x = value;" }, "right": { "en": "custom logic in the setter", "es": "lógica personalizada en el setter" } }
+              ],
+              "explanation": { "en": "Properties range from dumb storage to smart validation.", "es": "Las propiedades van de almacenamiento simple a validación inteligente." },
+              "hints": [ { "en": "Arrow = compute; private = restrict.", "es": "Flecha = calcular; private = restringir." } ]
+            },
+            {
+              "id": "w3-l07e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "A computed property (=> ...) stores its value in the object.", "es": "Una propiedad calculada (=> ...) guarda su valor en el objeto." },
+              "answerIndex": 0,
+              "explanation": { "en": "False — it recalculates on every access; there is no storage.", "es": "Falso: se recalcula en cada acceso; no hay almacenaje." },
+              "hints": [ { "en": "Where would it even store it?", "es": "¿Dónde lo guardaría?" } ]
+            },
+            {
+              "id": "w3-l07e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Build Thermometer: property Celsius with a setter that keeps it between -50 and 100; set 300, print the stored value.", "es": "Construye Thermometer: propiedad Celsius con setter que la mantiene entre -50 y 100; asigna 300 y muestra el valor guardado." },
+              "starter": "// Clamp Celsius to [-50, 100]\n",
+              "tests": [ { "name": "clamped to 100", "expectedOutput": "100", "match": "exact" } ],
+              "explanation": { "en": "One setter, one rule, applied everywhere forever.", "es": "Un setter, una regla, aplicada en todas partes para siempre." },
+              "hints": [
+                { "en": "set => _c = value > 100 ? 100 : value < -50 ? -50 : value;", "es": "set => _c = value > 100 ? 100 : value < -50 ? -50 : value;" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": { "en": "Inheritance", "es": "Herencia" },
+      "lessons": [
+        {
+          "id": "w3-l08-inherit",
+          "kind": "lesson",
+          "title": { "en": "Inheriting from a Base", "es": "Heredar de una base" },
+          "tip": { "en": "class Mage : Player means Mage gets everything Player has, and can add more. Don't repeat yourself — inherit!", "es": "class Mage : Player significa que Mage hereda todo lo de Player y puede añadir más. No te repitas: ¡hereda!" },
+          "exercises": [
+            {
+              "id": "w3-l08e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var m = new Mage();\nConsole.WriteLine($\"{m.Name}:{m.Mana}\");\n\nclass Player\n{\n    public string Name = \"Hero\";\n}\n\nclass Mage : Player\n{\n    public int Mana = 50;\n}",
+              "options": [
+                { "en": "Hero:50", "es": "Hero:50" },
+                { "en": "Hero:0", "es": "Hero:0" },
+                { "en": "It does not compile — Mage can't see Name", "es": "No compila: Mage no ve Name" },
+                { "en": ":50", "es": ":50" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Mage inherits Name from Player and adds Mana of its own.", "es": "Mage hereda Name de Player y añade su propio Mana." },
+              "hints": [ { "en": "The child gets everything the parent has.", "es": "El hijo recibe todo lo del padre." } ]
+            },
+            {
+              "id": "w3-l08e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the inheritance — Boss extends Enemy:", "es": "Completa la herencia: Boss extiende Enemy:" },
+              "code": "class Boss ___ Enemy\n{\n    public int Rage;\n}",
+              "blanks": [ { "answer": ":", "caseSensitive": true } ],
+              "explanation": { "en": "A single colon declares the base class.", "es": "Un solo símbolo de dos puntos declara la clase base." },
+              "hints": [ { "en": "One character.", "es": "Un solo carácter." } ]
+            },
+            {
+              "id": "w3-l08e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Why is inheritance useful?", "es": "¿Por qué es útil la herencia?" },
+              "options": [
+                { "en": "Shared code and behavior live once in the base class", "es": "El código y comportamiento compartidos viven una sola vez en la base" },
+                { "en": "It makes the program run faster", "es": "Hace que el programa corra más rápido" },
+                { "en": "It hides the code from other developers", "es": "Oculta el código de otros desarrolladores" },
+                { "en": "Classes cannot exist without inheritance", "es": "Las clases no pueden existir sin herencia" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Inheritance is about REUSE: fix a bug in the base, every child benefits.", "es": "La herencia es REUTILIZACIÓN: arregla un bug en la base y todos los hijos se benefician." },
+              "hints": [ { "en": "DRY: don't repeat yourself.", "es": "DRY: no te repitas." } ]
+            },
+            {
+              "id": "w3-l08e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Create Animal with Speak() printing \"...\"; create Dog : Animal whose Speak() prints \"Guau!\". Call Speak on a Dog.", "es": "Crea Animal con Speak() que muestre \"...\"; crea Dog : Animal cuyo Speak() muestre \"Guau!\". Llama a Speak en un Dog." },
+              "starter": "// Base Animal, derived Dog — then call Speak\n",
+              "tests": [ { "name": "dog speaks", "expectedOutput": "Guau!", "match": "exact" } ],
+              "explanation": { "en": "Dog REPLACED the inherited behavior — that's a preview of override, next lesson!", "es": "Dog REEMPLAZÓ el comportamiento heredado: ¡adelanto de override en la próxima lección!" },
+              "hints": [
+                { "en": "class Dog : Animal { public new void Speak() ... } — or wait for override next lesson (plain redefinition also passes here).", "es": "class Dog : Animal { public new void Speak() ... } — o espera al override (redefinir también pasa aquí)." }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w3-l09-override",
+          "kind": "lesson",
+          "title": { "en": "virtual & override", "es": "virtual y override" },
+          "tip": { "en": "Mark a base method virtual and children may override it with their own version — the CHOICE of version happens at runtime, based on the real object.", "es": "Marca un método base virtual y los hijos pueden sobreescribirlo: la elección de versión ocurre en tiempo de ejecución según el objeto real." },
+          "exercises": [
+            {
+              "id": "w3-l09e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "Animal a = new Dog();\na.Speak();\n\nclass Animal\n{\n    public virtual void Speak() => Console.WriteLine(\"...\");\n}\n\nclass Dog : Animal\n{\n    public override void Speak() => Console.WriteLine(\"Woof\");\n}",
+              "options": [
+                { "en": "Woof", "es": "Woof" },
+                { "en": "...", "es": "..." },
+                { "en": "...\nWoof", "es": "...\nWoof" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "The variable says Animal but the OBJECT is a Dog — and override picks by object. This is polymorphism!", "es": "La variable dice Animal pero el OBJETO es un Dog: override elige por objeto. ¡Esto es polimorfismo!" },
+              "hints": [ { "en": "What kind of animal was actually created?", "es": "¿Qué tipo de animal se creó realmente?" } ]
+            },
+            {
+              "id": "w3-l09e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the child's keyword for replacing a virtual method:", "es": "Completa la palabra clave del hijo para reemplazar un método virtual:" },
+              "code": "class Cat : Animal\n{\n    public ___ void Speak() => Console.WriteLine(\"Miau\");\n}",
+              "blanks": [ { "answer": "override", "caseSensitive": true } ],
+              "explanation": { "en": "virtual in the base, override in the child — they work as a pair.", "es": "virtual en la base, override en el hijo: funcionan en pareja." },
+              "hints": [ { "en": "Eight letters, starts with 'over'.", "es": "Ocho letras, empieza con 'over'." } ]
+            },
+            {
+              "id": "w3-l09e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Inside an override, what does base.Speak() do?", "es": "Dentro de un override, ¿qué hace base.Speak()?" },
+              "options": [
+                { "en": "Calls the base class's version of Speak", "es": "Llama a la versión de Speak de la clase base" },
+                { "en": "Restarts the current method", "es": "Reinicia el método actual" },
+                { "en": "Calls the overridden version again", "es": "Vuelve a llamar a la versión sobreescrita" },
+                { "en": "Nothing — it's a comment", "es": "Nada: es un comentario" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "base lets you EXTEND behavior: do the base work, then add yours.", "es": "base permite EXTENDER: haz lo de la base y añade lo tuyo." },
+              "hints": [ { "en": "base = the parent.", "es": "base = el padre." } ]
+            },
+            {
+              "id": "w3-l09e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Enemy has virtual Describe() → \"An enemy\". Goblin overrides it to \"A goblin\". Put a Goblin in an Enemy variable and call Describe.", "es": "Enemy tiene virtual Describe() → \"An enemy\". Goblin lo sobreescribe con \"A goblin\". Pon un Goblin en una variable Enemy y llama a Describe." },
+              "starter": "// virtual in Enemy, override in Goblin, call through base variable\n",
+              "tests": [ { "name": "polymorphic call", "expectedOutput": "A goblin", "match": "exact" } ],
+              "explanation": { "en": "One variable type, many behaviors — polymorphism is the heart of OOP.", "es": "Un tipo de variable, muchos comportamientos: el polimorfismo es el corazón de la OOP." },
+              "hints": [
+                { "en": "Enemy e = new Goblin(); e.Describe();", "es": "Enemy e = new Goblin(); e.Describe();" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w3-l10-quiz3",
+          "kind": "quiz",
+          "title": { "en": "Unit 3 Quiz", "es": "Examen de la unidad 3" },
+          "tip": { "en": "Inheritance check — base, virtual, override!", "es": "Control de herencia: ¡base, virtual, override!" },
+          "exercises": [
+            {
+              "id": "w3-l10e1",
+              "type": "output",
+              "xp": 12,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var list = new List<Shape>\n{\n    new Shape(),\n    new Circle()\n};\nforeach (var s in list)\n{\n    s.Draw();\n}\n\nclass Shape\n{\n    public virtual void Draw() => Console.WriteLine(\"shape\");\n}\n\nclass Circle : Shape\n{\n    public override void Draw() => Console.WriteLine(\"circle\");\n}",
+              "options": [
+                { "en": "shape\ncircle", "es": "shape\ncircle" },
+                { "en": "shape\nshape", "es": "shape\nshape" },
+                { "en": "circle\ncircle", "es": "circle\ncircle" },
+                { "en": "circle\nshape", "es": "circle\nshape" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Each element draws with ITS OWN override — the loop doesn't care which subclass it is.", "es": "Cada elemento dibuja con SU PROPIO override: al bucle no le importa la subclase." },
+              "hints": [ { "en": "Each object picks its own version.", "es": "Cada objeto elige su propia versión." } ]
+            },
+            {
+              "id": "w3-l10e2",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "A child class can access the parent's private fields directly.", "es": "Una clase hija puede acceder directamente a los campos privados del padre." },
+              "answerIndex": 0,
+              "explanation": { "en": "False — private means 'only this class'. Children see protected and public members.", "es": "Falso: private significa 'solo esta clase'. Los hijos ven miembros protected y public." },
+              "hints": [ { "en": "What does 'private' literally mean?", "es": "¿Qué significa literalmente 'private'?" } ]
+            },
+            {
+              "id": "w3-l10e3",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": { "en": "Complete so Mage calls the base constructor with \"Mage\":", "es": "Completa para que Mage llame al constructor base con \"Mage\":" },
+              "code": "class Mage : Player\n{\n    public Mage() : ___(\"Mage\") { }\n}\n\nclass Player\n{\n    public string Name;\n    public Player(string name) => Name = name;\n}",
+              "blanks": [ { "answer": "base", "caseSensitive": true } ],
+              "explanation": { "en": ": base(...) forwards constructor arguments up to the parent.", "es": ": base(...) pasa argumentos al constructor del padre." },
+              "hints": [ { "en": "Four letters, the parent keyword.", "es": "Cuatro letras: la palabra del padre." } ]
+            },
+            {
+              "id": "w3-l10e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Build Character (virtual Attack → \"hits!\"), Wizard : Character (override → \"casts fireball!\" but ALSO calls base first: \"hits!\\ncasts fireball!\"). Call through a Character variable holding a Wizard.", "es": "Construye Character (virtual Attack → \"hits!\"), Wizard : Character (override → \"casts fireball!\" pero TAMBIÉN llama a base primero: \"hits!\\ncasts fireball!\"). Llama con una variable Character que contenga un Wizard." },
+              "starter": "// base.Attack() then the extra line\n",
+              "tests": [ { "name": "base + override", "expectedOutput": "hits!\ncasts fireball!", "match": "exact" } ],
+              "explanation": { "en": "Extending instead of replacing — base + extra is the professional pattern.", "es": "Extender en vez de reemplazar: base + extra es el patrón profesional." },
+              "hints": [
+                { "en": "public override void Attack() { base.Attack(); Console.WriteLine(\"casts fireball!\"); }", "es": "public override void Attack() { base.Attack(); Console.WriteLine(\"casts fireball!\"); }" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u4",
+      "title": { "en": "Interfaces & Polymorphism", "es": "Interfaces y polimorfismo" },
+      "lessons": [
+        {
+          "id": "w3-l11-interfaces",
+          "kind": "lesson",
+          "title": { "en": "Interfaces: Contracts", "es": "Interfaces: contratos" },
+          "tip": { "en": "An interface is a pure contract: WHAT must exist, never HOW. Classes sign the contract with a colon — and callers can trust it blindly.", "es": "Una interfaz es un contrato puro: QUÉ debe existir, nunca CÓMO. Las clases firman con dos puntos y quien llama puede confiar ciegamente." },
+          "exercises": [
+            {
+              "id": "w3-l11e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "What can an interface contain in its declaration?", "es": "¿Qué puede contener la declaración de una interfaz?" },
+              "options": [
+                { "en": "Method and property SIGNATURES without bodies", "es": "FIRMAS de métodos y propiedades sin cuerpo" },
+                { "en": "Full method implementations with logic", "es": "Implementaciones completas con lógica" },
+                { "en": "Fields with values", "es": "Campos con valores" },
+                { "en": "Constructors", "es": "Constructores" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Interface = pure promise list. Implementations belong to classes.", "es": "Interfaz = lista pura de promesas. Las implementaciones son de las clases." },
+              "hints": [ { "en": "The WHAT, not the HOW.", "es": "El QUÉ, no el CÓMO." } ]
+            },
+            {
+              "id": "w3-l11e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "IWeapon w = new Sword();\nw.Attack();\n\ninterface IWeapon\n{\n    void Attack();\n}\n\nclass Sword : IWeapon\n{\n    public void Attack() => Console.WriteLine(\"slash!\");\n}",
+              "options": [
+                { "en": "slash!", "es": "slash!" },
+                { "en": "It crashes — IWeapon is abstract", "es": "Falla: IWeapon es abstracta" },
+                { "en": "It does not compile", "es": "No compila" },
+                { "en": "Nothing", "es": "Nada" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "You can't new an interface, but any implementing class fits in the interface variable.", "es": "No puedes hacer new de una interfaz, pero cualquier clase que la implemente cabe en la variable." },
+              "hints": [ { "en": "The object behind the variable does the work.", "es": "El objeto detrás de la variable hace el trabajo." } ]
+            },
+            {
+              "id": "w3-l11e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the interface declaration:", "es": "Completa la declaración de la interfaz:" },
+              "code": "___ IMovable\n{\n    void Move(int distance);\n}",
+              "blanks": [ { "answer": "interface", "caseSensitive": true } ],
+              "explanation": { "en": "interface + name (I-prefix is the C# convention) + members.", "es": "interface + nombre (el prefijo I es la convención de C#) + miembros." },
+              "hints": [ { "en": "Nine letters.", "es": "Nueve letras." } ]
+            },
+            {
+              "id": "w3-l11e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Define ISwimmer with Swim() → \"splash\". Make Duck implement it and call Swim through an ISwimmer variable.", "es": "Define ISwimmer con Swim() → \"splash\". Haz que Duck lo implemente y llama a Swim con una variable ISwimmer." },
+              "starter": "// interface + implementing class + call through the interface\n",
+              "tests": [ { "name": "duck swims", "expectedOutput": "splash", "match": "exact" } ],
+              "explanation": { "en": "Callers depend on the CONTRACT, never on the concrete class.", "es": "Quien llama depende del CONTRATO, nunca de la clase concreta." },
+              "hints": [
+                { "en": "ISwimmer s = new Duck(); s.Swim();", "es": "ISwimmer s = new Duck(); s.Swim();" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w3-l12-poly",
+          "kind": "lesson",
+          "title": { "en": "Programming Against Contracts", "es": "Programar contra contratos" },
+          "tip": { "en": "A List<IEnemy> can hold ANY class implementing IEnemy. Your game loop never asks 'what are you?' — it just calls the contract.", "es": "Una List<IEnemy> puede contener CUALQUIER clase que implemente IEnemy. Tu bucle nunca pregunta '¿qué eres?': solo llama al contrato." },
+          "exercises": [
+            {
+              "id": "w3-l12e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var sounds = new List<IAnimal> { new Cow(), new Cat() };\nforeach (var s in sounds)\n{\n    s.Speak();\n}\n\ninterface IAnimal { string Speak(); }\nclass Cow : IAnimal { public string Speak() => \"Muu\"; }\nclass Cat : IAnimal { public string Speak() => \"Miau\"; }",
+              "options": [
+                { "en": "Muu\nMiau", "es": "Muu\nMiau" },
+                { "en": "Miau\nMuu", "es": "Miau\nMuu" },
+                { "en": "Muu", "es": "Muu" },
+                { "en": "It does not compile — different classes in one list", "es": "No compila: clases distintas en una lista" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "The interface is the shared type — the list happily mixes implementations.", "es": "La interfaz es el tipo común: la lista mezcla implementaciones sin problema." },
+              "hints": [ { "en": "List order is preserved.", "es": "El orden de la lista se conserva." } ]
+            },
+            {
+              "id": "w3-l12e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Which is BETTER for a game's damage system?", "es": "¿Qué es MEJOR para el sistema de daño de un juego?" },
+              "options": [
+                { "en": "if (enemy is Dragon) ... else if (enemy is Troll) ... else if ...", "es": "if (enemy is Dragon) ... else if (enemy is Troll) ... else if ..." },
+                { "en": "List<IDamageable> — every enemy implements TakeHit", "es": "List<IDamageable> — cada enemigo implementa TakeHit" },
+                { "en": "Copy-paste the damage code into every enemy class", "es": "Copiar y pegar el código de daño en cada clase" },
+                { "en": "One giant Enemy class with flags", "es": "Una clase Enemy gigante con banderas" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Adding a new enemy type should require ZERO changes to the damage system — that's what contracts buy you.", "es": "Añadir un enemigo nuevo no debería exigir cambios en el sistema de daño: eso compra el contrato." },
+              "hints": [ { "en": "Which option survives adding enemy #50?", "es": "¿Qué opción sobrevive al enemigo número 50?" } ]
+            },
+            {
+              "id": "w3-l12e3",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": { "en": "This was supposed to print 2 sounds but the second animal forgot its contract. Fix it!", "es": "Esto debería mostrar 2 sonidos, pero el segundo animal olvidó su contrato. ¡Arréglalo!" },
+              "starter": "foreach (var a in GetAnimals()) a.Speak();\n\nstatic List<IAnimal> GetAnimals() => [new Dog2(), new Duck2()];\n\ninterface IAnimal { void Speak(); }\nclass Dog2 : IAnimal { public void Speak() => Console.WriteLine(\"Guau\"); }\nclass Duck2 : IAnimal { public void Quack() => Console.WriteLine(\"Cuac\"); }",
+              "tests": [ { "name": "two sounds", "expectedOutput": "Guau\nCuac", "match": "exact" } ],
+              "explanation": { "en": "Implementing an interface is a PROMISE: every member must exist with the exact signature.", "es": "Implementar una interfaz es una PROMESA: cada miembro debe existir con la firma exacta." },
+              "hints": [ { "en": "Duck2 promised Speak but defined something else.", "es": "Duck2 prometió Speak pero definió otra cosa." } ]
+            },
+            {
+              "id": "w3-l12e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Define IShape with Area() returning double. Implement Square(4) → 16 and Rect(2,5) → 10. Loop a List<IShape> printing each Area.", "es": "Define IShape con Area() que devuelva double. Implementa Square(4) → 16 y Rect(2,5) → 10. Recorre una List<IShape> mostrando cada Area." },
+              "starter": "// interface + two classes + loop printing 16 and 10\n",
+              "tests": [ { "name": "prints 16 and 10", "expectedOutput": "16\n10", "match": "exact" } ],
+              "explanation": { "en": "This is how rendering engines, payment systems and this very game handle 'many kinds of one thing'.", "es": "Así manejan los motores gráficos, los pagos y este mismo juego 'muchas clases de una cosa'." },
+              "hints": [
+                { "en": "foreach (IShape s in shapes) Console.WriteLine(s.Area());", "es": "foreach (IShape s in shapes) Console.WriteLine(s.Area());" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w3-l13-quiz4",
+          "kind": "quiz",
+          "title": { "en": "Unit 4 Quiz", "es": "Examen de la unidad 4" },
+          "tip": { "en": "Interfaces and polymorphism — final OOP quiz before the boss!", "es": "Interfaces y polimorfismo: ¡último examen antes del jefe!" },
+          "exercises": [
+            {
+              "id": "w3-l13e1",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "A class can implement several interfaces (but inherit only one class).", "es": "Una clase puede implementar varias interfaces (pero heredar solo una clase)." },
+              "answerIndex": 1,
+              "explanation": { "en": "True — single inheritance for classes, but as many interface contracts as you like.", "es": "Verdadero: herencia única para clases, pero tantos contratos de interfaz como quieras." },
+              "hints": [ { "en": "One parent, many promises.", "es": "Un padre, muchas promesas." } ]
+            },
+            {
+              "id": "w3-l13e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": { "en": "Polymorphism means...", "es": "Polimorfismo significa..." },
+              "options": [
+                { "en": "many forms — one call, different behaviors per object", "es": "muchas formas: una llamada, distintos comportamientos por objeto" },
+                { "en": "writing code in several languages", "es": "escribir código en varios lenguajes" },
+                { "en": "having many constructors", "es": "tener muchos constructores" },
+                { "en": "classes that cannot be inherited", "es": "clases que no pueden heredarse" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Poly (many) + morph (forms): the same contract, many shapes of behavior.", "es": "Poly (muchas) + morph (formas): el mismo contrato, muchas formas de comportamiento." },
+              "hints": [ { "en": "Translate the Greek.", "es": "Traduce el griego." } ]
+            },
+            {
+              "id": "w3-l13e3",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match the keyword to what it delivers:", "es": "Relaciona la palabra clave con lo que aporta:" },
+              "pairs": [
+                { "left": { "en": "interface", "es": "interface" }, "right": { "en": "a pure contract", "es": "un contrato puro" } },
+                { "left": { "en": "virtual", "es": "virtual" }, "right": { "en": "permission to override", "es": "permiso para sobreescribir" } },
+                { "left": { "en": "override", "es": "override" }, "right": { "en": "a new version of a virtual method", "es": "una nueva versión de un método virtual" } },
+                { "left": { "en": "base", "es": "base" }, "right": { "en": "access to the parent's version", "es": "acceso a la versión del padre" } }
+              ],
+              "explanation": { "en": "Four keywords, one flexible system.", "es": "Cuatro palabras clave, un sistema flexible." },
+              "hints": [ { "en": "base = parent.", "es": "base = padre." } ]
+            },
+            {
+              "id": "w3-l13e4",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": { "en": "Complete the class signing TWO contracts:", "es": "Completa la clase que firma DOS contratos:" },
+              "code": "class Drone : IFlyable, ___\n{\n    ...\n}",
+              "blanks": [ { "answer": "IHoverable", "caseSensitive": true } ],
+              "explanation": { "en": "Interfaces are comma-separated after the colon.", "es": "Las interfaces se separan con comas tras los dos puntos." },
+              "hints": [ { "en": "Another I-name: it hovers.", "es": "Otro nombre con I: se mantiene suspendido." } ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u5",
+      "title": { "en": "Static, Generics & Boss", "es": "Static, genéricos y Jefe" },
+      "lessons": [
+        {
+          "id": "w3-l14-static",
+          "kind": "lesson",
+          "title": { "en": "static: Belongs to the Class", "es": "static: pertenece a la clase" },
+          "tip": { "en": "A static member belongs to the CLASS, not to any object: Math.Round needs no Math instance. Perfect for shared counters and helpers.", "es": "Un miembro static pertenece a la CLASE, no a un objeto: Math.Round no necesita instancia. Perfecto para contadores compartidos y utilidades." },
+          "exercises": [
+            {
+              "id": "w3-l14e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "new Robot();\nnew Robot();\nConsole.WriteLine(Robot.Count);\n\nclass Robot\n{\n    public static int Count;\n    public Robot() => Count++;\n}",
+              "options": [
+                { "en": "2", "es": "2" },
+                { "en": "1", "es": "1" },
+                { "en": "0", "es": "0" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "One shared Count for ALL robots — every constructor bumps the same number.", "es": "Un solo Count compartido por TODOS los robots: cada constructor aumenta el mismo número." },
+              "hints": [ { "en": "How many counters exist?", "es": "¿Cuántos contadores existen?" } ]
+            },
+            {
+              "id": "w3-l14e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "How do you call Math.Round(3.7)?", "es": "¿Cómo llamas a Math.Round(3.7)?" },
+              "options": [
+                { "en": "Directly on the class — it's static", "es": "Directamente en la clase: es static" },
+                { "en": "new Math().Round(3.7)", "es": "new Math().Round(3.7)" },
+                { "en": "Math.Instance.Round(3.7)", "es": "Math.Instance.Round(3.7)" },
+                { "en": "It cannot be called", "es": "No se puede llamar" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Static members are reached via the class name — no object needed. (You can't even `new Math()`.)", "es": "Los static se acceden por el nombre de la clase, sin objeto. (Ni siquiera puedes hacer new Math().)" },
+              "hints": [ { "en": "You've been doing it since World 1!", "es": "¡Lo haces desde el Mundo 1!" } ]
+            },
+            {
+              "id": "w3-l14e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": { "en": "A static method can use the instance's fields directly.", "es": "Un método static puede usar directamente los campos de la instancia." },
+              "answerIndex": 0,
+              "explanation": { "en": "False — static lives on the class; there is no 'this' object to read from.", "es": "Falso: static vive en la clase; no hay ningún 'this' de donde leer." },
+              "hints": [ { "en": "Which instance would it even pick?", "es": "¿Qué instancia elegiría?" } ]
+            },
+            {
+              "id": "w3-l14e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Give GameMath a static method Average(int a, int b) and print GameMath.Average(5, 10).", "es": "Dale a GameMath un static Average(int a, int b) y muestra GameMath.Average(5, 10)." },
+              "starter": "// static helper class + call\n",
+              "tests": [ { "name": "average is 7.5", "expectedOutput": "7.5", "match": "exact" } ],
+              "explanation": { "en": "Static helpers are the toolbox every class can share.", "es": "Los helpers static son la caja de herramientas que todas las clases comparten." },
+              "hints": [
+                { "en": "public static double Average(int a, int b) => (a + b) / 2.0;", "es": "public static double Average(int a, int b) => (a + b) / 2.0;" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w3-l15-generics",
+          "kind": "lesson",
+          "title": { "en": "Generics: Type Placeholders", "es": "Genéricos: marcadores de tipo" },
+          "tip": { "en": "List<T> works for ANY T — that's a generic. The <T> is a placeholder the caller fills in: List<int>, List<Cat>, List<string>...", "es": "List<T> funciona con cualquier T: es un genérico. El <T> es un marcador que quien llama rellena: List<int>, List<Cat>, List<string>..." },
+          "exercises": [
+            {
+              "id": "w3-l15e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "What does the <T> in List<T> mean?", "es": "¿Qué significa el <T> en List<T>?" },
+              "options": [
+                { "en": "A type placeholder — you choose the real type", "es": "Un marcador de tipo: tú eliges el tipo real" },
+                { "en": "A timing parameter", "es": "Un parámetro de tiempo" },
+                { "en": "The list is always strings", "es": "La lista siempre es de strings" },
+                { "en": "T for 'template class'", "es": "T de 'template class'" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "One list blueprint, infinite typed lists — compile-time safe, no casting.", "es": "Un plano de lista, infinitas listas tipadas: seguro en compilación y sin casts." },
+              "hints": [ { "en": "You fill in the blank: List<___>.", "es": "Rellena el hueco: List<___>." } ]
+            },
+            {
+              "id": "w3-l15e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Write a generic Box<T> with a Value property; store 42 in a Box<int> and print it.", "es": "Escribe una Box<T> genérica con propiedad Value; guarda 42 en una Box<int> y muéstralo." },
+              "starter": "// class Box<T> { ... } — then new Box<int>\n",
+              "tests": [ { "name": "box holds 42", "expectedOutput": "42", "match": "exact" } ],
+              "explanation": { "en": "Your first generic type! One class, works with every type ever.", "es": "¡Tu primer tipo genérico! Una clase que funciona con cualquier tipo." },
+              "hints": [
+                { "en": "class Box<T> { public T Value { get; set; } } — then var b = new Box<int> { Value = 42 };", "es": "class Box<T> { public T Value { get; set; } } — luego var b = new Box<int> { Value = 42 };" }
+              ]
+            },
+            {
+              "id": "w3-l15e3",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": { "en": "This box was made for strings but holds a number — it should not even compile. Fix the usage so it stores \"gem\".", "es": "Esta caja era de strings pero guarda un número: ni siquiera debería compilar. Arregla el uso para que guarde \"gem\"." },
+              "starter": "var box = new Box<int>();\nbox.Value = \"gem\";\nConsole.WriteLine(box.Value);\n\nclass Box<T>\n{\n    public T Value { get; set; } = default!;\n}",
+              "tests": [ { "name": "stores gem", "expectedOutput": "gem", "match": "exact" } ],
+              "explanation": { "en": "Generics are type-safe: Box<int> refuses strings at COMPILE time, not at 3 AM in production.", "es": "Los genéricos son seguros: Box<int> rechaza strings en COMPILACIÓN, no a las 3 AM en producción." },
+              "hints": [ { "en": "Change the generic argument, not the value.", "es": "Cambia el argumento genérico, no el valor." } ]
+            },
+            {
+              "id": "w3-l15e4",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match the collection to its ideal use:", "es": "Relaciona la colección con su uso ideal:" },
+              "pairs": [
+                { "left": { "en": "List<Player>", "es": "List<Player>" }, "right": { "en": "ordered party members", "es": "miembros ordenados del grupo" } },
+                { "left": { "en": "Dictionary<string, Player>", "es": "Dictionary<string, Player>" }, "right": { "en": "find player by name instantly", "es": "encontrar jugador por nombre al instante" } },
+                { "left": { "en": "HashSet<int>", "es": "HashSet<int>" }, "right": { "en": "unique loot ids", "es": "ids de botín únicos" } },
+                { "left": { "en": "Box<T>", "es": "Box<T>" }, "right": { "en": "a generic container of any type", "es": "un contenedor genérico de cualquier tipo" } }
+              ],
+              "explanation": { "en": "Right collection, right job — now with generics in your toolkit.", "es": "Colección correcta, trabajo correcto, ahora con genéricos." },
+              "hints": [ { "en": "Dictionary = lookup; HashSet = unique.", "es": "Dictionary = búsqueda; HashSet = único." } ]
+            }
+          ]
+        },
+        {
+          "id": "w3-l16-quiz5",
+          "kind": "quiz",
+          "title": { "en": "Unit 5 Quiz", "es": "Examen de la unidad 5" },
+          "tip": { "en": "Last quiz of the OOP world — static and generics!", "es": "¡Último examen del mundo OOP: static y genéricos!" },
+          "exercises": [
+            {
+              "id": "w3-l16e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": { "en": "Where does a static field live?", "es": "¿Dónde vive un campo static?" },
+              "options": [
+                { "en": "On the class itself — shared by all objects", "es": "En la clase misma: compartido por todos los objetos" },
+                { "en": "Inside each object", "es": "Dentro de cada objeto" },
+                { "en": "On the stack only", "es": "Solo en el stack" },
+                { "en": "In the database", "es": "En la base de datos" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "One copy per class — that's why it works as a shared counter.", "es": "Una copia por clase: por eso funciona como contador compartido." },
+              "hints": [ { "en": "How many copies?", "es": "¿Cuántas copias?" } ]
+            },
+            {
+              "id": "w3-l16e2",
+              "type": "output",
+              "xp": 12,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var b = new Box<string>();\nb.Value = \"loot\";\nConsole.WriteLine(b.Value.Length);\n\nclass Box<T>\n{\n    public T Value { get; set; } = default!;\n}",
+              "options": [
+                { "en": "4", "es": "4" },
+                { "en": "loot", "es": "loot" },
+                { "en": "It does not compile — T has no Length", "es": "No compila: T no tiene Length" },
+                { "en": "0", "es": "0" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "With T fixed to string, b.Value IS a string — full string powers apply.", "es": "Con T fijado a string, b.Value ES un string: con todos sus poderes." },
+              "hints": [ { "en": "How many letters does \"loot\" have?", "es": "¿Cuántas letras tiene \"loot\"?" } ]
+            },
+            {
+              "id": "w3-l16e3",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": { "en": "Complete the static call:", "es": "Completa la llamada static:" },
+              "code": "double root = Math.___(16);",
+              "blanks": [ { "answer": "Sqrt", "caseSensitive": true } ],
+              "explanation": { "en": "Math is one big static toolbox — no instances, just call.", "es": "Math es una gran caja static: sin instancias, solo llamar." },
+              "hints": [ { "en": "You met it in world 1: square root.", "es": "Lo viste en el mundo 1: raíz cuadrada." } ]
+            },
+            {
+              "id": "w3-l16e4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "Generics catch type mistakes while you compile, not while users run.", "es": "Los genéricos atrapan errores de tipo al compilar, no cuando el usuario ejecuta." },
+              "answerIndex": 1,
+              "explanation": { "en": "True — that's their superpower: mistakes die at build time.", "es": "Verdadero: ese es su superpoder, los errores mueren al compilar." },
+              "hints": [ { "en": "Compile time or runtime?", "es": "¿Tiempo de compilación o de ejecución?" } ]
+            }
+          ]
+        },
+        {
+          "id": "w3-l17-boss",
+          "kind": "boss",
+          "title": { "en": "BOSS: The Shapeshifter", "es": "JEFE: El Metamorfo" },
+          "tip": { "en": "Classes, inheritance, interfaces, polymorphism — the Shapeshifter wears all forms. Defeat it and you are an object master! 🧬", "es": "Clases, herencia, interfaces, polimorfismo: el Metamorfo usa todas las formas. ¡Vénceanlo y serás un maestro de objetos! 🧬" },
+          "exercises": [
+            {
+              "id": "w3-l17e1",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Trial 1: build Character(Name, Hp=100) with TakeDamage reducing HP (min 0) and a constructor. Create \"Hero\", hit for 30, print \"Hero:70\".", "es": "Prueba 1: construye Character(Name, Hp=100) con TakeDamage que reduzca HP (mín 0) y un constructor. Crea \"Hero\", golpea con 30 y muestra \"Hero:70\"." },
+              "starter": "// class Character with constructor + TakeDamage\n",
+              "tests": [ { "name": "hero takes damage", "expectedOutput": "Hero:70", "match": "exact" } ],
+              "explanation": { "en": "Constructor + state + behavior: the full basic object.", "es": "Constructor + estado + comportamiento: el objeto básico completo." },
+              "hints": [
+                { "en": "Hp = Math.Max(0, Hp - dmg); then print $\"{c.Name}:{c.Hp}\".", "es": "Hp = Math.Max(0, Hp - dmg); luego muestra $\"{c.Name}:{c.Hp}\"." }
+              ]
+            },
+            {
+              "id": "w3-l17e2",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Trial 2: make Mage : Character whose TakeDamage is HALVED (override). Hit a \"Gandalf\" (Mage) for 40 and print \"Gandalf:80\".", "es": "Prueba 2: haz Mage : Character cuyo TakeDamage se reduzca a la MITAD (override). Golpea a \"Gandalf\" (Mage) con 40 y muestra \"Gandalf:80\"." },
+              "starter": "// virtual in Character, override in Mage\n",
+              "tests": [ { "name": "mage resists", "expectedOutput": "Gandalf:80", "match": "exact" } ],
+              "explanation": { "en": "The subclass twists inherited behavior — half damage, all style.", "es": "La subclase retuerce el comportamiento heredado: medio daño, todo el estilo." },
+              "hints": [
+                { "en": "Make Character.TakeDamage virtual; in Mage: Hp = Math.Max(0, Hp - dmg / 2);", "es": "Haz virtual Character.TakeDamage; en Mage: Hp = Math.Max(0, Hp - dmg / 2);" }
+              ]
+            },
+            {
+              "id": "w3-l17e3",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Trial 3: define interface IHealer with Heal(Character target). Create Priest : Character implementing it (+50 Hp, capped 100). Heal a 70-Hp character and print 100... wait — print the healed character's Hp.", "es": "Prueba 3: define la interfaz IHealer con Heal(Character target). Crea Priest : Character que la implemente (+50 Hp, tope 100). Cura un personaje con 70 de vida y muestra su Hp." },
+              "starter": "// interface + implementing class + call through interface\n",
+              "tests": [ { "name": "heals to cap", "expectedOutput": "100", "match": "exact" } ],
+              "explanation": { "en": "The healer depends on the Character contract, not on any concrete hero.", "es": "El sanador depende del contrato Character, no de un héroe concreto." },
+              "hints": [
+                { "en": "target.Hp = Math.Min(100, target.Hp + 50); call via IHealer h = new Priest(...);", "es": "target.Hp = Math.Min(100, target.Hp + 50); llama con IHealer h = new Priest(...);" }
+              ]
+            },
+            {
+              "id": "w3-l17e4",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Final trial: a List<Character> with a Character(\"Hero\",100) and a Mage(\"Gandalf\",100). Hit BOTH through the list with 40 damage and print each \"name:hp\".", "es": "Prueba final: una List<Character> con Character(\"Hero\",100) y Mage(\"Gandalf\",100). Golpea a AMBOS con 40 desde la lista y muestra cada \"nombre:hp\"." },
+              "starter": "// polymorphic list — each takes its own damage\n",
+              "tests": [ { "name": "polymorphic damage", "expectedOutput": "Hero:60\nGandalf:80", "match": "exact" } ],
+              "explanation": { "en": "One list, one loop, two behaviors. The Shapeshifter bows — you have mastered objects! 🧬🏆", "es": "Una lista, un bucle, dos comportamientos. El Metamorfo se inclina: ¡dominaste los objetos! 🧬🏆" },
+              "hints": [
+                { "en": "foreach (Character c in party) { c.TakeDamage(40); Console.WriteLine($\"{c.Name}:{c.Hp}\"); }", "es": "foreach (Character c in party) { c.TakeDamage(40); Console.WriteLine($\"{c.Name}:{c.Hp}\"); }" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

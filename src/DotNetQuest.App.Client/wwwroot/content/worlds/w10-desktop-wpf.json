@@ -1,0 +1,2396 @@
+{
+  "id": "w10-desktop-wpf",
+  "order": 10,
+  "track": "windows",
+  "title": {
+    "en": "WPF & Windows Desktop",
+    "es": "WPF y escritorio Windows"
+  },
+  "subtitle": {
+    "en": "XAML, data binding, MVVM — how real Windows desktop apps are built",
+    "es": "XAML, data binding, MVVM: cómo se construyen las apps de escritorio de Windows"
+  },
+  "intro": {
+    "en": "WPF builds Windows desktop apps with XAML screens and C# brains. This world teaches the architecture — ViewModels included, runnable right here.",
+    "es": "WPF construye apps de escritorio Windows con pantallas XAML y cerebros C#. Este mundo enseña la arquitectura, con ViewModels que puedes ejecutar aquí mismo."
+  },
+  "icon": "🪟",
+  "color": "#0ea5e9",
+  "cheatSheet": [
+    {
+      "title": {
+        "en": "XAML anatomy",
+        "es": "Anatomía XAML"
+      },
+      "items": [
+        {
+          "en": "<Button Content=\"Save\" Click=\"OnSave\" />",
+          "es": "<Button Content=\"Save\" Click=\"OnSave\" />"
+        },
+        {
+          "en": "<TextBlock Text=\"{Binding Nickname}\" />",
+          "es": "<TextBlock Text=\"{Binding Nickname}\" />"
+        },
+        {
+          "en": "Grid rows/columns, StackPanel stacks, Margin spaces",
+          "es": "Grid filas/columnas, StackPanel apila, Margin da aire"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Data binding",
+        "es": "Data binding"
+      },
+      "items": [
+        {
+          "en": "{Binding PropertyName} — UI reads the ViewModel",
+          "es": "{Binding PropertyName} — la UI lee del ViewModel"
+        },
+        {
+          "en": "Mode=OneWay (UI reads) · TwoWay (read+write) · OneTime",
+          "es": "Mode=OneWay (lee) · TwoWay (lee y escribe) · OneTime"
+        },
+        {
+          "en": "INotifyPropertyChanged tells the UI values changed",
+          "es": "INotifyPropertyChanged avisa a la UI de los cambios"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "MVVM",
+        "es": "MVVM"
+      },
+      "items": [
+        {
+          "en": "View = XAML screen · ViewModel = state + logic · Model = data",
+          "es": "View = pantalla XAML · ViewModel = estado y lógica · Model = datos"
+        },
+        {
+          "en": "ICommand = button actions without code-behind",
+          "es": "ICommand = acciones de botones sin code-behind"
+        },
+        {
+          "en": "ViewModels are testable — no window needed!",
+          "es": "Los ViewModels son testeables: ¡sin ventana!"
+        }
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "u1",
+      "title": {
+        "en": "WPF & XAML",
+        "es": "WPF y XAML"
+      },
+      "lessons": [
+        {
+          "id": "w10-l01-what",
+          "kind": "lesson",
+          "title": {
+            "en": "What is WPF?",
+            "es": "¿Qué es WPF?"
+          },
+          "tip": {
+            "en": "WPF (Windows Presentation Foundation) builds Windows desktop apps: pixel-perfect UI declared in XAML, logic written in C#. Visual Studio, Teams and this very game's spirit live in XAML-land.",
+            "es": "WPF (Windows Presentation Foundation) crea apps de escritorio: UI perfecta declarada en XAML y lógica en C#. Visual Studio y gran parte de Windows viven en tierra de XAML."
+          },
+          "exercises": [
+            {
+              "id": "w10-l01e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What language describes WPF screens?",
+                "es": "¿Qué lenguaje describe las pantallas de WPF?"
+              },
+              "options": [
+                {
+                  "en": "XAML — declarative XML for UI",
+                  "es": "XAML: XML declarativo para UI"
+                },
+                {
+                  "en": "HTML",
+                  "es": "HTML"
+                },
+                {
+                  "en": "JSON",
+                  "es": "JSON"
+                },
+                {
+                  "en": "SQL",
+                  "es": "SQL"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "XAML (eXtensible Application Markup Language) declares buttons, grids and bindings; C# supplies behavior.",
+                "es": "XAML declara botones, grids y bindings; C# aporta el comportamiento."
+              },
+              "hints": [
+                {
+                  "en": "XML-flavored UI markup.",
+                  "es": "Marcado de UI con sabor XML."
+                }
+              ]
+            },
+            {
+              "id": "w10-l01e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match each desktop framework to its platform:",
+                "es": "Relaciona cada framework con su plataforma:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "WPF",
+                    "es": "WPF"
+                  },
+                  "right": {
+                    "en": "Windows only",
+                    "es": "solo Windows"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "MAUI",
+                    "es": "MAUI"
+                  },
+                  "right": {
+                    "en": "Windows, Android, iOS, macOS",
+                    "es": "Windows, Android, iOS, macOS"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "WinForms",
+                    "es": "WinForms"
+                  },
+                  "right": {
+                    "en": "classic Windows, drag-and-drop era",
+                    "es": "Windows clásico, era del arrastrar y soltar"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Blazor",
+                    "es": "Blazor"
+                  },
+                  "right": {
+                    "en": "the browser",
+                    "es": "el navegador"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Pick the framework by where your users are.",
+                "es": "Elige el framework según dónde estén tus usuarios."
+              },
+              "hints": [
+                {
+                  "en": "MAUI = the multi-platform one.",
+                  "es": "MAUI = la multiplataforma."
+                }
+              ]
+            },
+            {
+              "id": "w10-l01e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "In WPF, the UI (XAML) and the logic (C#) can be kept fully separate.",
+                "es": "En WPF, la UI (XAML) y la lógica (C#) pueden mantenerse totalmente separadas."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — that separation (MVVM) is WPF's superpower and this world's main lesson.",
+                "es": "Verdadero: esa separación (MVVM) es el superpoder de WPF y la lección central de este mundo."
+              },
+              "hints": [
+                {
+                  "en": "It's the whole point of the architecture.",
+                  "es": "Es el objetivo de la arquitectura."
+                }
+              ]
+            },
+            {
+              "id": "w10-l01e4",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What does XAML stand for?",
+                "es": "¿Qué significa XAML?"
+              },
+              "options": [
+                {
+                  "en": "eXtensible Application Markup Language",
+                  "es": "eXtensible Application Markup Language"
+                },
+                {
+                  "en": "XML Applied Machine Learning",
+                  "es": "XML Applied Machine Learning"
+                },
+                {
+                  "en": "Xbox And Microsoft Layout",
+                  "es": "Xbox And Microsoft Layout"
+                },
+                {
+                  "en": "Nothing — it's a made-up word",
+                  "es": "Nada: es una palabra inventada"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Pronounced 'zamal' — the Z is worth it.",
+                "es": "Se pronuncia 'zamal': la Z vale la pena."
+              },
+              "hints": [
+                {
+                  "en": "Markup language for applications.",
+                  "es": "Lenguaje de marcado para aplicaciones."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w10-l02-xaml",
+          "kind": "lesson",
+          "title": {
+            "en": "Reading XAML",
+            "es": "Leer XAML"
+          },
+          "tip": {
+            "en": "XAML is just XML with superpowers: elements are controls, attributes set properties. <Button Content=\"Save\"/> IS a button that says Save.",
+            "es": "XAML es XML con superpoderes: los elementos son controles y los atributos, propiedades. <Button Content=\"Save\"/> ES un botón que dice Save."
+          },
+          "exercises": [
+            {
+              "id": "w10-l02e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What does <TextBlock Text=\"Hello\" /> display?",
+                "es": "¿Qué muestra <TextBlock Text=\"Hello\" />?"
+              },
+              "options": [
+                {
+                  "en": "The text Hello",
+                  "es": "El texto Hello"
+                },
+                {
+                  "en": "A button labeled Hello",
+                  "es": "Un botón llamado Hello"
+                },
+                {
+                  "en": "Nothing — TextBlock is invisible",
+                  "es": "Nada: TextBlock es invisible"
+                },
+                {
+                  "en": "An image",
+                  "es": "Una imagen"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "TextBlock = a text display control. Button = clickable. Label = for forms.",
+                "es": "TextBlock = control de texto. Button = clicable. Label = para formularios."
+              },
+              "hints": [
+                {
+                  "en": "The name says it: text block.",
+                  "es": "El nombre lo dice: bloque de texto."
+                }
+              ]
+            },
+            {
+              "id": "w10-l02e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match each panel to its layout behavior:",
+                "es": "Relaciona cada panel con su comportamiento:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "StackPanel",
+                    "es": "StackPanel"
+                  },
+                  "right": {
+                    "en": "stacks children in a row/column",
+                    "es": "apila hijos en fila o columna"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Grid",
+                    "es": "Grid"
+                  },
+                  "right": {
+                    "en": "rows and columns like a table",
+                    "es": "filas y columnas como una tabla"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "WrapPanel",
+                    "es": "WrapPanel"
+                  },
+                  "right": {
+                    "en": "flows and wraps to next line",
+                    "es": "fluye y salta de línea"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "DockPanel",
+                    "es": "DockPanel"
+                  },
+                  "right": {
+                    "en": "pins children to edges",
+                    "es": "ancla hijos a los bordes"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Panels are the layout engine of every WPF screen.",
+                "es": "Los panels son el motor de distribución de toda pantalla WPF."
+              },
+              "hints": [
+                {
+                  "en": "Names describe behavior.",
+                  "es": "Los nombres describen el comportamiento."
+                }
+              ]
+            },
+            {
+              "id": "w10-l02e3",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": {
+                "en": "Order a minimal WPF window from outside in:",
+                "es": "Ordena una ventana WPF mínima de fuera hacia dentro:"
+              },
+              "code": "<Window>\n  <Grid>\n    <StackPanel>\n      <Button Content=\"Start\" />\n    </StackPanel>\n  </Grid>\n</Window>",
+              "explanation": {
+                "en": "Window contains layout panels; panels contain controls. Nesting all the way down.",
+                "es": "La ventana contiene panels; los panels contienen controles. Anidación hasta el fondo."
+              },
+              "hints": [
+                {
+                  "en": "Window → panel → panel → control.",
+                  "es": "Window → panel → panel → control."
+                }
+              ]
+            },
+            {
+              "id": "w10-l02e4",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the attribute that names a button:",
+                "es": "Completa el atributo que pone texto a un botón:"
+              },
+              "code": "<Button ___=\"Save game\" />",
+              "blanks": [
+                {
+                  "answer": "Content",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Content is what a Button shows — text, images, even whole layouts.",
+                "es": "Content es lo que muestra un Button: texto, imágenes, incluso layouts completos."
+              },
+              "hints": [
+                {
+                  "en": "What the button contains.",
+                  "es": "Lo que el botón contiene."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w10-l03-quiz1",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 1 Quiz",
+            "es": "Examen de la unidad 1"
+          },
+          "tip": {
+            "en": "WPF/XAML warm-up!",
+            "es": "¡Calentamiento de WPF/XAML!"
+          },
+          "exercises": [
+            {
+              "id": "w10-l03e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Which is TRUE about XAML?",
+                "es": "¿Qué es CIERTO sobre XAML?"
+              },
+              "options": [
+                {
+                  "en": "Every XAML element usually maps to a C# class",
+                  "es": "Cada elemento XAML suele corresponder a una clase C#"
+                },
+                {
+                  "en": "XAML runs on the GPU directly",
+                  "es": "XAML corre directo en la GPU"
+                },
+                {
+                  "en": "XAML can only describe buttons",
+                  "es": "XAML solo describe botones"
+                },
+                {
+                  "en": "XAML replaces C# entirely",
+                  "es": "XAML reemplaza por completo a C#"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "<Button/> in XAML instantiates the Button class in C# — two views of the same objects.",
+                "es": "<Button/> en XAML instancia la clase Button de C#: dos vistas de los mismos objetos."
+              },
+              "hints": [
+                {
+                  "en": "XAML and C# describe the same object tree.",
+                  "es": "XAML y C# describen el mismo árbol de objetos."
+                }
+              ]
+            },
+            {
+              "id": "w10-l03e2",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the panel for table-like layouts:",
+                "es": "Completa el panel para diseños tipo tabla:"
+              },
+              "code": "<___>\n  <Grid.RowDefinitions>...</Grid.RowDefinitions>\n</___>",
+              "blanks": [
+                {
+                  "answer": "Grid",
+                  "caseSensitive": true
+                },
+                {
+                  "answer": "Grid",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Grid = rows × columns, the precision layout panel.",
+                "es": "Grid = filas × columnas, el panel de precisión."
+              },
+              "hints": [
+                {
+                  "en": "Four letters.",
+                  "es": "Cuatro letras."
+                }
+              ]
+            },
+            {
+              "id": "w10-l03e3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "A game wants its menu buttons stacked vertically. Which panel?",
+                "es": "Un juego quiere sus botones de menú apilados verticalmente. ¿Qué panel?"
+              },
+              "options": [
+                {
+                  "en": "StackPanel with Orientation=\"Vertical\"",
+                  "es": "StackPanel con Orientation=\"Vertical\""
+                },
+                {
+                  "en": "WrapPanel",
+                  "es": "WrapPanel"
+                },
+                {
+                  "en": "DockPanel",
+                  "es": "DockPanel"
+                },
+                {
+                  "en": "Canvas",
+                  "es": "Canvas"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "StackPanel is the natural menu host — vertical by default!",
+                "es": "StackPanel es el anfitrión natural de menús (¡vertical por defecto!)."
+              },
+              "hints": [
+                {
+                  "en": "Stacking = the name says it.",
+                  "es": "Apilar = el nombre lo dice."
+                }
+              ]
+            },
+            {
+              "id": "w10-l03e4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "XAML attribute values are always plain strings in the file.",
+                "es": "Los valores de atributos XAML siempre son strings en el archivo."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True in the FILE — but the XAML parser converts them to real types (Width=\"200\" becomes a double).",
+                "es": "Verdadero en el ARCHIVO, pero el parser los convierte a tipos reales (Width=\"200\" se vuelve double)."
+              },
+              "hints": [
+                {
+                  "en": "Text file → typed objects.",
+                  "es": "Archivo de texto → objetos tipados."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": {
+        "en": "Data Binding",
+        "es": "Data binding"
+      },
+      "lessons": [
+        {
+          "id": "w10-l04-binding",
+          "kind": "lesson",
+          "title": {
+            "en": "{Binding}: The Magic Glue",
+            "es": "{Binding}: el pegamento mágico"
+          },
+          "tip": {
+            "en": "{Binding Nickname} connects a control to a ViewModel property — UI reflects data automatically. No manual textbox updates, ever.",
+            "es": "{Binding Nickname} conecta un control a una propiedad del ViewModel: la UI refleja los datos sola. Nunca más actualices textboxes a mano."
+          },
+          "exercises": [
+            {
+              "id": "w10-l04e1",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the binding to the ViewModel's Score:",
+                "es": "Completa el binding al Score del ViewModel:"
+              },
+              "code": "<TextBlock Text=\"{Binding ___}\" />",
+              "blanks": [
+                {
+                  "answer": "Score",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "The path inside {Binding } names the property on your ViewModel.",
+                "es": "La ruta dentro de {Binding } nombra la propiedad de tu ViewModel."
+              },
+              "hints": [
+                {
+                  "en": "The property name from the ViewModel.",
+                  "es": "El nombre de la propiedad del ViewModel."
+                }
+              ]
+            },
+            {
+              "id": "w10-l04e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the binding mode to its direction:",
+                "es": "Relaciona el modo de binding con su dirección:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "OneWay",
+                    "es": "OneWay"
+                  },
+                  "right": {
+                    "en": "ViewModel → UI only",
+                    "es": "ViewModel → UI solamente"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "TwoWay",
+                    "es": "TwoWay"
+                  },
+                  "right": {
+                    "en": "ViewModel ↔ UI (edits flow back)",
+                    "es": "ViewModel ↔ UI (las ediciones regresan)"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "OneTime",
+                    "es": "OneTime"
+                  },
+                  "right": {
+                    "en": "read once, never updates",
+                    "es": "lee una vez, nunca actualiza"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "OneWayToSource",
+                    "es": "OneWayToSource"
+                  },
+                  "right": {
+                    "en": "UI → ViewModel only",
+                    "es": "UI → ViewModel solamente"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Direction = who can push changes through the binding.",
+                "es": "La dirección = quién puede empujar cambios por el binding."
+              },
+              "hints": [
+                {
+                  "en": "TwoWay for editable textboxes.",
+                  "es": "TwoWay para cajas de texto editables."
+                }
+              ]
+            },
+            {
+              "id": "w10-l04e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which control MOST needs TwoWay binding?",
+                "es": "¿Qué control MÁS necesita binding TwoWay?"
+              },
+              "options": [
+                {
+                  "en": "A TextBox where the user types their name",
+                  "es": "Un TextBox donde el usuario escribe su nombre"
+                },
+                {
+                  "en": "A label showing the current score",
+                  "es": "Una etiqueta que muestra el score"
+                },
+                {
+                  "en": "A decorative image",
+                  "es": "Una imagen decorativa"
+                },
+                {
+                  "en": "A progress bar",
+                  "es": "Una barra de progreso"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Typed input must flow back INTO the ViewModel — that's TwoWay territory.",
+                "es": "El texto tecleado debe volver AL ViewModel: territorio TwoWay."
+              },
+              "hints": [
+                {
+                  "en": "Where does data flow both ways?",
+                  "es": "¿Dónde fluyen los datos en ambas direcciones?"
+                }
+              ]
+            },
+            {
+              "id": "w10-l04e4",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": {
+                "en": "This binding should show the player's name but shows nothing. Spot the property mismatch!",
+                "es": "Este binding debería mostrar el nombre pero no muestra nada. ¡Encuentra el desajuste de propiedad!"
+              },
+              "starter": "<TextBlock Text=\"{Binding PlayerName}\" />\n<!-- ViewModel has: public string Nickname { get; set; } -->",
+              "tests": [
+                {
+                  "name": "spot the fix",
+                  "expectedOutput": "Nickname",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Binding paths are case-sensitive AND name-sensitive: PlayerName ≠ Nickname.",
+                "es": "Las rutas de binding distinguen mayúsculas y nombres: PlayerName ≠ Nickname."
+              },
+              "hints": [
+                {
+                  "en": "What is the property actually called?",
+                  "es": "¿Cómo se llama realmente la propiedad?"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w10-l05-inotify",
+          "kind": "lesson",
+          "title": {
+            "en": "INotifyPropertyChanged (Runnable!)",
+            "es": "INotifyPropertyChanged (¡ejecutable!)"
+          },
+          "tip": {
+            "en": "Bindings update only when the ViewModel ANNOUNCES changes via INotifyPropertyChanged. The interface lives in System.ComponentModel — and you can run it right here.",
+            "es": "Los bindings solo se actualizan si el ViewModel ANUNCIA los cambios vía INotifyPropertyChanged. La interfaz vive en System.ComponentModel y puedes ejecutarla aquí mismo."
+          },
+          "exercises": [
+            {
+              "id": "w10-l05e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Why does the UI need PropertyChanged events?",
+                "es": "¿Por qué la UI necesita eventos PropertyChanged?"
+              },
+              "options": [
+                {
+                  "en": "Without a notification, the UI has no idea a value changed",
+                  "es": "Sin notificación, la UI no se entera de que un valor cambió"
+                },
+                {
+                  "en": "It's only needed for buttons",
+                  "es": "Solo se necesita para botones"
+                },
+                {
+                  "en": "It makes the app slower on purpose",
+                  "es": "Vuelve la app lenta a propósito"
+                },
+                {
+                  "en": "WPF reads your mind otherwise",
+                  "es": "Si no, WPF lee tu mente"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Push, don't poll: the ViewModel raises PropertyChanged, the binding refreshes that one control.",
+                "es": "Empuja, no sondees: el ViewModel lanza PropertyChanged y el binding refresca ese control."
+              },
+              "hints": [
+                {
+                  "en": "Notifications over mind-reading.",
+                  "es": "Notificaciones en vez de adivinación."
+                }
+              ]
+            },
+            {
+              "id": "w10-l05e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: implement a ViewModel whose Score property raises PropertyChanged with the name \"Score\". Subscribe a handler counting events, set Score twice, print the count (2).",
+                "es": "EJECUTABLE: implementa un ViewModel cuyo Score lance PropertyChanged con el nombre \"Score\". Suscribe un contador de eventos, asigna Score dos veces y muestra el conteo (2)."
+              },
+              "starter": "using System.ComponentModel;\n\n// class Vm : INotifyPropertyChanged with Score property\n// subscribe PropertyChanged, set Score twice, print count\n",
+              "tests": [
+                {
+                  "name": "two notifications",
+                  "expectedOutput": "2",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "You just built real WPF ViewModel machinery — no window required. This is exactly what unit tests do.",
+                "es": "Acabas de construir maquinaria real de ViewModel WPF, sin ventana. Esto es justo lo que hacen las pruebas unitarias."
+              },
+              "hints": [
+                {
+                  "en": "public event PropertyChangedEventHandler? PropertyChanged; raise it with new PropertyChangedEventArgs(\"Score\").",
+                  "es": "public event PropertyChangedEventHandler? PropertyChanged; lánzalo con new PropertyChangedEventArgs(\"Score\")."
+                }
+              ]
+            },
+            {
+              "id": "w10-l05e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the event args carrying the changed property's name:",
+                "es": "Completa los args del evento con el nombre de la propiedad cambiada:"
+              },
+              "code": "PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(\"___\"));",
+              "blanks": [
+                {
+                  "answer": "Score",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "The name tells the binding WHICH control to refresh.",
+                "es": "El nombre le dice al binding QUÉ control refrescar."
+              },
+              "hints": [
+                {
+                  "en": "The property that changed.",
+                  "es": "La propiedad que cambió."
+                }
+              ]
+            },
+            {
+              "id": "w10-l05e4",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "ViewModel logic can be unit-tested without opening a single window.",
+                "es": "La lógica del ViewModel puede probarse unitariamente sin abrir una sola ventana."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — that's MVVM's gift: your game logic runs in plain tests (exactly like this exercise).",
+                "es": "Verdadero: ese es el regalo de MVVM: tu lógica corre en pruebas simples (como este ejercicio)."
+              },
+              "hints": [
+                {
+                  "en": "Did this exercise need a window?",
+                  "es": "¿Necesitó este ejercicio una ventana?"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w10-l06-quiz2",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 2 Quiz",
+            "es": "Examen de la unidad 2"
+          },
+          "tip": {
+            "en": "Binding check!",
+            "es": "¡Control de binding!"
+          },
+          "exercises": [
+            {
+              "id": "w10-l06e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "UI shows stale data after the ViewModel changes. Most likely cause?",
+                "es": "La UI muestra datos viejos tras cambiar el ViewModel. ¿Causa más probable?"
+              },
+              "options": [
+                {
+                  "en": "PropertyChanged wasn't raised for that property",
+                  "es": "No se lanzó PropertyChanged para esa propiedad"
+                },
+                {
+                  "en": "The computer is too slow",
+                  "es": "La computadora es muy lenta"
+                },
+                {
+                  "en": "XAML is case-insensitive",
+                  "es": "XAML no distingue mayúsculas"
+                },
+                {
+                  "en": "Bindings are broken in WPF",
+                  "es": "Los bindings están rotos en WPF"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "No event, no update. Missing PropertyChanged is THE classic WPF bug.",
+                "es": "Sin evento no hay actualización: el PropertyChanged ausente es EL bug clásico de WPF."
+              },
+              "hints": [
+                {
+                  "en": "Did the ViewModel announce it?",
+                  "es": "¿Lo anunció el ViewModel?"
+                }
+              ]
+            },
+            {
+              "id": "w10-l06e2",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the two-way binding for an editable textbox:",
+                "es": "Completa el binding bidireccional para un textbox editable:"
+              },
+              "code": "<TextBox Text=\"{Binding Nickname, Mode=___}\" />",
+              "blanks": [
+                {
+                  "answer": "TwoWay",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "TwoWay: typing flows to the ViewModel; ViewModel changes flow back.",
+                "es": "TwoWay: lo tecleado fluye al ViewModel y los cambios del ViewModel regresan."
+              },
+              "hints": [
+                {
+                  "en": "Both directions.",
+                  "es": "Ambas direcciones."
+                }
+              ]
+            },
+            {
+              "id": "w10-l06e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: extend the ViewModel: property Hp raises PropertyChanged; also compute CanRespawn => Hp <= 0. Set Hp to 0 and print CanRespawn (True).",
+                "es": "EJECUTABLE: extiende el ViewModel: Hp lanza PropertyChanged y calcula CanRespawn => Hp <= 0. Asigna Hp a 0 y muestra CanRespawn (True)."
+              },
+              "starter": "// Hp with notification + computed CanRespawn\n",
+              "tests": [
+                {
+                  "name": "can respawn",
+                  "expectedOutput": "True",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Computed properties on ViewModels keep UI logic in testable C#, not in click handlers.",
+                "es": "Las propiedades calculadas mantienen la lógica de UI en C# testeable, no en manejadores de clic."
+              },
+              "hints": [
+                {
+                  "en": "public bool CanRespawn => Hp <= 0; — print vm.CanRespawn after Hp = 0.",
+                  "es": "public bool CanRespawn => Hp <= 0; muestra vm.CanRespawn tras Hp = 0."
+                }
+              ]
+            },
+            {
+              "id": "w10-l06e4",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the UI situation to the right tool:",
+                "es": "Relaciona la situación de UI con la herramienta correcta:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "score label updates",
+                    "es": "etiqueta de score que se actualiza"
+                  },
+                  "right": {
+                    "en": "OneWay binding + PropertyChanged",
+                    "es": "binding OneWay + PropertyChanged"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "editable nickname box",
+                    "es": "caja de apodo editable"
+                  },
+                  "right": {
+                    "en": "TwoWay binding",
+                    "es": "binding TwoWay"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "button click action",
+                    "es": "acción de un botón"
+                  },
+                  "right": {
+                    "en": "ICommand binding",
+                    "es": "binding de ICommand"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "list of quest items",
+                    "es": "lista de misiones"
+                  },
+                  "right": {
+                    "en": "ItemsSource binding",
+                    "es": "binding de ItemsSource"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Every UI need has a binding-shaped answer in WPF.",
+                "es": "Cada necesidad de UI tiene una respuesta con forma de binding en WPF."
+              },
+              "hints": [
+                {
+                  "en": "Lists bind via ItemsSource.",
+                  "es": "Las listas se vinculan con ItemsSource."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w10-l05b-observable",
+          "kind": "lesson",
+          "title": {
+            "en": "ObservableCollection: Lists That Notify",
+            "es": "ObservableCollection: listas que notifican"
+          },
+          "tip": {
+            "en": "Binding a list? Use ObservableCollection<T>: adding or removing items automatically updates the UI. It's INotifyPropertyChanged for whole collections.",
+            "es": "¿Vinculas una lista? Usa ObservableCollection<T>: añadir o quitar elementos actualiza la UI solo. Es el INotifyPropertyChanged de las colecciones."
+          },
+          "exercises": [
+            {
+              "id": "w10-l05be1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "You Add() an item to a bound List<T> — the UI doesn't update. Why?",
+                "es": "Haces Add() en una List<T> vinculada y la UI no se actualiza. ¿Por qué?"
+              },
+              "options": [
+                {
+                  "en": "List<T> doesn't notify; ObservableCollection<T> does",
+                  "es": "List<T> no notifica; ObservableCollection<T> sí"
+                },
+                {
+                  "en": "The item was invalid",
+                  "es": "El elemento era inválido"
+                },
+                {
+                  "en": "Lists can't be bound at all",
+                  "es": "Las listas no se pueden vincular"
+                },
+                {
+                  "en": "You must restart the app",
+                  "es": "Debes reiniciar la app"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "ObservableCollection raises CollectionChanged; plain List stays silent.",
+                "es": "ObservableCollection lanza CollectionChanged; List calla."
+              },
+              "hints": [
+                {
+                  "en": "Which one announces changes?",
+                  "es": "¿Cuál anuncia los cambios?"
+                }
+              ]
+            },
+            {
+              "id": "w10-l05be2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: create ObservableCollection<string>, subscribe to CollectionChanged counting events, Add two items, print the count (2).",
+                "es": "EJECUTABLE: crea una ObservableCollection<string>, suscríbete a CollectionChanged contando eventos, añade dos items y muestra el conteo (2)."
+              },
+              "starter": "using System.Collections.ObjectModel;\nusing System.Collections.Specialized;\n\n// subscribe + add two + print event count\n",
+              "tests": [
+                {
+                  "name": "two collection events",
+                  "expectedOutput": "2",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Two Adds, two CollectionChanged events, two UI refreshes — automatic.",
+                "es": "Dos Adds, dos CollectionChanged, dos refrescos de UI: automático."
+              },
+              "hints": [
+                {
+                  "en": "col.CollectionChanged += (s, e) => count++; then col.Add(\"a\"); col.Add(\"b\");",
+                  "es": "col.CollectionChanged += (s, e) => count++; luego col.Add(\"a\"); col.Add(\"b\");"
+                }
+              ]
+            },
+            {
+              "id": "w10-l05be3",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the property binding a ListBox to the quests collection:",
+                "es": "Completa el binding de un ListBox a la colección de misiones:"
+              },
+              "code": "<ListBox ItemsSource=\"{Binding ___}\" />",
+              "blanks": [
+                {
+                  "answer": "Quests",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "ItemsSource takes the whole collection; item templates render each entry.",
+                "es": "ItemsSource toma toda la colección; las plantillas de item dibujan cada entrada."
+              },
+              "hints": [
+                {
+                  "en": "The collection's property name.",
+                  "es": "El nombre de la propiedad de la colección."
+                }
+              ]
+            },
+            {
+              "id": "w10-l05be4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Mutating a property OF an item inside an ObservableCollection (like item.Name = x) still needs INotifyPropertyChanged on the item class.",
+                "es": "Mutuar una propiedad DE un elemento dentro de una ObservableCollection (como item.Name = x) sigue necesitando INotifyPropertyChanged en la clase del elemento."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — the collection notifies about structure (add/remove); item changes need the item itself to notify.",
+                "es": "Verdadero: la colección notifica estructura (añadir/quitar); los cambios del elemento requieren que el elemento notifique."
+              },
+              "hints": [
+                {
+                  "en": "Two different notification layers.",
+                  "es": "Dos capas de notificación distintas."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": {
+        "en": "MVVM",
+        "es": "MVVM"
+      },
+      "lessons": [
+        {
+          "id": "w10-l07-mvvm",
+          "kind": "lesson",
+          "title": {
+            "en": "The MVVM Pattern",
+            "es": "El patrón MVVM"
+          },
+          "tip": {
+            "en": "MVVM splits apps in three: Model (data), ViewModel (state + logic), View (XAML). The View knows NOTHING about logic; the ViewModel knows NOTHING about pixels.",
+            "es": "MVVM divide las apps en tres: Model (datos), ViewModel (estado y lógica) y View (XAML). La View no sabe NADA de lógica; el ViewModel no sabe NADA de píxeles."
+          },
+          "exercises": [
+            {
+              "id": "w10-l07e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match each MVVM layer to its job:",
+                "es": "Relaciona cada capa MVVM con su trabajo:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Model",
+                    "es": "Model"
+                  },
+                  "right": {
+                    "en": "the data itself (Player, Quest)",
+                    "es": "los datos mismos (Player, Quest)"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "ViewModel",
+                    "es": "ViewModel"
+                  },
+                  "right": {
+                    "en": "state, commands, notifications",
+                    "es": "estado, comandos, notificaciones"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "View",
+                    "es": "View"
+                  },
+                  "right": {
+                    "en": "XAML screen, pure display",
+                    "es": "pantalla XAML, pura visualización"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Binding",
+                    "es": "Binding"
+                  },
+                  "right": {
+                    "en": "the glue connecting them",
+                    "es": "el pegamento que los conecta"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Data → state → pixels, with bindings as the bridge.",
+                "es": "Datos → estado → píxeles, con bindings de puente."
+              },
+              "hints": [
+                {
+                  "en": "ViewModel is the middle layer.",
+                  "es": "El ViewModel es la capa del medio."
+                }
+              ]
+            },
+            {
+              "id": "w10-l07e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Why keep code-behind files nearly empty?",
+                "es": "¿Por qué mantener los archivos code-behind casi vacíos?"
+              },
+              "options": [
+                {
+                  "en": "Logic in ViewModels is testable and reusable; logic in click handlers is trapped",
+                  "es": "La lógica en ViewModels es testeable y reutilizable; en manejadores de clic queda atrapada"
+                },
+                {
+                  "en": "Code-behind files are illegal",
+                  "es": "Los code-behind son ilegales"
+                },
+                {
+                  "en": "XAML cannot have code files",
+                  "es": "XAML no puede tener archivos de código"
+                },
+                {
+                  "en": "It compiles faster",
+                  "es": "Compila más rápido"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Every line in a click handler is untestable without a screen. ViewModel lines test in milliseconds.",
+                "es": "Cada línea en un manejador de clic es intesteable sin pantalla. Las del ViewModel se prueban en milisegundos."
+              },
+              "hints": [
+                {
+                  "en": "Could you unit test a button click?",
+                  "es": "¿Podrías probar unitariamente un clic de botón?"
+                }
+              ]
+            },
+            {
+              "id": "w10-l07e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "In strict MVVM, the ViewModel must never reference UI types like Window or Button.",
+                "es": "En MVVM estricto, el ViewModel nunca debe referenciar tipos de UI como Window o Button."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — UI-free ViewModels are what make them portable and testable.",
+                "es": "Verdadero: ViewModels sin UI son portátiles y testeables."
+              },
+              "hints": [
+                {
+                  "en": "Would it still run in a unit test?",
+                  "es": "¿Seguiría corriendo en una prueba unitaria?"
+                }
+              ]
+            },
+            {
+              "id": "w10-l07e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: build a tiny MVVM trio. Model: record Player(string Name). ViewModel: wraps a player and exposes DisplayName => $\"★ {player.Name}\". 'View' test: print vm.DisplayName for player \"ada\".",
+                "es": "EJECUTABLE: construye un trío MVVM diminuto. Model: record Player(string Name). ViewModel: expone DisplayName => $\"★ {player.Name}\". Prueba 'View': muestra vm.DisplayName para \"ada\"."
+              },
+              "starter": "// Model record + ViewModel wrapper + print\n",
+              "tests": [
+                {
+                  "name": "mvvm display",
+                  "expectedOutput": "★ ada",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Model → ViewModel → simulated View: the full MVVM loop in ten lines.",
+                "es": "Model → ViewModel → View simulada: el ciclo MVVM completo en diez líneas."
+              },
+              "hints": [
+                {
+                  "en": "class PlayerVm { public Player Player; public string DisplayName => $\"★ {Player.Name}\"; }",
+                  "es": "class PlayerVm { public Player Player; public string DisplayName => $\"★ {Player.Name}\"; }"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w10-l08-commands",
+          "kind": "lesson",
+          "title": {
+            "en": "Commands: Clicks Done Right",
+            "es": "Commands: clics bien hechos"
+          },
+          "tip": {
+            "en": "ICommand wraps an action so XAML buttons bind to it: <Button Command=\"{Binding AttackCommand}\"/>. CanExecute auto-enables/disables the button. No Click= code-behind.",
+            "es": "ICommand envuelve una acción para que los botones XAML se vinculen a ella: <Button Command=\"{Binding AttackCommand}\"/>. CanExecute habilita/deshabilita el botón solo. Sin Click= en code-behind."
+          },
+          "exercises": [
+            {
+              "id": "w10-l08e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What does ICommand.CanExecute control?",
+                "es": "¿Qué controla ICommand.CanExecute?"
+              },
+              "options": [
+                {
+                  "en": "Whether the button is enabled or disabled",
+                  "es": "Si el botón está habilitado o deshabilitado"
+                },
+                {
+                  "en": "The button's color",
+                  "es": "El color del botón"
+                },
+                {
+                  "en": "How many times it can be clicked",
+                  "es": "Cuántas veces se puede hacer clic"
+                },
+                {
+                  "en": "The window size",
+                  "es": "El tamaño de la ventana"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "CanExecute false → WPF grays out the button automatically. UI reflecting state, again.",
+                "es": "CanExecute false → WPF atenúa el botón automáticamente. La UI reflejando estado, otra vez."
+              },
+              "hints": [
+                {
+                  "en": "Can I be clicked right now?",
+                  "es": "¿Pueden hacerme clic ahora?"
+                }
+              ]
+            },
+            {
+              "id": "w10-l08e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: build a mini command: class RelayCommand(Action action) with Execute() invoking it and CanExecute() returning true. Wire it to print \"attacked!\", execute it.",
+                "es": "EJECUTABLE: crea un mini comando: class RelayCommand(Action action) con Execute() que lo invoque y CanExecute() que devuelva true. Conéctalo para mostrar \"attacked!\" y ejecútalo."
+              },
+              "starter": "// class RelayCommand with Execute/CanExecute\n",
+              "tests": [
+                {
+                  "name": "command executes",
+                  "expectedOutput": "attacked!",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "You implemented the ICommand pattern's core — the same shape WPF's buttons call.",
+                "es": "Implementaste el núcleo del patrón ICommand: la misma forma que llaman los botones de WPF."
+              },
+              "hints": [
+                {
+                  "en": "public void Execute() => _action(); public bool CanExecute() => true;",
+                  "es": "public void Execute() => _action(); public bool CanExecute() => true;"
+                }
+              ]
+            },
+            {
+              "id": "w10-l08e3",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the XAML binding a button to the ViewModel's command:",
+                "es": "Completa el XAML que vincula un botón al comando del ViewModel:"
+              },
+              "code": "<Button Command=\"{Binding ___Command}\" Content=\"Attack\" />",
+              "blanks": [
+                {
+                  "answer": "Attack",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Commands bind by property name, just like data.",
+                "es": "Los comandos se vinculan por nombre de propiedad, igual que los datos."
+              },
+              "hints": [
+                {
+                  "en": "The ViewModel property is AttackCommand.",
+                  "es": "La propiedad del ViewModel es AttackCommand."
+                }
+              ]
+            },
+            {
+              "id": "w10-l08e4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Commands make buttons testable: invoke the command in a test instead of clicking.",
+                "es": "Los comandos hacen los botones testeables: invoca el comando en una prueba en vez de hacer clic."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — command.Execute() IS the click, without any UI.",
+                "es": "Verdadero: command.Execute() ES el clic, sin UI."
+              },
+              "hints": [
+                {
+                  "en": "What did your RelayCommand exercise just do?",
+                  "es": "¿Qué hizo tu ejercicio de RelayCommand?"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w10-l09-quiz3",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 3 Quiz",
+            "es": "Examen de la unidad 3"
+          },
+          "tip": {
+            "en": "MVVM mastery check!",
+            "es": "¡Control de dominio MVVM!"
+          },
+          "exercises": [
+            {
+              "id": "w10-l09e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Where should the 'calculate total price' logic live in MVVM?",
+                "es": "¿Dónde debe vivir la lógica de 'calcular precio total' en MVVM?"
+              },
+              "options": [
+                {
+                  "en": "In the ViewModel as a computed property or command",
+                  "es": "En el ViewModel como propiedad calculada o comando"
+                },
+                {
+                  "en": "In the button's Click handler",
+                  "es": "En el Click del botón"
+                },
+                {
+                  "en": "In the XAML",
+                  "es": "En el XAML"
+                },
+                {
+                  "en": "In App.xaml.cs",
+                  "es": "En App.xaml.cs"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Logic belongs in testable ViewModels — UI stays dumb and pretty.",
+                "es": "La lógica vive en ViewModels testeables: la UI sigue simple y bonita."
+              },
+              "hints": [
+                {
+                  "en": "Testable = ViewModel.",
+                  "es": "Testeable = ViewModel."
+                }
+              ]
+            },
+            {
+              "id": "w10-l09e2",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "One ViewModel can serve multiple different Views.",
+                "es": "Un ViewModel puede servir a varias Views distintas."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — desktop window, mobile page, even a web dashboard can bind the same ViewModel.",
+                "es": "Verdadero: ventana de escritorio, página móvil o dashboard web pueden vincular al mismo ViewModel."
+              },
+              "hints": [
+                {
+                  "en": "The ViewModel doesn't know about pixels, remember?",
+                  "es": "El ViewModel no sabe de píxeles, ¿recuerdas?"
+                }
+              ]
+            },
+            {
+              "id": "w10-l09e3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What is the code-behind file (MainWindow.xaml.cs) FOR in clean MVVM?",
+                "es": "¿Para qué sirve el code-behind (MainWindow.xaml.cs) en MVVM limpio?"
+              },
+              "options": [
+                {
+                  "en": "Almost nothing — wiring the DataContext at most",
+                  "es": "Casi nada: como mucho conectar el DataContext"
+                },
+                {
+                  "en": "All business logic",
+                  "es": "Toda la lógica de negocio"
+                },
+                {
+                  "en": "Database queries",
+                  "es": "Consultas de base de datos"
+                },
+                {
+                  "en": "Storing passwords",
+                  "es": "Guardar contraseñas"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Empty code-behind = clean MVVM. Everything lives in bindable ViewModels.",
+                "es": "Code-behind vacío = MVVM limpio. Todo vive en ViewModels vinculables."
+              },
+              "hints": [
+                {
+                  "en": "The emptier, the better.",
+                  "es": "Cuanto más vacío, mejor."
+                }
+              ]
+            },
+            {
+              "id": "w10-l09e4",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": {
+                "en": "Order the MVVM data flow when a user types their name:",
+                "es": "Ordena el flujo MVVM cuando el usuario escribe su nombre:"
+              },
+              "code": "User types in TextBox\nTwoWay binding fires\nViewModel.Nickname updates\nPropertyChanged notifies other bindings\nA greeting label refreshes",
+              "explanation": {
+                "en": "Type → bind → state → notify → refresh. The full circle of MVVM.",
+                "es": "Teclear → vincular → estado → notificar → refrescar. El círculo completo de MVVM."
+              },
+              "hints": [
+                {
+                  "en": "Input flows in, notifications flow out.",
+                  "es": "La entrada fluye hacia dentro y las notificaciones hacia fuera."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w10-l07b-converters",
+          "kind": "lesson",
+          "title": {
+            "en": "Value Converters",
+            "es": "Convertidores de valor"
+          },
+          "tip": {
+            "en": "Bindings can TRANSFORM values on the way: bool → visibility, score → stars, date → pretty text. IValueConverter is the translator between ViewModel data and UI display.",
+            "es": "Los bindings pueden TRANSFORMAR valores en el camino: bool → visibilidad, score → estrellas, fecha → texto bonito. IValueConverter es el traductor entre los datos del ViewModel y la UI."
+          },
+          "exercises": [
+            {
+              "id": "w10-l07be1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "ViewModel has bool IsDead; you want a 'Game Over' banner visible only when true. Best tool?",
+                "es": "El ViewModel tiene bool IsDead; quieres un banner 'Game Over' visible solo cuando sea true. ¿Mejor herramienta?"
+              },
+              "options": [
+                {
+                  "en": "A bool-to-visibility converter on the binding",
+                  "es": "Un convertidor bool→visibilidad en el binding"
+                },
+                {
+                  "en": "A timer checking every second",
+                  "es": "Un temporizador que revise cada segundo"
+                },
+                {
+                  "en": "Hardcoding the banner always visible",
+                  "es": "Dejar el banner siempre visible"
+                },
+                {
+                  "en": "A second ViewModel",
+                  "es": "Un segundo ViewModel"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Converters keep the ViewModel clean (bool) while the UI speaks its own language (Visibility).",
+                "es": "Los convertidores mantienen el ViewModel limpio (bool) mientras la UI habla su idioma (Visibility)."
+              },
+              "hints": [
+                {
+                  "en": "Translate at the border.",
+                  "es": "Traduce en la frontera."
+                }
+              ]
+            },
+            {
+              "id": "w10-l07be2",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the interface a converter implements:",
+                "es": "Completa la interfaz que implementa un convertidor:"
+              },
+              "code": "public class ScoreToStars : ___\n{\n    public object Convert(object value, ...) { ... }\n}",
+              "blanks": [
+                {
+                  "answer": "IValueConverter",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "IValueConverter = Convert (VM→UI) + ConvertBack (UI→VM).",
+                "es": "IValueConverter = Convert (VM→UI) + ConvertBack (UI→VM)."
+              },
+              "hints": [
+                {
+                  "en": "I + Value + Converter.",
+                  "es": "I + Value + Converter."
+                }
+              ]
+            },
+            {
+              "id": "w10-l07be3",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: implement the CONVERT half yourself: ScoreToStars(2) returns \"★★\" (stars = new string('★', score)). Print it for score 3.",
+                "es": "EJECUTABLE: implementa la mitad CONVERT: ScoreToStars(2) devuelve \"★★\" (stars = new string('★', score)). Muéstralo para score 3."
+              },
+              "starter": "// string ScoreToStars(int score) => new string('★', score);\n",
+              "tests": [
+                {
+                  "name": "three stars",
+                  "expectedOutput": "★★★",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Converter logic is pure C# — testable without any UI, just like this.",
+                "es": "La lógica de conversión es C# puro: testeable sin UI, justo como aquí."
+              },
+              "hints": [
+                {
+                  "en": "Console.WriteLine(ScoreToStars(3));",
+                  "es": "Console.WriteLine(ScoreToStars(3));"
+                }
+              ]
+            },
+            {
+              "id": "w10-l07be4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "ConvertBack is required even for OneWay bindings.",
+                "es": "ConvertBack es obligatorio incluso en bindings OneWay."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — OneWay never converts back; ConvertBack can throw NotImplemented for display-only converters.",
+                "es": "Falso: OneWay nunca convierte de vuelta; ConvertBack puede quedar sin implementar en conversores de solo lectura."
+              },
+              "hints": [
+                {
+                  "en": "Back to where?",
+                  "es": "¿De vuelta hacia dónde?"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u4",
+      "title": {
+        "en": "Polish & Boss",
+        "es": "Pulido y Jefe"
+      },
+      "lessons": [
+        {
+          "id": "w10-l10-styles",
+          "kind": "lesson",
+          "title": {
+            "en": "Styles & Resources",
+            "es": "Estilos y recursos"
+          },
+          "tip": {
+            "en": "WPF styles are CSS for desktop: define a style once (colors, fonts, margins) and apply it everywhere via a key. Themes without repetition.",
+            "es": "Los estilos de WPF son CSS de escritorio: define un estilo una vez (colores, fuentes, márgenes) y aplícalo donde quieras con una clave. Temas sin repetición."
+          },
+          "exercises": [
+            {
+              "id": "w10-l10e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Why use styles instead of setting colors on each control?",
+                "es": "¿Por qué usar estilos en vez de colores por control?"
+              },
+              "options": [
+                {
+                  "en": "Change the style once — every control updates",
+                  "es": "Cambia el estilo una vez y todos los controles se actualizan"
+                },
+                {
+                  "en": "Styles are required by WPF",
+                  "es": "WPF exige estilos"
+                },
+                {
+                  "en": "Styled controls load faster",
+                  "es": "Los controles con estilo cargan más rápido"
+                },
+                {
+                  "en": "No reason — it's tradition",
+                  "es": "Sin razón: es tradición"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Centralized look = one-line rebrands. The DRY principle, visual edition.",
+                "es": "Aspecto centralizado = rediseño en una línea. El principio DRY, edición visual."
+              },
+              "hints": [
+                {
+                  "en": "DRY applies to pixels too.",
+                  "es": "DRY también aplica a los píxeles."
+                }
+              ]
+            },
+            {
+              "id": "w10-l10e2",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete applying a named style:",
+                "es": "Completa la aplicación de un estilo con nombre:"
+              },
+              "code": "<Button Style=\"{___ DangerButton}\" Content=\"Quit\" />",
+              "blanks": [
+                {
+                  "answer": "StaticResource",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "StaticResource references a defined style (DynamicResource allows runtime swaps).",
+                "es": "StaticResource referencia un estilo definido (DynamicResource permite cambiarlo en caliente)."
+              },
+              "hints": [
+                {
+                  "en": "Static + Resource.",
+                  "es": "Static + Resource."
+                }
+              ]
+            },
+            {
+              "id": "w10-l10e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "WPF supports dark/light theming by swapping resource dictionaries at runtime.",
+                "es": "WPF soporta temas oscuro/claro intercambiando diccionarios de recursos en caliente."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — merge a different ResourceDictionary and the whole app reskins. This game does the same with CSS classes!",
+                "es": "Verdadero: mezcla otro ResourceDictionary y toda la app cambia de piel. ¡Este juego hace lo mismo con clases CSS!"
+              },
+              "hints": [
+                {
+                  "en": "You've seen the dark mode toggle here.",
+                  "es": "Ya viste el modo oscuro aquí."
+                }
+              ]
+            },
+            {
+              "id": "w10-l10e4",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Where should app-wide colors and fonts live?",
+                "es": "¿Dónde deben vivir los colores y fuentes globales?"
+              },
+              "options": [
+                {
+                  "en": "In resource dictionaries (App.xaml resources)",
+                  "es": "En diccionarios de recursos (App.xaml)"
+                },
+                {
+                  "en": "Hardcoded on every control",
+                  "es": "Codificados en cada control"
+                },
+                {
+                  "en": "In the database",
+                  "es": "En la base de datos"
+                },
+                {
+                  "en": "In a text file read at startup",
+                  "es": "En un archivo de texto leído al inicio"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Resources centralize the theme — exactly like the CSS variables in this game's stylesheet.",
+                "es": "Los recursos centralizan el tema, igual que las variables CSS de esta hoja de estilos."
+              },
+              "hints": [
+                {
+                  "en": "Central theme home.",
+                  "es": "Hogar central del tema."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w10-l11-boss",
+          "kind": "boss",
+          "title": {
+            "en": "BOSS: The Blinking Screen",
+            "es": "JEFE: La Pantalla Parpadeante"
+          },
+          "tip": {
+            "en": "A haunted ViewModel that refuses to notify its UI. Fix it with proper MVVM machinery and exorcise the Blink! 🪟👻",
+            "es": "Un ViewModel embrujado que no notifica a su UI. Arréglalo con maquinaria MVVM y expulsa al Parpadeo. 🪟👻"
+          },
+          "exercises": [
+            {
+              "id": "w10-l11e1",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 1: the ghost VM has a Hauntings field that never notifies. Rebuild it as a proper notified property and prove 2 raises fire for 2 sets.",
+                "es": "Puerta 1: el VM fantasma tiene un campo Hauntings que nunca notifica. Reconstrúyelo como propiedad notificadora y prueba 2 lanzamientos con 2 asignaciones."
+              },
+              "starter": "using System.ComponentModel;\n\n// Hauntings with PropertyChanged, count events for 2 sets\n",
+              "tests": [
+                {
+                  "name": "hauntings notify",
+                  "expectedOutput": "2",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Notification machinery = the exorcism of stale UI.",
+                "es": "La maquinaria de notificación = el exorcismo de la UI obsoleta."
+              },
+              "hints": [
+                {
+                  "en": "Same INotifyPropertyChanged pattern from lesson 5 — but for Hauntings.",
+                  "es": "El mismo patrón INotifyPropertyChanged de la lección 5, pero para Hauntings."
+                }
+              ]
+            },
+            {
+              "id": "w10-l11e2",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 2: add computed property GhostLevel => Hauntings * 13. Set Hauntings to 3 and print GhostLevel (39).",
+                "es": "Puerta 2: añade la propiedad calculada GhostLevel => Hauntings * 13. Asigna Hauntings a 3 y muestra GhostLevel (39)."
+              },
+              "starter": "// computed property on the ghost VM\n",
+              "tests": [
+                {
+                  "name": "ghost level",
+                  "expectedOutput": "39",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Derived state in computed properties: no duplicated logic, always consistent.",
+                "es": "Estado derivado en propiedades calculadas: sin lógica duplicada, siempre consistente."
+              },
+              "hints": [
+                {
+                  "en": "public int GhostLevel => Hauntings * 13;",
+                  "es": "public int GhostLevel => Hauntings * 13;"
+                }
+              ]
+            },
+            {
+              "id": "w10-l11e3",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 3: add HauntCommand (your RelayCommand) that increments Hauntings when executed. Execute twice; print Hauntings (2).",
+                "es": "Puerta 3: añade HauntCommand (tu RelayCommand) que aumente Hauntings al ejecutarse. Ejecútalo dos veces y muestra Hauntings (2)."
+              },
+              "starter": "// command that mutates the ghost VM\n",
+              "tests": [
+                {
+                  "name": "haunt command",
+                  "expectedOutput": "2",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Command → state change → notification: the complete MVVM circle, ghost-proof.",
+                "es": "Comando → cambio de estado → notificación: el círculo MVVM completo, a prueba de fantasmas."
+              },
+              "hints": [
+                {
+                  "en": "The command's Execute does Hauntings++; run it twice and print Hauntings.",
+                  "es": "El Execute del comando hace Hauntings++; ejecútalo dos veces y muestra Hauntings."
+                }
+              ]
+            },
+            {
+              "id": "w10-l11e4",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Final gate: subscribe to PropertyChanged and print EVERY distinct property name notified while executing the command twice (expect: Hauntings twice).",
+                "es": "Puerta final: suscríbete a PropertyChanged y muestra cada nombre de propiedad notificado al ejecutar el comando dos veces (espera Hauntings dos veces)."
+              },
+              "starter": "// print notified property names\n",
+              "tests": [
+                {
+                  "name": "notifications listed",
+                  "expectedOutput": "Hauntings\nHauntings",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "You can now SEE the notifications flowing — the Blink is exorcised and WPF is yours! 🪟🏆",
+                "es": "Ahora PUEDES VER las notificaciones fluir: el Parpadeo está exorcizado y WPF es tuyo. 🪟🏆"
+              },
+              "hints": [
+                {
+                  "en": "In the handler: Console.WriteLine(e.PropertyName); — then execute the command twice.",
+                  "es": "En el manejador: Console.WriteLine(e.PropertyName); luego ejecuta el comando dos veces."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3b",
+      "title": {
+        "en": "Real-World Desktop",
+        "es": "Escritorio real"
+      },
+      "lessons": [
+        {
+          "id": "w10-l10b-validation",
+          "kind": "lesson",
+          "title": {
+            "en": "Input Validation",
+            "es": "Validación de entradas"
+          },
+          "tip": {
+            "en": "Desktop apps validate typed input: the ViewModel rejects bad values and the UI shows a red border or message. Same rule as the API world: never trust input.",
+            "es": "Las apps de escritorio validan lo tecleado: el ViewModel rechaza valores inválidos y la UI muestra borde rojo o mensaje. La misma regla del mundo API: nunca confíes en la entrada."
+          },
+          "exercises": [
+            {
+              "id": "w10-l10be1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Where should 'age must be 0-150' be enforced in MVVM?",
+                "es": "¿Dónde debe aplicarse 'la edad debe ser 0-150' en MVVM?"
+              },
+              "options": [
+                {
+                  "en": "In the ViewModel's Age setter or validation logic",
+                  "es": "En el setter de Age del ViewModel o su lógica de validación"
+                },
+                {
+                  "en": "In the XAML",
+                  "es": "En el XAML"
+                },
+                {
+                  "en": "Nowhere — trust the user",
+                  "es": "En ningún lado: confía en el usuario"
+                },
+                {
+                  "en": "In the graphics card",
+                  "es": "En la tarjeta gráfica"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "ViewModel rules protect every View that binds — write once, protected everywhere.",
+                "es": "Las reglas del ViewModel protegen a todas las Views que se vinculan: escribe una vez, protegido siempre."
+              },
+              "hints": [
+                {
+                  "en": "The same place all rules should live.",
+                  "es": "El mismo lugar donde deben vivir todas las reglas."
+                }
+              ]
+            },
+            {
+              "id": "w10-l10be2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: VM with Age property clamped 0-150 in the setter. Set 300; print the stored value (150).",
+                "es": "EJECUTABLE: VM con propiedad Age limitada a 0-150 en el setter. Asigna 300 y muestra el valor guardado (150)."
+              },
+              "starter": "// clamp in the setter\n",
+              "tests": [
+                {
+                  "name": "age clamped",
+                  "expectedOutput": "150",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "You built this exact clamp in World 1 — now it guards a real desktop property.",
+                "es": "Construiste este límite exacto en el Mundo 1: ahora protege una propiedad de escritorio real."
+              },
+              "hints": [
+                {
+                  "en": "value > 150 ? 150 : value < 0 ? 0 : value",
+                  "es": "value > 150 ? 150 : value < 0 ? 0 : value"
+                }
+              ]
+            },
+            {
+              "id": "w10-l10be3",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the invalid input to the friendliest response:",
+                "es": "Relaciona la entrada inválida con la respuesta más amable:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "letters in a number box",
+                    "es": "letras en una caja numérica"
+                  },
+                  "right": {
+                    "en": "block the keystroke, show hint",
+                    "es": "bloquea la tecla y muestra ayuda"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "empty required field",
+                    "es": "campo obligatorio vacío"
+                  },
+                  "right": {
+                    "en": "red border + message on save",
+                    "es": "borde rojo y mensaje al guardar"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "age of 999",
+                    "es": "edad de 999"
+                  },
+                  "right": {
+                    "en": "clamp or reject with explanation",
+                    "es": "limita o rechaza explicando"
+                  }
+                },
+                {
+                  "left": {
+                    "en": " swearing in nickname",
+                    "es": "groserías en el apodo"
+                  },
+                  "right": {
+                    "en": "reject with a polite message",
+                    "es": "rechaza con un mensaje amable"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Match the response's strictness to the mistake's severity.",
+                "es": "Ajusta el rigor de la respuesta a la gravedad del error."
+              },
+              "hints": [
+                {
+                  "en": "Help, don't punish.",
+                  "es": "Ayuda, no castigues."
+                }
+              ]
+            },
+            {
+              "id": "w10-l10be4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Validating in the ViewModel means every future View (desktop, mobile) gets the same protection.",
+                "es": "Validar en el ViewModel significa que toda View futura (escritorio, móvil) recibe la misma protección."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — rules in the ViewModel travel with the logic, not with the pixels.",
+                "es": "Verdadero: las reglas del ViewModel viajan con la lógica, no con los píxeles."
+              },
+              "hints": [
+                {
+                  "en": "Where do the rules live?",
+                  "es": "¿Dónde viven las reglas?"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w10-l10c-navigation",
+          "kind": "lesson",
+          "title": {
+            "en": "Page Navigation",
+            "es": "Navegación de páginas"
+          },
+          "tip": {
+            "en": "Desktop apps flow between screens: menu → game → results. In MVVM the ViewModel exposes a 'current page' property and the View swaps content — navigation as data.",
+            "es": "Las apps de escritorio fluyen entre pantallas: menú → juego → resultados. En MVVM el ViewModel expone una propiedad 'página actual' y la View cambia el contenido: la navegación como datos."
+          },
+          "exercises": [
+            {
+              "id": "w10-l10ce1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "In MVVM navigation, what actually changes when you 'go to another page'?",
+                "es": "En la navegación MVVM, ¿qué cambia realmente al 'ir a otra página'?"
+              },
+              "options": [
+                {
+                  "en": "A ViewModel property (CurrentViewModel) that the View binds to",
+                  "es": "Una propiedad del ViewModel (CurrentViewModel) a la que se vincula la View"
+                },
+                {
+                  "en": "The operating system switches windows",
+                  "es": "El sistema operativo cambia de ventana"
+                },
+                {
+                  "en": "The app restarts",
+                  "es": "La app se reinicia"
+                },
+                {
+                  "en": "XAML files are regenerated",
+                  "es": "Se regeneran los archivos XAML"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Navigation = swapping a bound property. The ContentControl renders whatever ViewModel is current.",
+                "es": "Navegar = cambiar una propiedad vinculada. El ContentControl dibuja el ViewModel actual."
+              },
+              "hints": [
+                {
+                  "en": "It's just a property change.",
+                  "es": "Es solo un cambio de propiedad."
+                }
+              ]
+            },
+            {
+              "id": "w10-l10ce2",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": {
+                "en": "Order the game's screen flow:",
+                "es": "Ordena el flujo de pantallas del juego:"
+              },
+              "code": "Main menu\nWorld map\nLesson player\nResults screen",
+              "explanation": {
+                "en": "Exactly this game's flow — each screen is one ViewModel.",
+                "es": "Justo el flujo de este juego: cada pantalla es un ViewModel."
+              },
+              "hints": [
+                {
+                  "en": "Menu first, results last.",
+                  "es": "Primero el menú, al final los resultados."
+                }
+              ]
+            },
+            {
+              "id": "w10-l10ce3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Storing navigation history lets you build a Back button easily.",
+                "es": "Guardar el historial de navegación facilita un botón Atrás."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — a stack of previous ViewModels and Back pops it. Browsers do the same.",
+                "es": "Verdadero: una pila de ViewModels anteriores y Atrás la desapila. Los navegadores hacen lo mismo."
+              },
+              "hints": [
+                {
+                  "en": "How does your browser's back button work?",
+                  "es": "¿Cómo funciona el botón Atrás del navegador?"
+                }
+              ]
+            },
+            {
+              "id": "w10-l10ce4",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "This very game navigates pages. What is the web equivalent of the ViewModel navigation property?",
+                "es": "Este mismo juego navega páginas. ¿Cuál es el equivalente web de la propiedad de navegación del ViewModel?"
+              },
+              "options": [
+                {
+                  "en": "The URL / route",
+                  "es": "La URL o ruta"
+                },
+                {
+                  "en": "The favicon",
+                  "es": "El favicon"
+                },
+                {
+                  "en": "The CSS file",
+                  "es": "El archivo CSS"
+                },
+                {
+                  "en": "The browser version",
+                  "es": "La versión del navegador"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Routes ARE web navigation state — same concept, different platform.",
+                "es": "Las rutas SON el estado de navegación web: el mismo concepto en otra plataforma."
+              },
+              "hints": [
+                {
+                  "en": "What changes in the address bar?",
+                  "es": "¿Qué cambia en la barra de direcciones?"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w10-l15-boss",
+          "kind": "boss",
+          "title": {
+            "en": "BOSS: The Desktop Dungeon",
+            "es": "JEFE: La Mazmorra de escritorio"
+          },
+          "tip": {
+            "en": "One VM, four gates: notification, computed state, command, list. Clear the dungeon and WPF bows to you! 🪟⚔️",
+            "es": "Un VM, cuatro puertas: notificación, estado calculado, comando y lista. ¡Supera la mazmorra y WPF se inclina ante ti! 🪟⚔️"
+          },
+          "exercises": [
+            {
+              "id": "w10-l15e1",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 1: GameVM with notified Score property. Set it twice; prove 2 notifications fire.",
+                "es": "Puerta 1: GameVM con propiedad Score notificadora. Asígnala dos veces y prueba 2 notificaciones."
+              },
+              "starter": "using System.ComponentModel;\n\n// Score with notification, count events\n",
+              "tests": [
+                {
+                  "name": "score notifies",
+                  "expectedOutput": "2",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "The core pattern, re-forged for the dungeon.",
+                "es": "El patrón central, forjado otra vez para la mazmorra."
+              },
+              "hints": [
+                {
+                  "en": "INotifyPropertyChanged + raise on set, count via subscription.",
+                  "es": "INotifyPropertyChanged + lanzar en el set, contar por suscripción."
+                }
+              ]
+            },
+            {
+              "id": "w10-l15e2",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 2: add computed Rank => Score >= 100 ? \"legend\" : \"rookie\". Set Score 100; print Rank.",
+                "es": "Puerta 2: añade Rank => Score >= 100 ? \"legend\" : \"rookie\". Asigna Score 100 y muestra Rank."
+              },
+              "starter": "// computed property\n",
+              "tests": [
+                {
+                  "name": "rank",
+                  "expectedOutput": "legend",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Computed properties turn state into meaning.",
+                "es": "Las propiedades calculadas convierten estado en significado."
+              },
+              "hints": [
+                {
+                  "en": "public string Rank => Score >= 100 ? \"legend\" : \"rookie\";",
+                  "es": "public string Rank => Score >= 100 ? \"legend\" : \"rookie\";"
+                }
+              ]
+            },
+            {
+              "id": "w10-l15e3",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 3: add ScoreCommand that adds 50 to Score. Execute twice from Score 0, print Score (100).",
+                "es": "Puerta 3: añade ScoreCommand que sume 50 a Score. Ejecútalo dos veces desde 0 y muestra Score (100)."
+              },
+              "starter": "// command mutating Score\n",
+              "tests": [
+                {
+                  "name": "command adds",
+                  "expectedOutput": "100",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Commands mutate state; notifications paint it. Full circle.",
+                "es": "Los comandos mutan el estado; las notificaciones lo pintan. Círculo completo."
+              },
+              "hints": [
+                {
+                  "en": "Execute: Score += 50 — run twice.",
+                  "es": "Execute: Score += 50 — ejecútalo dos veces."
+                }
+              ]
+            },
+            {
+              "id": "w10-l15e4",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Final gate: ObservableCollection<string> Log. Hook a command that adds \"level {n}\" each run (n increments). Execute 3 times; print the log joined by commas. Expect: level 1,level 2,level 3",
+                "es": "Puerta final: ObservableCollection<string> Log. Un comando que añada \"level {n}\" por ejecución (n incrementa). Ejecuta 3 veces y muestra el log con comas. Espera: level 1,level 2,level 3"
+              },
+              "starter": "// observable log + counting command\n",
+              "tests": [
+                {
+                  "name": "log entries",
+                  "expectedOutput": "level 1,level 2,level 3",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Observable lists, commands, notifications — the full desktop toolkit. The Dungeon clears! 🪟🏆",
+                "es": "Listas observables, comandos, notificaciones: el kit completo de escritorio. ¡Mazmorra superada! 🪟🏆"
+              },
+              "hints": [
+                {
+                  "en": "int n = 0; command Execute: n++; Log.Add($\"level {n}\"); then string.Join(\",\", Log)",
+                  "es": "int n = 0; Execute del comando: n++; Log.Add($\"level {n}\"); luego string.Join(\",\", Log)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

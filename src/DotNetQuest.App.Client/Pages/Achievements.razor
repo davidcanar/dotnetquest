@@ -1,0 +1,54 @@
+@page "/achievements"
+@using DotNetQuest.App.Client.Components
+@using DotNetQuest.Shared
+@inject GameState Game
+@inject I18nService I18n
+@inject ApiClient Api
+@inject NavigationManager Nav
+
+<div class="page">
+    <h1 class="page-title">🎖️ @I18n.T("achievements.title")</h1>
+    <p class="page-subtitle muted">@I18n.T("achievements.subtitle", _unlockedCount, Shared.Achievements.All.Length)</p>
+
+    @if (_loading)
+    {
+        <p class="muted">@I18n.T("app.loading")</p>
+    }
+    else
+    {
+        <div class="ach-grid">
+            @foreach (var def in Shared.Achievements.All)
+            {
+                var unlocked = _unlocked.Contains(def.Id);
+                <div class="ach-card @(unlocked ? "unlocked" : "")">
+                    <span class="ach-icon">@(unlocked ? def.Icon : "🔒")</span>
+                    <div>
+                        <h3>@I18n.Pick(def.Title.En, def.Title.Es)</h3>
+                        <p class="muted">@I18n.Pick(def.Desc.En, def.Desc.Es)</p>
+                        <p class="ach-reward">⚡@def.XpReward · 💎@def.GemReward</p>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private HashSet<string> _unlocked = [];
+    private int _unlockedCount;
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Game.InitializeAsync();
+        if (Game.Player is null) { Nav.NavigateTo("/"); return; }
+
+        var states = await Api.GetAchievementsAsync();
+        if (states is not null)
+        {
+            _unlocked = states.Where(s => s.Unlocked).Select(s => s.Id).ToHashSet();
+            _unlockedCount = _unlocked.Count;
+        }
+        _loading = false;
+    }
+}

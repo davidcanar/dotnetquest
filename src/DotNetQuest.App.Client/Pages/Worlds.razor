@@ -1,0 +1,244 @@
+@page "/home"
+@using DotNetQuest.App.Client.Components
+@using DotNetQuest.Shared
+@using DotNetQuest.Shared.Content
+@inject GameState Game
+@inject I18nService I18n
+@inject ApiClient Api
+@inject NavigationManager Nav
+@inject Confetti Confetti
+
+<div class="worlds-page">
+    @if (_weekend)
+    {
+        <div class="weekend-banner">⚡×2 @I18n.T("weekend.banner")</div>
+    }
+
+    <div class="home-header">
+        <div>
+            <h1 class="page-title">@I18n.T("worlds.title")</h1>
+            <p class="page-subtitle muted">@I18n.T("worlds.subtitle")</p>
+        </div>
+        <div class="home-actions">
+            <button class="icon-btn wide" @onclick='() => Nav.NavigateTo("achievements")' title="@I18n.T("nav.achievements")">🎖️</button>
+            <button class="icon-btn wide" @onclick='() => Nav.NavigateTo("trophies")' title="@I18n.T("nav.trophies")">🏅</button>
+            <button class="icon-btn wide" @onclick='() => Nav.NavigateTo("shop")' title="@I18n.T("nav.shop")">🛍️</button>
+        </div>
+    </div>
+
+    @if (_daily is not null)
+    {
+        @* Daily goal *@
+        <div class="daily-card">
+            <div class="daily-goal">
+                <span>🎯 @I18n.T("daily.goal")</span>
+                <div class="progress-track grow">
+                    <div class="progress-fill @(Game.Daily?.GoalReached == true ? "goal-done" : "")"
+                         style="width:@GoalPct%"></div>
+                </div>
+                <span class="progress-label">@_daily.XpToday/@_daily.DailyGoalXp XP</span>
+            </div>
+
+            @* Quests *@
+            <div class="quests">
+                @foreach (var quest in _daily.Quests)
+                {
+                    var def = DailyQuests.Pool.FirstOrDefault(q => q.Id == quest.QuestId);
+                    <div class="quest-row @(quest.Claimed ? "claimed" : "")">
+                        <span class="quest-icon">@(quest.Claimed ? "✔" : "📋")</span>
+                        <div class="quest-info">
+                            <span>@(def is null ? quest.QuestId : I18n.Pick(def.Title.En, def.Title.Es))</span>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width:@Math.Min(quest.Progress * 100 / Math.Max(quest.Target, 1), 100)%"></div>
+                            </div>
+                        </div>
+                        <span class="quest-reward">💎@quest.GemReward</span>
+                        @if (quest.Claimed)
+                        {
+                            <span class="quest-check">✔</span>
+                        }
+                        else if (quest.Progress >= quest.Target)
+                        {
+                            <button class="btn btn-primary btn-small" @onclick="() => Claim(quest.QuestId)">@I18n.T("daily.claim")</button>
+                        }
+                        else
+                        {
+                            <span class="quest-progress">@(quest.Progress)/@(quest.Target)</span>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        @* Feature row: lightning, practice, daily challenge *@
+        <div class="feature-row">
+            <button class="feature-card lightning" @onclick='() => Nav.NavigateTo("lightning")'>
+                <span>⛈️</span>
+                <strong>@I18n.T("nav.lightning")</strong>
+                <small class="muted">@I18n.T("lightning.teaser")</small>
+            </button>
+            <button class="feature-card practice" @onclick='() => Nav.NavigateTo("practice")'>
+                <span>🔁</span>
+                <strong>@I18n.T("nav.practice")</strong>
+                <small class="muted">@I18n.T("practice.teaser")</small>
+            </button>
+            <button class="feature-card challenge @(Game.Daily?.ChallengeDone == true ? "done" : "")" @onclick="StartDailyChallenge">
+                <span>🎯</span>
+                <strong>@I18n.T("nav.dailyChallenge")</strong>
+                <small class="muted">@(Game.Daily?.ChallengeDone == true ? I18n.T("challenge.done") : I18n.T("challenge.teaser"))</small>
+            </button>
+        </div>
+    }
+
+    @if (_challengeExercise is not null)
+    {
+        <DailyChallenge Exercise="@_challengeExercise" OnFinished="OnChallengeFinished" OnCancelled="() => _challengeExercise = null" />
+    }
+
+    @foreach (var group in GroupedWorlds)
+    {
+        <h2 class="track-title"><span>@group.Icon</span> @I18n.Pick(group.TrackTitleEn, group.TrackTitleEs)</h2>
+        <div class="world-grid">
+            @foreach (var world in group.Worlds)
+            {
+                var (completed, total) = world.Content is null ? (0, 0) : Game.GetWorldProgress(world.Content);
+                var pct = total == 0 ? 0 : (int)Math.Round(completed * 100.0 / total);
+                <button class="world-card @(world.Item.Available ? "available" : "locked")"
+                        style="--world-color:@world.Item.Color"
+                        @onclick="() => OpenWorld(world.Item)">
+                    <div class="world-icon">@world.Item.Icon</div>
+                    <div class="world-info">
+                        <h3>@I18n.Pick(world.Item.Title.En, world.Item.Title.Es)</h3>
+                        <p>@I18n.Pick(world.Item.Subtitle.En, world.Item.Subtitle.Es)</p>
+                        @if (world.Item.Available)
+                        {
+                            <div class="world-progress">
+                                <div class="progress-track"><div class="progress-fill" style="width:@(pct)%"></div></div>
+                                <span class="progress-label">@completed/@total</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <span class="soon-badge">🔒 @I18n.T("worlds.comingSoon")</span>
+                        }
+                    </div>
+                </button>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private record TrackGroup(string Icon, string TrackTitleEn, string TrackTitleEs, List<(WorldIndexItem Item, WorldContent? Content)> Worlds);
+
+    private List<TrackGroup> GroupedWorlds { get; set; } = [];
+    private DailyStatusDto? _daily;
+    private bool _weekend;
+    private ExerciseContent? _challengeExercise;
+
+    private int GoalPct => _daily is null || _daily.DailyGoalXp == 0 ? 0
+        : Math.Min(_daily.XpToday * 100 / _daily.DailyGoalXp, 100);
+
+    private static readonly Dictionary<string, (string Icon, string En, string Es)> Tracks = new()
+    {
+        ["foundations"] = ("🧱", "Foundations", "Fundamentos"),
+        ["command-line"] = ("💻", "Command Line", "Línea de comandos"),
+        ["modern-csharp"] = ("🚀", "Modern C#", "C# moderno"),
+        ["data"] = ("🗄️", "Data", "Datos"),
+        ["web"] = ("🌐", "Web", "Web"),
+        ["windows"] = ("🪟", "Windows", "Windows"),
+        ["multiplatform"] = ("📱", "Multi-platform", "Multiplataforma"),
+        ["pro"] = ("🎖️", "Pro Skills", "Nivel pro")
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Game.InitializeAsync();
+        if (Game.Player is null) { Nav.NavigateTo("/"); return; }
+        if (!Game.Player.OnboardingComplete) { Nav.NavigateTo("onboarding"); return; }
+
+        _daily = await Game.RefreshDailyAsync();
+        _weekend = _daily?.WeekendDoubleXp ?? false;
+
+        if (_daily?.LoginBonus is not null)
+        {
+            // Let the UI settle, then celebrate the login bonus.
+            var bonus = _daily.LoginBonus;
+            await Task.Delay(400);
+            var response = await Api.ClaimLoginBonusAsync();
+            if (response is not null)
+            {
+                Game.UpdatePlayer(response.Player);
+                await Confetti.BurstAsync();
+                _daily = await Game.RefreshDailyAsync();
+            }
+        }
+
+        var index = await Game.GetWorldIndexAsync();
+        var ordered = index.OrderBy(w => w.Order).ToList();
+        foreach (var trackKey in ordered.Select(w => w.Track).Distinct())
+        {
+            var (icon, en, es) = Tracks.TryGetValue(trackKey, out var t) ? t : ("⭐", trackKey, trackKey);
+            var worlds = new List<(WorldIndexItem, WorldContent?)>();
+            foreach (var item in ordered.Where(w => w.Track == trackKey))
+            {
+                var content = item.Available ? await Game.GetWorldAsync(item.Id) : null;
+                worlds.Add((item, content));
+            }
+            GroupedWorlds.Add(new TrackGroup(icon, en, es, worlds));
+        }
+    }
+
+    private async Task Claim(string questId)
+    {
+        var response = await Api.ClaimQuestAsync(questId);
+        if (response is not null)
+        {
+            Game.UpdatePlayer(response.Player);
+            await Confetti.BurstAsync();
+            _daily = await Game.RefreshDailyAsync();
+        }
+    }
+
+    private async Task StartDailyChallenge()
+    {
+        if (Game.Daily?.ChallengeDone == true) return;
+
+        // Deterministic daily pick: hash the date, walk all available exercises.
+        var seed = DateOnly.FromDateTime(DateTime.UtcNow).DayNumber;
+        var rng = new Random(seed);
+        var pool = new List<ExerciseContent>();
+        var index = await Game.GetWorldIndexAsync();
+        foreach (var item in index.Where(w => w.Available))
+        {
+            var world = await Game.GetWorldAsync(item.Id);
+            if (world is null) continue;
+            pool.AddRange(world.AllLessons()
+                .SelectMany(l => l.Exercises)
+                .Where(e => e.Type is ExerciseTypes.Mcq or ExerciseTypes.Output or ExerciseTypes.TrueFalse or ExerciseTypes.FillBlank or ExerciseTypes.TypeIn));
+        }
+        if (pool.Count == 0) return;
+        _challengeExercise = pool[rng.Next(pool.Count)];
+    }
+
+    private async Task OnChallengeFinished(bool success)
+    {
+        _challengeExercise = null;
+        if (success)
+        {
+            var response = await Api.CompleteDailyChallengeAsync();
+            if (response is not null)
+            {
+                Game.UpdatePlayer(response.Player);
+                await Confetti.BurstAsync();
+                _daily = await Game.RefreshDailyAsync();
+            }
+        }
+    }
+
+    private void OpenWorld(WorldIndexItem item)
+    {
+        if (item.Available)
+            Nav.NavigateTo($"world/{item.Id}");
+    }
+}

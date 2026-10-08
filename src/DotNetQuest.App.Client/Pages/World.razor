@@ -1,0 +1,142 @@
+@page "/world/{WorldId}"
+@using DotNetQuest.App.Client.Components
+@using DotNetQuest.Shared
+@using DotNetQuest.Shared.Content
+@inject GameState Game
+@inject I18nService I18n
+@inject NavigationManager Nav
+
+@if (WorldData is null)
+{
+    <div class="app-loading"><p class="muted">@I18n.T("app.loading")</p></div>
+}
+else
+{
+    <div class="world-page">
+        <div class="world-header" style="--world-color:@WorldData.Color">
+            <a class="btn-back" href="home">←</a>
+            <div>
+                <h1>@I18n.Pick(WorldData.Title.En, WorldData.Title.Es)</h1>
+                <p class="muted">@I18n.Pick(WorldData.Subtitle.En, WorldData.Subtitle.Es)</p>
+            </div>
+        </div>
+        <p class="world-intro">@I18n.Pick(WorldData.Intro.En, WorldData.Intro.Es)</p>
+
+        @if (WorldData.CheatSheet is { Count: > 0 })
+        {
+            <button class="cheat-btn" @onclick="() => _cheatOpen = true">📜 @I18n.T("world.cheatSheet")</button>
+        }
+
+        <div class="lesson-path">
+            @for (var i = 0; i < _nodes.Count; i++)
+            {
+                var node = _nodes[i];
+                var offsetClass = (i % 4) switch { 0 => "n0", 1 => "n1", 2 => "n2", _ => "n3" };
+                @if (node.ShowUnitTitle)
+                {
+                    <h3 class="unit-title">@I18n.Pick(node.UnitTitleEn, node.UnitTitleEs)</h3>
+                }
+                <div class="path-row @offsetClass">
+                    <button class="lesson-node @node.StateClass"
+                            @onclick="() => OpenLesson(node)"
+                            title="@node.Title">
+                        @if (node.Kind == LessonKinds.Boss)
+                        {
+                            <span class="node-icon boss">👑</span>
+                        }
+                        else if (node.Kind == LessonKinds.Quiz)
+                        {
+                            <span class="node-icon quiz">⚡</span>
+                        }
+                        else if (node.Completed)
+                        {
+                            <span class="node-icon">✔</span>
+                        }
+                        else if (node.Locked)
+                        {
+                            <span class="node-icon">🔒</span>
+                        }
+                        else
+                        {
+                            <span class="node-icon">📖</span>
+                        }
+                        @if (node.Completed)
+                        {
+                            <span class="node-stars">@(new string('★', node.Stars))@(new string('☆', 3 - node.Stars))</span>
+                        }
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (_cheatOpen && WorldData.CheatSheet is { Count: > 0 } cheat)
+    {
+        <div class="modal-backdrop" @onclick="() => _cheatOpen = false">
+            <div class="modal cheat-modal" @onclick:stopPropagation="true">
+                <h3>📜 @I18n.T("world.cheatSheet")</h3>
+                @foreach (var section in cheat)
+                {
+                    <h4 class="cheat-section">@I18n.Pick(section.Title.En, section.Title.Es)</h4>
+                    <ul class="cheat-list">
+                        @foreach (var item in section.Items)
+                        {
+                            <li><code>@I18n.Pick(item.En, item.Es)</code></li>
+                        }
+                    </ul>
+                }
+                <button class="btn btn-primary btn-block" @onclick="() => _cheatOpen = false">@I18n.T("common.close")</button>
+            </div>
+        </div>
+    }
+}
+
+@code {
+    [Parameter] public string WorldId { get; set; } = string.Empty;
+
+    private WorldContent? WorldData;
+
+    private record Node(LessonContent Lesson, bool Completed, bool Locked, int Stars, bool ShowUnitTitle, string UnitTitleEn, string UnitTitleEs)
+    {
+        public string Kind => Lesson.Kind;
+        public string Title => Lesson.Title.En;
+        public string StateClass => Kind == LessonKinds.Boss ? "boss" : Kind == LessonKinds.Quiz ? "quiz" : Completed ? "done" : Locked ? "locked" : "current";
+    }
+
+    private List<Node> _nodes = [];
+    private bool _cheatOpen;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Game.InitializeAsync();
+        if (Game.Player is null) { Nav.NavigateTo("/"); return; }
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        WorldData = await Game.GetWorldAsync(WorldId);
+        if (WorldData is null) { Nav.NavigateTo("home"); return; }
+
+        var currentIndex = Game.GetCurrentLessonIndex(WorldData);
+        var i = 0;
+        foreach (var unit in WorldData.Units)
+        {
+            foreach (var lesson in unit.Lessons)
+            {
+                var progress = Game.GetProgress(WorldData.Id, lesson.Id);
+                var completed = progress is not null;
+                var locked = !completed && i > currentIndex;
+                var showTitle = lesson == unit.Lessons.First();
+                _nodes.Add(new Node(lesson, completed, locked, progress?.Stars ?? 0, showTitle, unit.Title.En, unit.Title.Es));
+                i++;
+            }
+        }
+    }
+
+    private void OpenLesson(Node node)
+    {
+        if (!node.Locked)
+            Nav.NavigateTo($"lesson/{WorldId}/{node.Lesson.Id}");
+    }
+}

@@ -1,0 +1,1237 @@
+{
+  "id": "w2-methods-collections",
+  "order": 2,
+  "track": "foundations",
+  "title": { "en": "Methods & Collections", "es": "Métodos y colecciones" },
+  "subtitle": { "en": "Organize code and master Lists, Dictionaries and more", "es": "Organiza tu código y domina Lists, Dictionaries y más" },
+  "intro": { "en": "Stop repeating yourself! In this world you learn to write reusable methods and to manage crowds of data with List, Dictionary and friends.", "es": "¡Deja de repetirte! En este mundo aprenderás a escribir métodos reutilizables y a gestionar montones de datos con List, Dictionary y amigos." },
+  "icon": "🧰",
+  "color": "#0ea5e9",
+  "cheatSheet": [
+    {
+      "title": { "en": "Methods", "es": "Métodos" },
+      "items": [
+        { "en": "int Add(int a, int b) { return a + b; }", "es": "int Add(int a, int b) { return a + b; }" },
+        { "en": "void Log(string msg) { Console.WriteLine(msg); }  // no return", "es": "void Log(string msg) { Console.WriteLine(msg); }  // sin retorno" },
+        { "en": "SayHi();  // call it by name", "es": "SayHi();  // se llama por su nombre" },
+        { "en": "int Double(int x) => x * 2;  // expression body", "es": "int Double(int x) => x * 2;  // cuerpo de expresión" },
+        { "en": "Overload = same name, different parameter types", "es": "Sobrecarga = mismo nombre, distintos tipos de parámetros" }
+      ]
+    },
+    {
+      "title": { "en": "List<T>", "es": "List<T>" },
+      "items": [
+        { "en": "var names = new List<string>();", "es": "var names = new List<string>();" },
+        { "en": "names.Add(\"Ada\");  names.Remove(\"Ada\");", "es": "names.Add(\"Ada\");  names.Remove(\"Ada\");" },
+        { "en": "names.Count  // how many (not Length!)", "es": "names.Count  // cuántos (¡no Length!)" },
+        { "en": "names.Contains(\"Ada\")  // true/false", "es": "names.Contains(\"Ada\")  // true/false" },
+        { "en": "foreach (var n in names) { ... }", "es": "foreach (var n in names) { ... }" },
+        { "en": "names.Sort();  names[0]  // first after sorting", "es": "names.Sort();  names[0]  // el primero tras ordenar" }
+      ]
+    },
+    {
+      "title": { "en": "Dictionary<K,V>", "es": "Dictionary<K,V>" },
+      "items": [
+        { "en": "var ages = new Dictionary<string, int>();", "es": "var ages = new Dictionary<string, int>();" },
+        { "en": "ages[\"Ada\"] = 36;  // add or update", "es": "ages[\"Ada\"] = 36;  // añade o actualiza" },
+        { "en": "ages.ContainsKey(\"Ada\")  // check first!", "es": "ages.ContainsKey(\"Ada\")  // ¡comprueba primero!" },
+        { "en": "ages.TryGetValue(\"Ada\", out int age)", "es": "ages.TryGetValue(\"Ada\", out int age)" },
+        { "en": "foreach (var kv in ages) Console.WriteLine($\"{kv.Key}: {kv.Value}\");", "es": "foreach (var kv in ages) Console.WriteLine($\"{kv.Key}: {kv.Value}\");" }
+      ]
+    },
+    {
+      "title": { "en": "Strings again", "es": "Strings otra vez" },
+      "items": [
+        { "en": "\"a,b,c\".Split(',')  → [\"a\", \"b\", \"c\"]", "es": "\"a,b,c\".Split(',')  → [\"a\", \"b\", \"c\"]" },
+        { "en": "string.Join(\"-\", words)  // glue back together", "es": "string.Join(\"-\", words)  // vuelve a unirlos" },
+        { "en": "\"AAA\".Replace(\"A\", \"B\")  → \"BBB\"", "es": "\"AAA\".Replace(\"A\", \"B\")  → \"BBB\"" },
+        { "en": "\"  hi  \".Trim()  → \"hi\"", "es": "\"  hi  \".Trim()  → \"hi\"" }
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "u1",
+      "title": { "en": "Methods", "es": "Métodos" },
+      "lessons": [
+        {
+          "id": "w2-l01-basics",
+          "kind": "lesson",
+          "title": { "en": "Your First Method", "es": "Tu primer método" },
+          "tip": { "en": "A method is a named block of code you can run whenever you want. Write once, use everywhere!", "es": "Un método es un bloque de código con nombre que puedes ejecutar cuando quieras. ¡Escríbelo una vez, úsalo donde sea!" },
+          "exercises": [
+            {
+              "id": "w2-l01e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Which keyword marks a method that returns NOTHING?", "es": "¿Qué palabra clave marca un método que NO devuelve nada?" },
+              "options": [
+                { "en": "void", "es": "void" },
+                { "en": "null", "es": "null" },
+                { "en": "empty", "es": "empty" },
+                { "en": "static", "es": "static" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "void means 'this method gives nothing back' — it just does its job.", "es": "void significa 'este método no devuelve nada': solo hace su trabajo." },
+              "hints": [
+                { "en": "Four letters. It means 'empty' in old English.", "es": "Cuatro letras. Significa 'vacío' en inglés antiguo." }
+              ]
+            },
+            {
+              "id": "w2-l01e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this program print?", "es": "¿Qué muestra este programa?" },
+              "code": "SayHi();\nSayHi();\n\nvoid SayHi()\n{\n    Console.WriteLine(\"Hi!\");\n}",
+              "options": [
+                { "en": "Hi!\nHi!", "es": "Hi!\nHi!" },
+                { "en": "Hi!", "es": "Hi!" },
+                { "en": "Nothing — methods must be called with new", "es": "Nada: los métodos deben llamarse con new" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Calling SayHi() runs its body once per call — so the line prints twice.", "es": "Llamar a SayHi() ejecuta su cuerpo una vez por llamada, así que la línea se muestra dos veces." },
+              "hints": [
+                { "en": "Count how many times the method is called.", "es": "Cuenta cuántas veces se llama al método." }
+              ]
+            },
+            {
+              "id": "w2-l01e3",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": { "en": "Build a program that defines Greet and calls it. Order the lines!", "es": "Construye un programa que defina Greet y lo llame. ¡Ordena las líneas!" },
+              "code": "Greet();\nvoid Greet()\n{\n    Console.WriteLine(\"Hello!\");\n}",
+              "explanation": { "en": "The call can come before the definition — C# doesn't care about order for methods.", "es": "La llamada puede ir antes de la definición: a C# no le importa el orden de los métodos." },
+              "hints": [
+                { "en": "Start with the call, then the method header, then the body between { and }.", "es": "Empieza por la llamada, luego la cabecera del método y el cuerpo entre { y }." }
+              ]
+            },
+            {
+              "id": "w2-l01e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Write a method Cheer() that prints \"Go DevQuest!\" and call it twice.", "es": "Escribe un método Cheer() que muestre \"Go DevQuest!\" y llámalo dos veces." },
+              "starter": "// Define Cheer() here, then call it twice\n",
+              "tests": [ { "name": "cheers twice", "expectedOutput": "Go DevQuest!\nGo DevQuest!", "match": "exact" } ],
+              "explanation": { "en": "Methods let you reuse behavior with a single line per call. That's the whole superpower!", "es": "Los métodos te permiten reutilizar comportamiento con una línea por llamada. ¡Ese es todo el superpoder!" },
+              "hints": [
+                { "en": "void Cheer() { ... } then Cheer(); Cheer();", "es": "void Cheer() { ... } luego Cheer(); Cheer();" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w2-l02-params",
+          "kind": "lesson",
+          "title": { "en": "Parameters: Custom Input", "es": "Parámetros: entrada a medida" },
+          "tip": { "en": "Parameters are holes in your method that callers fill in: Greet(\"Ada\") passes \"Ada\" into the name parameter.", "es": "Los parámetros son huecos en tu método que quien llama rellena: Greet(\"Ada\") pasa \"Ada\" al parámetro name." },
+          "exercises": [
+            {
+              "id": "w2-l02e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "Greet(\"Ada\");\n\nvoid Greet(string name)\n{\n    Console.WriteLine($\"Hello, {name}!\");\n}",
+              "options": [
+                { "en": "Hello, Ada!", "es": "Hello, Ada!" },
+                { "en": "Hello, name!", "es": "Hello, name!" },
+                { "en": "Hello, !", "es": "Hello, !" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "\"Ada\" travels into the name parameter, and the interpolation inserts it.", "es": "\"Ada\" viaja hasta el parámetro name y la interpolación lo inserta." },
+              "hints": [ { "en": "Follow the value from the call into the parameter.", "es": "Sigue el valor desde la llamada hasta el parámetro." } ]
+            },
+            {
+              "id": "w2-l02e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the method header: it receives an int called damage:", "es": "Completa la cabecera: recibe un int llamado damage:" },
+              "code": "void Hit(int ___)\n{\n    Console.WriteLine($\"-{damage} HP\");\n}",
+              "blanks": [ { "answer": "damage", "caseSensitive": true } ],
+              "explanation": { "en": "Parameters are declared like variables: type then name, inside the parentheses.", "es": "Los parámetros se declaran como variables: tipo y nombre, dentro de los paréntesis." },
+              "hints": [ { "en": "The body already uses a name for it — what does the message print?", "es": "El cuerpo ya usa un nombre: ¿qué imprime el mensaje?" } ]
+            },
+            {
+              "id": "w2-l02e3",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "Add(2, 3);\n\nvoid Add(int a, int b)\n{\n    Console.WriteLine(a + b);\n}",
+              "options": [
+                { "en": "5", "es": "5" },
+                { "en": "23", "es": "23" },
+                { "en": "2 + 3", "es": "2 + 3" },
+                { "en": "Nothing", "es": "Nada" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Arguments map by position: a=2, b=3, so it prints 5.", "es": "Los argumentos se asignan por posición: a=2, b=3, así que muestra 5." },
+              "hints": [ { "en": "First argument goes to the first parameter.", "es": "El primer argumento va al primer parámetro." } ]
+            },
+            {
+              "id": "w2-l02e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Write Repeat(string text, int times) that prints text on its own line, times times. Call Repeat(\"Ha\", 3).", "es": "Escribe Repeat(string text, int times) que muestre text en su propia línea, times veces. Llama a Repeat(\"Ha\", 3)." },
+              "starter": "// Define Repeat and call Repeat(\"Ha\", 3)\n",
+              "tests": [ { "name": "repeats 3 times", "expectedOutput": "Ha\nHa\nHa", "match": "exact" } ],
+              "explanation": { "en": "Methods + loops = reusable power. Repeat is now yours forever!", "es": "Métodos + bucles = poder reutilizable. ¡Repeat ya es tuyo para siempre!" },
+              "hints": [
+                { "en": "Inside Repeat, loop from 1 to times and print text each round.", "es": "Dentro de Repeat, haz un bucle de 1 a times y muestra text en cada vuelta." }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w2-l03-return",
+          "kind": "lesson",
+          "title": { "en": "return: Getting Values Back", "es": "return: devolver valores" },
+          "tip": { "en": "A method with a return type hands a value back: int Add(...) { return a + b; }. The caller uses it like any value.", "es": "Un método con tipo de retorno entrega un valor: int Add(...) { return a + b; }. Quien llama lo usa como cualquier valor." },
+          "exercises": [
+            {
+              "id": "w2-l03e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "int result = Double(4);\nConsole.WriteLine(result);\n\nint Double(int x)\n{\n    return x * 2;\n}",
+              "options": [
+                { "en": "8", "es": "8" },
+                { "en": "4", "es": "4" },
+                { "en": "x * 2", "es": "x * 2" },
+                { "en": "Nothing", "es": "Nada" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Double(4) evaluates to 8, which is stored in result and printed.", "es": "Double(4) se evalúa como 8, que se guarda en result y se muestra." },
+              "hints": [ { "en": "Replace the call with what it returns.", "es": "Sustituye la llamada por lo que devuelve." } ]
+            },
+            {
+              "id": "w2-l03e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "What is wrong with this method?", "es": "¿Qué está mal en este método?" },
+              "code": "int GetScore()\n{\n    Console.WriteLine(\"score!\");\n}",
+              "options": [
+                { "en": "It declares int as return type but never returns a value", "es": "Declara int como tipo de retorno pero nunca devuelve un valor" },
+                { "en": "Methods cannot print", "es": "Los métodos no pueden imprimir" },
+                { "en": "int methods must be static", "es": "Los métodos int deben ser static" },
+                { "en": "Nothing is wrong", "es": "Nada está mal" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "If you promise to return an int, EVERY code path must return one. The compiler enforces it.", "es": "Si prometes devolver un int, TODOS los caminos deben devolver uno. El compilador lo exige." },
+              "hints": [ { "en": "Where is the return statement?", "es": "¿Dónde está la instrucción return?" } ]
+            },
+            {
+              "id": "w2-l03e3",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": { "en": "Build a Max method that returns the bigger of two ints, and print Max(3, 9).", "es": "Construye un método Max que devuelva el mayor de dos ints, y muestra Max(3, 9)." },
+              "code": "Console.WriteLine(Max(3, 9));\nint Max(int a, int b)\n{\n    if (a > b)\n    {\n        return a;\n    }\n    return b;\n}",
+              "explanation": { "en": "Two return paths: one per branch. The method ends the moment it returns.", "es": "Dos caminos de retorno: uno por rama. El método termina en cuanto devuelve." },
+              "hints": [
+                { "en": "Print the call first, then the method: header, if-block with return a, then return b.", "es": "Primero la llamada, luego el método: cabecera, bloque if con return a, y después return b." }
+              ]
+            },
+            {
+              "id": "w2-l03e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Write int Square(int x) and print Square(7).", "es": "Escribe int Square(int x) y muestra Square(7)." },
+              "starter": "// Define Square, then print Square(7)\n",
+              "tests": [ { "name": "prints 49", "expectedOutput": "49", "match": "exact" } ],
+              "explanation": { "en": "return x * x; — one line of body. Short methods are happy methods!", "es": "return x * x; — una línea de cuerpo. ¡Los métodos cortos son métodos felices!" },
+              "hints": [ { "en": "The arrow form works too: int Square(int x) => x * x;", "es": "La forma con flecha también vale: int Square(int x) => x * x;" } ]
+            }
+          ]
+        },
+        {
+          "id": "w2-l04-quiz1",
+          "kind": "quiz",
+          "title": { "en": "Unit 1 Quiz", "es": "Examen de la unidad 1" },
+          "tip": { "en": "Methods check-up: parameters in, values back out!", "es": "Repaso de métodos: parámetros dentro, valores fuera." },
+          "exercises": [
+            {
+              "id": "w2-l04e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match each piece to its meaning:", "es": "Relaciona cada pieza con su significado:" },
+              "pairs": [
+                { "left": { "en": "void", "es": "void" }, "right": { "en": "returns nothing", "es": "no devuelve nada" } },
+                { "left": { "en": "parameter", "es": "parámetro" }, "right": { "en": "input declared in the header", "es": "entrada declarada en la cabecera" } },
+                { "left": { "en": "return", "es": "return" }, "right": { "en": "hands a value back to the caller", "es": "entrega un valor a quien llama" } },
+                { "left": { "en": "argument", "es": "argumento" }, "right": { "en": "actual value passed in the call", "es": "valor real pasado en la llamada" } }
+              ],
+              "explanation": { "en": "Arguments (at the call) fill parameters (in the header); return sends a value out.", "es": "Los argumentos (en la llamada) rellenan parámetros (en la cabecera); return saca un valor." },
+              "hints": [ { "en": "Think of a vending machine: buttons you press (parameters), coins you insert (arguments), the snack that drops (return).", "es": "Piensa en una máquina expendedora: botones (parámetros), monedas (argumentos), el snack que cae (return)." } ]
+            },
+            {
+              "id": "w2-l04e2",
+              "type": "output",
+              "xp": 12,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "Console.WriteLine(Triple(3));\n\nint Triple(int x) => x * 3;",
+              "options": [
+                { "en": "9", "es": "9" },
+                { "en": "3", "es": "3" },
+                { "en": "27", "es": "27" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "The expression-body form => x * 3 is a full method with an implicit return.", "es": "La forma de cuerpo de expresión => x * 3 es un método completo con return implícito." },
+              "hints": [ { "en": "3 * 3 = ...", "es": "3 * 3 = ..." } ]
+            },
+            {
+              "id": "w2-l04e3",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": { "en": "This method should return the sum but prints instead of returning. Fix it so the program prints 12.", "es": "Este método debería devolver la suma pero imprime en vez de devolver. Arréglalo para que el programa muestre 12." },
+              "starter": "Console.WriteLine(Add(5, 7));\n\nint Add(int a, int b)\n{\n    Console.WriteLine(a + b);\n}",
+              "tests": [ { "name": "prints 12 once", "expectedOutput": "12", "match": "exact" } ],
+              "explanation": { "en": "Replace the Console.WriteLine inside Add with return a + b; — the caller already prints.", "es": "Sustituye el Console.WriteLine dentro de Add por return a + b; — quien llama ya imprime." },
+              "hints": [
+                { "en": "The method must RETURN its value; printing belongs to the caller.", "es": "El método debe DEVOLVER su valor; imprimir le toca a quien llama." }
+              ]
+            },
+            {
+              "id": "w2-l04e4",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": { "en": "How many times does Loop() run its body here?", "es": "¿Cuántas veces ejecuta Loop() su cuerpo aquí?" },
+              "code": "Loop();\nLoop();\nLoop();\n\nvoid Loop() { }",
+              "options": [
+                { "en": "3 — once per call", "es": "3: una por llamada" },
+                { "en": "0 — the body is empty", "es": "0: el cuerpo está vacío" },
+                { "en": "Infinite — Loop never ends", "es": "Infinito: Loop nunca termina" },
+                { "en": "1", "es": "1" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Trick question! The body is empty, so nothing happens at all — but the method is *invoked* 3 times.", "es": "¡Pregunta trampa! El cuerpo está vacío, así que no pasa nada, pero el método se *invoca* 3 veces." },
+              "hints": [ { "en": "What does an empty body do?", "es": "¿Qué hace un cuerpo vacío?" } ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": { "en": "List<T>", "es": "List<T>" },
+      "lessons": [
+        {
+          "id": "w2-l05-list",
+          "kind": "lesson",
+          "title": { "en": "List: Arrays That Grow", "es": "List: arreglos que crecen" },
+          "tip": { "en": "List<string> is an array with superpowers: it grows, shrinks and searches. It lives in System.Collections.Generic.", "es": "List<string> es un arreglo con superpoderes: crece, encoge y busca. Vive en System.Collections.Generic." },
+          "exercises": [
+            {
+              "id": "w2-l05e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Which line creates an empty list of strings?", "es": "¿Qué línea crea una lista vacía de strings?" },
+              "options": [
+                { "en": "var names = new List<string>();", "es": "var names = new List<string>();" },
+                { "en": "var names = new List();", "es": "var names = new List();" },
+                { "en": "var names = new List<string>(\"Ada\");", "es": "var names = new List<string>(\"Ada\");" },
+                { "en": "List names = new string[];", "es": "List names = new string[];" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "The element type goes in angle brackets; empty parentheses create it with zero items.", "es": "El tipo de elemento va entre llaves angulares; los paréntesis vacíos la crean sin elementos." },
+              "hints": [ { "en": "List<what>?", "es": "List<de qué>?" } ]
+            },
+            {
+              "id": "w2-l05e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var scores = new List<int> { 10, 20, 30 };\nscores.Add(40);\nConsole.WriteLine(scores.Count);",
+              "options": [
+                { "en": "4", "es": "4" },
+                { "en": "3", "es": "3" },
+                { "en": "40", "es": "40" },
+                { "en": "100", "es": "100" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Count is the number of items. Started with 3, Add made it 4.", "es": "Count es el número de elementos. Empezó con 3 y Add la llevó a 4." },
+              "hints": [ { "en": "Count ≠ sum. It's just 'how many'.", "es": "Count ≠ suma. Es solo 'cuántos'." } ]
+            },
+            {
+              "id": "w2-l05e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the property that returns how many items a list has:", "es": "Completa la propiedad que devuelve cuántos elementos tiene una lista:" },
+              "code": "var nums = new List<int> { 5, 6, 7 };\nConsole.WriteLine(nums.___);",
+              "blanks": [ { "answer": "Count", "caseSensitive": true } ],
+              "explanation": { "en": "Lists use Count. (Arrays use Length — a classic mix-up!)", "es": "Las listas usan Count. (Los arreglos usan Length: ¡un lío clásico!)" },
+              "hints": [ { "en": "Not Length — lists are fancier.", "es": "No es Length, las listas son más elegantes." } ]
+            },
+            {
+              "id": "w2-l05e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Create a List<string> with \"apple\" and \"banana\", add \"cherry\", then print each fruit on its own line.", "es": "Crea una List<string> con \"apple\" y \"banana\", añade \"cherry\" y muestra cada fruta en su línea." },
+              "starter": "// Build the list, then loop and print\n",
+              "tests": [ { "name": "prints three fruits", "expectedOutput": "apple\nbanana\ncherry", "match": "exact" } ],
+              "explanation": { "en": "foreach + List is the daily bread of C# programs!", "es": "¡foreach + List es el pan de cada día de los programas C#!" },
+              "hints": [
+                { "en": "var fruits = new List<string> { \"apple\", \"banana\" }; then fruits.Add(\"cherry\");", "es": "var fruits = new List<string> { \"apple\", \"banana\" }; luego fruits.Add(\"cherry\");" },
+                { "en": "foreach (var f in fruits) Console.WriteLine(f);", "es": "foreach (var f in fruits) Console.WriteLine(f);" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w2-l06-listops",
+          "kind": "lesson",
+          "title": { "en": "List Superpowers", "es": "Superpoderes de List" },
+          "tip": { "en": "Remove, RemoveAt, Contains, Sort, Reverse — a List comes with a full toolbox built in.", "es": "Remove, RemoveAt, Contains, Sort, Reverse: una List trae una caja de herramientas completa." },
+          "exercises": [
+            {
+              "id": "w2-l06e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var nums = new List<int> { 3, 1, 2 };\nnums.Sort();\nConsole.WriteLine($\"{nums[0]}{nums[2]}\");",
+              "options": [
+                { "en": "13", "es": "13" },
+                { "en": "31", "es": "31" },
+                { "en": "12", "es": "12" },
+                { "en": "3", "es": "3" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Sort orders 1,2,3 — so index 0 is 1 and index 2 is 3.", "es": "Sort ordena 1,2,3: el índice 0 es 1 y el índice 2 es 3." },
+              "hints": [ { "en": "What does the list look like after sorting?", "es": "¿Cómo queda la lista tras ordenar?" } ]
+            },
+            {
+              "id": "w2-l06e2",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": { "en": "Remove(\"x\") deletes the item at position x.", "es": "Remove(\"x\") borra el elemento en la posición x." },
+              "answerIndex": 0,
+              "explanation": { "en": "False! Remove(value) removes the first item EQUAL to the value; RemoveAt(index) removes by position.", "es": "¡Falso! Remove(valor) borra el primer elemento IGUAL a ese valor; RemoveAt(índice) borra por posición." },
+              "hints": [ { "en": "There is a separate method for positions.", "es": "Hay un método aparte para posiciones." } ]
+            },
+            {
+              "id": "w2-l06e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the check for whether the list contains \"Ada\":", "es": "Completa la comprobación de si la lista contiene \"Ada\":" },
+              "code": "if (names.___(\"Ada\"))\n{\n    Console.WriteLine(\"Found her!\");\n}",
+              "blanks": [ { "answer": "Contains", "caseSensitive": true } ],
+              "explanation": { "en": "Contains returns true/false — perfect for ifs.", "es": "Contains devuelve true/false, perfecto para ifs." },
+              "hints": [ { "en": "Eight letters, starts with 'C'.", "es": "Ocho letras, empieza con 'C'." } ]
+            },
+            {
+              "id": "w2-l06e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Start with {5, 2, 8, 1}. Remove the smallest value, sort the rest ascending, and print each number on its own line.", "es": "Empieza con {5, 2, 8, 1}. Quita el valor más pequeño, ordena el resto de forma ascendente y muestra cada número en su línea." },
+              "starter": "var nums = new List<int> { 5, 2, 8, 1 };\n// Remove 1, sort, print each\n",
+              "tests": [ { "name": "prints 2 5 8", "expectedOutput": "2\n5\n8", "match": "exact" } ],
+              "explanation": { "en": "nums.Remove(1); nums.Sort(); then foreach — three toolbox calls in a row.", "es": "nums.Remove(1); nums.Sort(); y foreach: tres llamadas de la caja de herramientas seguidas." },
+              "hints": [
+                { "en": "Remove(1) removes the VALUE 1 (which happens to be the smallest).", "es": "Remove(1) quita el VALOR 1 (que resulta ser el más pequeño)." }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w2-l07-listloop",
+          "kind": "lesson",
+          "title": { "en": "Looping Lists Like a Pro", "es": "Recorrer listas como un pro" },
+          "tip": { "en": "foreach is the friendliest loop; for gives you the index. Pick foreach unless you need positions.", "es": "foreach es el bucle más amigable; for te da el índice. Elige foreach salvo que necesites posiciones." },
+          "exercises": [
+            {
+              "id": "w2-l07e1",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": { "en": "This program should print each name, but something's wrong. Fix it!", "es": "Este programa debería mostrar cada nombre, pero algo falla. ¡Arréglalo!" },
+              "starter": "var names = new List<string> { \"Ada\", \"Bit\" };\nforeach (string name in names)\n{\n    Console.WriteLine(names);\n}",
+              "tests": [ { "name": "prints both names", "expectedOutput": "Ada\nBit", "match": "exact" } ],
+              "explanation": { "en": "Inside foreach you use the LOOP VARIABLE (name), not the collection itself.", "es": "Dentro de foreach usas la VARIABLE DEL BUCLE (name), no la colección entera." },
+              "hints": [
+                { "en": "The loop hands you each element one at a time — what is it called here?", "es": "El bucle te entrega cada elemento de uno en uno: ¿cómo se llama aquí?" }
+              ]
+            },
+            {
+              "id": "w2-l07e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var nums = new List<int> { 4, 8, 15 };\nint total = 0;\nforeach (var n in nums)\n{\n    total += n;\n}\nConsole.WriteLine(total);",
+              "options": [
+                { "en": "27", "es": "27" },
+                { "en": "15", "es": "15" },
+                { "en": "3", "es": "3" },
+                { "en": "0", "es": "0" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "The accumulator pattern again: 4 + 8 + 15 = 27.", "es": "Otra vez el patrón acumulador: 4 + 8 + 15 = 27." },
+              "hints": [ { "en": "Add them all up.", "es": "Suma todos." } ]
+            },
+            {
+              "id": "w2-l07e3",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": { "en": "Build a loop that prints only the big numbers (> 10) from the list.", "es": "Construye un bucle que muestre solo los números grandes (> 10) de la lista." },
+              "code": "foreach (var n in nums)\n{\n    if (n > 10)\n    {\n        Console.WriteLine(n);\n    }\n}",
+              "explanation": { "en": "Filtering is just an if inside the loop — the most common pattern in data code.", "es": "Filtrar es simplemente un if dentro del bucle: el patrón más común en código de datos." },
+              "hints": [ { "en": "foreach first, then the if, then the print.", "es": "Primero foreach, luego el if y después la impresión." } ]
+            },
+            {
+              "id": "w2-l07e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "From {12, 5, 30, 7, 22}, print only numbers of 10 or more, one per line, keeping their order.", "es": "De {12, 5, 30, 7, 22}, muestra solo los números de 10 o más, uno por línea, conservando su orden." },
+              "starter": "var nums = new List<int> { 12, 5, 30, 7, 22 };\n// Print only n >= 10\n",
+              "tests": [ { "name": "prints 12 30 22", "expectedOutput": "12\n30\n22", "match": "exact" } ],
+              "explanation": { "en": "12, 30, 22 — the if-filter passed them through in original order.", "es": "12, 30, 22: el filtro if los dejó pasar en su orden original." },
+              "hints": [ { "en": "foreach + if (n >= 10) + WriteLine.", "es": "foreach + if (n >= 10) + WriteLine." } ]
+            }
+          ]
+        },
+        {
+          "id": "w2-l08-quiz2",
+          "kind": "quiz",
+          "title": { "en": "Unit 2 Quiz", "es": "Examen de la unidad 2" },
+          "tip": { "en": "List mastery check — Count, Add, Remove, Sort!", "es": "Control de List: ¡Count, Add, Remove, Sort!" },
+          "exercises": [
+            {
+              "id": "w2-l08e1",
+              "type": "output",
+              "xp": 12,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var list = new List<string>();\nlist.Add(\"a\");\nlist.Add(\"b\");\nlist.Remove(\"a\");\nlist.Add(\"c\");\nConsole.WriteLine($\"{list.Count}:{list[0]}\");",
+              "options": [
+                { "en": "2:b", "es": "2:b" },
+                { "en": "3:a", "es": "3:a" },
+                { "en": "2:a", "es": "2:a" },
+                { "en": "1:b", "es": "1:b" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "After add/add/remove/add the list is [b, c] — Count 2, first item b.", "es": "Tras add/add/remove/add la lista es [b, c]: Count 2 y primer elemento b." },
+              "hints": [ { "en": "Track the list contents step by step.", "es": "Sigue el contenido de la lista paso a paso." } ]
+            },
+            {
+              "id": "w2-l08e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match each list member with what it does:", "es": "Relaciona cada miembro de List con lo que hace:" },
+              "pairs": [
+                { "left": { "en": "Add(x)", "es": "Add(x)" }, "right": { "en": "appends to the end", "es": "añade al final" } },
+                { "left": { "en": "Count", "es": "Count" }, "right": { "en": "number of items", "es": "número de elementos" } },
+                { "left": { "en": "Sort()", "es": "Sort()" }, "right": { "en": "orders items in place", "es": "ordena los elementos" } },
+                { "left": { "en": "RemoveAt(i)", "es": "RemoveAt(i)" }, "right": { "en": "deletes by position", "es": "borra por posición" } }
+              ],
+              "explanation": { "en": "The core List toolbox — these four cover most daily needs.", "es": "La caja de herramientas básica de List: estos cuatro cubren casi todo." },
+              "hints": [ { "en": "At = position. Sort = order.", "es": "At = posición. Sort = ordenar." } ]
+            },
+            {
+              "id": "w2-l08e3",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": { "en": "This should print 3 (the list's size) but crashes. Fix it!", "es": "Esto debería mostrar 3 (el tamaño de la lista) pero se rompe. ¡Arréglalo!" },
+              "starter": "var nums = new List<int> { 7, 8, 9 };\nConsole.WriteLine(nums.Length);",
+              "tests": [ { "name": "prints 3", "expectedOutput": "3", "match": "exact" } ],
+              "explanation": { "en": "Length is for arrays; lists use Count.", "es": "Length es de los arreglos; las listas usan Count." },
+              "hints": [ { "en": "Swap the property name.", "es": "Cambia el nombre de la propiedad." } ]
+            },
+            {
+              "id": "w2-l08e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Build a list with the even numbers 2..8 (2,4,6,8) using a loop and Add, then print the list joined by commas.", "es": "Construye una lista con los pares 2..8 (2,4,6,8) usando un bucle y Add, y muestra la lista unida por comas." },
+              "starter": "// Loop 2..8 step 2, Add each, then print joined\n",
+              "tests": [ { "name": "prints 2,4,6,8", "expectedOutput": "2,4,6,8", "match": "exact" } ],
+              "explanation": { "en": "string.Join(\",\", list) turns any list into display text — you'll use this constantly!", "es": "string.Join(\",\", list) convierte cualquier lista en texto: ¡lo usarás constantemente!" },
+              "hints": [
+                { "en": "for (int i = 2; i <= 8; i += 2) evens.Add(i);", "es": "for (int i = 2; i <= 8; i += 2) evens.Add(i);" },
+                { "en": "Then Console.WriteLine(string.Join(\",\", evens));", "es": "Luego Console.WriteLine(string.Join(\",\", evens));" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": { "en": "Dictionaries", "es": "Dictionaries" },
+      "lessons": [
+        {
+          "id": "w2-l09-dict",
+          "kind": "lesson",
+          "title": { "en": "Dictionary: Key → Value", "es": "Dictionary: clave → valor" },
+          "tip": { "en": "A Dictionary stores pairs: look up any value instantly by its key, like a real dictionary maps words to definitions.", "es": "Un Dictionary guarda pares: encuentra cualquier valor al instante por su clave, como un diccionario real mapea palabras a definiciones." },
+          "exercises": [
+            {
+              "id": "w2-l09e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Which line creates a dictionary mapping names (string) to ages (int)?", "es": "¿Qué línea crea un diccionario de nombres (string) a edades (int)?" },
+              "options": [
+                { "en": "var ages = new Dictionary<string, int>();", "es": "var ages = new Dictionary<string, int>();" },
+                { "en": "var ages = new Dictionary<int, string>();", "es": "var ages = new Dictionary<int, string>();" },
+                { "en": "var ages = new Dictionary();", "es": "var ages = new Dictionary();" },
+                { "en": "var ages = new List<string, int>();", "es": "var ages = new List<string, int>();" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "First type = key, second = value. Dictionary<string, int> maps names to numbers.", "es": "El primer tipo = clave, el segundo = valor. Dictionary<string, int> mapea nombres a números." },
+              "hints": [ { "en": "Key comes first — what do you look up BY?", "es": "La clave va primero: ¿por qué buscas?" } ]
+            },
+            {
+              "id": "w2-l09e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var caps = new Dictionary<string, string>\n{\n    [\"Spain\"] = \"Madrid\",\n    [\"France\"] = \"Paris\"\n};\ncaps[\"Italy\"] = \"Rome\";\nConsole.WriteLine(caps[\"Italy\"]);",
+              "options": [
+                { "en": "Rome", "es": "Rome" },
+                { "en": "Italy", "es": "Italy" },
+                { "en": "Madrid", "es": "Madrid" },
+                { "en": "It crashes — Italy was not there", "es": "Falla: Italy no estaba" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Assigning to a new key ADDS the pair. Reading caps[\"Italy\"] then returns \"Rome\".", "es": "Asignar a una clave nueva AÑADE el par. Leer caps[\"Italy\"] luego devuelve \"Rome\"." },
+              "hints": [ { "en": "The indexer both adds and reads.", "es": "El indexador sirve para añadir y para leer." } ]
+            },
+            {
+              "id": "w2-l09e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the initializer so stock starts at 42:", "es": "Completa el inicializador para que stock empiece en 42:" },
+              "code": "var stock = new Dictionary<string, int>\n{\n    [\"apple\"] = 3,\n    [\"pear\"] = ___\n};",
+              "blanks": [ { "answer": "42", "caseSensitive": false } ],
+              "explanation": { "en": "Initializer entries are just key = value pairs separated by commas.", "es": "Las entradas del inicializador son pares clave = valor separados por comas." },
+              "hints": [ { "en": "The prompt says it: forty-two.", "es": "Lo dice el enunciado: cuarenta y dos." } ]
+            },
+            {
+              "id": "w2-l09e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Build a Dictionary<string, int> with {\"gold\": 3, \"silver\": 5}, add \"bronze\": 8, then print each as \"key=value\" on its own line.", "es": "Crea un Dictionary<string, int> con {\"gold\": 3, \"silver\": 5}, añade \"bronze\": 8 y muestra cada uno como \"clave=valor\" en su línea." },
+              "starter": "// Create, add bronze, then loop and print key=value\n",
+              "tests": [ { "name": "prints the three entries", "expectedOutput": "gold=3\nsilver=5\nbronze=8", "match": "exact" } ],
+              "explanation": { "en": "foreach (var kv in dict) gives you KeyValuePairs with .Key and .Value.", "es": "foreach (var kv in dict) te da KeyValuePairs con .Key y .Value." },
+              "hints": [
+                { "en": "foreach (var kv in bag) Console.WriteLine($\"{kv.Key}={kv.Value}\");", "es": "foreach (var kv in bag) Console.WriteLine($\"{kv.Key}={kv.Value}\");" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w2-l10-dictops",
+          "kind": "lesson",
+          "title": { "en": "Safe Lookups", "es": "Búsquedas seguras" },
+          "tip": { "en": "Reading dict[key] with a missing key CRASHES. Check ContainsKey first, or better: TryGetValue.", "es": "Leer dict[clave] con clave inexistente FALLA. Comprueba ContainsKey antes o, mejor, TryGetValue." },
+          "exercises": [
+            {
+              "id": "w2-l10e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "What happens when you read dict[\"ghost\"] and \"ghost\" is not a key?", "es": "¿Qué pasa al leer dict[\"ghost\"] si \"ghost\" no es una clave?" },
+              "options": [
+                { "en": "It throws KeyNotFoundException", "es": "Lanza KeyNotFoundException" },
+                { "en": "It returns null", "es": "Devuelve null" },
+                { "en": "It returns the default value", "es": "Devuelve el valor por defecto" },
+                { "en": "It adds the key", "es": "Añade la clave" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Missing key = exception. That's why ContainsKey/TryGetValue exist.", "es": "Clave inexistente = excepción. Por eso existen ContainsKey/TryGetValue." },
+              "hints": [ { "en": "It's the loud kind of failure.", "es": "Es el tipo de fallo ruidoso." } ]
+            },
+            {
+              "id": "w2-l10e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the safe check:", "es": "Completa la comprobación segura:" },
+              "code": "if (ages.___(\"Ada\"))\n{\n    Console.WriteLine(ages[\"Ada\"]);\n}",
+              "blanks": [ { "answer": "ContainsKey", "caseSensitive": true } ],
+              "explanation": { "en": "ContainsKey answers 'is this key in the dictionary?' without crashing.", "es": "ContainsKey responde '¿está esta clave?' sin fallar." },
+              "hints": [ { "en": "Contains + Key.", "es": "Contains + Key." } ]
+            },
+            {
+              "id": "w2-l10e3",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var d = new Dictionary<string, int> { [\"a\"] = 1 };\nd[\"a\"] = d[\"a\"] + 10;\nd[\"a\"] = d[\"a\"] + 100;\nConsole.WriteLine(d[\"a\"]);",
+              "options": [
+                { "en": "111", "es": "111" },
+                { "en": "101", "es": "101" },
+                { "en": "11", "es": "11" },
+                { "en": "It crashes", "es": "Falla" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Reading existing keys is fine: 1 + 10 = 11, then 11 + 100 = 111. Assigning to an existing key just updates it.", "es": "Leer claves existentes está bien: 1 + 10 = 11, luego 11 + 100 = 111. Asignar a una clave existente la actualiza." },
+              "hints": [ { "en": "Follow the arithmetic.", "es": "Sigue la aritmética." } ]
+            },
+            {
+              "id": "w2-l10e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Count each word in {\"a\", \"b\", \"a\"} using a Dictionary: word → occurrences. Print \"a=2\" and \"b=1\" (in any order).", "es": "Cuenta cada palabra de {\"a\", \"b\", \"a\"} con un Dictionary: palabra → apariciones. Muestra \"a=2\" y \"b=1\" (en cualquier orden)." },
+              "starter": "var words = new List<string> { \"a\", \"b\", \"a\" };\n// Count occurrences, then print word=count lines\n",
+              "tests": [ { "name": "counts a and b", "expectedOutput": "a=2\nb=1", "match": "exact" } ],
+              "explanation": { "en": "The frequency counter — THE classic dictionary exercise. If the key exists, +1; otherwise start at 1.", "es": "El contador de frecuencias: EL ejercicio clásico de diccionarios. Si la clave existe, +1; si no, empieza en 1." },
+              "hints": [
+                { "en": "if (counts.ContainsKey(w)) counts[w]++; else counts[w] = 1;", "es": "if (counts.ContainsKey(w)) counts[w]++; else counts[w] = 1;" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w2-l11-hashset",
+          "kind": "lesson",
+          "title": { "en": "HashSet: Unique Only", "es": "HashSet: solo únicos" },
+          "tip": { "en": "HashSet<T> stores each value at most once — Add the same thing twice and nothing happens. Perfect for 'have I seen this?' checks.", "es": "HashSet<T> guarda cada valor como mucho una vez: añadir lo mismo dos veces no hace nada. Perfecto para '¿ya lo vi?'." },
+          "exercises": [
+            {
+              "id": "w2-l11e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var seen = new HashSet<string>();\nseen.Add(\"a\");\nseen.Add(\"b\");\nseen.Add(\"a\");\nConsole.WriteLine(seen.Count);",
+              "options": [
+                { "en": "2", "es": "2" },
+                { "en": "3", "es": "3" },
+                { "en": "1", "es": "1" },
+                { "en": "It crashes", "es": "Falla" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "\"a\" was already there, so the second Add was ignored. Unique only: a and b.", "es": "\"a\" ya estaba, así que el segundo Add se ignoró. Solo únicos: a y b." },
+              "hints": [ { "en": "Duplicates never enter the club twice.", "es": "Los duplicados nunca entran dos veces al club." } ]
+            },
+            {
+              "id": "w2-l11e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Which collection guarantees NO duplicate values?", "es": "¿Qué colección garantiza que NO haya duplicados?" },
+              "options": [
+                { "en": "HashSet<int>", "es": "HashSet<int>" },
+                { "en": "List<int>", "es": "List<int>" },
+                { "en": "int[]", "es": "int[]" },
+                { "en": "Dictionary<int, int>", "es": "Dictionary<int, int>" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "A dictionary can hold duplicate VALUES (different keys); a HashSet holds duplicate nothing.", "es": "Un diccionario puede tener valores duplicados (claves distintas); un HashSet no tolera duplicados." },
+              "hints": [ { "en": "'Set' is the math word for a group without repeats.", "es": "'Set' es la palabra matemática para un grupo sin repetidos." } ]
+            },
+            {
+              "id": "w2-l11e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Remove duplicates from {1, 2, 2, 3, 3, 3} and print each unique number on its own line (any order).", "es": "Quita duplicados de {1, 2, 2, 3, 3, 3} y muestra cada número único en su línea (cualquier orden)." },
+              "starter": "var nums = new List<int> { 1, 2, 2, 3, 3, 3 };\n// Use a HashSet, then print each\n",
+              "tests": [ { "name": "prints 1 2 3", "expectedOutput": "1\n2\n3", "match": "exact" } ],
+              "explanation": { "en": "new HashSet<int>(nums) deduplicates in one move; foreach prints what's left.", "es": "new HashSet<int>(nums) elimina duplicados de un tirón; foreach muestra lo que queda." },
+              "hints": [
+                { "en": "var unique = new HashSet<int>(nums); foreach (var n in unique) ...", "es": "var unique = new HashSet<int>(nums); foreach (var n in unique) ..." }
+              ]
+            },
+            {
+              "id": "w2-l11e4",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": { "en": "You can access HashSet items by index, like seen[0].", "es": "Puedes acceder a los elementos de un HashSet por índice, como seen[0]." },
+              "answerIndex": 0,
+              "explanation": { "en": "False — a set has no order, so indexing makes no sense. Use foreach or Contains.", "es": "Falso: un set no tiene orden, así que indexar no tiene sentido. Usa foreach o Contains." },
+              "hints": [ { "en": "Sets don't keep positions.", "es": "Los sets no guardan posiciones." } ]
+            }
+          ]
+        },
+        {
+          "id": "w2-l12-quiz3",
+          "kind": "quiz",
+          "title": { "en": "Unit 3 Quiz", "es": "Examen de la unidad 3" },
+          "tip": { "en": "Dictionary time! Keys, values and safe lookups.", "es": "¡Hora de diccionarios! Claves, valores y búsquedas seguras." },
+          "exercises": [
+            {
+              "id": "w2-l12e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match the collection to its superpower:", "es": "Relaciona la colección con su superpoder:" },
+              "pairs": [
+                { "left": { "en": "List<T>", "es": "List<T>" }, "right": { "en": "ordered, indexed, grows", "es": "ordenada, indexada, crece" } },
+                { "left": { "en": "Dictionary<K,V>", "es": "Dictionary<K,V>" }, "right": { "en": "instant lookup by key", "es": "búsqueda instantánea por clave" } },
+                { "left": { "en": "HashSet<T>", "es": "HashSet<T>" }, "right": { "en": "unique values only", "es": "solo valores únicos" } },
+                { "left": { "en": "T[]", "es": "T[]" }, "right": { "en": "fixed size, fastest", "es": "tamaño fijo, el más rápido" } }
+              ],
+              "explanation": { "en": "Choosing the right collection is half of programming well.", "es": "Elegir la colección correcta es la mitad de programar bien." },
+              "hints": [ { "en": "Set = uniqueness. Array = fixed.", "es": "Set = unicidad. Arreglo = fijo." } ]
+            },
+            {
+              "id": "w2-l12e2",
+              "type": "output",
+              "xp": 12,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var d = new Dictionary<string, int> { [\"x\"] = 1 };\nif (d.ContainsKey(\"y\"))\n{\n    Console.WriteLine(d[\"y\"]);\n}\nelse\n{\n    Console.WriteLine(\"no y\");\n}",
+              "options": [
+                { "en": "no y", "es": "no y" },
+                { "en": "0", "es": "0" },
+                { "en": "It crashes", "es": "Falla" },
+                { "en": "y", "es": "y" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "\"y\" is not a key, so the else branch runs — no crash because we never read d[\"y\"].", "es": "\"y\" no es clave, así que se ejecuta el else: no hay fallo porque nunca leemos d[\"y\"]." },
+              "hints": [ { "en": "The check protects the read.", "es": "La comprobación protege la lectura." } ]
+            },
+            {
+              "id": "w2-l12e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "One dictionary can hold the same key twice.", "es": "Un diccionario puede tener la misma clave dos veces." },
+              "answerIndex": 0,
+              "explanation": { "en": "False — assigning to an existing key UPDATES its value; keys are always unique.", "es": "Falso: asignar a una clave existente ACTUALIZA su valor; las claves siempre son únicas." },
+              "hints": [ { "en": "What happens when you assign twice?", "es": "¿Qué pasa si asignas dos veces?" } ]
+            },
+            {
+              "id": "w2-l12e4",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": { "en": "Complete the loop header to visit each key-value pair:", "es": "Completa la cabecera del bucle para visitar cada par clave-valor:" },
+              "code": "foreach (var kv in dict)\n{\n    Console.WriteLine($\"{kv.___}: {kv.Value}\");\n}",
+              "blanks": [ { "answer": "Key", "caseSensitive": true } ],
+              "explanation": { "en": "Each item is a KeyValuePair with .Key and .Value.", "es": "Cada elemento es un KeyValuePair con .Key y .Value." },
+              "hints": [ { "en": "The opposite of Value.", "es": "Lo contrario de Value." } ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u4",
+      "title": { "en": "Methods II", "es": "Métodos II" },
+      "lessons": [
+        {
+          "id": "w2-l13-overload",
+          "kind": "lesson",
+          "title": { "en": "Overloading", "es": "Sobrecarga" },
+          "tip": { "en": "Same name, different parameter lists = overloads. The compiler picks the right one from your arguments.", "es": "Mismo nombre, distintas listas de parámetros = sobrecargas. El compilador elige la correcta según tus argumentos." },
+          "exercises": [
+            {
+              "id": "w2-l13e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "Show(5);\nShow(\"five\");\n\nvoid Show(int x) => Console.WriteLine($\"int: {x}\");\nvoid Show(string s) => Console.WriteLine($\"text: {s}\");",
+              "options": [
+                { "en": "int: 5\ntext: five", "es": "int: 5\ntext: five" },
+                { "en": "text: five\nint: 5", "es": "text: five\nint: 5" },
+                { "en": "It does not compile — same name twice", "es": "No compila: mismo nombre dos veces" },
+                { "en": "int: 5\nint: 5", "es": "int: 5\nint: 5" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Overloading is legal: the argument types choose which overload runs.", "es": "La sobrecarga es legal: los tipos de los argumentos eligen qué sobrecarga se ejecuta." },
+              "hints": [ { "en": "5 is an int; \"five\" is a string.", "es": "5 es un int; \"five\" es un string." } ]
+            },
+            {
+              "id": "w2-l13e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Which two methods CANNOT coexist as overloads?", "es": "¿Qué dos métodos NO pueden convivir como sobrecargas?" },
+              "options": [
+                { "en": "int F(int x) and string F(int x)", "es": "int F(int x) y string F(int x)" },
+                { "en": "int F(int x) and int F(string x)", "es": "int F(int x) y int F(string x)" },
+                { "en": "int F(int x) and int F(int x, int y)", "es": "int F(int x) y int F(int x, int y)" },
+                { "en": "void F() and void F(int x)", "es": "void F() y void F(int x)" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Overloads must differ in their PARAMETER list — return type alone is not enough.", "es": "Las sobrecargas deben diferir en la lista de PARÁMETROS: el tipo de retorno no basta." },
+              "hints": [ { "en": "Look at the parameter lists only.", "es": "Mira solo las listas de parámetros." } ]
+            },
+            {
+              "id": "w2-l13e3",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": { "en": "The second overload has a problem — the program should print 7 then 3. Fix it!", "es": "La segunda sobrecarga tiene un problema: el programa debería mostrar 7 y luego 3. ¡Arréglalo!" },
+              "starter": "Console.WriteLine(Max(7, 3));\nConsole.WriteLine(Max(7, 3, 1));\n\nint Max(int a, int b) => a > b ? a : b;\nint Max(int a, int b, int c) => Max(a, b);",
+              "tests": [ { "name": "prints 7 and 3", "expectedOutput": "7\n3", "match": "exact" } ],
+              "explanation": { "en": "The three-arg overload forgot c: Max(a, Max(b, c)) chains the two-arg version — reuse!", "es": "La sobrecarga de tres argumentos olvidó c: Max(a, Max(b, c)) encadena la de dos. ¡Reutiliza!" },
+              "hints": [
+                { "en": "Compare c against Max(a, b).", "es": "Compara c con Max(a, b)." }
+              ]
+            },
+            {
+              "id": "w2-l13e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Write two Log overloads: Log(string msg) prints [LOG] msg, and Log(int n) prints [LOG] number: n. Call Log(\"hi\") and Log(42).", "es": "Escribe dos sobrecargas de Log: Log(string msg) muestra [LOG] msg, y Log(int n) muestra [LOG] number: n. Llama a Log(\"hi\") y Log(42)." },
+              "starter": "// Define both overloads and call them\n",
+              "tests": [ { "name": "prints both formats", "expectedOutput": "[LOG] hi\n[LOG] number: 42", "match": "exact" } ],
+              "explanation": { "en": "Callers get one friendly name; the compiler routes to the right implementation.", "es": "Quien llama tiene un nombre amigable; el compilador enruta a la implementación correcta." },
+              "hints": [
+                { "en": "Two methods named Log with different parameter types.", "es": "Dos métodos llamados Log con tipos de parámetro distintos." }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w2-l14-default",
+          "kind": "lesson",
+          "title": { "en": "Optional Parameters", "es": "Parámetros opcionales" },
+          "tip": { "en": "Give a parameter a default and callers can skip it: void Log(string msg, int level = 1).", "es": "Da un valor por defecto a un parámetro y quien llama podrá omitirlo: void Log(string msg, int level = 1)." },
+          "exercises": [
+            {
+              "id": "w2-l14e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "Greet(\"Ada\");\n\nvoid Greet(string name, string greeting = \"Hello\")\n{\n    Console.WriteLine($\"{greeting}, {name}!\");\n}",
+              "options": [
+                { "en": "Hello, Ada!", "es": "Hello, Ada!" },
+                { "en": ", Ada!", "es": ", Ada!" },
+                { "en": "It does not compile", "es": "No compila" },
+                { "en": "greeting, Ada!", "es": "greeting, Ada!" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "One argument = the rest fall back to their defaults.", "es": "Con un argumento, el resto usa sus valores por defecto." },
+              "hints": [ { "en": "greeting was not passed...", "es": "greeting no se pasó..." } ]
+            },
+            {
+              "id": "w2-l14e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Give volume the default value 5:", "es": "Dale a volume el valor por defecto 5:" },
+              "code": "void Play(string song, int ___ = 5)\n{\n    Console.WriteLine($\"{song} at {volume}\");\n}",
+              "blanks": [ { "answer": "volume", "caseSensitive": true } ],
+              "explanation": { "en": "The body uses the name, so the parameter must be named volume — with = 5 after.", "es": "El cuerpo usa el nombre, así que el parámetro debe llamarse volume, con = 5 después." },
+              "hints": [ { "en": "What name does the body print?", "es": "¿Qué nombre imprime el cuerpo?" } ]
+            },
+            {
+              "id": "w2-l14e3",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "Fire();\nFire(3);\n\nvoid Fire(int shots = 1)\n{\n    Console.WriteLine($\"{shots} shot(s)\");\n}",
+              "options": [
+                { "en": "1 shot(s)\n3 shot(s)", "es": "1 shot(s)\n3 shot(s)" },
+                { "en": "3 shot(s)\n1 shot(s)", "es": "3 shot(s)\n1 shot(s)" },
+                { "en": "1 shot(s)\n1 shot(s)", "es": "1 shot(s)\n1 shot(s)" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "First call uses the default 1; second passes 3 explicitly.", "es": "La primera llamada usa el 1 por defecto; la segunda pasa 3." },
+              "hints": [ { "en": "Match each call to its value.", "es": "Relaciona cada llamada con su valor." } ]
+            },
+            {
+              "id": "w2-l14e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Write Power(int baseNum, int exponent = 2) and print Power(5) then Power(2, 3).", "es": "Escribe Power(int baseNum, int exponent = 2) y muestra Power(5) y luego Power(2, 3)." },
+              "starter": "// Define Power and print both calls\n",
+              "tests": [ { "name": "prints 25 and 8", "expectedOutput": "25\n8", "match": "exact" } ],
+              "explanation": { "en": "5² = 25 with the default; 2³ = 8 with the explicit exponent. One method, two behaviors.", "es": "5² = 25 con el defecto; 2³ = 8 con exponente explícito. Un método, dos comportamientos." },
+              "hints": [
+                { "en": "Use Math.Pow? It returns double... a loop with multiply is cleaner for ints.", "es": "¿Math.Pow? Devuelve double... un bucle con multiplicaciones es más limpio para ints." },
+                { "en": "int result = 1; for (int i = 0; i < exponent; i++) result *= baseNum;", "es": "int result = 1; for (int i = 0; i < exponent; i++) result *= baseNum;" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w2-l15-quiz4",
+          "kind": "quiz",
+          "title": { "en": "Unit 4 Quiz", "es": "Examen de la unidad 4" },
+          "tip": { "en": "Overloads and defaults — quick check!", "es": "Sobrecargas y valores por defecto: ¡repaso rápido!" },
+          "exercises": [
+            {
+              "id": "w2-l15e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": { "en": "Why do overloads exist?", "es": "¿Por qué existen las sobrecargas?" },
+              "options": [
+                { "en": "One friendly name can accept different argument types", "es": "Un nombre amigable puede aceptar distintos tipos de argumentos" },
+                { "en": "To make code run faster", "es": "Para que el código corra más rápido" },
+                { "en": "Because methods cannot have long names", "es": "Porque los métodos no pueden tener nombres largos" },
+                { "en": "To save memory", "es": "Para ahorrar memoria" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Overloads are about ergonomics: one concept, several input shapes.", "es": "Las sobrecargas son ergonomía: un concepto, varias formas de entrada." },
+              "hints": [ { "en": "Think of Console.WriteLine — how many shapes does it have?", "es": "Piensa en Console.WriteLine: ¿cuántas formas tiene?" } ]
+            },
+            {
+              "id": "w2-l15e2",
+              "type": "output",
+              "xp": 12,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "Zoom();\nZoom(9);\n\nvoid Zoom(int speed = 4) => Console.WriteLine(speed);",
+              "options": [
+                { "en": "4\n9", "es": "4\n9" },
+                { "en": "9\n4", "es": "9\n4" },
+                { "en": "4\n4", "es": "4\n4" },
+                { "en": "0\n9", "es": "0\n9" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Default kicks in only when the argument is missing.", "es": "El valor por defecto solo se usa cuando falta el argumento." },
+              "hints": [ { "en": "First call omits, second passes.", "es": "La primera llamada omite, la segunda pasa." } ]
+            },
+            {
+              "id": "w2-l15e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "Optional parameters must come AFTER all required ones.", "es": "Los parámetros opcionales deben ir DESPUÉS de todos los obligatorios." },
+              "answerIndex": 1,
+              "explanation": { "en": "True! void F(int a, int b = 2) is legal, but void F(int a = 1, int b) is not.", "es": "¡Verdadero! void F(int a, int b = 2) es legal, pero void F(int a = 1, int b) no." },
+              "hints": [ { "en": "Defaults go at the end of the list.", "es": "Los defaults van al final de la lista." } ]
+            },
+            {
+              "id": "w2-l15e4",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match the signature piece to its effect:", "es": "Relaciona la pieza de la firma con su efecto:" },
+              "pairs": [
+                { "left": { "en": "int x = 3", "es": "int x = 3" }, "right": { "en": "caller may skip x", "es": "quien llama puede omitir x" } },
+                { "left": { "en": "params int[] xs", "es": "params int[] xs" }, "right": { "en": "any number of arguments", "es": "cualquier número de argumentos" } },
+                { "left": { "en": "=> expr", "es": "=> expr" }, "right": { "en": "one-line method body", "es": "cuerpo de método de una línea" } },
+                { "left": { "en": "void", "es": "void" }, "right": { "en": "no value returned", "es": "no se devuelve valor" } }
+              ],
+              "explanation": { "en": "params lets callers pass as many values as they like: Sum(1,2,3,4).", "es": "params permite pasar tantos valores como quieras: Sum(1,2,3,4)." },
+              "hints": [ { "en": "= means default; params means many.", "es": "= significa defecto; params significa muchos." } ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u5",
+      "title": { "en": "String Power & Boss", "es": "Strings y Jefe" },
+      "lessons": [
+        {
+          "id": "w2-l16-splitjoin",
+          "kind": "lesson",
+          "title": { "en": "Split & Join", "es": "Split y Join" },
+          "tip": { "en": "Split cuts a string into a list of pieces; Join glues pieces back into one string. Together they handle CSV-ish data everywhere.", "es": "Split corta un string en trozos; Join une trozos en un string. Juntos manejan datos tipo CSV por todas partes." },
+          "exercises": [
+            {
+              "id": "w2-l16e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var parts = \"a,b,c\".Split(',');\nConsole.WriteLine(parts.Length);",
+              "options": [
+                { "en": "3", "es": "3" },
+                { "en": "5", "es": "5" },
+                { "en": "2", "es": "2" },
+                { "en": "1", "es": "1" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Split(',') cuts at every comma: a | b | c → 3 pieces.", "es": "Split(',') corta en cada coma: a | b | c → 3 trozos." },
+              "hints": [ { "en": "Count the commas and add one.", "es": "Cuenta las comas y suma uno." } ]
+            },
+            {
+              "id": "w2-l16e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var words = new[] { \"learn\", \"by\", \"playing\" };\nConsole.WriteLine(string.Join(\"-\", words));",
+              "options": [
+                { "en": "learn-by-playing", "es": "learn-by-playing" },
+                { "en": "learn,by,playing", "es": "learn,by,playing" },
+                { "en": "learnbyplaying", "es": "learnbyplaying" },
+                { "en": "learn by playing", "es": "learn by playing" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Join inserts the separator BETWEEN elements — here a dash.", "es": "Join inserta el separador ENTRE elementos: aquí un guion." },
+              "hints": [ { "en": "The separator is what you pass in.", "es": "El separador es lo que pasas." } ]
+            },
+            {
+              "id": "w2-l16e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the split so \"2026-10-05\" becomes three pieces:", "es": "Completa el split para que \"2026-10-05\" quede en tres trozos:" },
+              "code": "var bits = \"2026-10-05\".Split('___');",
+              "blanks": [ { "answer": "-", "caseSensitive": true } ],
+              "explanation": { "en": "The separator is a char — the dash itself in single quotes.", "es": "El separador es un char: el guion entre comillas simples." },
+              "hints": [ { "en": "What separates the pieces?", "es": "¿Qué separa los trozos?" } ]
+            },
+            {
+              "id": "w2-l16e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Reverse the words of \"dev quest rocks\" so it prints \"rocks quest dev\".", "es": "Invierte las palabras de \"dev quest rocks\" para que muestre \"rocks quest dev\"." },
+              "starter": "// Split, reverse, join with spaces\n",
+              "tests": [ { "name": "reversed sentence", "expectedOutput": "rocks quest dev", "match": "exact" } ],
+              "explanation": { "en": "Split → Array.Reverse → Join: a three-tool combo you will reuse forever.", "es": "Split → Array.Reverse → Join: un trío de herramientas que reutilizarás para siempre." },
+              "hints": [
+                { "en": "var words = s.Split(' '); Array.Reverse(words); Console.WriteLine(string.Join(\" \", words));", "es": "var words = s.Split(' '); Array.Reverse(words); Console.WriteLine(string.Join(\" \", words));" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w2-l17-replace",
+          "kind": "lesson",
+          "title": { "en": "Replace, Trim & Friends", "es": "Replace, Trim y amigos" },
+          "tip": { "en": "Strings are IMMUTABLE — methods like Replace return a NEW string; the original never changes.", "es": "Los strings son INMUTABLES: métodos como Replace devuelven un string NUEVO; el original nunca cambia." },
+          "exercises": [
+            {
+              "id": "w2-l17e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var s = \"cat\";\ns.Replace(\"c\", \"b\");\nConsole.WriteLine(s);",
+              "options": [
+                { "en": "cat", "es": "cat" },
+                { "en": "bat", "es": "bat" },
+                { "en": "bat printed only if assigned", "es": "bat solo si se asigna" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Trick! Replace returned a new \"bat\"... which we threw away. s is still \"cat\". Assign: s = s.Replace(...).", "es": "¡Trampa! Replace devolvió un \"bat\" nuevo... que tiramos. s sigue siendo \"cat\". Asigna: s = s.Replace(...)." },
+              "hints": [ { "en": "Who caught the return value?", "es": "¿Quién recogió el valor devuelto?" } ]
+            },
+            {
+              "id": "w2-l17e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "Console.WriteLine(\"  hello  \".Trim().ToUpper());",
+              "options": [
+                { "en": "HELLO", "es": "HELLO" },
+                { "en": "  HELLO  ", "es": "  HELLO  " },
+                { "en": "hello", "es": "hello" },
+                { "en": "Hello", "es": "Hello" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Methods chain left to right: Trim removes the spaces, ToUpper shouts the rest.", "es": "Los métodos se encadenan de izquierda a derecha: Trim quita espacios y ToUpper pone mayúsculas." },
+              "hints": [ { "en": "Read the chain from left to right.", "es": "Lee la cadena de izquierda a derecha." } ]
+            },
+            {
+              "id": "w2-l17e3",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match each string method to its result on \"dev quest\":", "es": "Relaciona cada método con su resultado sobre \"dev quest\":" },
+              "pairs": [
+                { "left": { "en": "ToUpper()", "es": "ToUpper()" }, "right": { "en": "DEV QUEST", "es": "DEV QUEST" } },
+                { "left": { "en": "Replace('e', 'E')", "es": "Replace('e', 'E')" }, "right": { "en": "dEv quEst", "es": "dEv quEst" } },
+                { "left": { "en": "Contains(\"que\")", "es": "Contains(\"que\")" }, "right": { "en": "True", "es": "True" } },
+                { "left": { "en": "Length", "es": "Length" }, "right": { "en": "9", "es": "9" } }
+              ],
+              "explanation": { "en": "\"dev quest\" has 9 characters including the space.", "es": "\"dev quest\" tiene 9 caracteres contando el espacio." },
+              "hints": [ { "en": "Count: d-e-v-space-q-u-e-s-t.", "es": "Cuenta: d-e-v-espacio-q-u-e-s-t." } ]
+            },
+            {
+              "id": "w2-l17e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Clean up \"  Dev Quest  \": trim it, replace spaces with underscores, and print the result.", "es": "Limpia \"  Dev Quest  \": recorta espacios, sustituye espacios por guiones bajos y muestra el resultado." },
+              "starter": "var raw = \"  Dev Quest  \";\n// Trim, replace, print\n",
+              "tests": [ { "name": "prints Dev_Quest", "expectedOutput": "Dev_Quest", "match": "exact" } ],
+              "explanation": { "en": "raw.Trim().Replace(\" \", \"_\") — chained transformations are the C# way.", "es": "raw.Trim().Replace(\" \", \"_\"): encadenar transformaciones es la forma C#." },
+              "hints": [
+                { "en": "Console.WriteLine(raw.Trim().Replace(\" \", \"_\"));", "es": "Console.WriteLine(raw.Trim().Replace(\" \", \"_\"));" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w2-l18-quiz5",
+          "kind": "quiz",
+          "title": { "en": "Unit 5 Quiz", "es": "Examen de la unidad 5" },
+          "tip": { "en": "Last quiz before the boss — strings and collections together!", "es": "¡Último examen antes del jefe! Strings y colecciones juntas." },
+          "exercises": [
+            {
+              "id": "w2-l18e1",
+              "type": "output",
+              "xp": 12,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var csv = \"3,1,2\";\nvar nums = csv.Split(',').Select(int.Parse).ToList();\nnums.Sort();\nConsole.WriteLine(string.Join(\"\", nums));",
+              "options": [
+                { "en": "123", "es": "123" },
+                { "en": "312", "es": "312" },
+                { "en": "3,1,2", "es": "3,1,2" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "A preview of LINQ (world 5!): parse every piece, sort, join with empty string.", "es": "Un adelanto de LINQ (¡mundo 5!): convierte cada trozo, ordena y une con string vacío." },
+              "hints": [ { "en": "Sorted ascending, no separators.", "es": "Ordenado ascendente, sin separadores." } ]
+            },
+            {
+              "id": "w2-l18e2",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "\"abc\".Replace(\"a\", \"x\") modifies the original string object.", "es": "\"abc\".Replace(\"a\", \"x\") modifica el string original." },
+              "answerIndex": 0,
+              "explanation": { "en": "False — strings are immutable. Replace RETURNS a new string.", "es": "Falso: los strings son inmutables. Replace DEVUELVE un string nuevo." },
+              "hints": [ { "en": "Immutability means: never changed, always copied.", "es": "Inmutabilidad: nunca se cambian, siempre se copian." } ]
+            },
+            {
+              "id": "w2-l18e3",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": { "en": "Complete so the pieces get glued with a space:", "es": "Completa para unir los trozos con un espacio:" },
+              "code": "Console.WriteLine(string.___(\" \", words));",
+              "blanks": [ { "answer": "Join", "caseSensitive": true } ],
+              "explanation": { "en": "string.Join(separator, collection) — the glue of the .NET world.", "es": "string.Join(separador, colección): la cola del mundo .NET." },
+              "hints": [ { "en": "Four letters, starts with J.", "es": "Cuatro letras, empieza con J." } ]
+            },
+            {
+              "id": "w2-l18e4",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": { "en": "Build code that prints how many words the sentence has.", "es": "Construye el código que muestra cuántas palabras tiene la frase." },
+              "code": "var sentence = \"learn c sharp by playing\";\nvar words = sentence.Split(' ');\nConsole.WriteLine(words.Length);",
+              "explanation": { "en": "Split + Length = word counter. Five words here.", "es": "Split + Length = contador de palabras. Aquí cinco palabras." },
+              "hints": [ { "en": "Sentence, split, then the count.", "es": "Frase, split y luego el conteo." } ]
+            }
+          ]
+        },
+        {
+          "id": "w2-l19-boss",
+          "kind": "boss",
+          "title": { "en": "BOSS: The Data Kraken", "es": "JEFE: El Kraken de datos" },
+          "tip": { "en": "Methods + collections + strings, all at once. Survive the Kraken's four tentacles! 🐙", "es": "Métodos + colecciones + strings, todo a la vez. ¡Sobrevive a los cuatro tentáculos del Kraken! 🐙" },
+          "exercises": [
+            {
+              "id": "w2-l19e1",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Tentacle 1: write int Sum(List<int> nums) that returns the total, then print Sum of {5, 10, 20}.", "es": "Tentáculo 1: escribe int Sum(List<int> nums) que devuelva el total, y muestra Sum de {5, 10, 20}." },
+              "starter": "// Define Sum and print Sum(new List<int> { 5, 10, 20 })\n",
+              "tests": [ { "name": "sums to 35", "expectedOutput": "35", "match": "exact" } ],
+              "explanation": { "en": "Accumulator inside a method — the pattern powers every report ever written.", "es": "Un acumulador dentro de un método: el patrón que mueve cualquier informe." },
+              "hints": [
+                { "en": "foreach + total += n; then return total;", "es": "foreach + total += n; luego return total;" }
+              ]
+            },
+            {
+              "id": "w2-l19e2",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Tentacle 2: from \"ada:36,alan:41\", parse each \"name:age\" pair and print \"ada is 36\" / \"alan is 41\".", "es": "Tentáculo 2: de \"ada:36,alan:41\", interpreta cada par \"nombre:edad\" y muestra \"ada is 36\" / \"alan is 41\"." },
+              "starter": "var data = \"ada:36,alan:41\";\n// Split twice: first by comma, then by colon\n",
+              "tests": [ { "name": "prints both people", "expectedOutput": "ada is 36\nalan is 41", "match": "exact" } ],
+              "explanation": { "en": "Nested Split: pairs = data.Split(','); then pair.Split(':') gives name and age.", "es": "Split anidado: pairs = data.Split(','); luego pair.Split(':') da nombre y edad." },
+              "hints": [
+                { "en": "foreach (var pair in data.Split(',')) { var bits = pair.Split(':'); ... }", "es": "foreach (var pair in data.Split(',')) { var bits = pair.Split(':'); ... }" }
+              ]
+            },
+            {
+              "id": "w2-l19e3",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Tentacle 3: count word frequencies of \"go go go bit\" and print each as word=count (any order).", "es": "Tentáculo 3: cuenta frecuencias de \"go go go bit\" y muestra cada una como palabra=conteo (cualquier orden)." },
+              "starter": "// Dictionary<string, int> frequency counter\n",
+              "tests": [ { "name": "go=3, bit=1", "expectedOutput": "go=3\nbit=1", "match": "exact" } ],
+              "explanation": { "en": "Split into words, then the ContainsKey/++ pattern from Unit 3.", "es": "Divide en palabras y usa el patrón ContainsKey/++ de la unidad 3." },
+              "hints": [
+                { "en": "Same frequency counter as lesson 10 — but feed it Split(' ') output.", "es": "El mismo contador de frecuencias de la lección 10, pero aliméntalo con Split(' ')." }
+              ]
+            },
+            {
+              "id": "w2-l19e4",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Final tentacle: read names from input (one per line) until an empty line, then print how many UNIQUE names arrived.", "es": "Último tentáculo: lee nombres de la entrada (uno por línea) hasta una línea vacía y muestra cuántos nombres ÚNICOS llegaron." },
+              "starter": "// Read lines until empty; count unique with HashSet\n",
+              "tests": [
+                { "name": "counts unique names", "expectedOutput": "3", "match": "exact", "stdin": "ada\nbit\nada\nmax\n\n" }
+              ],
+              "explanation": { "en": "while + ReadLine + HashSet.Count — you just tamed the Kraken! 🐙💥", "es": "while + ReadLine + HashSet.Count: ¡acabas de domar al Kraken! 🐙💥" },
+              "hints": [
+                { "en": "while (true) { var line = Console.ReadLine(); if (string.IsNullOrEmpty(line)) break; seen.Add(line); } then print seen.Count.", "es": "while (true) { var line = Console.ReadLine(); if (string.IsNullOrEmpty(line)) break; seen.Add(line); } luego muestra seen.Count." }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

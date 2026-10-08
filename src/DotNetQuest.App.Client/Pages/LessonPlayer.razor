@@ -1,0 +1,631 @@
+@page "/lesson/{WorldId}/{LessonId}"
+@using DotNetQuest.App.Client.Components
+@using DotNetQuest.Shared
+@using DotNetQuest.Shared.Content
+@inject GameState Game
+@inject I18nService I18n
+@inject ApiClient Api
+@inject BitVoice Voice
+@inject Confetti Confetti
+@inject NavigationManager Nav
+
+@if (WorldData is null || Lesson is null)
+{
+    <div class="app-loading"><p class="muted">@I18n.T("app.loading")</p></div>
+}
+else if (_noHearts)
+{
+    <div class="lesson-shell results">
+        <div class="results-card">
+            <BitMascot Pose="@BitPoses.Sleep" Size="140" />
+            <h1>@I18n.T("hearts.emptyTitle")</h1>
+            <p class="muted">@I18n.T("hearts.emptyText")</p>
+            <p class="hearts-timer">❤️ @RegenText</p>
+            <button class="btn btn-primary btn-block" disabled="@(_refillBusy || (Game.Player?.Gems ?? 0) < Shared.Shop.HeartRefillCost)"
+                    @onclick="RefillHearts">
+                💎@Shared.Shop.HeartRefillCost — @I18n.T("hearts.refill")
+            </button>
+            <button class="btn btn-ghost btn-block" @onclick="BackToWorld">@I18n.T("common.back")</button>
+        </div>
+    </div>
+}
+else if (_phase == Phase.Done && _result is not null)
+{
+    <div class="lesson-shell results">
+        <div class="results-card">
+            <BitMascot Pose="@BitPoses.Cheer" Size="150" />
+            @if (IsBoss)
+            {
+                <h1>@I18n.T("results.bossDefeated")</h1>
+            }
+            else
+            {
+                <h1>@I18n.T("results.title")</h1>
+            }
+            <div class="results-stars">
+                <span class="star big">@(new string('★', _result.Progress.Stars))@(new string('☆', 3 - _result.Progress.Stars))</span>
+            </div>
+            <div class="results-xp">
+                <span class="xp-badge">⚡ +@_result.XpEarned XP</span>
+                @if (_result.DoubleXp)
+                {
+                    <span class="weekend-badge">⚡×2 @I18n.T("weekend.applied")</span>
+                }
+                @if (_result.ComboBonus > 0)
+                {
+                    <span class="combo-badge">🔥 @I18n.T("results.comboBonus", _result.ComboBonus)</span>
+                }
+                @if (_result.StreakMilestone)
+                {
+                    <span class="streak-badge">🔥 @I18n.T("results.streakMilestone", Game.Player?.StreakCurrent ?? 0)</span>
+                }
+                @if (_levelUp)
+                {
+                    <span class="level-badge">🎉 @I18n.T("results.levelUp") @XpCalculator.LevelForXp(Game.Player?.XpTotal ?? 0)</span>
+                }
+            </div>
+            <p class="muted">@I18n.T("results.accuracy"): @Accuracy%</p>
+            <button class="btn btn-primary btn-block" @onclick="BackToWorld">@I18n.T("results.continue")</button>
+        </div>
+    </div>
+}
+else if (CurrentExercise is not null)
+{
+    var ex = CurrentExercise;
+    <div class="lesson-shell">
+        <div class="lesson-top">
+            <button class="icon-btn" @onclick="ConfirmExit" title="@I18n.T("common.close")">✕</button>
+            <div class="progress-track grow">
+                <div class="progress-fill" style="width:@ProgressPct%"></div>
+            </div>
+            @if (IsBoss)
+            {
+                <div class="boss-hp" title="@I18n.T("boss.hp")">
+                    <span class="boss-hp-icon">👑</span>
+                    <div class="boss-hp-track">
+                        <div class="boss-hp-fill" style="width:@BossHp%"></div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="stat-chip stat-streak"><span class="stat-icon">❤️</span><span>@(Game.Player?.Hearts ?? 5)</span></div>
+            }
+            @if (_combo >= 2)
+            {
+                <div class="stat-chip combo-chip"><span>🔥</span><span>×@_combo</span></div>
+            }
+        </div>
+
+        @if (_phase == Phase.Tip)
+        {
+            <div class="tip-phase">
+                @if (IsBoss)
+                {
+                    <div class="boss-intro">
+                        <span class="boss-crown">👑</span>
+                        <BitMascot Pose="@BitPoses.Sad" Size="130" CssClass="boss-face" />
+                    </div>
+                    <div class="tip-bubble boss-bubble">
+                        <strong>@I18n.T("boss.intro")</strong>
+                        <p>@I18n.Pick(Lesson.Tip.En, Lesson.Tip.Es)</p>
+                    </div>
+                    <button class="btn btn-danger btn-block" @onclick="StartLesson">
+                        ⚔️ @I18n.T("boss.fight")
+                    </button>
+                }
+                else
+                {
+                    <BitMascot Pose="@BitPoses.Happy" Size="140" />
+                    <div class="tip-bubble">
+                        <strong>Bit</strong>
+                        <p>@I18n.Pick(Lesson.Tip.En, Lesson.Tip.Es)</p>
+                    </div>
+                    <button class="btn btn-primary btn-block" @onclick="StartLesson">
+                        @I18n.T("lesson.start") →
+                    </button>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="exercise-area">
+                <div class="exercise-head">
+                    <span class="exercise-count">@(_index + 1)/@Lesson.Exercises.Count</span>
+                    <button class="btn btn-small ask-bit" @onclick="OpenBit">🤖 @I18n.T("lesson.askBit")</button>
+                </div>
+
+                @if (_nudgeVisible)
+                {
+                    <button class="nudge-chip" @onclick="OpenBitWithNudge">🤖 @I18n.T("bit.nudge")</button>
+                }
+
+                @switch (ex.Type)
+                {
+                    case ExerciseTypes.Mcq:
+                        <ExercisePrompt Prompt="@ex.Prompt" />
+                        @if (!string.IsNullOrEmpty(ex.Code))
+                        {
+                            <pre class="code-block">@ex.Code</pre>
+                        }
+                        <div class="options">
+                            @for (var i = 0; i < (ex.Options?.Count ?? 0); i++)
+                            {
+                                var idx = i;
+                                <button class="option @OptionClass(i)"
+                                        disabled="@_submitted"
+                                        @onclick="() => SelectOption(idx)">
+                                    <span class="option-letter">@((char)('A' + i))</span>
+                                    <span>@I18n.Pick(ex.Options![i].En, ex.Options[i].Es)</span>
+                                </button>
+                            }
+                        </div>
+                        break;
+
+                    case ExerciseTypes.TrueFalse:
+                        <ExercisePrompt Prompt="@ex.Prompt" />
+                        @if (!string.IsNullOrEmpty(ex.Code))
+                        {
+                            <pre class="code-block">@ex.Code</pre>
+                        }
+                        <div class="tf-row">
+                            <button class="option tf @OptionClass(1)" disabled="@_submitted" @onclick="() => SelectOption(1)">✔ @I18n.T("lesson.true")</button>
+                            <button class="option tf @OptionClass(0)" disabled="@_submitted" @onclick="() => SelectOption(0)">✘ @I18n.T("lesson.false")</button>
+                        </div>
+                        break;
+
+                    case ExerciseTypes.Output:
+                        <ExercisePrompt Prompt="@ex.Prompt" />
+                        <pre class="code-block">@ex.Code</pre>
+                        <div class="options">
+                            @for (var i = 0; i < (ex.Options?.Count ?? 0); i++)
+                            {
+                                var idx = i;
+                                <button class="option @OptionClass(i)" disabled="@_submitted" @onclick="() => SelectOption(idx)">
+                                    <span class="option-letter">@((char)('A' + i))</span>
+                                    <span class="mono">@ex.Options![i].En</span>
+                                </button>
+                            }
+                        </div>
+                        break;
+
+                    case ExerciseTypes.FillBlank:
+                        <ExercisePrompt Prompt="@ex.Prompt" />
+                        <div class="code-blank">
+                            @foreach (var part in SplitBlanks(ex))
+                            {
+                                if (part.IsInput)
+                                {
+                                    var idx = part.Index!.Value;
+                                    <input class="blank-input mono" style="width:@BlankWidth(ex.Blanks![idx].Answer)ch"
+                                           value="@(_blanks[idx])" disabled="@_submitted"
+                                           @oninput="e => SetBlank(idx, e)" />
+                                }
+                                else
+                                {
+                                    <span class="mono">@part.Text</span>
+                                }
+                            }
+                        </div>
+                        break;
+
+                    case ExerciseTypes.TypeIn:
+                        <ExercisePrompt Prompt="@ex.Prompt" />
+                        <input class="text-input mono big-input" value="@_text" disabled="@_submitted"
+                               @oninput="e => _text = e.Value?.ToString() ?? string.Empty" />
+                        break;
+
+                    case ExerciseTypes.Parsons:
+                        <ExercisePrompt Prompt="@ex.Prompt" />
+                        <ExerciseParsons Lines="@ParsonsLines(ex)" Disabled="@_submitted"
+                                         LinesChanged="lines => _lines = lines" />
+                        break;
+
+                    case ExerciseTypes.Match:
+                        <ExercisePrompt Prompt="@ex.Prompt" />
+                        <ExerciseMatch Pairs="@(ex.Pairs ?? [])" Disabled="@_submitted"
+                                       SelectionChanged="sel => _matchSelection = sel" />
+                        break;
+
+                    case ExerciseTypes.Code or ExerciseTypes.BugFix:
+                        <ExercisePrompt Prompt="@ex.Prompt" />
+                        @if (ex.Type == ExerciseTypes.BugFix)
+                        {
+                            <p class="bugfix-banner">🐛 @I18n.T("exercise.bugfixHint")</p>
+                        }
+                        <textarea class="code-editor mono" rows="10" spellcheck="false"
+                                  value="@_code" @oninput="OnCodeChanged"></textarea>
+                        <div class="code-actions">
+                            <button class="btn btn-secondary" disabled="@_running" @onclick="RunCode">
+                                @if (_running)
+                                {
+                                    <span>⏳ @I18n.T("lesson.running")</span>
+                                }
+                                else
+                                {
+                                    <span>▶ @I18n.T("lesson.run")</span>
+                                }
+                            </button>
+                        </div>
+                        @if (_runResult is not null)
+                        {
+                            <CodeRunPanel Result="@_runResult" />
+                        }
+                        break;
+                }
+
+                @if (_submitted && _grade is not null)
+                {
+                    <div class="feedback @(_grade.Correct ? "good" : "bad")">
+                        <strong>@(_grade.Correct ? I18n.T("lesson.correct") : I18n.T("lesson.wrong"))</strong>
+                        @if (!_grade.Correct && ex.Type is ExerciseTypes.Code or ExerciseTypes.BugFix)
+                        {
+                            <p>@I18n.T("lesson.codeWrong")</p>
+                        }
+                        @if (_grade.Explanation is not null)
+                        {
+                            <p>@I18n.Pick(_grade.Explanation.En, _grade.Explanation.Es)</p>
+                        }
+                        @if (!_grade.Correct && ex.Type is ExerciseTypes.Code or ExerciseTypes.BugFix)
+                        {
+                            <button class="btn btn-secondary" @onclick="RetryCode">@I18n.T("lesson.tryAgain")</button>
+                        }
+                    </div>
+                }
+
+                <div class="lesson-footer">
+                    @if (_submitted)
+                    {
+                        <button class="btn btn-primary btn-block" @onclick="Continue">
+                            @I18n.T("common.continue")
+                        </button>
+                    }
+                    else if (ex.Type is not (ExerciseTypes.Code or ExerciseTypes.BugFix))
+                    {
+                        <button class="btn btn-primary btn-block" disabled="@(!HasAnswer)" @onclick="Check">
+                            @I18n.T("lesson.check")
+                        </button>
+                    }
+                </div>
+            </div>
+        }
+
+        <BitChat Visible="@_bitVisible" OnClose="() => _bitVisible = false"
+                 LessonTitle="@I18n.Pick(Lesson.Title.En, Lesson.Title.Es)"
+                 ExercisePrompt="@(CurrentExercise?.Prompt is null ? null : I18n.Pick(CurrentExercise.Prompt.En, CurrentExercise.Prompt.Es))"
+                 ExerciseType="@CurrentExercise?.Type"
+                 StarterCode="@(CurrentExercise?.Type is ExerciseTypes.Code or ExerciseTypes.BugFix ? CurrentExercise.Starter : CurrentExercise.Code)"
+                 UserCode="@(CurrentExercise?.Type is ExerciseTypes.Code or ExerciseTypes.BugFix ? _code : null)"
+                 LastOutput="@_lastOutputForBit"
+                 LastDiagnostics="@_lastDiagForBit"
+                 Hints="@CurrentExercise?.Hints"
+                 PendingUserMessage="@_pendingNudge"
+                 ConsumeExtraUse="ConsumeHintUse" />
+
+        @if (_exitConfirm)
+        {
+            <div class="modal-backdrop" @onclick="() => _exitConfirm = false">
+                <div class="modal" @onclick:stopPropagation="true">
+                    <h3>@I18n.T("lesson.exitTitle")</h3>
+                    <p class="muted">@I18n.T("lesson.exitText")</p>
+                    <button class="btn btn-danger btn-block" @onclick="BackToWorld">@I18n.T("lesson.exitYes")</button>
+                    <button class="btn btn-ghost btn-block" @onclick="() => _exitConfirm = false">@I18n.T("lesson.exitNo")</button>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="app-loading"><p class="muted">@I18n.T("app.loading")</p></div>
+}
+
+@code {
+    private enum Phase { Tip, Exercise, Done }
+
+    [Parameter] public string WorldId { get; set; } = string.Empty;
+    [Parameter] public string LessonId { get; set; } = string.Empty;
+
+    private WorldContent? WorldData;
+    private LessonContent? Lesson;
+    private bool IsBoss => Lesson?.Kind == LessonKinds.Boss;
+
+    private Phase _phase = Phase.Tip;
+    private int _index;
+    private int _mistakes;
+    private int _combo;
+    private int _maxCombo;
+    private bool _submitted;
+    private bool _running;
+    private bool _noHearts;
+    private bool _refillBusy;
+    private GradeResult? _grade;
+
+    private int? _optionIndex;
+    private string[] _blanks = [];
+    private string _text = string.Empty;
+    private string _code = string.Empty;
+    private List<string> _lines = [];
+    private List<int> _matchSelection = [];
+    private CodeRunResultDto? _runResult;
+    private string? _lastOutputForBit;
+    private string? _lastDiagForBit;
+
+    private bool _bitVisible;
+    private bool _exitConfirm;
+    private bool _nudgeVisible;
+    private string? _pendingNudge;
+    private readonly Dictionary<string, int> _wrongCounts = [];
+    private LessonCompleteResponse? _result;
+    private bool _levelUp;
+
+    private ExerciseContent? CurrentExercise => Lesson?.Exercises.ElementAtOrDefault(_index);
+    private int ProgressPct => Lesson is null || Lesson.Exercises.Count == 0 ? 0 : (int)Math.Round(_index * 100.0 / Lesson.Exercises.Count);
+    private int Accuracy => Lesson is null || Lesson.Exercises.Count == 0 ? 100
+        : Math.Max(0, (int)Math.Round((Lesson.Exercises.Count - Math.Min(_mistakes, Lesson.Exercises.Count)) * 100.0 / Lesson.Exercises.Count));
+
+    /// <summary>Boss HP: remaining exercises to answer correctly.</summary>
+    private int BossHp => Lesson is null ? 0 : (int)Math.Round((Lesson.Exercises.Count - Math.Min(_index, Lesson.Exercises.Count)) * 100.0 / Lesson.Exercises.Count);
+
+    private bool HasAnswer => CurrentExercise?.Type switch
+    {
+        ExerciseTypes.Mcq or ExerciseTypes.TrueFalse or ExerciseTypes.Output => _optionIndex is not null,
+        ExerciseTypes.FillBlank => _blanks.Length > 0 && _blanks.All(b => !string.IsNullOrWhiteSpace(b)),
+        ExerciseTypes.TypeIn => !string.IsNullOrWhiteSpace(_text),
+        ExerciseTypes.Parsons => _lines.Count > 0,
+        ExerciseTypes.Match => _matchSelection.Count > 0 && _matchSelection.All(m => m >= 0),
+        _ => false
+    };
+
+    private string RegenText => Game.Player is { HeartsRegenSeconds: > 0 } p
+        ? string.Format("{0:mm\\:ss}", TimeSpan.FromSeconds(p.HeartsRegenSeconds))
+        : "--:--";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Game.InitializeAsync();
+        if (Game.Player is null) { Nav.NavigateTo("/"); return; }
+
+        WorldData = await Game.GetWorldAsync(WorldId);
+        Lesson = WorldData?.FindLesson(LessonId);
+        if (WorldData is null || Lesson is null) { Nav.NavigateTo("home"); return; }
+
+        if ((Game.Player?.Hearts ?? 5) <= 0)
+        {
+            _noHearts = true;
+            StartRegenTimer();
+        }
+    }
+
+    private System.Threading.Timer? _regenTimer;
+
+    private void StartRegenTimer()
+    {
+        _regenTimer ??= new System.Threading.Timer(async _ =>
+        {
+            await InvokeAsync(async () =>
+            {
+                if (Game.Player is null) return;
+                await Game.RefreshPlayerAsync();
+                if (Game.Player is { Hearts: > 0 })
+                {
+                    _noHearts = false;
+                    _regenTimer?.Dispose();
+                    _regenTimer = null;
+                }
+                StateHasChanged();
+            });
+        }, null, 15000, 15000);
+    }
+
+    private async Task RefillHearts()
+    {
+        if (_refillBusy) return;
+        _refillBusy = true;
+        try
+        {
+            var response = await Api.BuyAsync("heart-refill");
+            if (response is not null)
+            {
+                Game.UpdatePlayer(response.Player);
+                _noHearts = false;
+            }
+        }
+        finally
+        {
+            _refillBusy = false;
+            StateHasChanged();
+        }
+    }
+
+    private void StartLesson()
+    {
+        _phase = Phase.Exercise;
+        ResetExerciseState();
+    }
+
+    private void ResetExerciseState()
+    {
+        var ex = CurrentExercise;
+        _submitted = false;
+        _grade = null;
+        _optionIndex = null;
+        _text = string.Empty;
+        _lines = [];
+        _matchSelection = [];
+        _runResult = null;
+        _lastOutputForBit = null;
+        _lastDiagForBit = null;
+        _nudgeVisible = false;
+        _blanks = ex?.Blanks is { Count: > 0 } ? new string[ex.Blanks.Count] : [];
+        if (ex?.Type is ExerciseTypes.Code or ExerciseTypes.BugFix)
+            _code = ex.Starter ?? string.Empty;
+    }
+
+    private void SelectOption(int i) => _optionIndex = i;
+
+    private void SetBlank(int idx, ChangeEventArgs e)
+    {
+        if (idx < _blanks.Length)
+            _blanks[idx] = e.Value?.ToString() ?? string.Empty;
+    }
+
+    private void OnCodeChanged(ChangeEventArgs e) => _code = e.Value?.ToString() ?? string.Empty;
+
+    private string[] ParsonsLines(ExerciseContent ex) =>
+        (ex.Code ?? string.Empty).Split('\n').Select(l => l.Trim()).Where(l => l.Length > 0).ToArray();
+
+    private string OptionClass(int i)
+    {
+        if (!_submitted)
+            return _optionIndex == i ? "selected" : "";
+        var ex = CurrentExercise!;
+        if (i == ex.AnswerIndex) return "correct";
+        if (_optionIndex == i) return "wrong";
+        return "";
+    }
+
+    private sealed record BlankPart(string? Text, bool IsInput, int? Index);
+    private List<BlankPart> SplitBlanks(ExerciseContent ex)
+    {
+        var parts = new List<BlankPart>();
+        var segments = (ex.Code ?? string.Empty).Split("___");
+        for (var i = 0; i < segments.Length; i++)
+        {
+            if (segments[i].Length > 0) parts.Add(new BlankPart(segments[i], false, null));
+            if (i < segments.Length - 1) parts.Add(new BlankPart(null, true, i));
+        }
+        return parts;
+    }
+
+    private static int BlankWidth(string answer) => Math.Clamp(answer.Length + 3, 6, 40);
+
+    private async Task Check()
+    {
+        var ex = CurrentExercise;
+        if (ex is null || _submitted) return;
+
+        var answer = ex.Type switch
+        {
+            ExerciseTypes.Mcq or ExerciseTypes.TrueFalse or ExerciseTypes.Output => new AnswerSubmission(OptionIndex: _optionIndex),
+            ExerciseTypes.FillBlank => new AnswerSubmission(Blanks: _blanks.ToList()),
+            ExerciseTypes.TypeIn => new AnswerSubmission(Text: _text),
+            ExerciseTypes.Parsons => new AnswerSubmission(Lines: _lines),
+            ExerciseTypes.Match => new AnswerSubmission(MatchSelection: _matchSelection),
+            _ => new AnswerSubmission()
+        };
+
+        _grade = Grader.Check(ex, answer);
+        _submitted = true;
+        await AfterAnswer(ex, _grade.Correct);
+    }
+
+    private async Task RunCode()
+    {
+        var ex = CurrentExercise;
+        if (ex is null || _running) return;
+
+        _running = true;
+        _submitted = false;
+        _grade = null;
+        StateHasChanged();
+
+        var tests = (ex.Tests ?? []).Select(t => new Shared.Api.RunTestRequest(t.Name, t.ExpectedOutput, t.Match, t.Stdin, t.ApiPath, t.ApiMethod, t.ExpectedStatus)).ToList();
+        _runResult = await Api.RunCodeAsync(_code, tests, exerciseId: ex.Id, xunit: ex.Xunit);
+
+        _running = false;
+        if (_runResult is not null)
+        {
+            _lastOutputForBit = string.IsNullOrWhiteSpace(_runResult.Output) ? null : _runResult.Output;
+            _lastDiagForBit = _runResult.Diagnostics.Count > 0 ? string.Join("\n", _runResult.Diagnostics) : _runResult.Error;
+
+            var passed = _runResult.Compiled && _runResult.Tests.Count > 0 && _runResult.Tests.All(t => t.Passed);
+            _grade = new GradeResult(passed, ex.Explanation);
+            _submitted = true;
+            await AfterAnswer(ex, passed);
+        }
+        StateHasChanged();
+    }
+
+    /// <summary>Shared post-answer bookkeeping: hearts, combo, nudge, attempt stats.</summary>
+    private async Task AfterAnswer(ExerciseContent ex, bool correct)
+    {
+        var hearts = await Game.RecordAttemptAsync(WorldData!, Lesson!, ex, correct);
+
+        if (correct)
+        {
+            _combo++;
+            _maxCombo = Math.Max(_maxCombo, _combo);
+        }
+        else
+        {
+            _combo = 0;
+            _mistakes++;
+            var key = ex.Id;
+            _wrongCounts[key] = _wrongCounts.GetValueOrDefault(key) + 1;
+            if (_wrongCounts[key] >= 2 && Game.TutorConfigured)
+            {
+                _nudgeVisible = true;
+                _pendingNudge = null; // filled when the chip is clicked
+            }
+
+            if ((hearts?.Hearts ?? 5) <= 0)
+                _noHearts = true;
+        }
+    }
+
+    private void OpenBit()
+    {
+        _pendingNudge = null;
+        _bitVisible = true;
+    }
+
+    private void OpenBitWithNudge()
+    {
+        _nudgeVisible = false;
+        _pendingNudge = I18n.T("bit.nudgeMessage");
+        _bitVisible = true;
+    }
+
+    /// <summary>Called by BitChat when the free hint budget is used up.</summary>
+    private async Task<bool> ConsumeHintUse()
+    {
+        var updated = await Api.ConsumeHintAsync();
+        if (updated is null) return false;
+        Game.UpdatePlayer(updated);
+        return true;
+    }
+
+    private void RetryCode()
+    {
+        _submitted = false;
+        _grade = null;
+    }
+
+    private async Task Continue()
+    {
+        if (Lesson is null) return;
+        _index++;
+        if (_index >= Lesson.Exercises.Count)
+        {
+            var oldLevel = XpCalculator.LevelForXp(Game.Player?.XpTotal ?? 0);
+            _result = await Game.CompleteLessonAsync(WorldData!, Lesson, _mistakes, _maxCombo);
+            var newLevel = XpCalculator.LevelForXp(Game.Player?.XpTotal ?? 0);
+            _levelUp = newLevel > oldLevel;
+            _phase = Phase.Done;
+            await Confetti.BurstAsync();
+        }
+        else
+        {
+            ResetExerciseState();
+        }
+    }
+
+    private void ConfirmExit() => _exitConfirm = true;
+
+    private void BackToWorld()
+    {
+        _regenTimer?.Dispose();
+        Nav.NavigateTo($"world/{WorldId}");
+    }
+}

@@ -1,0 +1,255 @@
+@page "/lightning"
+@using DotNetQuest.App.Client.Components
+@using DotNetQuest.Shared
+@using DotNetQuest.Shared.Content
+@inject GameState Game
+@inject I18nService I18n
+@inject ApiClient Api
+@inject NavigationManager Nav
+@inject Confetti Confetti
+
+<div class="page lightning-page">
+    @if (_phase == Phase.Pick)
+    {
+        <h1 class="page-title">⛈️ @I18n.T("lightning.title")</h1>
+        <p class="page-subtitle muted">@I18n.T("lightning.subtitle")</p>
+
+        @if (_runsToday >= 3)
+        {
+            <div class="results-card">
+                <BitMascot Pose="@BitPoses.Sleep" Size="120" />
+                <p>@I18n.T("lightning.capReached")</p>
+                <button class="btn btn-ghost btn-block" @onclick="GoHome">@I18n.T("common.back")</button>
+            </div>
+        }
+        else
+        {
+            <p class="muted">@I18n.T("lightning.pickWorld") (@(3 - _runsToday) @I18n.T("lightning.runsLeft"))</p>
+            <div class="lightning-worlds">
+                @foreach (var world in _worlds)
+                {
+                    var id = world.Id;
+                    <button class="lightning-world-btn" style="--world-color:@world.Color" @onclick="() => Start(id)">
+                        <span>@world.Icon</span>
+                        @I18n.Pick(world.Title.En, world.Title.Es)
+                    </button>
+                }
+            </div>
+        }
+    }
+    else if (_phase == Phase.Play && _current is not null)
+    {
+        <div class="lesson-top">
+            <div class="progress-track grow">
+                <div class="progress-fill lightning" style="width:@(_timeLeft * 100.0 / 60)%"></div>
+            </div>
+            <div class="stat-chip combo-chip">⏱️ @_timeLeft s</div>
+            <div class="stat-chip stat-xp">✔ @_correct</div>
+        </div>
+
+        <div class="exercise-area">
+            <ExercisePrompt Prompt="@_current.Prompt" />
+            @switch (_current.Type)
+            {
+                case ExerciseTypes.Mcq or ExerciseTypes.Output or ExerciseTypes.TrueFalse:
+                    @if (!string.IsNullOrEmpty(_current.Code))
+                    {
+                        <pre class="code-block">@_current.Code</pre>
+                    }
+                    <div class="options">
+                        @for (var i = 0; i < (_current.Options?.Count ?? 0); i++)
+                        {
+                            var idx = i;
+                            <button class="option" @onclick="() => AnswerOption(idx)">
+                                <span class="option-letter">@((char)('A' + i))</span>
+                                <span>@(_current.Type == ExerciseTypes.Output ? _current.Options![idx].En : I18n.Pick(_current.Options![idx].En, _current.Options[idx].Es))</span>
+                            </button>
+                        }
+                    </div>
+                    break;
+                case ExerciseTypes.FillBlank:
+                    <div class="code-blank">
+                        @foreach (var part in SplitBlanks(_current))
+                        {
+                            if (part.IsInput)
+                            {
+                                <input class="blank-input mono" style="width:12ch" value="@_lb" @oninput="e => _lb = e.Value?.ToString() ?? string.Empty" />
+                            }
+                            else
+                            {
+                                <span class="mono">@part.Text</span>
+                            }
+                        }
+                    </div>
+                    <button class="btn btn-primary btn-block" style="margin-top:12px" @onclick="AnswerBlank">Check</button>
+                    break;
+                case ExerciseTypes.TypeIn:
+                    <input class="text-input mono big-input" value="@_lb" @oninput="e => _lb = e.Value?.ToString() ?? string.Empty" />
+                    <button class="btn btn-primary btn-block" style="margin-top:12px" @onclick="AnswerBlank">Check</button>
+                    break;
+                default:
+                    <p class="muted">@I18n.T("lightning.skippedType")</p>
+                    NextQuestion();
+                    break;
+            }
+
+            @if (_flash is not null)
+            {
+                <div class="lightning-flash @(_lastCorrect ? "good" : "bad")">@_flash</div>
+            }
+        </div>
+    }
+    else if (_phase == Phase.Done)
+    {
+        <div class="results-card">
+            <BitMascot Pose="@BitPoses.Cheer" Size="130" />
+            <h1>@I18n.T("lightning.done")</h1>
+            <p>⚡ @I18n.T("lightning.correct", _correct, _asked)</p>
+            @if (_xpEarned > 0)
+            {
+                <div class="results-xp"><span class="xp-badge">⚡ +@_xpEarned XP</span></div>
+            }
+            @if (_capReached)
+            {
+                <p class="muted">@I18n.T("lightning.capReached")</p>
+            }
+            <button class="btn btn-primary btn-block" @onclick="GoHome">@I18n.T("common.continue")</button>
+        </div>
+    }
+</div>
+
+@code {
+    private enum Phase { Pick, Play, Done }
+
+    private Phase _phase = Phase.Pick;
+    private List<WorldContent> _worlds = [];
+    private ExerciseContent? _current;
+    private List<ExerciseContent> _questions = [];
+    private int _correct;
+    private int _asked;
+    private int _timeLeft;
+    private int _xpEarned;
+    private bool _capReached;
+    private bool _lastCorrect;
+    private string? _flash;
+    private string _lb = string.Empty;
+    private System.Threading.Timer? _timer;
+    private int _runsToday;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Game.InitializeAsync();
+        if (Game.Player is null) { Nav.NavigateTo("/"); return; }
+
+        var daily = await Game.RefreshDailyAsync();
+        var index = await Game.GetWorldIndexAsync();
+        foreach (var item in index.Where(w => w.Available).OrderBy(w => w.Order))
+        {
+            var world = await Game.GetWorldAsync(item.Id);
+            if (world is not null) _worlds.Add(world);
+        }
+        // Runs-left display: approximate via daily endpoint is not exposed per-session;
+        // the server enforces the real cap on completion.
+        _runsToday = 0;
+    }
+
+    private async Task Start(string worldId)
+    {
+        var world = _worlds.FirstOrDefault(w => w.Id == worldId);
+        if (world is null) return;
+
+        var exercises = world.AllLessons()
+            .SelectMany(l => l.Exercises)
+            .Where(e => e.Type is ExerciseTypes.Mcq or ExerciseTypes.Output or ExerciseTypes.TrueFalse or ExerciseTypes.FillBlank or ExerciseTypes.TypeIn)
+            .ToList();
+        if (exercises.Count == 0) return;
+
+        var rng = new Random();
+        _questions = exercises.OrderBy(_ => rng.Next()).ToList();
+        _correct = 0;
+        _asked = 0;
+        _timeLeft = 60;
+        _phase = Phase.Play;
+        NextQuestion();
+
+        _timer = new System.Threading.Timer(async _ =>
+        {
+            await InvokeAsync(() =>
+            {
+                _timeLeft--;
+                if (_timeLeft <= 0)
+                {
+                    _ = Finish();
+                }
+                StateHasChanged();
+            });
+        }, null, 1000, 1000);
+    }
+
+    private void NextQuestion()
+    {
+        _flash = null;
+        _lb = string.Empty;
+        if (_asked >= _questions.Count)
+        {
+            _ = Finish();
+            return;
+        }
+        _current = _questions[_asked];
+        _asked++;
+    }
+
+    private async Task Answer(bool correct)
+    {
+        if (correct) _correct++;
+        _lastCorrect = correct;
+        _flash = correct ? "✔ +2" : "✘";
+        NextQuestion();
+        await Task.CompletedTask;
+    }
+
+    private async Task AnswerOption(int idx)
+    {
+        if (_current?.AnswerIndex is int a)
+            await Answer(idx == a);
+    }
+
+    private async Task AnswerBlank()
+    {
+        var ex = _current;
+        if (ex is null) return;
+        var result = Grader.Check(ex, new AnswerSubmission(Text: _lb, Blanks: [_lb]));
+        await Answer(result.Correct);
+    }
+
+    private sealed record BlankPart(string? Text, bool IsInput, int? Index);
+    private List<BlankPart> SplitBlanks(ExerciseContent ex)
+    {
+        var parts = new List<BlankPart>();
+        var segments = (ex.Code ?? string.Empty).Split("___");
+        for (var i = 0; i < segments.Length; i++)
+        {
+            if (segments[i].Length > 0) parts.Add(new BlankPart(segments[i], false, null));
+            if (i < segments.Length - 1) parts.Add(new BlankPart(null, true, i));
+        }
+        return parts;
+    }
+
+    private async Task Finish()
+    {
+        _timer?.Dispose();
+        _timer = null;
+        _phase = Phase.Done;
+        var response = await Api.CompleteLightningAsync(_correct, _asked);
+        if (response is not null)
+        {
+            _xpEarned = response.XpEarned;
+            _capReached = response.CapReached;
+            Game.UpdatePlayer(response.Player);
+            if (_xpEarned > 0) await Confetti.BurstAsync();
+        }
+        StateHasChanged();
+    }
+
+    private void GoHome() => Nav.NavigateTo("home");
+}

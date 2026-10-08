@@ -1,0 +1,954 @@
+{
+  "id": "w5-linq",
+  "order": 5,
+  "track": "modern-csharp",
+  "title": { "en": "LINQ & Lambdas", "es": "LINQ y lambdas" },
+  "subtitle": { "en": "Query any collection like a wizard: lambdas, Where, Select, GroupBy and friends", "es": "Consulta cualquier colección como un mago: lambdas, Where, Select, GroupBy y amigos" },
+  "intro": { "en": "LINQ is the superpower that separates C# tourists from C# citizens. Ten methods will change how you write every program forever.", "es": "LINQ es el superpoder que separa a los turistas de los ciudadanos de C#. Diez métodos cambiarán tu forma de programar para siempre." },
+  "icon": "🔗",
+  "color": "#f59e0b",
+  "cheatSheet": [
+    {
+      "title": { "en": "Lambdas", "es": "Lambdas" },
+      "items": [
+        { "en": "x => x * 2  // one input, one output", "es": "x => x * 2  // una entrada, una salida" },
+        { "en": "(a, b) => a + b  // two inputs", "es": "(a, b) => a + b  // dos entradas" },
+        { "en": "Func<int, int> double = x => x * 2;", "es": "Func<int, int> double = x => x * 2;" },
+        { "en": "Action<string> log = msg => Console.WriteLine(msg);", "es": "Action<string> log = msg => Console.WriteLine(msg);" }
+      ]
+    },
+    {
+      "title": { "en": "Core LINQ", "es": "LINQ esencial" },
+      "items": [
+        { "en": "nums.Where(n => n > 10)", "es": "nums.Where(n => n > 10)" },
+        { "en": "nums.Select(n => n * 2)", "es": "nums.Select(n => n * 2)" },
+        { "en": "nums.OrderBy(n => n)  /  OrderByDescending", "es": "nums.OrderBy(n => n)  /  OrderByDescending" },
+        { "en": "nums.First()  /  FirstOrDefault()", "es": "nums.First()  /  FirstOrDefault()" },
+        { "en": "nums.Sum()  /  Count()  /  Min()  /  Max()  /  Average()", "es": "nums.Sum()  /  Count()  /  Min()  /  Max()  /  Average()" },
+        { "en": "nums.GroupBy(x => x.Kind)", "es": "nums.GroupBy(x => x.Kind)" }
+      ]
+    },
+    {
+      "title": { "en": "Wisdom", "es": "Sabiduría" },
+      "items": [
+        { "en": "Queries are lazy: nothing runs until you enumerate (ToList, foreach...)", "es": "Las consultas son diferidas: nada corre hasta enumerar (ToList, foreach...)" },
+        { "en": "First() throws on empty; FirstOrDefault() gives null/default", "es": "First() lanza si está vacío; FirstOrDefault() da null/defecto" },
+        { "en": "Chain freely: Where().Select().OrderBy().ToList()", "es": "Encadena libre: Where().Select().OrderBy().ToList()" }
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "u1",
+      "title": { "en": "Lambdas & Delegates", "es": "Lambdas y delegados" },
+      "lessons": [
+        {
+          "id": "w5-l01-lambdas",
+          "kind": "lesson",
+          "title": { "en": "Lambda Expressions", "es": "Expresiones lambda" },
+          "tip": { "en": "A lambda is a nameless inline function: x => x * 2 reads 'given x, return x * 2'. They're the currency LINQ trades in.", "es": "Una lambda es una función anónima en línea: x => x * 2 se lee 'dado x, devuelve x * 2'. Son la moneda que LINQ usa." },
+          "exercises": [
+            {
+              "id": "w5-l01e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "What does the lambda `x => x + 1` do with input 4?", "es": "¿Qué hace la lambda `x => x + 1` con la entrada 4?" },
+              "options": [
+                { "en": "Returns 5", "es": "Devuelve 5" },
+                { "en": "Returns 4", "es": "Devuelve 4" },
+                { "en": "Compares x to 1", "es": "Compara x con 1" },
+                { "en": "Declares a variable", "es": "Declara una variable" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Left of => are the inputs, right of => is the result.", "es": "A la izquierda de => van las entradas; a la derecha, el resultado." },
+              "hints": [ { "en": "The arrow means 'produces'.", "es": "La flecha significa 'produce'." } ]
+            },
+            {
+              "id": "w5-l01e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "Func<int, int> triple = x => x * 3;\nConsole.WriteLine(triple(5));",
+              "options": [
+                { "en": "15", "es": "15" },
+                { "en": "5", "es": "5" },
+                { "en": "53", "es": "53" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Func<int, int> = takes int, returns int. The variable IS a function now.", "es": "Func<int, int> = recibe int y devuelve int. La variable ES una función." },
+              "hints": [ { "en": "Call the variable like a method.", "es": "Llama a la variable como un método." } ]
+            },
+            {
+              "id": "w5-l01e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the delegate type for 'takes a string, returns bool':", "es": "Completa el tipo de delegado para 'recibe string, devuelve bool':" },
+              "code": "___<string, bool> isLong = s => s.Length > 10;",
+              "blanks": [ { "answer": "Func", "caseSensitive": true } ],
+              "explanation": { "en": "Func<TIn, TOut> — the last type parameter is the return.", "es": "Func<TIn, TOut>: el último parámetro de tipo es el retorno." },
+              "hints": [ { "en": "Functions that return use F...", "es": "Las funciones que devuelven usan F..." } ]
+            },
+            {
+              "id": "w5-l01e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Create Func<int, int, int> named add returning the sum; print add(20, 3).", "es": "Crea Func<int, int, int> llamada add que sume; muestra add(20, 3)." },
+              "starter": "// two-input lambda\n",
+              "tests": [ { "name": "adds", "expectedOutput": "23", "match": "exact" } ],
+              "explanation": { "en": "Multiple inputs go in parentheses: (a, b) => a + b.", "es": "Varias entradas van entre paréntesis: (a, b) => a + b." },
+              "hints": [ { "en": "Func<int, int, int> add = (a, b) => a + b;", "es": "Func<int, int, int> add = (a, b) => a + b;" } ]
+            }
+          ]
+        },
+        {
+          "id": "w5-l02-action",
+          "kind": "lesson",
+          "title": { "en": "Action: Lambdas That Return Nothing", "es": "Action: lambdas sin retorno" },
+          "tip": { "en": "Func returns a value; Action returns nothing. Action<string> is 'a method that takes a string and does its thing'.", "es": "Func devuelve valor; Action no devuelve nada. Action<string> es 'un método que recibe string y actúa'." },
+          "exercises": [
+            {
+              "id": "w5-l02e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "Action<string> announce = msg => Console.WriteLine($\"📣 {msg}\");\nannounce(\"level up\");",
+              "options": [
+                { "en": "📣 level up", "es": "📣 level up" },
+                { "en": "level up", "es": "level up" },
+                { "en": "Nothing", "es": "Nada" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Action runs its body when invoked — with the argument passed in.", "es": "Action ejecuta su cuerpo al invocarse, con el argumento recibido." },
+              "hints": [ { "en": "The emoji is part of the output.", "es": "El emoji es parte de la salida." } ]
+            },
+            {
+              "id": "w5-l02e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Which is a valid Action?", "es": "¿Cuál es un Action válido?" },
+              "options": [
+                { "en": "Action greet = () => Console.WriteLine(\"hi\");", "es": "Action greet = () => Console.WriteLine(\"hi\");" },
+                { "en": "Action<int> double = x => x * 2;", "es": "Action<int> double = x => x * 2;" },
+                { "en": "Func greet = () => Console.WriteLine(\"hi\");", "es": "Func greet = () => Console.WriteLine(\"hi\");" },
+                { "en": "Action<int> get = x => x + 1;", "es": "Action<int> get = x => x + 1;" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Actions return nothing — a body with only side effects fits. The others RETURN values (Func territory).", "es": "Los Action no devuelven nada: cuerpos solo con efectos. Los otros DEVUELVEN valores (terreno de Func)." },
+              "hints": [ { "en": "Two of them produce results.", "es": "Dos de ellas producen resultados." } ]
+            },
+            {
+              "id": "w5-l02e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Create List<Action> of three actions, each printing one word (\"ready\", \"set\", \"go!\"). Invoke all three in order.", "es": "Crea List<Action> con tres actions, cada una imprimiendo una palabra (\"ready\", \"set\", \"go!\"). Invócalas en orden." },
+              "starter": "// three actions in a list, then run them all\n",
+              "tests": [ { "name": "race start", "expectedOutput": "ready\nset\ngo!", "match": "exact" } ],
+              "explanation": { "en": "Lists of behavior — lambdas are values you can store and pass!", "es": "¡Listas de comportamiento: las lambdas son valores que se guardan y pasan!" },
+              "hints": [
+                { "en": "var steps = new List<Action> { () => Console.WriteLine(\"ready\"), ... }; foreach (var s in steps) s();", "es": "var steps = new List<Action> { () => Console.WriteLine(\"ready\"), ... }; foreach (var s in steps) s();" }
+              ]
+            },
+            {
+              "id": "w5-l02e4",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": { "en": "This should print 7 but something's off. Fix it!", "es": "Esto debería mostrar 7 pero algo falla. ¡Arréglalo!" },
+              "starter": "Func<int, int> plus2 = x => x + 2;\nvar result = plus2;\nConsole.WriteLine(result);",
+              "tests": [ { "name": "prints 7", "expectedOutput": "7", "match": "exact" } ],
+              "explanation": { "en": "plus2 is a FUNCTION — you must CALL it: plus2(5). Assigning it just copies the reference.", "es": "plus2 es una FUNCIÓN: hay que LLAMARLA con plus2(5). Asignarla solo copia la referencia." },
+              "hints": [ { "en": "Invoke with 5 as the argument.", "es": "Invócala con 5 como argumento." } ]
+            }
+          ]
+        },
+        {
+          "id": "w5-l03-closures",
+          "kind": "lesson",
+          "title": { "en": "Closures: Lambdas Remember", "es": "Closures: las lambdas recuerdan" },
+          "tip": { "en": "A lambda can use variables from around it — and KEEPS them alive. That captured world is called a closure.", "es": "Una lambda puede usar variables de su entorno y las MANTIENE vivas. Ese mundo capturado se llama closure." },
+          "exercises": [
+            {
+              "id": "w5-l03e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "int bonus = 10;\nFunc<int, int> score = points => points + bonus;\nConsole.WriteLine(score(5));",
+              "options": [
+                { "en": "15", "es": "15" },
+                { "en": "5", "es": "5" },
+                { "en": "10", "es": "10" },
+                { "en": "It does not compile — bonus is outside", "es": "No compila: bonus está fuera" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "The lambda captured `bonus` from its surroundings and uses it.", "es": "La lambda capturó `bonus` de su entorno y lo usa." },
+              "hints": [ { "en": "The lambda reaches outside itself.", "es": "La lambda alcanza fuera de sí." } ]
+            },
+            {
+              "id": "w5-l03e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var counter = MakeCounter();\ncounter();\ncounter();\nConsole.WriteLine(counter());\n\nstatic Func<int> MakeCounter()\n{\n    int count = 0;\n    return () => ++count;\n}",
+              "options": [
+                { "en": "3", "es": "3" },
+                { "en": "1", "es": "1" },
+                { "en": "0", "es": "0" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "The returned lambda keeps `count` alive between calls — private memory that only it can touch.", "es": "La lambda devuelta mantiene `count` vivo entre llamadas: memoria privada que solo ella toca." },
+              "hints": [ { "en": "The counter remembers.", "es": "El contador recuerda." } ]
+            },
+            {
+              "id": "w5-l03e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Why are closures useful?", "es": "¿Por qué son útiles los closures?" },
+              "options": [
+                { "en": "Behavior can carry its own configuration/context", "es": "El comportamiento puede llevar su propia configuración y contexto" },
+                { "en": "They make code run faster", "es": "Hacen el código más rápido" },
+                { "en": "They prevent all exceptions", "es": "Previenen todas las excepciones" },
+                { "en": "They are required by LINQ", "es": "LINQ los exige" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Configure once, invoke later with full context — the basis of events, middleware and DI callbacks.", "es": "Configura una vez, invoca después con contexto: la base de eventos, middleware y callbacks de DI." },
+              "hints": [ { "en": "Think of the ConfigureAwait... just kidding: think 'preset button'.", "es": "Piensa en un botón preconfigurado." } ]
+            },
+            {
+              "id": "w5-l03e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Write static Func<int, int> Multiplier(int by) that returns a lambda multiplying by the captured factor. Print Multiplier(10)(7).", "es": "Escribe static Func<int, int> Multiplier(int by) que devuelva una lambda que multiplique por el factor capturado. Muestra Multiplier(10)(7)." },
+              "starter": "// factory of multipliers\n",
+              "tests": [ { "name": "70", "expectedOutput": "70", "match": "exact" } ],
+              "explanation": { "en": "Multiplier(10) returns a closure with 10 baked in — calling it with 7 gives 70.", "es": "Multiplier(10) devuelve un closure con el 10 incrustado: llamarla con 7 da 70." },
+              "hints": [
+                { "en": "static Func<int, int> Multiplier(int by) => x => x * by;", "es": "static Func<int, int> Multiplier(int by) => x => x * by;" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w5-l04-quiz1",
+          "kind": "quiz",
+          "title": { "en": "Unit 1 Quiz", "es": "Examen de la unidad 1" },
+          "tip": { "en": "Lambdas, Func, Action, closures — warm-up quiz!", "es": "Lambdas, Func, Action, closures: ¡quiz de calentamiento!" },
+          "exercises": [
+            {
+              "id": "w5-l04e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match the type to its shape:", "es": "Relaciona el tipo con su forma:" },
+              "pairs": [
+                { "left": { "en": "Func<int, int>", "es": "Func<int, int>" }, "right": { "en": "int in, int out", "es": "int entra, int sale" } },
+                { "left": { "en": "Action<string>", "es": "Action<string>" }, "right": { "en": "string in, nothing out", "es": "string entra, nada sale" } },
+                { "left": { "en": "Func<bool>", "es": "Func<bool>" }, "right": { "en": "no inputs, bool out", "es": "sin entradas, bool sale" } },
+                { "left": { "en": "Action", "es": "Action" }, "right": { "en": "no inputs, nothing out", "es": "sin entradas, nada sale" } }
+              ],
+              "explanation": { "en": "Func = returns. Action = doesn't. Inputs are the earlier type params.", "es": "Func = devuelve. Action = no devuelve. Las entradas son los primeros parámetros de tipo." },
+              "hints": [ { "en": "Last type param of Func is always the return.", "es": "El último tipo de Func siempre es el retorno." } ]
+            },
+            {
+              "id": "w5-l04e2",
+              "type": "output",
+              "xp": 12,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var f = (int a, int b) => a * b;\nConsole.WriteLine(f(3, 4));",
+              "options": [
+                { "en": "12", "es": "12" },
+                { "en": "7", "es": "7" },
+                { "en": "34", "es": "34" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Inline lambda with explicit parameters — natural inference gives it Func<int, int, int>.", "es": "Lambda en línea con parámetros explícitos: la inferencia le da Func<int, int, int>." },
+              "hints": [ { "en": "3 × 4.", "es": "3 × 4." } ]
+            },
+            {
+              "id": "w5-l04e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "A lambda can capture and modify a variable from its surrounding method.", "es": "Una lambda puede capturar y modificar una variable del método que la rodea." },
+              "answerIndex": 1,
+              "explanation": { "en": "True — captured variables live as long as the lambda does, and writes are visible to both sides.", "es": "Verdadero: las variables capturadas viven mientras la lambda y ambos lados ven los cambios." },
+              "hints": [ { "en": "You saw the counter do exactly this.", "es": "Viste al contador hacer exactamente eso." } ]
+            },
+            {
+              "id": "w5-l04e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Make an Action<string> log that prints \"[log] <msg>\", invoke it with \"boot\".", "es": "Haz un Action<string> log que muestre \"[log] <msg>\" e invócalo con \"boot\"." },
+              "starter": "// Action with string parameter\n",
+              "tests": [ { "name": "logs", "expectedOutput": "[log] boot", "match": "exact" } ],
+              "explanation": { "en": "Action + interpolation = the logging pattern of the whole industry.", "es": "Action + interpolación: el patrón de logging de toda la industria." },
+              "hints": [ { "en": "Action<string> log = msg => Console.WriteLine($\"[log] {msg}\");", "es": "Action<string> log = msg => Console.WriteLine($\"[log] {msg}\");" } ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": { "en": "Core LINQ", "es": "LINQ esencial" },
+      "lessons": [
+        {
+          "id": "w5-l05-where",
+          "kind": "lesson",
+          "title": { "en": "Where & Select", "es": "Where y Select" },
+          "tip": { "en": "Where filters, Select transforms. Together they cover most data tasks: nums.Where(n => n > 5).Select(n => n * 2).", "es": "Where filtra y Select transforma. Juntos cubren la mayoría de tareas: nums.Where(n => n > 5).Select(n => n * 2)." },
+          "exercises": [
+            {
+              "id": "w5-l05e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var nums = new[] { 1, 2, 3, 4 };\nvar evens = nums.Where(n => n % 2 == 0);\nConsole.WriteLine(string.Join(\",\", evens));",
+              "options": [
+                { "en": "2,4", "es": "2,4" },
+                { "en": "1,3", "es": "1,3" },
+                { "en": "1,2,3,4", "es": "1,2,3,4" },
+                { "en": "2", "es": "2" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Where keeps the matching items, preserving order.", "es": "Where conserva los elementos que cumplen, manteniendo el orden." },
+              "hints": [ { "en": "Only the even ones survive.", "es": "Solo sobreviven los pares." } ]
+            },
+            {
+              "id": "w5-l05e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var names = new[] { \"ada\", \"bit\", \"max\" };\nvar upper = names.Select(n => n.ToUpper());\nConsole.WriteLine(string.Join(\" \", upper));",
+              "options": [
+                { "en": "ADA BIT MAX", "es": "ADA BIT MAX" },
+                { "en": "ada bit max", "es": "ada bit max" },
+                { "en": "ADA", "es": "ADA" },
+                { "en": "3", "es": "3" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Select transforms EVERY element with the lambda.", "es": "Select transforma CADA elemento con la lambda." },
+              "hints": [ { "en": "One-to-one transformation.", "es": "Transformación uno a uno." } ]
+            },
+            {
+              "id": "w5-l05e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "From {1..10}, take the odd numbers, double them, and print joined by commas. Expect: 2,6,10,14,18", "es": "De {1..10}, toma los impares, duplícalos y muéstralos unidos por comas. Espera: 2,6,10,14,18" },
+              "starter": "// Where + Select + string.Join\n",
+              "tests": [ { "name": "odd doubled", "expectedOutput": "2,6,10,14,18", "match": "exact" } ],
+              "explanation": { "en": "Where then Select — filter first, transform second. The canonical pipeline.", "es": "Where y luego Select: filtra primero, transforma después. El pipeline canónico." },
+              "hints": [
+                { "en": "nums.Where(n => n % 2 == 1).Select(n => n * 2)", "es": "nums.Where(n => n % 2 == 1).Select(n => n * 2)" }
+              ]
+            },
+            {
+              "id": "w5-l05e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "From names {\"ada\", \"bob\", \"eve\", \"mia\"}, print only 3-letter names UPPERCASED, one per line.", "es": "De los nombres {\"ada\", \"bob\", \"eve\", \"mia\"}, muestra solo los de 3 letras en MAYÚSCULAS, uno por línea." },
+              "starter": "// Where on length + Select ToUpper\n",
+              "tests": [ { "name": "filtered and upper", "expectedOutput": "ADA\nBOB\nEVE\nMIA", "match": "exact" } ],
+              "explanation": { "en": "They were all 3 letters — filtering kept all, transforming shouted them.", "es": "Todos eran de 3 letras: el filtro conservó todo y la transformación los puso en mayúsculas." },
+              "hints": [ { "en": "n.Length == 3 as the condition.", "es": "n.Length == 3 como condición." } ]
+            }
+          ]
+        },
+        {
+          "id": "w5-l06-order",
+          "kind": "lesson",
+          "title": { "en": "Ordering", "es": "Ordenar" },
+          "tip": { "en": "OrderBy(key), OrderByDescending(key), ThenBy(key) for ties. Sorting logic without writing a single swap.", "es": "OrderBy(clave), OrderByDescending(clave), ThenBy(clave) para empates. Lógica de orden sin escribir un solo intercambio." },
+          "exercises": [
+            {
+              "id": "w5-l06e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var nums = new[] { 30, 10, 20 };\nConsole.WriteLine(string.Join(\",\", nums.OrderBy(n => n)));",
+              "options": [
+                { "en": "10,20,30", "es": "10,20,30" },
+                { "en": "30,20,10", "es": "30,20,10" },
+                { "en": "30,10,20", "es": "30,10,20" },
+                { "en": "10,30,20", "es": "10,30,20" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "OrderBy ascending by default; the key picks what to sort BY.", "es": "OrderBy ordena ascendente por defecto; la clave define por qué ordenar." },
+              "hints": [ { "en": "Smallest first.", "es": "El menor primero." } ]
+            },
+            {
+              "id": "w5-l06e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Players list with scores: ada 100, bit 250, max 60. Print names sorted by score descending, one per line.", "es": "Players con scores: ada 100, bit 250, max 60. Muestra los nombres ordenados por score descendente, uno por línea." },
+              "starter": "var players = new[]\n{\n    new { Name = \"ada\", Score = 100 },\n    new { Name = \"bit\", Score = 250 },\n    new { Name = \"max\", Score = 60 }\n};\n// leaderboard!\n",
+              "tests": [ { "name": "leaderboard", "expectedOutput": "bit\nada\nmax", "match": "exact" } ],
+              "explanation": { "en": "Anonymous objects + OrderByDescending — the exact query behind this game's leaderboard.", "es": "Objetos anónimos + OrderByDescending: la consulta exacta detrás de la clasificación de este juego." },
+              "hints": [
+                { "en": "players.OrderByDescending(p => p.Score) then select Name.", "es": "players.OrderByDescending(p => p.Score) y selecciona Name." }
+              ]
+            },
+            {
+              "id": "w5-l06e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the secondary sort (by Name when scores tie):", "es": "Completa el orden secundario (por Name si hay empate):" },
+              "code": "players.OrderBy(p => p.Score).___(p => p.Name)",
+              "blanks": [ { "answer": "ThenBy", "caseSensitive": true } ],
+              "explanation": { "en": "ThenBy only kicks in for ties from the previous ordering.", "es": "ThenBy solo actúa en empates del orden anterior." },
+              "hints": [ { "en": "Then + By.", "es": "Then + By." } ]
+            },
+            {
+              "id": "w5-l06e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Sort words {\"pear\",\"fig\",\"apple\"} by LENGTH ascending and print joined by commas. Expect: fig,pear,apple", "es": "Ordena las palabras {\"pear\",\"fig\",\"apple\"} por LONGITUD ascendente y muéstralas con comas. Espera: fig,pear,apple" },
+              "starter": "// OrderBy length\n",
+              "tests": [ { "name": "by length", "expectedOutput": "fig,pear,apple", "match": "exact" } ],
+              "explanation": { "en": "Sort keys can be ANY expression — lengths, scores, dates, even computed values.", "es": "Las claves pueden ser cualquier expresión: longitudes, scores, fechas, valores calculados." },
+              "hints": [ { "en": "OrderBy(w => w.Length)", "es": "OrderBy(w => w.Length)" } ]
+            }
+          ]
+        },
+        {
+          "id": "w5-l07-first",
+          "kind": "lesson",
+          "title": { "en": "First, Single & Friends", "es": "First, Single y amigos" },
+          "tip": { "en": "First() = first match (throws if none). FirstOrDefault() = null instead. Single() = exactly one (throws otherwise) — strictness as a feature!", "es": "First() = primera coincidencia (lanza si no hay). FirstOrDefault() = null. Single() = exactamente una (lanza si no): ¡la exigencia es una función!" },
+          "exercises": [
+            {
+              "id": "w5-l07e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var nums = new[] { 4, 8, 15, 16 };\nConsole.WriteLine(nums.First(n => n > 10));",
+              "options": [
+                { "en": "15", "es": "15" },
+                { "en": "4", "es": "4" },
+                { "en": "8", "es": "8" },
+                { "en": "16", "es": "16" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "First(condition) = the first element satisfying the predicate.", "es": "First(condición) = el primer elemento que cumple el predicado." },
+              "hints": [ { "en": "First one ABOVE 10.", "es": "El primero MAYOR que 10." } ]
+            },
+            {
+              "id": "w5-l07e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "nums has NO element over 100. What does nums.First(n => n > 100) do?", "es": "nums NO tiene elementos sobre 100. ¿Qué hace nums.First(n => n > 100)?" },
+              "options": [
+                { "en": "Throws InvalidOperationException", "es": "Lanza InvalidOperationException" },
+                { "en": "Returns null", "es": "Devuelve null" },
+                { "en": "Returns 0", "es": "Devuelve 0" },
+                { "en": "Returns the last element", "es": "Devuelve el último" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "First is strict — empty match = exception. Use FirstOrDefault for the gentle version.", "es": "First es estricto: sin coincidencia = excepción. Usa FirstOrDefault para la versión amable." },
+              "hints": [ { "en": "The loud failure.", "es": "El fallo ruidoso." } ]
+            },
+            {
+              "id": "w5-l07e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the gentle lookup:", "es": "Completa la búsqueda amable:" },
+              "code": "var p = players.___(p => p.Name == \"ada\");\nif (p != null) Console.WriteLine(p.Score);",
+              "blanks": [ { "answer": "FirstOrDefault", "caseSensitive": true } ],
+              "explanation": { "en": "FirstOrDefault returns null on no match — the null-check proves you're ready.", "es": "FirstOrDefault devuelve null si no hay coincidencia: el null-check demuestra que estás listo." },
+              "hints": [ { "en": "First + Default.", "es": "First + Default." } ]
+            },
+            {
+              "id": "w5-l07e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "From scores {5, 9, 12, 3}, get the first score over 10 and print it. Also print what FirstOrDefault gives for scores over 999 — expect 12, then 0.", "es": "De los scores {5, 9, 12, 3}, toma el primero mayor que 10 y muéstralo. Muestra también lo que da FirstOrDefault para scores sobre 999: espera 12 y 0." },
+              "starter": "// First with condition + FirstOrDefault fallback\n",
+              "tests": [ { "name": "first and default", "expectedOutput": "12\n0", "match": "exact" } ],
+              "explanation": { "en": "FirstOrDefault on an empty int sequence gives 0 — the type's default. (For reference types it'd be null.)", "es": "FirstOrDefault sobre una secuencia vacía de int da 0: el defecto del tipo (en referencias sería null)." },
+              "hints": [
+                { "en": "scores.First(n => n > 10) and scores.FirstOrDefault(n => n > 999)", "es": "scores.First(n => n > 10) y scores.FirstOrDefault(n => n > 999)" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w5-l08-quiz2",
+          "kind": "quiz",
+          "title": { "en": "Unit 2 Quiz", "es": "Examen de la unidad 2" },
+          "tip": { "en": "Core LINQ check — Where, Select, Order, First!", "es": "¡Control de LINQ esencial: Where, Select, Order, First!" },
+          "exercises": [
+            {
+              "id": "w5-l08e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": { "en": "What does `nums.Where(n => n > 5).Count()` do better than `nums.Count(n => n > 5)`?", "es": "¿Qué hace mejor `nums.Where(n => n > 5).Count()` que `nums.Count(n => n > 5)`?" },
+              "options": [
+                { "en": "Nothing — the Count(predicate) form is equivalent and shorter", "es": "Nada: la forma Count(predicado) es equivalente y más corta" },
+                { "en": "It runs in parallel", "es": "Se ejecuta en paralelo" },
+                { "en": "It caches the result", "es": "Guarda el resultado en caché" },
+                { "en": "It avoids SQL", "es": "Evita SQL" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Trick question! Both are identical in result — pick whichever reads better.", "es": "¡Pregunta trampa! Ambas dan lo mismo: elige la que se lea mejor." },
+              "hints": [ { "en": "LINQ wouldn't have two ways that differ.", "es": "LINQ no tendría dos formas distintas." } ]
+            },
+            {
+              "id": "w5-l08e2",
+              "type": "output",
+              "xp": 12,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var words = new[] { \"bb\", \"a\", \"ccc\" };\nConsole.WriteLine(words.OrderBy(w => w.Length).First());",
+              "options": [
+                { "en": "a", "es": "a" },
+                { "en": "ccc", "es": "ccc" },
+                { "en": "bb", "es": "bb" },
+                { "en": "It throws", "es": "Lanza error" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Shortest first (1 letter), then First takes it.", "es": "El más corto primero (1 letra) y First lo toma." },
+              "hints": [ { "en": "Order by length, then grab the top.", "es": "Ordena por longitud y toma el primero." } ]
+            },
+            {
+              "id": "w5-l08e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Chain it all: from {1..8}, keep numbers divisible by 2, square them, print joined by \",\". Expect: 4,16,36,64", "es": "Encadena todo: de {1..8}, quédate los divisibles entre 2, elévalos al cuadrado y muéstralos con \",\". Espera: 4,16,36,64" },
+              "starter": "// Where + Select + Join\n",
+              "tests": [ { "name": "squared evens", "expectedOutput": "4,16,36,64", "match": "exact" } ],
+              "explanation": { "en": "Pipelines read like a recipe: filter, transform, render.", "es": "Los pipelines se leen como recetas: filtra, transforma, presenta." },
+              "hints": [ { "en": "Where(n => n % 2 == 0).Select(n => n * n)", "es": "Where(n => n % 2 == 0).Select(n => n * n)" } ]
+            },
+            {
+              "id": "w5-l08e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Given players with scores {ada:200, bit:150, max:200}: print the FIRST player (by list order) among those with score >= 200... alphabetically FIRST by name among them. Expect: ada", "es": "Players con scores {ada:200, bit:150, max:200}: muestra el PRIMERO por nombre alfabético entre los de score >= 200. Espera: ada" },
+              "starter": "// OrderByName + Where + First\n",
+              "tests": [ { "name": "alphabetical high scorer", "expectedOutput": "ada", "match": "exact" } ],
+              "explanation": { "en": "OrderBy + Where + First — three methods composing into precise business logic.", "es": "OrderBy + Where + First: tres métodos que componen lógica de negocio precisa." },
+              "hints": [ { "en": "players.OrderBy(p => p.Name).First(p => p.Score >= 200).Name", "es": "players.OrderBy(p => p.Name).First(p => p.Score >= 200).Name" } ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": { "en": "Aggregation", "es": "Agregación" },
+      "lessons": [
+        {
+          "id": "w5-l09-aggregates",
+          "kind": "lesson",
+          "title": { "en": "Sum, Min, Max, Average", "es": "Sum, Min, Max, Average" },
+          "tip": { "en": "Four one-word methods collapse a whole collection into one number: Sum, Min, Max, Average. No loops, no temp variables.", "es": "Cuatro métodos de una palabra colapsan toda la colección en un número: Sum, Min, Max, Average. Sin bucles ni variables temporales." },
+          "exercises": [
+            {
+              "id": "w5-l09e1",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Scores {40, 90, 65}: print Sum, then Max (each on its own line).", "es": "Scores {40, 90, 65}: muestra Sum y luego Max (cada uno en su línea)." },
+              "starter": "// Sum then Max\n",
+              "tests": [ { "name": "sum and max", "expectedOutput": "195\n90", "match": "exact" } ],
+              "explanation": { "en": "195 total, 90 the best. Two methods replaced a whole loop each.", "es": "195 total y 90 el mejor. Dos métodos reemplazaron un bucle entero cada uno." },
+              "hints": [ { "en": "scores.Sum() and scores.Max()", "es": "scores.Sum() y scores.Max()" } ]
+            },
+            {
+              "id": "w5-l09e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var prices = new[] { 5.0, 7.5, 2.5 };\nConsole.WriteLine(prices.Average());",
+              "options": [
+                { "en": "5", "es": "5" },
+                { "en": "7.5", "es": "7.5" },
+                { "en": "15", "es": "15" },
+                { "en": "2.5", "es": "2.5" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "15 / 3 = 5. Average returns a double.", "es": "15 / 3 = 5. Average devuelve un double." },
+              "hints": [ { "en": "Total divided by how many.", "es": "Total dividido entre cuántos." } ]
+            },
+            {
+              "id": "w5-l09e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "What happens calling Max() on an EMPTY collection?", "es": "¿Qué pasa al llamar Max() en una colección VACÍA?" },
+              "options": [
+                { "en": "It throws InvalidOperationException", "es": "Lanza InvalidOperationException" },
+                { "en": "Returns 0", "es": "Devuelve 0" },
+                { "en": "Returns null", "es": "Devuelve null" },
+                { "en": "Returns double.NaN", "es": "Devuelve double.NaN" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "There's no 'maximum of nothing' — the strict methods throw. ( LINQ offers MaxOrDefault-style solutions.)", "es": "No existe 'el máximo de nada': los métodos estrictos lanzan. (LINQ ofrece variantes OrDefault.)" },
+              "hints": [ { "en": "Same temper as First().", "es": "Mismo carácter que First()." } ]
+            },
+            {
+              "id": "w5-l09e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "With prices {8, 3, 12}: print the MINIMUM, then the AVERAGE (as it comes).", "es": "Con precios {8, 3, 12}: muestra el MÍNIMO y luego el AVERAGE (tal cual)." },
+              "starter": "// Min then Average\n",
+              "tests": [ { "name": "min and avg", "expectedOutput": "3\n7.666666666666667", "match": "exact" } ],
+              "explanation": { "en": "23/3 = 7.666... — doubles are honest, if ugly. Format them for humans!", "es": "23/3 = 7.666...: los doubles son honestos aunque feos. ¡Formátéalos para humanos!" },
+              "hints": [ { "en": "prices.Min() then prices.Average()", "es": "prices.Min() luego prices.Average()" } ]
+            }
+          ]
+        },
+        {
+          "id": "w5-l10-groupby",
+          "kind": "lesson",
+          "title": { "en": "GroupBy: Buckets", "es": "GroupBy: cubetas" },
+          "tip": { "en": "GroupBy(key) splits a collection into buckets by a shared property. Each bucket has a Key and its own items — instant reports.", "es": "GroupBy(clave) divide la colección en cubetas por una propiedad común. Cada cubeta tiene Key y sus elementos: informes al instante." },
+          "exercises": [
+            {
+              "id": "w5-l10e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var words = new[] { \"ant\", \"bee\", \"ape\" };\nvar groups = words.GroupBy(w => w[0]);\nConsole.WriteLine(groups.Count());",
+              "options": [
+                { "en": "2", "es": "2" },
+                { "en": "3", "es": "3" },
+                { "en": "1", "es": "1" },
+                { "en": "0", "es": "0" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Two buckets: words starting with 'a' (ant, ape) and 'b' (bee).", "es": "Dos cubetas: las que empiezan por 'a' (ant, ape) y por 'b' (bee)." },
+              "hints": [ { "en": "Group the first letters.", "es": "Agrupa por la primera letra." } ]
+            },
+            {
+              "id": "w5-l10e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Words {\"ant\", \"bee\", \"ape\", \"bat\"}: print each first-letter group as \"letter:count\", in order of first appearance (a:2, b:2).", "es": "Palabras {\"ant\", \"bee\", \"ape\", \"bat\"}: muestra cada grupo por inicial como \"letra:conteo\" en orden de aparición (a:2, b:2)." },
+              "starter": "// GroupBy first letter, print key:count\n",
+              "tests": [ { "name": "letter counts", "expectedOutput": "a:2\nb:2", "match": "exact" } ],
+              "explanation": { "en": "GroupBy + Count per group — the heart of every analytics report.", "es": "GroupBy + Count por grupo: el corazón de todo informe analítico." },
+              "hints": [
+                { "en": "foreach (var g in words.GroupBy(w => w[0])) Console.WriteLine($\"{g.Key}:{g.Count()}\");", "es": "foreach (var g in words.GroupBy(w => w[0])) Console.WriteLine($\"{g.Key}:{g.Count()}\");" }
+              ]
+            },
+            {
+              "id": "w5-l10e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Each GroupBy bucket gives you...", "es": "Cada cubeta de GroupBy te da..." },
+              "options": [
+                { "en": "g.Key (the shared value) and all its items", "es": "g.Key (el valor común) y todos sus elementos" },
+                { "en": "Only the count", "es": "Solo el conteo" },
+                { "en": "A new database table", "es": "Una nueva tabla de base de datos" },
+                { "en": "A sorted list", "es": "Una lista ordenada" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Key + items — aggregate the items any way you like (Count, Sum, Max...).", "es": "Key + elementos: agrega como quieras (Count, Sum, Max...)." },
+              "hints": [ { "en": "What was the grouping key?", "es": "¿Cuál era la clave de agrupación?" } ]
+            },
+            {
+              "id": "w5-l10e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Players with classes: ada:mage, bit:warrior, max:mage. Print each class as \"class:count\" ordered by class name (mage:2, warrior:1).", "es": "Players con clases: ada:mage, bit:warrior, max:mage. Muestra \"clase:conteo\" ordenado por nombre de clase (mage:2, warrior:1)." },
+              "starter": "var players = new[]\n{\n    new { Name = \"ada\", Kind = \"mage\" },\n    new { Name = \"bit\", Kind = \"warrior\" },\n    new { Name = \"max\", Kind = \"mage\" }\n};\n// group by Kind, order by key, print kind:count\n",
+              "tests": [ { "name": "class census", "expectedOutput": "mage:2\nwarrior:1", "match": "exact" } ],
+              "explanation": { "en": "GroupBy → OrderBy → aggregate: a census in three LINQ calls.", "es": "GroupBy → OrderBy → agregar: un censo en tres llamadas LINQ." },
+              "hints": [
+                { "en": "players.GroupBy(p => p.Kind).OrderBy(g => g.Key) then print g.Key + \":\" + g.Count()", "es": "players.GroupBy(p => p.Kind).OrderBy(g => g.Key) luego imprime g.Key + \":\" + g.Count()" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w5-l11-anyall",
+          "kind": "lesson",
+          "title": { "en": "Any & All", "es": "Any y All" },
+          "tip": { "en": "Any(predicate): at least ONE matches? All(predicate): do EVERY match? Two yes/no questions every validation loop wishes it knew.", "es": "Any(predicado): ¿alguno cumple? All(predicado): ¿cumplen TODOS? Dos preguntas de sí/no que todo bucle de validación querría conocer." },
+          "exercises": [
+            {
+              "id": "w5-l11e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var scores = new[] { 20, 55, 80 };\nConsole.WriteLine(scores.Any(s => s > 70));\nConsole.WriteLine(scores.All(s => s > 70));",
+              "options": [
+                { "en": "True\nFalse", "es": "True\nFalse" },
+                { "en": "True\nTrue", "es": "True\nTrue" },
+                { "en": "False\nFalse", "es": "False\nFalse" },
+                { "en": "False\nTrue", "es": "False\nTrue" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "80 is over 70 (Any=true), but 20 isn't (All=false).", "es": "80 supera 70 (Any=true), pero 20 no (All=false)." },
+              "hints": [ { "en": "One vs. every.", "es": "Uno contra todos." } ]
+            },
+            {
+              "id": "w5-l11e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "What does Any() with NO arguments check?", "es": "¿Qué comprueba Any() SIN argumentos?" },
+              "options": [
+                { "en": "Whether the collection has ANY items at all", "es": "Si la colección tiene ALGÚN elemento" },
+                { "en": "Whether all items are true", "es": "Si todos los elementos son true" },
+                { "en": "Whether it's empty AND throws", "es": "Si está vacía y lanza error" },
+                { "en": "Nothing — it needs a predicate", "es": "Nada: necesita un predicado" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "list.Any() is the idiomatic 'is it non-empty?' check — much cheaper than Count() > 0.", "es": "list.Any() es el '¿hay algo?' idiomático: mucho más barato que Count() > 0." },
+              "hints": [ { "en": "Existence check.", "es": "Comprobación de existencia." } ]
+            },
+            {
+              "id": "w5-l11e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete: every player must be online:", "es": "Completa: todos los players deben estar en línea:" },
+              "code": "bool ready = players.___(p => p.Online);",
+              "blanks": [ { "answer": "All", "caseSensitive": true } ],
+              "explanation": { "en": "All = 'every single one'.", "es": "All = 'todos sin excepción'." },
+              "hints": [ { "en": "Three letters.", "es": "Tres letras." } ]
+            },
+            {
+              "id": "w5-l11e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Passwords {\"abc\", \"longenough\", \"xy\"}: print whether ANY is at least 8 chars, then whether ALL are. Expect True, then False.", "es": "Passwords {\"abc\", \"longenough\", \"xy\"}: muestra si ALGUNA tiene al menos 8 caracteres y si TODAS las tienen. Espera True y False." },
+              "starter": "// Any + All on lengths\n",
+              "tests": [ { "name": "password policy", "expectedOutput": "True\nFalse", "match": "exact" } ],
+              "explanation": { "en": "Validation in two booleans — no loop bookkeeping.", "es": "Validación en dos booleanos: sin contabilidad de bucles." },
+              "hints": [ { "en": "pw.Any(p => p.Length >= 8) and pw.All(...)", "es": "pw.Any(p => p.Length >= 8) y pw.All(...)" } ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u4",
+      "title": { "en": "Deferred & Boss", "es": "Ejecución diferida y Jefe" },
+      "lessons": [
+        {
+          "id": "w5-l12-deferred",
+          "kind": "lesson",
+          "title": { "en": "Deferred Execution", "es": "Ejecución diferida" },
+          "tip": { "en": "LINQ queries are RECIPES, not meals: nothing runs until you enumerate (foreach, ToList...). The recipe re-runs fresh every time you cook it.", "es": "Las consultas LINQ son RECETAS, no comidas: nada corre hasta enumerar (foreach, ToList...). La receta se repite fresca cada vez que cocinas." },
+          "exercises": [
+            {
+              "id": "w5-l12e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var nums = new List<int> { 1, 2 };\nvar query = nums.Select(n => n * 10);\nnums.Add(3);\nConsole.WriteLine(query.Count());",
+              "options": [
+                { "en": "3 — the query sees the added item!", "es": "3: ¡la consulta ve el elemento añadido!" },
+                { "en": "2 — it froze at creation", "es": "2: se congeló al crearse" },
+                { "en": "30", "es": "30" },
+                { "en": "0", "es": "0" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "The query stored the RECIPE, not the result — enumerating now sees 1, 2, 3.", "es": "La consulta guardó la RECETA, no el resultado: al enumerar ahora ve 1, 2, 3." },
+              "hints": [ { "en": "When does Select actually run?", "es": "¿Cuándo se ejecuta realmente el Select?" } ]
+            },
+            {
+              "id": "w5-l12e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Which of these executes the query IMMEDIATELY?", "es": "¿Cuál de estas ejecuta la consulta INMEDIATAMENTE?" },
+              "options": [
+                { "en": "ToList()", "es": "ToList()" },
+                { "en": "Where(...)", "es": "Where(...)" },
+                { "en": "Select(...)", "es": "Select(...)" },
+                { "en": "OrderBy(...)", "es": "OrderBy(...)" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Where/Select/OrderBy build the recipe. Materializers like ToList/Count/First cook it.", "es": "Where/Select/OrderBy construyen la receta. Los materializadores como ToList/Count/First la cocinan." },
+              "hints": [ { "en": "Which one gives you a real list back?", "es": "¿Cuál te devuelve una lista real?" } ]
+            },
+            {
+              "id": "w5-l12e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": { "en": "Enumerating the same query twice re-runs it twice.", "es": "Enumerar la misma consulta dos veces la ejecuta dos veces." },
+              "answerIndex": 1,
+              "explanation": { "en": "True — deferred queries re-execute per enumeration. Cache with ToList if you need a snapshot.", "es": "Verdadero: las consultas diferidas se re-ejecutan en cada enumeración. Guarda con ToList si quieres una foto." },
+              "hints": [ { "en": "Fresh meal each time you cook.", "es": "Comida fresca cada vez que cocinas." } ]
+            },
+            {
+              "id": "w5-l12e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Prove it: create {1, 2}, build query Select(n => n * 10), add 3, then print query.Count() AND query.First(). Expect 3 and 10.", "es": "Demuéstralo: crea {1, 2}, construye Select(n => n * 10), añade 3 y muestra query.Count() y query.First(). Espera 3 y 10." },
+              "starter": "// deferred execution proof\n",
+              "tests": [ { "name": "deferred visible", "expectedOutput": "3\n10", "match": "exact" } ],
+              "explanation": { "en": "The recipe saw your later change — that's deferred execution in action.", "es": "La receta vio tu cambio posterior: ejecución diferida en acción." },
+              "hints": [ { "en": "query.Count() then query.First()", "es": "query.Count() luego query.First()" } ]
+            }
+          ]
+        },
+        {
+          "id": "w5-l13-quiz3",
+          "kind": "quiz",
+          "title": { "en": "Unit 4 Quiz", "es": "Examen de la unidad 4" },
+          "tip": { "en": "Aggregates, grouping, laziness — check!", "es": "¡Agregaciones, agrupaciones y diferimiento!" },
+          "exercises": [
+            {
+              "id": "w5-l13e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": { "en": "Best one-liner for 'does the cart contain anything?'", "es": "La mejor línea para '¿hay algo en el carrito?'" },
+              "options": [
+                { "en": "cart.Any()", "es": "cart.Any()" },
+                { "en": "cart.Count() > 0", "es": "cart.Count() > 0" },
+                { "en": "cart.First() != null", "es": "cart.First() != null" },
+                { "en": "cart.All(x => true)", "es": "cart.All(x => true)" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Any() stops at the first item — clearest and cheapest.", "es": "Any() para en el primer elemento: lo más claro y barato." },
+              "hints": [ { "en": "Say what you mean.", "es": "Di lo que quieres decir." } ]
+            },
+            {
+              "id": "w5-l13e2",
+              "type": "output",
+              "xp": 12,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "var nums = new[] { 2, 4, 6 };\nConsole.WriteLine(nums.All(n => n % 2 == 0));",
+              "options": [
+                { "en": "True", "es": "True" },
+                { "en": "False", "es": "False" },
+                { "en": "6", "es": "6" },
+                { "en": "It throws", "es": "Lanza error" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "All even → All returns true.", "es": "Todos pares → All devuelve true." },
+              "hints": [ { "en": "Every single one even?", "es": "¿Todos pares?" } ]
+            },
+            {
+              "id": "w5-l13e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Words {\"hi\", \"hello\", \"hey\", \"hi\"}: count how many GROUPS by first letter exist (h only? no: h appears in all... wait — group by full word: 3 groups). Print that count.", "es": "Palabras {\"hi\", \"hello\", \"hey\", \"hi\"}: cuenta cuántos GRUPOS por palabra completa existen (hi aparece dos veces pero es un grupo). Muestra ese conteo: 3." },
+              "starter": "// GroupBy word, count groups\n",
+              "tests": [ { "name": "distinct words", "expectedOutput": "3", "match": "exact" } ],
+              "explanation": { "en": "GroupBy(word).Count() = distinct word count — GroupBy doubles as deduplication!", "es": "GroupBy(palabra).Count() = palabras distintas: ¡GroupBy también deduplica!" },
+              "hints": [ { "en": "words.GroupBy(w => w).Count()", "es": "words.GroupBy(w => w).Count()" } ]
+            },
+            {
+              "id": "w5-l13e4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "ToList() at the end of a query takes a snapshot that won't reflect later source changes.", "es": "ToList() al final de una consulta toma una foto que no reflejará cambios posteriores del origen." },
+              "answerIndex": 1,
+              "explanation": { "en": "True — that's usually exactly what you want: a stable copy.", "es": "Verdadero: normalmente es justo lo que quieres, una copia estable." },
+              "hints": [ { "en": "A photo vs. a live feed.", "es": "Una foto contra una transmisión en vivo." } ]
+            }
+          ]
+        },
+        {
+          "id": "w5-l14-chaining",
+          "kind": "lesson",
+          "title": { "en": "Chaining Pipelines", "es": "Encadenar pipelines" },
+          "tip": { "en": "Real LINQ is 4-6 methods chained: filter → transform → sort → aggregate. Each link passes its result to the next. Read them like a sentence.", "es": "El LINQ real encadena 4-6 métodos: filtra → transforma → ordena → agrega. Cada eslabón pasa su resultado al siguiente. Léelos como una frase." },
+          "exercises": [
+            {
+              "id": "w5-l14e1",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Players with team+score. Print the TOP scorer's name per team, teams alphabetically, as \"team:name\". Data: red:ada(100), red:bit(300), blue:max(200).", "es": "Players con equipo+score. Muestra el mejor de cada equipo, equipos alfabéticos, como \"equipo:nombre\". Datos: red:ada(100), red:bit(300), blue:max(200)." },
+              "starter": "var players = new[]\n{\n    new { Name = \"ada\", Team = \"red\", Score = 100 },\n    new { Name = \"bit\", Team = \"red\", Score = 300 },\n    new { Name = \"max\", Team = \"blue\", Score = 200 }\n};\n// GroupBy team, pick top scorer per group\n",
+              "tests": [ { "name": "top per team", "expectedOutput": "blue:max\nred:bit", "match": "exact" } ],
+              "explanation": { "en": "GroupBy + OrderByDescending + First + projection: a five-method pipeline doing real analytics.", "es": "GroupBy + OrderByDescending + First + proyección: un pipeline de cinco métodos con analítica real." },
+              "hints": [
+                { "en": "GroupBy(p => p.Team).OrderBy(g => g.Key), then inside: g.OrderByDescending(p => p.Score).First()", "es": "GroupBy(p => p.Team).OrderBy(g => g.Key), dentro: g.OrderByDescending(p => p.Score).First()" }
+              ]
+            },
+            {
+              "id": "w5-l14e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "In `list.Where(f).Select(m).OrderBy(k)`, what does Select receive as input?", "es": "En `list.Where(f).Select(m).OrderBy(k)`, ¿qué recibe Select como entrada?" },
+              "options": [
+                { "en": "Only the items that passed Where's filter", "es": "Solo los elementos que pasaron el filtro de Where" },
+                { "en": "All original items", "es": "Todos los elementos originales" },
+                { "en": "The sorted items", "es": "Los elementos ordenados" },
+                { "en": "The count of items", "es": "El conteo de elementos" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Each stage transforms the previous stage's output — a true pipeline.", "es": "Cada etapa transforma la salida de la anterior: un pipeline verdadero." },
+              "hints": [ { "en": "Follow the data left to right.", "es": "Sigue los datos de izquierda a derecha." } ]
+            },
+            {
+              "id": "w5-l14e3",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": { "en": "This pipeline should print the top score but prints a type name. Fix it!", "es": "Este pipeline debería mostrar el mayor score pero muestra un nombre de tipo. ¡Arréglalo!" },
+              "starter": "var scores = new[] { 3, 9, 4 };\nvar top = scores.OrderByDescending(n => n);\nConsole.WriteLine(top);",
+              "tests": [ { "name": "prints 9", "expectedOutput": "9", "match": "exact" } ],
+              "explanation": { "en": "OrderBy returns a lazy QUERY — materialize with .First() (or ToList) to get the value.", "es": "OrderBy devuelve una consulta diferida: materializa con .First() (o ToList) para obtener el valor." },
+              "hints": [ { "en": "Add .First() at the end of the chain.", "es": "Añade .First() al final de la cadena." } ]
+            },
+            {
+              "id": "w5-l14e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Full pipeline: words {\"Banana\",\"kiwi\",\"CHERRY\",\"fig\"} → print lowercase words longer than 4, sorted alphabetically, one per line. Expect: banana, cherry", "es": "Pipeline completo: palabras {\"Banana\",\"kiwi\",\"CHERRY\",\"fig\"} → muestra en minúsculas las de más de 4 letras, ordenadas. Espera: banana, cherry" },
+              "starter": "// Where length > 4, ToLower, OrderBy, print\n",
+              "tests": [ { "name": "long lowercase sorted", "expectedOutput": "banana\ncherry", "match": "exact" } ],
+              "explanation": { "en": "Filter, transform, sort — with case normalization folded into the Select.", "es": "Filtrar, transformar, ordenar, con la normalización de mayúsculas dentro del Select." },
+              "hints": [
+                { "en": "words.Where(w => w.Length > 4).Select(w => w.ToLower()).OrderBy(w => w)", "es": "words.Where(w => w.Length > 4).Select(w => w.ToLower()).OrderBy(w => w)" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w5-l15-boss",
+          "kind": "boss",
+          "title": { "en": "BOSS: The Query Architect", "es": "JEFE: El Arquitecto de consultas" },
+          "tip": { "en": "One dataset, four brutal queries. Chain like an architect and the LINQ crown is yours! 👑🔗", "es": "Un conjunto de datos, cuatro consultas brutales. ¡Encadena como un arquitecto y la corona LINQ es tuya! 👑🔗" },
+          "exercises": [
+            {
+              "id": "w5-l15e1",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "The dataset (provided): 5 players with Name, Class, Score. Query 1: print the TOP score of all.", "es": "El conjunto (dado): 5 players con Name, Class, Score. Consulta 1: muestra el MAYOR score de todos." },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nvar players = new[]\n{\n    new { Name = \"ada\", Class = \"mage\", Score = 250 },\n    new { Name = \"bit\", Class = \"warrior\", Score = 400 },\n    new { Name = \"max\", Class = \"mage\", Score = 180 },\n    new { Name = \"zoe\", Class = \"healer\", Score = 320 },\n    new { Name = \"sam\", Class = \"warrior\", Score = 90 }\n};\n// Q1: top score\n",
+              "tests": [ { "name": "top score", "expectedOutput": "400", "match": "exact" } ],
+              "explanation": { "en": "players.Max(p => p.Score) — one call, one number.", "es": "players.Max(p => p.Score): una llamada, un número." },
+              "hints": [ { "en": "players.Max(p => p.Score)", "es": "players.Max(p => p.Score)" } ]
+            },
+            {
+              "id": "w5-l15e2",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Query 2: print names of players with Score > 200, sorted by name, one per line (ada, zoe).", "es": "Consulta 2: nombres de players con Score > 200, ordenados por nombre, uno por línea (ada, zoe)." },
+              "starter": "// Where > 200, OrderBy name, print names\n",
+              "tests": [ { "name": "over 200 sorted", "expectedOutput": "ada\nzoe", "match": "exact" } ],
+              "explanation": { "en": "Filter, sort, project — the trifecta.", "es": "Filtrar, ordenar, proyectar: la triada." },
+              "hints": [ { "en": "Where(p => p.Score > 200).OrderBy(p => p.Name).Select(p => p.Name)", "es": "Where(p => p.Score > 200).OrderBy(p => p.Name).Select(p => p.Name)" } ]
+            },
+            {
+              "id": "w5-l15e3",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Query 3: print each class as \"class:count\", alphabetical (healer:1, mage:2, warrior:2).", "es": "Consulta 3: muestra \"clase:conteo\" por clase, alfabético (healer:1, mage:2, warrior:2)." },
+              "starter": "// GroupBy class, order, print class:count\n",
+              "tests": [ { "name": "class census", "expectedOutput": "healer:1\nmage:2\nwarrior:2", "match": "exact" } ],
+              "explanation": { "en": "Group, order, aggregate — a census without a single loop keyword.", "es": "Agrupar, ordenar, agregar: un censo sin una sola palabra de bucle." },
+              "hints": [
+                { "en": "players.GroupBy(p => p.Class).OrderBy(g => g.Key), print g.Key + \":\" + g.Count()", "es": "players.GroupBy(p => p.Class).OrderBy(g => g.Key), imprime g.Key + \":\" + g.Count()" }
+              ]
+            },
+            {
+              "id": "w5-l15e4",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Final query: print the name of the TOP scorer within the winning class (the class whose top score beats all other classes' tops). Expect: bit (warrior's 400).", "es": "Consulta final: el nombre del MEJOR jugador de la clase ganadora (la clase cuyo máximo supera a las demás). Espera: bit (guerrero, 400)." },
+              "starter": "// GroupBy class → top per class → the best of those\n",
+              "tests": [ { "name": "champion of champions", "expectedOutput": "bit", "match": "exact" } ],
+              "explanation": { "en": "GroupBy, pick each group's champion, then the champion of champions. The Architect salutes you — LINQ mastery complete! 👑🔗", "es": "GroupBy, el campeón de cada grupo y el campeón de campeones. El Arquitecto te saluda: ¡LINQ dominado! 👑🔗" },
+              "hints": [
+                { "en": "players.GroupBy(p => p.Class).Select(g => g.OrderByDescending(p => p.Score).First()).OrderByDescending(p => p.Score).First().Name", "es": "players.GroupBy(p => p.Class).Select(g => g.OrderByDescending(p => p.Score).First()).OrderByDescending(p => p.Score).First().Name" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

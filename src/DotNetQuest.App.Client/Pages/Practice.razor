@@ -1,0 +1,296 @@
+@page "/practice"
+@using DotNetQuest.App.Client.Components
+@using DotNetQuest.Shared
+@using DotNetQuest.Shared.Content
+@inject GameState Game
+@inject I18nService I18n
+@inject ApiClient Api
+@inject NavigationManager Nav
+@inject Confetti Confetti
+
+<div class="page">
+    @if (_phase == Phase.Loading)
+    {
+        <h1 class="page-title">🔁 @I18n.T("practice.title")</h1>
+        <p class="muted">@I18n.T("app.loading")</p>
+    }
+    else if (_phase == Phase.Empty)
+    {
+        <h1 class="page-title">🔁 @I18n.T("practice.title")</h1>
+        <div class="results-card">
+            <BitMascot Pose="@BitPoses.Happy" Size="120" />
+            <p>@I18n.T("practice.empty")</p>
+            <button class="btn btn-primary btn-block" @onclick="GoHome">@I18n.T("common.back")</button>
+        </div>
+    }
+    else if (_phase == Phase.Play && _current is not null)
+    {
+        <div class="lesson-top">
+            <button class="icon-btn" @onclick="GoHome">✕</button>
+            <div class="progress-track grow">
+                <div class="progress-fill" style="width:@Math.Min(_asked * 100 / Math.Max(_queue.Count, 1), 100)%"></div>
+            </div>
+            <div class="stat-chip stat-xp">✔ @_correct</div>
+        </div>
+
+        <div class="exercise-area">
+            <p class="exercise-count">@Math.Min(_asked + 1, _queue.Count)/@_queue.Count</p>
+            <p class="exercise-count muted">📚 @(_asked > 0 ? _queue[_asked - 1].Display : string.Empty)</p>
+            <ExercisePrompt Prompt="@_current.Prompt" />
+            @switch (_current.Type)
+            {
+                case ExerciseTypes.Mcq or ExerciseTypes.Output or ExerciseTypes.TrueFalse:
+                    @if (!string.IsNullOrEmpty(_current.Code))
+                    {
+                        <pre class="code-block">@_current.Code</pre>
+                    }
+                    <div class="options">
+                        @for (var i = 0; i < (_current.Options?.Count ?? 0); i++)
+                        {
+                            var idx = i;
+                            <button class="option @OptClass(idx)" disabled="@_answered" @onclick="() => AnswerOption(idx)">
+                                <span class="option-letter">@((char)('A' + i))</span>
+                                <span>@(_current.Type == ExerciseTypes.Output ? _current.Options![idx].En : I18n.Pick(_current.Options![idx].En, _current.Options[idx].Es))</span>
+                            </button>
+                        }
+                    </div>
+                    break;
+                case ExerciseTypes.FillBlank:
+                case ExerciseTypes.TypeIn:
+                    <input class="text-input mono big-input" value="@_text" disabled="@_answered"
+                           @oninput="e => _text = e.Value?.ToString() ?? string.Empty" />
+                    break;
+                case ExerciseTypes.Parsons:
+                    <ExerciseParsons Lines="@_lines.ToArray()" Disabled="@_answered" LinesChanged="lines => _lines = lines" />
+                    break;
+                case ExerciseTypes.Match:
+                    <ExerciseMatch Pairs="@(_current.Pairs ?? [])" Disabled="@_answered" SelectionChanged="sel => _matchSelection = sel" />
+                    break;
+                case ExerciseTypes.Code or ExerciseTypes.BugFix:
+                    @if (_current.Type == ExerciseTypes.BugFix)
+                    {
+                        <p class="bugfix-banner">🐛 @I18n.T("exercise.bugfixHint")</p>
+                    }
+                    <textarea class="code-editor mono" rows="10" spellcheck="false"
+                              value="@_code" @oninput="e => _code = e.Value?.ToString() ?? string.Empty"></textarea>
+                    <div class="code-actions">
+                        <button class="btn btn-secondary" disabled="@(_running || _answered)" @onclick="RunCode">
+                            @if (_running)
+                            {
+                                <span>⏳ @I18n.T("lesson.running")</span>
+                            }
+                            else
+                            {
+                                <span>▶ @I18n.T("lesson.run")</span>
+                            }
+                        </button>
+                    </div>
+                    @if (_runResult is not null)
+                    {
+                        <CodeRunPanel Result="@_runResult" />
+                    }
+                    break;
+            }
+
+            @if (_answered)
+            {
+                <div class="feedback @(_lastCorrect ? "good" : "bad")">
+                    <strong>@(_lastCorrect ? I18n.T("lesson.correct") : I18n.T("lesson.wrong"))</strong>
+                    @if (!_lastCorrect && _current.Type is ExerciseTypes.Code or ExerciseTypes.BugFix)
+                    {
+                        <p>@I18n.T("lesson.codeWrong")</p>
+                    }
+                    @if (_current.Explanation is not null)
+                    {
+                        <p>@I18n.Pick(_current.Explanation.En, _current.Explanation.Es)</p>
+                    }
+                </div>
+            }
+
+            <div class="lesson-footer">
+                @if (_answered)
+                {
+                    <button class="btn btn-primary btn-block" @onclick="NextQuestion">@I18n.T("common.continue")</button>
+                }
+                else if (_current.Type is ExerciseTypes.Code or ExerciseTypes.BugFix)
+                {
+                    // Graded by the ▶ Run button above, which executes the tests.
+                }
+                else
+                {
+                    <button class="btn btn-primary btn-block" disabled="@(!CanCheck)" @onclick="CheckAnswer">
+                        @I18n.T("lesson.check")
+                    </button>
+                }
+            </div>
+        </div>
+    }
+    else if (_phase == Phase.Done)
+    {
+        <div class="results-card">
+            <BitMascot Pose="@BitPoses.Cheer" Size="130" />
+            <h1>@I18n.T("practice.done")</h1>
+            <p>⚡ @I18n.T("practice.result", _correct, _askedTotal)</p>
+            @if (_xpEarned > 0)
+            {
+                <div class="results-xp"><span class="xp-badge">⚡ +@_xpEarned XP</span></div>
+            }
+            <button class="btn btn-primary btn-block" @onclick="GoHome">@I18n.T("common.continue")</button>
+        </div>
+    }
+</div>
+
+@code {
+    private enum Phase { Loading, Empty, Play, Done }
+
+    private Phase _phase = Phase.Loading;
+    private List<(ExerciseContent Exercise, string Display)> _queue = [];
+    private ExerciseContent? _current;
+    private int _asked;
+    private int _askedTotal;
+    private int _correct;
+    private bool _answered;
+    private bool _lastCorrect;
+    private bool _running;
+    private string _text = string.Empty;
+    private string _code = string.Empty;
+    private int? _picked;
+    private List<string> _lines = [];
+    private List<int> _matchSelection = [];
+    private CodeRunResultDto? _runResult;
+    private int _xpEarned;
+
+    private bool CanCheck => _current?.Type switch
+    {
+        ExerciseTypes.FillBlank or ExerciseTypes.TypeIn => !string.IsNullOrWhiteSpace(_text),
+        ExerciseTypes.Parsons => _lines.Count > 0,
+        ExerciseTypes.Match => _matchSelection.Count > 0 && _matchSelection.All(m => m >= 0),
+        _ => false
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Game.InitializeAsync();
+        if (Game.Player is null) { Nav.NavigateTo("/"); return; }
+
+        var missed = await Api.GetPracticeExercisesAsync();
+        if (missed is null || missed.Count == 0)
+        {
+            _phase = Phase.Empty;
+            return;
+        }
+
+        foreach (var m in missed)
+        {
+            var world = await Game.GetWorldAsync(m.WorldId);
+            var lesson = world?.FindLesson(m.LessonId);
+            var ex = lesson?.Exercises.FirstOrDefault(e => e.Id == m.ExerciseId);
+            if (ex is not null)
+                _queue.Add((ex, lesson?.Title.En ?? string.Empty));
+        }
+
+        if (_queue.Count == 0)
+        {
+            _phase = Phase.Empty;
+            return;
+        }
+
+        _askedTotal = _queue.Count;
+        _phase = Phase.Play;
+        NextQuestion();
+    }
+
+    private void NextQuestion()
+    {
+        _answered = false;
+        _picked = null;
+        _text = string.Empty;
+        _lines = [];
+        _matchSelection = [];
+        _runResult = null;
+        if (_asked >= _queue.Count)
+        {
+            _ = Finish();
+            return;
+        }
+        _current = _queue[_asked].Exercise;
+        _asked++;
+        if (_current.Type is ExerciseTypes.Code or ExerciseTypes.BugFix)
+            _code = _current.Starter ?? string.Empty;
+        else
+            _code = string.Empty;
+    }
+
+    private string OptClass(int idx)
+    {
+        if (!_answered) return "";
+        if (idx == _current?.AnswerIndex) return "correct";
+        if (idx == _picked) return "wrong";
+        return "";
+    }
+
+    private async Task AnswerOption(int idx)
+    {
+        if (_answered) return;
+        _picked = idx;
+        await Answer(_current?.AnswerIndex == idx);
+    }
+
+    private async Task CheckAnswer()
+    {
+        if (_answered || _current is null) return;
+        var answer = _current.Type switch
+        {
+            ExerciseTypes.Parsons => new AnswerSubmission(Lines: _lines),
+            ExerciseTypes.Match => new AnswerSubmission(MatchSelection: _matchSelection),
+            _ => new AnswerSubmission(Text: _text, Blanks: [_text]) // FillBlank / TypeIn
+        };
+        var result = Grader.Check(_current, answer);
+        await Answer(result.Correct);
+    }
+
+    /// <summary>Runs the learner's code in the sandbox and grades by test results, as in lessons.</summary>
+    private async Task RunCode()
+    {
+        if (_answered || _running || _current is null) return;
+        _running = true;
+        StateHasChanged();
+
+        var tests = (_current.Tests ?? []).Select(t => new RunTestRequest(
+            t.Name, t.ExpectedOutput, t.Match, t.Stdin, t.ApiPath, t.ApiMethod, t.ExpectedStatus)).ToList();
+        _runResult = await Api.RunCodeAsync(_code, tests, exerciseId: _current.Id, xunit: _current.Xunit);
+
+        _running = false;
+        if (_runResult is null)
+        {
+            StateHasChanged();
+            return;
+        }
+        var passed = _runResult.Compiled && _runResult.Tests.Count > 0 && _runResult.Tests.All(t => t.Passed);
+        await Answer(passed);
+    }
+
+    private async Task Answer(bool correct)
+    {
+        _answered = true;
+        _lastCorrect = correct;
+        if (correct) _correct++;
+        StateHasChanged();
+        await Task.CompletedTask;
+    }
+
+    private async Task Finish()
+    {
+        _phase = Phase.Done;
+        var response = await Api.CompletePracticeAsync(_correct, _askedTotal);
+        if (response is not null)
+        {
+            _xpEarned = response.XpEarned;
+            Game.UpdatePlayer(response.Player);
+            if (_xpEarned > 0) await Confetti.BurstAsync();
+        }
+        StateHasChanged();
+    }
+
+    private void GoHome() => Nav.NavigateTo("home");
+}

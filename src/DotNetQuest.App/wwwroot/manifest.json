@@ -1,0 +1,17 @@
+{
+  "name": "DevQuest — Learn C# & .NET by playing",
+  "short_name": "DevQuest",
+  "description": "Learn C# and .NET by playing — 12 worlds, real code execution, an AI tutor robot.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#eef0fb",
+  "theme_color": "#5b5bd6",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

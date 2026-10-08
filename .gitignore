@@ -1,0 +1,39 @@
+# Build output
+bin/
+obj/
+
+# Local databases
+*.db
+*.db-shm
+*.db-wal
+
+# User-specific files
+*.user
+*.suo
+
+# IDE
+.vs/
+.idea/
+.vscode/
+
+# Test / tooling artifacts
+TestResults/
+.playwright-mcp/
+*.png
+!src/**/*.png
+!src/**/wwwroot/**/*.png
+
+# OS
+Thumbs.db
+.DS_Store
+tests/diag.log
+publish/
+cj.txt
+cj2.txt
+
+# Local secrets (Google OAuth creds, API keys) live here — never commit
+src/DotNetQuest.App/appsettings.Development.json
+
+# Runtime state
+keys/
+logs/

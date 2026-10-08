@@ -1,0 +1,12 @@
+@namespace DotNetQuest.App.Client.Components
+@using DotNetQuest.Shared.Content
+@inject I18nService I18n
+
+@if (Prompt is not null)
+{
+    <h2 class="exercise-prompt">@I18n.Pick(Prompt.En, Prompt.Es)</h2>
+}
+
+@code {
+    [Parameter] public Loc? Prompt { get; set; }
+}

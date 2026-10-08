@@ -1,0 +1,4073 @@
+{
+  "id": "w1-csharp-basics",
+  "order": 1,
+  "track": "foundations",
+  "title": {
+    "en": "C# Fundamentals",
+    "es": "Fundamentos de C#"
+  },
+  "subtitle": {
+    "en": "Your very first steps: variables, decisions, loops and arrays",
+    "es": "Tus primeros pasos: variables, decisiones, bucles y arreglos"
+  },
+  "intro": {
+    "en": "In this world you go from zero to writing real C# programs that run. Bit will fly with you every step of the way!",
+    "es": "En este mundo pasarás de cero a escribir programas reales en C# que se ejecutan. ¡Bit volará contigo en cada paso!"
+  },
+  "icon": "🧱",
+  "color": "#5b5bd6",
+  "units": [
+    {
+      "id": "u1",
+      "title": {
+        "en": "First Contact",
+        "es": "Primer contacto"
+      },
+      "lessons": [
+        {
+          "id": "w1-l01-hello",
+          "kind": "lesson",
+          "title": {
+            "en": "Hello, World!",
+            "es": "¡Hola, mundo!"
+          },
+          "tip": {
+            "en": "Every programmer's journey starts with these words. Let's make your screen talk!",
+            "es": "El viaje de todo programador empieza con estas palabras. ¡Hagamos que tu pantalla hable!"
+          },
+          "exercises": [
+            {
+              "id": "w1-l01e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What does Console.WriteLine(\"Hi\"); do?",
+                "es": "¿Qué hace Console.WriteLine(\"Hi\");?"
+              },
+              "options": [
+                {
+                  "en": "Prints Hi on the screen and moves to a new line",
+                  "es": "Muestra Hi en pantalla y salta a una nueva línea"
+                },
+                {
+                  "en": "Saves Hi to a file",
+                  "es": "Guarda Hi en un archivo"
+                },
+                {
+                  "en": "Reads Hi typed by the user",
+                  "es": "Lee un Hi escrito por el usuario"
+                },
+                {
+                  "en": "Nothing — it is a comment",
+                  "es": "Nada: es un comentario"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Console.WriteLine prints text to the console and ends the line, so the next output starts below it.",
+                "es": "Console.WriteLine muestra texto en la consola y termina la línea, así la próxima salida empieza debajo."
+              },
+              "hints": [
+                {
+                  "en": "Think about what happens when you run a program and see text appear.",
+                  "es": "Piensa en lo que pasa cuando ejecutas un programa y aparece texto."
+                },
+                {
+                  "en": "The Console is the black text window; WriteLine writes a line there.",
+                  "es": "La consola es la ventana de texto negra; WriteLine escribe una línea ahí."
+                }
+              ]
+            },
+            {
+              "id": "w1-l01e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this program print?",
+                "es": "¿Qué muestra este programa?"
+              },
+              "code": "Console.WriteLine(\"Hello\");\nConsole.WriteLine(\"World\");",
+              "options": [
+                {
+                  "en": "Hello\nWorld",
+                  "es": "Hello\nWorld"
+                },
+                {
+                  "en": "HelloWorld",
+                  "es": "HelloWorld"
+                },
+                {
+                  "en": "Hello World",
+                  "es": "Hello World"
+                },
+                {
+                  "en": "World\nHello",
+                  "es": "World\nHello"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Each WriteLine call prints on its own line, so you get Hello and then World below it.",
+                "es": "Cada llamada a WriteLine imprime en su propia línea: primero Hello y debajo World."
+              },
+              "hints": [
+                {
+                  "en": "WriteLine always ends the line after printing.",
+                  "es": "WriteLine siempre termina la línea después de imprimir."
+                }
+              ]
+            },
+            {
+              "id": "w1-l01e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the code so it prints Hi!",
+                "es": "Completa el código para que muestre ¡Hi!"
+              },
+              "code": "Console.___(\"Hi\");",
+              "blanks": [
+                {
+                  "answer": "WriteLine",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "WriteLine is the method of Console that prints a full line of text.",
+                "es": "WriteLine es el método de Console que imprime una línea completa de texto."
+              },
+              "hints": [
+                {
+                  "en": "The method starts with 'Write'...",
+                  "es": "El método empieza con 'Write'..."
+                }
+              ]
+            },
+            {
+              "id": "w1-l01e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Write a program that prints exactly: Hello, DevQuest!",
+                "es": "Escribe un programa que muestre exactamente: Hello, DevQuest!"
+              },
+              "starter": "// Print the greeting below\n",
+              "tests": [
+                {
+                  "name": "prints the greeting",
+                  "expectedOutput": "Hello, DevQuest!",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "You just wrote and ran your first real C# program. That is level one of a whole adventure!",
+                "es": "Acabas de escribir y ejecutar tu primer programa real en C#. ¡Ese es el nivel uno de toda una aventura!"
+              },
+              "hints": [
+                {
+                  "en": "Use Console.WriteLine with your text inside double quotes.",
+                  "es": "Usa Console.WriteLine con tu texto entre comillas dobles."
+                },
+                {
+                  "en": "The text must match exactly, including the comma and the exclamation mark.",
+                  "es": "El texto debe coincidir exactamente, incluida la coma y el signo de exclamación."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l02-text",
+          "kind": "lesson",
+          "title": {
+            "en": "Text & Comments",
+            "es": "Texto y comentarios"
+          },
+          "tip": {
+            "en": "Text in C# lives between double quotes, and comments are notes the computer ignores.",
+            "es": "El texto en C# vive entre comillas dobles, y los comentarios son notas que la computadora ignora."
+          },
+          "exercises": [
+            {
+              "id": "w1-l02e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which of these is valid C# text (a string)?",
+                "es": "¿Cuál de estos es un texto válido (string) en C#?"
+              },
+              "options": [
+                {
+                  "en": "\"I love C#\"",
+                  "es": "\"I love C#\""
+                },
+                {
+                  "en": "'I love C#'",
+                  "es": "'I love C#'"
+                },
+                {
+                  "en": "`I love C#`",
+                  "es": "`I love C#`"
+                },
+                {
+                  "en": "I love C#",
+                  "es": "I love C#"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "C# strings always use double quotes. Single quotes are for single characters, like 'A'.",
+                "es": "Los strings en C# siempre usan comillas dobles. Las comillas simples son para un solo carácter, como 'A'."
+              },
+              "hints": [
+                {
+                  "en": "C# is picky: only one type of quote works for text.",
+                  "es": "C# es exigente: solo un tipo de comillas funciona para texto."
+                }
+              ]
+            },
+            {
+              "id": "w1-l02e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which line actually runs?",
+                "es": "¿Qué línea se ejecuta realmente?"
+              },
+              "code": "// Say hello\nConsole.WriteLine(\"Hello\");",
+              "options": [
+                {
+                  "en": "Console.WriteLine(\"Hello\");",
+                  "es": "Console.WriteLine(\"Hello\");"
+                },
+                {
+                  "en": "// Say hello",
+                  "es": "// Say hello"
+                },
+                {
+                  "en": "Both lines run",
+                  "es": "Ambas líneas se ejecutan"
+                },
+                {
+                  "en": "Neither line runs",
+                  "es": "Ninguna línea se ejecuta"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Lines starting with // are comments: notes for humans that the compiler ignores completely.",
+                "es": "Las líneas que empiezan con // son comentarios: notas para humanos que el compilador ignora por completo."
+              },
+              "hints": [
+                {
+                  "en": "Look for the line that starts with two slashes.",
+                  "es": "Busca la línea que empieza con dos barras."
+                }
+              ]
+            },
+            {
+              "id": "w1-l02e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "Comments are executed by the program.",
+                "es": "Los comentarios se ejecutan como parte del programa."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False! Comments are completely ignored by the compiler. They only help humans read the code.",
+                "es": "¡Falso! El compilador ignora los comentarios por completo. Solo ayudan a los humanos a leer el código."
+              },
+              "hints": [
+                {
+                  "en": "The compiler skips anything after //.",
+                  "es": "El compilador se salta todo lo que va después de //."
+                }
+              ]
+            },
+            {
+              "id": "w1-l02e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Print exactly two lines: first \"I am learning C#\", then \"Wish me luck!\"",
+                "es": "Muestra exactamente dos líneas: primero \"I am learning C#\" y luego \"Wish me luck!\""
+              },
+              "starter": "// Two WriteLine calls, one per line\n",
+              "tests": [
+                {
+                  "name": "prints both lines",
+                  "expectedOutput": "I am learning C#\nWish me luck!",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Two WriteLine calls stack up: each one prints and jumps to the next line.",
+                "es": "Dos llamadas a WriteLine se apilan: cada una imprime y salta a la línea siguiente."
+              },
+              "hints": [
+                {
+                  "en": "You need two separate Console.WriteLine statements.",
+                  "es": "Necesitas dos instrucciones Console.WriteLine separadas."
+                },
+                {
+                  "en": "Each line of output needs its own pair of double quotes.",
+                  "es": "Cada línea de salida necesita su propio par de comillas dobles."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l03-errors",
+          "kind": "lesson",
+          "title": {
+            "en": "Oops! Fixing Errors",
+            "es": "¡Ups! Arreglando errores"
+          },
+          "tip": {
+            "en": "Errors are friends with loud voices — they tell you exactly what to fix. Let's practice reading them!",
+            "es": "Los errores son amigos con voz alta: te dicen exactamente qué arreglar. ¡Practiquemos a leerlos!"
+          },
+          "exercises": [
+            {
+              "id": "w1-l03e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What is wrong with this line?",
+                "es": "¿Qué está mal en esta línea?"
+              },
+              "code": "Console.WriteLine(\"Hi\")",
+              "options": [
+                {
+                  "en": "It is missing the semicolon ; at the end",
+                  "es": "Falta el punto y coma ; al final"
+                },
+                {
+                  "en": "The text uses the wrong quotes",
+                  "es": "El texto usa las comillas equivocadas"
+                },
+                {
+                  "en": "WriteLine does not exist",
+                  "es": "WriteLine no existe"
+                },
+                {
+                  "en": "Nothing — it is perfect",
+                  "es": "Nada: es perfecta"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Every C# statement ends with a semicolon. The compiler error CS1002 points exactly at it.",
+                "es": "Toda instrucción de C# termina con punto y coma. El error del compilador CS1002 lo señala exactamente."
+              },
+              "hints": [
+                {
+                  "en": "In C#, statements finish with the same symbol that ends a sentence.",
+                  "es": "En C#, las instrucciones terminan con el mismo símbolo que cierra una frase."
+                }
+              ]
+            },
+            {
+              "id": "w1-l03e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "C# is case-sensitive. Which call is written correctly?",
+                "es": "C# distingue mayúsculas y minúsculas. ¿Qué llamada está bien escrita?"
+              },
+              "options": [
+                {
+                  "en": "Console.WriteLine(\"Hi\");",
+                  "es": "Console.WriteLine(\"Hi\");"
+                },
+                {
+                  "en": "console.WriteLine(\"Hi\");",
+                  "es": "console.WriteLine(\"Hi\");"
+                },
+                {
+                  "en": "Console.writeline(\"Hi\");",
+                  "es": "Console.writeline(\"Hi\");"
+                },
+                {
+                  "en": "CONSOLE.WRITELine(\"Hi\");",
+                  "es": "CONSOLE.WRITELine(\"Hi\");"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Console has a capital C and WriteLine has a capital W and L. C# treats console and Console as totally different names.",
+                "es": "Console lleva C mayúscula y WriteLine lleva W y L mayúsculas. Para C#, console y Console son nombres totalmente distintos."
+              },
+              "hints": [
+                {
+                  "en": "Check every capital letter carefully.",
+                  "es": "Revisa cada letra mayúscula con cuidado."
+                }
+              ]
+            },
+            {
+              "id": "w1-l03e3",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What happens when you run a program with this line?",
+                "es": "¿Qué pasa al ejecutar un programa con esta línea?"
+              },
+              "code": "Console.Writeline(\"Hi\");",
+              "options": [
+                {
+                  "en": "It fails to compile: 'Console' does not contain a definition for 'Writeline'",
+                  "es": "No compila: 'Console' no contiene una definición para 'Writeline'"
+                },
+                {
+                  "en": "It prints Hi normally",
+                  "es": "Muestra Hi normalmente"
+                },
+                {
+                  "en": "It prints nothing but runs fine",
+                  "es": "No muestra nada pero corre bien"
+                },
+                {
+                  "en": "It prints HI in capitals",
+                  "es": "Muestra HI en mayúsculas"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The compiler error tells you the name is wrong. Reading the error message is a superpower — it usually names the exact problem.",
+                "es": "El error del compilador te dice que el nombre está mal. Leer los errores es un superpoder: casi siempre nombran el problema exacto."
+              },
+              "hints": [
+                {
+                  "en": "The method name has a capital letter in the wrong place.",
+                  "es": "El nombre del método tiene una mayúscula en el lugar equivocado."
+                }
+              ]
+            },
+            {
+              "id": "w1-l03e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "This program has a bug. Fix it so it prints: Bug squashed!",
+                "es": "Este programa tiene un error. Arréglalo para que muestre: Bug squashed!"
+              },
+              "starter": "Console.Writeline(\"Bug squashed!\");\n",
+              "tests": [
+                {
+                  "name": "prints after the fix",
+                  "expectedOutput": "Bug squashed!",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "You just debugged your first program! Changing Writeline to WriteLine fixes the casing error.",
+                "es": "¡Acabas de depurar tu primer programa! Cambiar Writeline por WriteLine corrige el error de mayúsculas."
+              },
+              "hints": [
+                {
+                  "en": "Compare the method name with the correct one letter by letter.",
+                  "es": "Compara el nombre del método con el correcto letra por letra."
+                },
+                {
+                  "en": "WriteLine: capital W, capital L.",
+                  "es": "WriteLine: W mayúscula, L mayúscula."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l04-quiz1",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 1 Quiz",
+            "es": "Examen de la unidad 1"
+          },
+          "tip": {
+            "en": "Time to show what you learned! No pressure — mistakes just mean extra XP later.",
+            "es": "¡Hora de demostrar lo aprendido! Sin presión: los errores solo significan más PX después."
+          },
+          "exercises": [
+            {
+              "id": "w1-l04e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What symbol ends every C# statement?",
+                "es": "¿Qué símbolo termina cada instrucción de C#?"
+              },
+              "options": [
+                {
+                  "en": "; (semicolon)",
+                  "es": "; (punto y coma)"
+                },
+                {
+                  "en": ": (colon)",
+                  "es": ": (dos puntos)"
+                },
+                {
+                  "en": ". (dot)",
+                  "es": ". (punto)"
+                },
+                {
+                  "en": "! (exclamation)",
+                  "es": "! (exclamación)"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The semicolon marks the end of a statement, like a period ends a sentence.",
+                "es": "El punto y coma marca el fin de una instrucción, como el punto final de una frase."
+              },
+              "hints": [
+                {
+                  "en": "It is the same symbol you use after fixing the classic missing-character error.",
+                  "es": "Es el mismo símbolo que añades al corregir el clásico error del carácter que faltaba."
+                }
+              ]
+            },
+            {
+              "id": "w1-l04e2",
+              "type": "output",
+              "xp": 12,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "Console.WriteLine(\"3\");\nConsole.WriteLine(\"2\");\nConsole.WriteLine(\"1\");",
+              "options": [
+                {
+                  "en": "3\n2\n1",
+                  "es": "3\n2\n1"
+                },
+                {
+                  "en": "321",
+                  "es": "321"
+                },
+                {
+                  "en": "1\n2\n3",
+                  "es": "1\n2\n3"
+                },
+                {
+                  "en": "3 2 1",
+                  "es": "3 2 1"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Each WriteLine prints its own line, in order from top to bottom.",
+                "es": "Cada WriteLine imprime su propia línea, en orden de arriba hacia abajo."
+              },
+              "hints": [
+                {
+                  "en": "Statements run from top to bottom.",
+                  "es": "Las instrucciones se ejecutan de arriba hacia abajo."
+                }
+              ]
+            },
+            {
+              "id": "w1-l04e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "console.writeline(\"hi\"); will work exactly like Console.WriteLine(\"hi\");",
+                "es": "console.writeline(\"hi\"); funciona exactamente igual que Console.WriteLine(\"hi\");"
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False. C# is case-sensitive, so lowercase console.writeline is an unknown name and will not compile.",
+                "es": "Falso. C# distingue mayúsculas, así que console.writeline en minúsculas es un nombre desconocido y no compila."
+              },
+              "hints": [
+                {
+                  "en": "Remember lesson 3: casing matters!",
+                  "es": "Recuerda la lección 3: ¡las mayúsculas importan!"
+                }
+              ]
+            },
+            {
+              "id": "w1-l04e4",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What is a comment for?",
+                "es": "¿Para qué sirve un comentario?"
+              },
+              "options": [
+                {
+                  "en": "To leave notes for humans without affecting the program",
+                  "es": "Dejar notas para humanos sin afectar el programa"
+                },
+                {
+                  "en": "To make the program run faster",
+                  "es": "Hacer que el programa corra más rápido"
+                },
+                {
+                  "en": "To print text on the screen",
+                  "es": "Mostrar texto en pantalla"
+                },
+                {
+                  "en": "To hide errors from the compiler",
+                  "es": "Ocultar errores del compilador"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Comments explain code to people (including future you!). The compiler ignores them.",
+                "es": "Los comentarios explican el código a las personas (¡incluido tu yo del futuro!). El compilador los ignora."
+              },
+              "hints": [
+                {
+                  "en": "Think: who reads comments, the computer or people?",
+                  "es": "Piensa: ¿quién lee los comentarios, la computadora o las personas?"
+                }
+              ]
+            },
+            {
+              "id": "w1-l04e5",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the program so it prints DevQuest:",
+                "es": "Completa el programa para que muestre DevQuest:"
+              },
+              "code": "Console.WriteLine(___);",
+              "blanks": [
+                {
+                  "answer": "\"DevQuest\"",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Text needs double quotes around it, even when it is just one word.",
+                "es": "El texto necesita comillas dobles, aunque sea una sola palabra."
+              },
+              "hints": [
+                {
+                  "en": "Do not forget the quotes around the word!",
+                  "es": "¡No olvides las comillas alrededor de la palabra!"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": {
+        "en": "Variables & Numbers",
+        "es": "Variables y números"
+      },
+      "lessons": [
+        {
+          "id": "w1-l05-variables",
+          "kind": "lesson",
+          "title": {
+            "en": "Variables: Boxes for Data",
+            "es": "Variables: cajas para datos"
+          },
+          "tip": {
+            "en": "A variable is a labeled box where your program keeps a value. type name = value;",
+            "es": "Una variable es una caja etiquetada donde tu programa guarda un valor. tipo nombre = valor;"
+          },
+          "exercises": [
+            {
+              "id": "w1-l05e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which line correctly creates a whole-number variable named age with value 25?",
+                "es": "¿Qué línea crea correctamente una variable de número entero llamada age con valor 25?"
+              },
+              "options": [
+                {
+                  "en": "int age = 25;",
+                  "es": "int age = 25;"
+                },
+                {
+                  "en": "age = int 25;",
+                  "es": "age = int 25;"
+                },
+                {
+                  "en": "int 25 = age;",
+                  "es": "int 25 = age;"
+                },
+                {
+                  "en": "int age == 25;",
+                  "es": "int age == 25;"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The pattern is: type name = value; — so int age = 25; creates the box and fills it in one step.",
+                "es": "El patrón es: tipo nombre = valor; así que int age = 25; crea la caja y la llena en un solo paso."
+              },
+              "hints": [
+                {
+                  "en": "First comes the type, then the name, then = and the value.",
+                  "es": "Primero el tipo, luego el nombre, después = y el valor."
+                }
+              ]
+            },
+            {
+              "id": "w1-l05e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Declare a whole-number variable called score with 100:",
+                "es": "Declara una variable de número entero llamada score con 100:"
+              },
+              "code": "___ score = 100;",
+              "blanks": [
+                {
+                  "answer": "int",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "int is the type for whole numbers: positive, negative or zero, no decimals.",
+                "es": "int es el tipo para números enteros: positivos, negativos o cero, sin decimales."
+              },
+              "hints": [
+                {
+                  "en": "Three letters. It is short for 'integer'.",
+                  "es": "Tres letras. Es la abreviatura de 'integer' (entero)."
+                }
+              ]
+            },
+            {
+              "id": "w1-l05e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which is a valid variable name in C#?",
+                "es": "¿Cuál es un nombre de variable válido en C#?"
+              },
+              "options": [
+                {
+                  "en": "myScore",
+                  "es": "myScore"
+                },
+                {
+                  "en": "2cool",
+                  "es": "2cool"
+                },
+                {
+                  "en": "my score",
+                  "es": "my score"
+                },
+                {
+                  "en": "class",
+                  "es": "class"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Names can't start with a digit, can't contain spaces, and can't be reserved words like class. camelCase (myScore) is the C# convention.",
+                "es": "Los nombres no pueden empezar con dígito, no pueden tener espacios y no pueden ser palabras reservadas como class. camelCase (myScore) es la convención de C#."
+              },
+              "hints": [
+                {
+                  "en": "Two options break a naming rule; one is a reserved C# keyword.",
+                  "es": "Dos opciones rompen una regla de nombres; una es una palabra reservada de C#."
+                }
+              ]
+            },
+            {
+              "id": "w1-l05e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Create a string variable name = \"Ada\" and an int age = 36, then print: Ada is 36 years old",
+                "es": "Crea un string name = \"Ada\" y un int age = 36, y muestra: Ada is 36 years old"
+              },
+              "starter": "// 1. Declare name (string)\n// 2. Declare age (int)\n// 3. Print: Ada is 36 years old\n",
+              "tests": [
+                {
+                  "name": "prints the sentence",
+                  "expectedOutput": "Ada is 36 years old",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "You can build the sentence with + : \"Ada is \" + age + \" years old\". The + glues text and variables together.",
+                "es": "Puedes construir la frase con + : \"Ada is \" + age + \" years old\". El + une el texto con las variables."
+              },
+              "hints": [
+                {
+                  "en": "string name = \"Ada\"; int age = 36; — then use + to combine them inside WriteLine.",
+                  "es": "string name = \"Ada\"; int age = 36; — luego usa + para combinarlas dentro de WriteLine."
+                },
+                {
+                  "en": "Careful with spaces inside the quoted parts: \"Ada is \" needs the trailing space.",
+                  "es": "Cuidado con los espacios dentro de las comillas: \"Ada is \" necesita el espacio final."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l06-arithmetic",
+          "kind": "lesson",
+          "title": {
+            "en": "Doing Math",
+            "es": "Haciendo cálculos"
+          },
+          "tip": {
+            "en": "C# is a great calculator: + - * / and %. Just like in math class, * and / happen before + and -.",
+            "es": "C# es una gran calculadora: + - * / y %. Como en mates, * y / se hacen antes que + y -."
+          },
+          "exercises": [
+            {
+              "id": "w1-l06e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "Console.WriteLine(7 + 3 * 2);",
+              "options": [
+                {
+                  "en": "13",
+                  "es": "13"
+                },
+                {
+                  "en": "20",
+                  "es": "20"
+                },
+                {
+                  "en": "17",
+                  "es": "17"
+                },
+                {
+                  "en": "10",
+                  "es": "10"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Multiplication first: 3 * 2 = 6, then 7 + 6 = 13. Math precedence applies in C# too.",
+                "es": "Primero la multiplicación: 3 * 2 = 6, luego 7 + 6 = 13. La precedencia matemática también aplica en C#."
+              },
+              "hints": [
+                {
+                  "en": "Which operation wins: * or +?",
+                  "es": "¿Qué operación gana: * o +?"
+                }
+              ]
+            },
+            {
+              "id": "w1-l06e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which operator gives you the remainder of a division?",
+                "es": "¿Qué operador da el resto de una división?"
+              },
+              "options": [
+                {
+                  "en": "%",
+                  "es": "%"
+                },
+                {
+                  "en": "/",
+                  "es": "/"
+                },
+                {
+                  "en": "&",
+                  "es": "&"
+                },
+                {
+                  "en": "^",
+                  "es": "^"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The % (modulo) operator gives what is left over: 10 % 3 is 1, because 10 = 3*3 + 1.",
+                "es": "El operador % (módulo) da lo que sobra: 10 % 3 es 1, porque 10 = 3*3 + 1."
+              },
+              "hints": [
+                {
+                  "en": "It is the same symbol you see in '100%'.",
+                  "es": "Es el mismo símbolo que ves en '100%'."
+                }
+              ]
+            },
+            {
+              "id": "w1-l06e3",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print? (Careful!)",
+                "es": "¿Qué muestra esto? (¡Cuidado!)"
+              },
+              "code": "Console.WriteLine(10 / 3);",
+              "options": [
+                {
+                  "en": "3",
+                  "es": "3"
+                },
+                {
+                  "en": "3.33",
+                  "es": "3.33"
+                },
+                {
+                  "en": "3.3333333333333335",
+                  "es": "3.3333333333333335"
+                },
+                {
+                  "en": "1",
+                  "es": "1"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "int / int does integer division: it throws away the decimals, so 10 / 3 is exactly 3. Use 10.0 / 3 to keep decimals.",
+                "es": "int / int hace división entera: descarta los decimales, así que 10 / 3 es exactamente 3. Usa 10.0 / 3 para conservar decimales."
+              },
+              "hints": [
+                {
+                  "en": "Both numbers are ints. What happens to the decimal part?",
+                  "es": "Ambos números son int. ¿Qué pasa con la parte decimal?"
+                }
+              ]
+            },
+            {
+              "id": "w1-l06e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "With a = 15 and b = 4, print their sum, difference and product, each on its own line (19, 11, 60).",
+                "es": "Con a = 15 y b = 4, muestra la suma, la resta y la multiplicación, cada una en su línea (19, 11, 60)."
+              },
+              "starter": "int a = 15;\nint b = 4;\n// Print a + b, then a - b, then a * b\n",
+              "tests": [
+                {
+                  "name": "prints the three results",
+                  "expectedOutput": "19\n11\n60",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Three WriteLine calls with expressions inside: Console.WriteLine(a + b); and so on. Expressions are computed before printing.",
+                "es": "Tres llamadas WriteLine con expresiones dentro: Console.WriteLine(a + b); y así. Las expresiones se calculan antes de mostrarse."
+              },
+              "hints": [
+                {
+                  "en": "You can put the math directly inside WriteLine: Console.WriteLine(a + b);",
+                  "es": "Puedes poner la matemática directamente dentro de WriteLine: Console.WriteLine(a + b);"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l07-doubles",
+          "kind": "lesson",
+          "title": {
+            "en": "Decimals: double",
+            "es": "Decimales: double"
+          },
+          "tip": {
+            "en": "Whole numbers are int. Numbers with a decimal point are double. One dot changes everything!",
+            "es": "Los enteros son int. Los números con punto decimal son double. ¡Un punto lo cambia todo!"
+          },
+          "exercises": [
+            {
+              "id": "w1-l07e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which line correctly stores the price 3.14?",
+                "es": "¿Qué línea guarda correctamente el precio 3.14?"
+              },
+              "options": [
+                {
+                  "en": "double price = 3.14;",
+                  "es": "double price = 3.14;"
+                },
+                {
+                  "en": "int price = 3.14;",
+                  "es": "int price = 3.14;"
+                },
+                {
+                  "en": "double price = \"3.14\";",
+                  "es": "double price = \"3.14\";"
+                },
+                {
+                  "en": "price = 3.14;",
+                  "es": "price = 3.14;"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "double is the type for decimals. Also: quotes would make it text, not a number!",
+                "es": "double es el tipo para decimales. Además: ¡las comillas lo convertirían en texto, no en número!"
+              },
+              "hints": [
+                {
+                  "en": "Which type name suggests 'floating point'?",
+                  "es": "¿Qué nombre de tipo sugiere 'punto flotante'?"
+                }
+              ]
+            },
+            {
+              "id": "w1-l07e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "Console.WriteLine(10.0 / 4);",
+              "options": [
+                {
+                  "en": "2.5",
+                  "es": "2.5"
+                },
+                {
+                  "en": "2",
+                  "es": "2"
+                },
+                {
+                  "en": "2.50",
+                  "es": "2.50"
+                },
+                {
+                  "en": "3",
+                  "es": "3"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "If either operand is a double (10.0), the division keeps decimals: 2.5.",
+                "es": "Si alguno de los dos operandos es double (10.0), la división conserva decimales: 2.5."
+              },
+              "hints": [
+                {
+                  "en": "Compare with 10 / 4 from the last lesson. The .0 changes everything.",
+                  "es": "Compara con 10 / 4 de la lección anterior. El .0 lo cambia todo."
+                }
+              ]
+            },
+            {
+              "id": "w1-l07e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "An int variable can store the value 2.5.",
+                "es": "Una variable int puede guardar el valor 2.5."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False. int stores only whole numbers; 2.5 needs a double (or decimal/float).",
+                "es": "Falso. int solo guarda números enteros; 2.5 necesita un double (o decimal/float)."
+              },
+              "hints": [
+                {
+                  "en": "int literally means integer — whole numbers only.",
+                  "es": "int significa literalmente entero: solo números completos."
+                }
+              ]
+            },
+            {
+              "id": "w1-l07e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "A coffee costs 5.5 and a customer buys 4. Print the total.",
+                "es": "Un café cuesta 5.5 y un cliente compra 4. Muestra el total."
+              },
+              "starter": "double price = 5.5;\nint quantity = 4;\n// Print the total\n",
+              "tests": [
+                {
+                  "name": "prints 22",
+                  "expectedOutput": "22",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "5.5 * 4 = 22. When a double result is a whole number, WriteLine prints it without a decimal point.",
+                "es": "5.5 * 4 = 22. Cuando un resultado double sale entero, WriteLine lo muestra sin punto decimal."
+              },
+              "hints": [
+                {
+                  "en": "Multiply price by quantity inside WriteLine.",
+                  "es": "Multiplica price por quantity dentro de WriteLine."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l08-math",
+          "kind": "lesson",
+          "title": {
+            "en": "The Math Toolbox",
+            "es": "La caja de herramientas Math"
+          },
+          "tip": {
+            "en": "Math is a built-in toolbox: Math.Sqrt, Math.Pow, Math.Max, Math.Min, Math.Round, Math.Abs...",
+            "es": "Math es una caja de herramientas integrada: Math.Sqrt, Math.Pow, Math.Max, Math.Min, Math.Round, Math.Abs..."
+          },
+          "exercises": [
+            {
+              "id": "w1-l08e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What does Math.Round(3.7) return?",
+                "es": "¿Qué devuelve Math.Round(3.7)?"
+              },
+              "options": [
+                {
+                  "en": "4",
+                  "es": "4"
+                },
+                {
+                  "en": "3",
+                  "es": "3"
+                },
+                {
+                  "en": "3.7",
+                  "es": "3.7"
+                },
+                {
+                  "en": "7",
+                  "es": "7"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Math.Round rounds to the nearest whole number: 3.7 becomes 4.",
+                "es": "Math.Round redondea al entero más cercano: 3.7 se convierte en 4."
+              },
+              "hints": [
+                {
+                  "en": "0.7 is more than half, so it rounds...",
+                  "es": "0.7 es más de la mitad, así que se redondea..."
+                }
+              ]
+            },
+            {
+              "id": "w1-l08e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "Console.WriteLine(Math.Max(10, 42));",
+              "options": [
+                {
+                  "en": "42",
+                  "es": "42"
+                },
+                {
+                  "en": "10",
+                  "es": "10"
+                },
+                {
+                  "en": "52",
+                  "es": "52"
+                },
+                {
+                  "en": "420",
+                  "es": "420"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Math.Max returns the bigger of the two values: 42 wins here.",
+                "es": "Math.Max devuelve el mayor de los dos valores: aquí gana 42."
+              },
+              "hints": [
+                {
+                  "en": "Max = maximum. Pick the winner!",
+                  "es": "Max = máximo. ¡Elige al ganador!"
+                }
+              ]
+            },
+            {
+              "id": "w1-l08e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the code to print the square root of 16:",
+                "es": "Completa el código para mostrar la raíz cuadrada de 16:"
+              },
+              "code": "Console.WriteLine(Math.___(16));",
+              "blanks": [
+                {
+                  "answer": "Sqrt",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Sqrt is short for square root. Math.Sqrt(16) is 4.",
+                "es": "Sqrt viene de square root (raíz cuadrada). Math.Sqrt(16) es 4."
+              },
+              "hints": [
+                {
+                  "en": "It starts with 'Sq'...",
+                  "es": "Empieza con 'Sq'..."
+                }
+              ]
+            },
+            {
+              "id": "w1-l08e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Print 2 to the power of 10 using the Math toolbox.",
+                "es": "Muestra 2 elevado a 10 usando la caja de herramientas Math."
+              },
+              "starter": "// Use Math.Pow\n",
+              "tests": [
+                {
+                  "name": "prints 1024",
+                  "expectedOutput": "1024",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Math.Pow(2, 10) returns 1024 (as a double, but it prints cleanly as 1024).",
+                "es": "Math.Pow(2, 10) devuelve 1024 (como double, pero se muestra limpio como 1024)."
+              },
+              "hints": [
+                {
+                  "en": "Math.Pow takes two arguments: base and exponent.",
+                  "es": "Math.Pow recibe dos argumentos: base y exponente."
+                },
+                {
+                  "en": "Math.Pow(2, 10) — first the base, then the power.",
+                  "es": "Math.Pow(2, 10) — primero la base, luego la potencia."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l09-quiz2",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 2 Quiz",
+            "es": "Examen de la unidad 2"
+          },
+          "tip": {
+            "en": "Variables and numbers — let's see how solid your foundation is!",
+            "es": "Variables y números: ¡veamos qué tan sólida está tu base!"
+          },
+          "exercises": [
+            {
+              "id": "w1-l09e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Which type would you choose for a player's health points (whole numbers)?",
+                "es": "¿Qué tipo elegirías para los puntos de vida de un jugador (números enteros)?"
+              },
+              "options": [
+                {
+                  "en": "int",
+                  "es": "int"
+                },
+                {
+                  "en": "double",
+                  "es": "double"
+                },
+                {
+                  "en": "string",
+                  "es": "string"
+                },
+                {
+                  "en": "bool",
+                  "es": "bool"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Whole numbers → int. Health doesn't need decimals!",
+                "es": "Números enteros → int. ¡La vida no necesita decimales!"
+              },
+              "hints": [
+                {
+                  "en": "No decimals needed here.",
+                  "es": "Aquí no hacen falta decimales."
+                }
+              ]
+            },
+            {
+              "id": "w1-l09e2",
+              "type": "output",
+              "xp": 12,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "int x = 5;\nx = x + 2;\nConsole.WriteLine(x);",
+              "options": [
+                {
+                  "en": "7",
+                  "es": "7"
+                },
+                {
+                  "en": "5",
+                  "es": "5"
+                },
+                {
+                  "en": "2",
+                  "es": "2"
+                },
+                {
+                  "en": "52",
+                  "es": "52"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "x = x + 2 takes the current value (5), adds 2, and stores 7 back into x.",
+                "es": "x = x + 2 toma el valor actual (5), suma 2 y guarda 7 de nuevo en x."
+              },
+              "hints": [
+                {
+                  "en": "The variable updates itself line by line.",
+                  "es": "La variable se actualiza línea por línea."
+                }
+              ]
+            },
+            {
+              "id": "w1-l09e3",
+              "type": "output",
+              "xp": 12,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "Console.WriteLine(9 % 4);",
+              "options": [
+                {
+                  "en": "1",
+                  "es": "1"
+                },
+                {
+                  "en": "2",
+                  "es": "2"
+                },
+                {
+                  "en": "2.25",
+                  "es": "2.25"
+                },
+                {
+                  "en": "0",
+                  "es": "0"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "9 % 4 is the remainder: 4 fits into 9 twice (8), leaving 1.",
+                "es": "9 % 4 es el resto: el 4 cabe dos veces en el 9 (8), dejando 1."
+              },
+              "hints": [
+                {
+                  "en": "% gives what is LEFT OVER after dividing.",
+                  "es": "% da lo que SOBRA tras dividir."
+                }
+              ]
+            },
+            {
+              "id": "w1-l09e4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Console.WriteLine(10 / 4) prints 2.5.",
+                "es": "Console.WriteLine(10 / 4) muestra 2.5."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False! With two ints, / does integer division and prints 2.",
+                "es": "¡Falso! Con dos int, / hace división entera y muestra 2."
+              },
+              "hints": [
+                {
+                  "en": "Both 10 and 4 are ints...",
+                  "es": "Tanto 10 como 4 son int..."
+                }
+              ]
+            },
+            {
+              "id": "w1-l09e5",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Store a decimal price of 9.99:",
+                "es": "Guarda un precio decimal de 9.99:"
+              },
+              "code": "___ price = 9.99;",
+              "blanks": [
+                {
+                  "answer": "double",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Decimals need double (or float/decimal for special cases).",
+                "es": "Los decimales necesitan double (o float/decimal para casos especiales)."
+              },
+              "hints": [
+                {
+                  "en": "Six letters, starts with 'd'.",
+                  "es": "Seis letras, empieza con 'd'."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": {
+        "en": "Making Decisions",
+        "es": "Tomando decisiones"
+      },
+      "lessons": [
+        {
+          "id": "w1-l10-bools",
+          "kind": "lesson",
+          "title": {
+            "en": "true, false & Comparisons",
+            "es": "true, false y comparaciones"
+          },
+          "tip": {
+            "en": "bool is the simplest type: it only holds true or false. Comparisons like > and == produce bools!",
+            "es": "bool es el tipo más simple: solo guarda true o false. ¡Las comparaciones como > y == producen bools!"
+          },
+          "exercises": [
+            {
+              "id": "w1-l10e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which values can a bool hold?",
+                "es": "¿Qué valores puede guardar un bool?"
+              },
+              "options": [
+                {
+                  "en": "Only true or false",
+                  "es": "Solo true o false"
+                },
+                {
+                  "en": "0 to 100",
+                  "es": "0 a 100"
+                },
+                {
+                  "en": "Any text",
+                  "es": "Cualquier texto"
+                },
+                {
+                  "en": "true, false and null numbers",
+                  "es": "true, false y números nulos"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "A bool is a light switch: on (true) or off (false). Nothing in between.",
+                "es": "Un bool es un interruptor: encendido (true) o apagado (false). Nada intermedio."
+              },
+              "hints": [
+                {
+                  "en": "It is named after George Boole — think logic, not numbers.",
+                  "es": "Se llama así por George Boole: piensa en lógica, no en números."
+                }
+              ]
+            },
+            {
+              "id": "w1-l10e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "Console.WriteLine(5 > 3);",
+              "options": [
+                {
+                  "en": "True",
+                  "es": "True"
+                },
+                {
+                  "en": "true",
+                  "es": "true"
+                },
+                {
+                  "en": "5",
+                  "es": "5"
+                },
+                {
+                  "en": "yes",
+                  "es": "yes"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "5 > 3 is true, and C# prints bools with a capital first letter: True. (A classic quiz trap!)",
+                "es": "5 > 3 es true, y C# muestra los bools con mayúscula inicial: True. (¡Una trampa clásica de examen!)"
+              },
+              "hints": [
+                {
+                  "en": "Is 5 greater than 3? And how does C# spell True with a capital T?",
+                  "es": "¿5 es mayor que 3? ¿Y cómo se escribe True con T mayúscula en C#?"
+                }
+              ]
+            },
+            {
+              "id": "w1-l10e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the flag so it starts switched off:",
+                "es": "Completa la bandera para que empiece apagada:"
+              },
+              "code": "bool isGameOver = ___;",
+              "blanks": [
+                {
+                  "answer": "false",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "false (all lowercase) is one of the two bool values.",
+                "es": "false (todo en minúsculas) es uno de los dos valores bool."
+              },
+              "hints": [
+                {
+                  "en": "The opposite of true, in lowercase.",
+                  "es": "Lo contrario de true, en minúsculas."
+                }
+              ]
+            },
+            {
+              "id": "w1-l10e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "With age = 20, create bool isAdult = age >= 18 and print it.",
+                "es": "Con age = 20, crea bool isAdult = age >= 18 y muéstralo."
+              },
+              "starter": "int age = 20;\n// Declare isAdult and print it\n",
+              "tests": [
+                {
+                  "name": "prints True",
+                  "expectedOutput": "True",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "age >= 18 is a comparison that produces a bool, which you can store and print.",
+                "es": "age >= 18 es una comparación que produce un bool, que puedes guardar y mostrar."
+              },
+              "hints": [
+                {
+                  "en": "bool isAdult = age >= 18; then Console.WriteLine(isAdult);",
+                  "es": "bool isAdult = age >= 18; luego Console.WriteLine(isAdult);"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l11-if",
+          "kind": "lesson",
+          "title": {
+            "en": "if / else",
+            "es": "if / else"
+          },
+          "tip": {
+            "en": "if lets your program choose a path: if (condition) { ... } else { ... }. This is where code gets smart!",
+            "es": "if permite que tu programa elija un camino: if (condición) { ... } else { ... }. ¡Aquí el código se vuelve inteligente!"
+          },
+          "exercises": [
+            {
+              "id": "w1-l11e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which is the correct if syntax?",
+                "es": "¿Cuál es la sintaxis correcta de if?"
+              },
+              "options": [
+                {
+                  "en": "if (score > 100) { Console.WriteLine(\"Wow\"); }",
+                  "es": "if (score > 100) { Console.WriteLine(\"Wow\"); }"
+                },
+                {
+                  "en": "if score > 100 { Console.WriteLine(\"Wow\"); }",
+                  "es": "if score > 100 { Console.WriteLine(\"Wow\"); }"
+                },
+                {
+                  "en": "if (score > 100) then Console.WriteLine(\"Wow\");",
+                  "es": "if (score > 100) then Console.WriteLine(\"Wow\");"
+                },
+                {
+                  "en": "if [score > 100] Console.WriteLine(\"Wow\");",
+                  "es": "if [score > 100] Console.WriteLine(\"Wow\");"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The condition goes in round brackets, the code to run goes inside curly braces.",
+                "es": "La condición va entre paréntesis redondos y el código a ejecutar va dentro de llaves."
+              },
+              "hints": [
+                {
+                  "en": "Round brackets for the question, curly braces for the action.",
+                  "es": "Paréntesis redondos para la pregunta, llaves para la acción."
+                }
+              ]
+            },
+            {
+              "id": "w1-l11e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "if (10 > 5)\n{\n    Console.WriteLine(\"A\");\n}\nelse\n{\n    Console.WriteLine(\"B\");\n}",
+              "options": [
+                {
+                  "en": "A",
+                  "es": "A"
+                },
+                {
+                  "en": "B",
+                  "es": "B"
+                },
+                {
+                  "en": "A\nB",
+                  "es": "A\nB"
+                },
+                {
+                  "en": "Nothing",
+                  "es": "Nada"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "10 > 5 is true, so only the if-branch runs. The else-branch is skipped completely.",
+                "es": "10 > 5 es verdadero, así que solo se ejecuta la rama del if. La rama else se salta por completo."
+              },
+              "hints": [
+                {
+                  "en": "Only ONE of the two branches runs.",
+                  "es": "Solo UNA de las dos ramas se ejecuta."
+                }
+              ]
+            },
+            {
+              "id": "w1-l11e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the condition so it triggers when score is 60 or more:",
+                "es": "Completa la condición para que se active cuando score sea 60 o más:"
+              },
+              "code": "if (score ___ 60)\n{\n    Console.WriteLine(\"You passed!\");\n}",
+              "blanks": [
+                {
+                  "answer": ">=",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": ">= means 'greater than or equal to', so 60 itself also passes.",
+                "es": ">= significa 'mayor o igual que', así que el propio 60 también pasa."
+              },
+              "hints": [
+                {
+                  "en": "Two symbols: 'greater than' plus 'equals'.",
+                  "es": "Dos símbolos: 'mayor que' más 'igual'."
+                }
+              ]
+            },
+            {
+              "id": "w1-l11e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "temperature is 30. If it is above 25 print Hot, otherwise print Nice.",
+                "es": "temperature es 30. Si está por encima de 25 muestra Hot; si no, muestra Nice."
+              },
+              "starter": "int temperature = 30;\n// Print Hot or Nice\n",
+              "tests": [
+                {
+                  "name": "prints Hot",
+                  "expectedOutput": "Hot",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "30 > 25 is true, so the if-branch prints Hot. Change the temperature to 20 and Nice would print instead!",
+                "es": "30 > 25 es verdadero, así que la rama if muestra Hot. ¡Cambia la temperatura a 20 y saldría Nice!"
+              },
+              "hints": [
+                {
+                  "en": "if (temperature > 25) { ... } else { ... }",
+                  "es": "if (temperature > 25) { ... } else { ... }"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l12-elseif",
+          "kind": "lesson",
+          "title": {
+            "en": "else if Chains",
+            "es": "Cadenas else if"
+          },
+          "tip": {
+            "en": "More than two paths? Chain them: if ... else if ... else. The first matching branch wins and the rest are skipped.",
+            "es": "¿Más de dos caminos? Encadénalos: if ... else if ... else. La primera rama que coincide gana y el resto se salta."
+          },
+          "exercises": [
+            {
+              "id": "w1-l12e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "In an if / else if / else chain, how many branches run?",
+                "es": "En una cadena if / else if / else, ¿cuántas ramas se ejecutan?"
+              },
+              "options": [
+                {
+                  "en": "Exactly one — the first whose condition is true",
+                  "es": "Exactamente una: la primera cuya condición sea verdadera"
+                },
+                {
+                  "en": "All whose conditions are true",
+                  "es": "Todas las que sean verdaderas"
+                },
+                {
+                  "en": "Always the last one",
+                  "es": "Siempre la última"
+                },
+                {
+                  "en": "None if the first is true",
+                  "es": "Ninguna si la primera es verdadera"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The chain checks conditions top to bottom and runs ONLY the first match. That's why order matters!",
+                "es": "La cadena evalúa de arriba hacia abajo y ejecuta SOLO la primera coincidencia. ¡Por eso el orden importa!"
+              },
+              "hints": [
+                {
+                  "en": "Once one branch runs, the chain stops checking.",
+                  "es": "Cuando una rama se ejecuta, la cadena deja de evaluar."
+                }
+              ]
+            },
+            {
+              "id": "w1-l12e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "score is 85. Print the grade: 90 or more → A, 80 or more → B, otherwise → C.",
+                "es": "score es 85. Muestra la nota: 90 o más → A, 80 o más → B, si no → C."
+              },
+              "starter": "int score = 85;\n// Print A, B or C using if / else if / else\n",
+              "tests": [
+                {
+                  "name": "prints B",
+                  "expectedOutput": "B",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "85 >= 90 is false, but 85 >= 80 is true, so B prints. The else at the end catches everything else.",
+                "es": "85 >= 90 es falso, pero 85 >= 80 es verdadero, así que muestra B. El else del final atrapa todo lo demás."
+              },
+              "hints": [
+                {
+                  "en": "Check the highest grade first: if (score >= 90) ... else if (score >= 80) ... else ...",
+                  "es": "Evalúa la nota más alta primero: if (score >= 90) ... else if (score >= 80) ... else ..."
+                }
+              ]
+            },
+            {
+              "id": "w1-l12e3",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "int score = 95;\nif (score >= 90)\n{\n    Console.WriteLine(\"A\");\n}\nelse if (score >= 80)\n{\n    Console.WriteLine(\"B\");\n}",
+              "options": [
+                {
+                  "en": "A",
+                  "es": "A"
+                },
+                {
+                  "en": "B",
+                  "es": "B"
+                },
+                {
+                  "en": "A\nB",
+                  "es": "A\nB"
+                },
+                {
+                  "en": "AB",
+                  "es": "AB"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "95 >= 90 is true, so A prints and the rest of the chain is skipped — even though 95 is also >= 80.",
+                "es": "95 >= 90 es verdadero, así que muestra A y el resto de la cadena se salta, aunque 95 también sea >= 80."
+              },
+              "hints": [
+                {
+                  "en": "First match wins and stops the chain.",
+                  "es": "La primera coincidencia gana y detiene la cadena."
+                }
+              ]
+            },
+            {
+              "id": "w1-l12e4",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Why does this NOT compile?",
+                "es": "¿Por qué esto NO compila?"
+              },
+              "code": "if (x = 5)\n{\n    Console.WriteLine(\"five\");\n}",
+              "options": [
+                {
+                  "en": "= assigns a value; a condition needs == (or another comparison)",
+                  "es": "= asigna un valor; una condición necesita == (u otra comparación)"
+                },
+                {
+                  "en": "The number 5 is not allowed inside if",
+                  "es": "El número 5 no se permite dentro de if"
+                },
+                {
+                  "en": "if cannot contain variables",
+                  "es": "if no puede contener variables"
+                },
+                {
+                  "en": "It does compile and works fine",
+                  "es": "Sí compila y funciona bien"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "= is assignment, == is comparison. if needs a bool, and assigning 5 to x gives an int, not a bool.",
+                "es": "= es asignación, == es comparación. if necesita un bool, y asignar 5 a x da un int, no un bool."
+              },
+              "hints": [
+                {
+                  "en": "One equals sign stores; two equals signs ask a question.",
+                  "es": "Un signo igual guarda; dos signos iguales preguntan."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l13-logic",
+          "kind": "lesson",
+          "title": {
+            "en": "AND, OR, NOT",
+            "es": "AND, OR, NOT"
+          },
+          "tip": {
+            "en": "Combine conditions: && (both must be true), || (at least one), ! (flip it). Welcome to logic!",
+            "es": "Combina condiciones: && (ambas deben ser verdaderas), || (al menos una), ! (la invierte). ¡Bienvenido a la lógica!"
+          },
+          "exercises": [
+            {
+              "id": "w1-l13e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What does && mean?",
+                "es": "¿Qué significa &&?"
+              },
+              "options": [
+                {
+                  "en": "AND — both sides must be true",
+                  "es": "AND — ambos lados deben ser verdaderos"
+                },
+                {
+                  "en": "OR — one side must be true",
+                  "es": "OR — un lado debe ser verdadero"
+                },
+                {
+                  "en": "NOT — flips the value",
+                  "es": "NOT — invierte el valor"
+                },
+                {
+                  "en": "XOR — exactly one must be true",
+                  "es": "XOR — exactamente uno debe ser verdadero"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "&& is logical AND: true only when BOTH sides are true.",
+                "es": "&& es el AND lógico: verdadero solo cuando AMBOS lados son verdaderos."
+              },
+              "hints": [
+                {
+                  "en": "Two ampersands = two conditions that both must hold.",
+                  "es": "Dos ampersands = dos condiciones que ambas deben cumplirse."
+                }
+              ]
+            },
+            {
+              "id": "w1-l13e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "Console.WriteLine(true && false);",
+              "options": [
+                {
+                  "en": "False",
+                  "es": "False"
+                },
+                {
+                  "en": "True",
+                  "es": "True"
+                },
+                {
+                  "en": "true && false",
+                  "es": "true && false"
+                },
+                {
+                  "en": "It does not compile",
+                  "es": "No compila"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "AND needs both sides true. One false makes the whole thing false.",
+                "es": "AND necesita que ambos lados sean verdaderos. Un false lo vuelve todo falso."
+              },
+              "hints": [
+                {
+                  "en": "With &&, a single false ruins everything.",
+                  "es": "Con &&, un solo false lo arruina todo."
+                }
+              ]
+            },
+            {
+              "id": "w1-l13e3",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "Console.WriteLine(true || false);",
+              "options": [
+                {
+                  "en": "True",
+                  "es": "True"
+                },
+                {
+                  "en": "False",
+                  "es": "False"
+                },
+                {
+                  "en": "true || false",
+                  "es": "true || false"
+                },
+                {
+                  "en": "It does not compile",
+                  "es": "No compila"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "OR needs at least one true side — here the first side is already true.",
+                "es": "OR necesita al menos un lado verdadero; aquí el primero ya es verdadero."
+              },
+              "hints": [
+                {
+                  "en": "With ||, a single true saves the day.",
+                  "es": "Con ||, un solo true salva el día."
+                }
+              ]
+            },
+            {
+              "id": "w1-l13e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "age = 25 and hasTicket = true. If age is 18 or more AND hasTicket is true, print: Enjoy the movie",
+                "es": "age = 25 y hasTicket = true. Si age es 18 o más Y hasTicket es true, muestra: Enjoy the movie"
+              },
+              "starter": "int age = 25;\nbool hasTicket = true;\n// Combine the two conditions with &&\n",
+              "tests": [
+                {
+                  "name": "prints the message",
+                  "expectedOutput": "Enjoy the movie",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "if (age >= 18 && hasTicket) — both conditions hold, so the message prints.",
+                "es": "if (age >= 18 && hasTicket) — ambas condiciones se cumplen, así que se muestra el mensaje."
+              },
+              "hints": [
+                {
+                  "en": "Two conditions joined by && inside one if.",
+                  "es": "Dos condiciones unidas por && dentro de un solo if."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l14-quiz3",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 3 Quiz",
+            "es": "Examen de la unidad 3"
+          },
+          "tip": {
+            "en": "Decisions, decisions... show Bit you can steer your code!",
+            "es": "Decisiones, decisiones... ¡demuéstrale a Bit que sabes guiar tu código!"
+          },
+          "exercises": [
+            {
+              "id": "w1-l14e1",
+              "type": "output",
+              "xp": 12,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "int level = 3;\nif (level == 1)\n{\n    Console.WriteLine(\"Novice\");\n}\nelse if (level == 2)\n{\n    Console.WriteLine(\"Apprentice\");\n}\nelse\n{\n    Console.WriteLine(\"Master\");\n}",
+              "options": [
+                {
+                  "en": "Master",
+                  "es": "Master"
+                },
+                {
+                  "en": "Apprentice",
+                  "es": "Apprentice"
+                },
+                {
+                  "en": "Novice",
+                  "es": "Novice"
+                },
+                {
+                  "en": "Nothing",
+                  "es": "Nada"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "level is 3, so both == checks fail and the else branch runs.",
+                "es": "level es 3, así que ambas comparaciones == fallan y se ejecuta la rama else."
+              },
+              "hints": [
+                {
+                  "en": "Neither 3 == 1 nor 3 == 2 is true...",
+                  "es": "Ni 3 == 1 ni 3 == 2 son verdaderos..."
+                }
+              ]
+            },
+            {
+              "id": "w1-l14e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Which operator checks equality?",
+                "es": "¿Qué operador comprueba igualdad?"
+              },
+              "options": [
+                {
+                  "en": "==",
+                  "es": "=="
+                },
+                {
+                  "en": "=",
+                  "es": "="
+                },
+                {
+                  "en": "=>",
+                  "es": "=>"
+                },
+                {
+                  "en": "===",
+                  "es": "==="
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "== asks 'are these equal?'. A single = assigns. C# has no ===.",
+                "es": "== pregunta '¿son iguales?'. Un solo = asigna. C# no tiene ===."
+              },
+              "hints": [
+                {
+                  "en": "The answer uses two symbols, not one and not three.",
+                  "es": "La respuesta usa dos símbolos, ni uno ni tres."
+                }
+              ]
+            },
+            {
+              "id": "w1-l14e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "In an if/else if/else chain, several branches can run for the same value.",
+                "es": "En una cadena if/else if/else, varias ramas pueden ejecutarse para el mismo valor."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False. Exactly one branch runs: the first one whose condition is true.",
+                "es": "Falso. Se ejecuta exactamente una rama: la primera cuya condición sea verdadera."
+              },
+              "hints": [
+                {
+                  "en": "Think of highway exits — you take only the first one that matches your destination.",
+                  "es": "Piensa en salidas de autopista: tomas solo la primera que coincide con tu destino."
+                }
+              ]
+            },
+            {
+              "id": "w1-l14e4",
+              "type": "output",
+              "xp": 12,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "Console.WriteLine(!true);",
+              "options": [
+                {
+                  "en": "False",
+                  "es": "False"
+                },
+                {
+                  "en": "True",
+                  "es": "True"
+                },
+                {
+                  "en": "!true",
+                  "es": "!true"
+                },
+                {
+                  "en": "0",
+                  "es": "0"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "! flips the bool: !true is false.",
+                "es": "! invierte el bool: !true es false."
+              },
+              "hints": [
+                {
+                  "en": "! is the 'NOT' operator — it flips.",
+                  "es": "! es el operador 'NOT': invierte."
+                }
+              ]
+            },
+            {
+              "id": "w1-l14e5",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the condition: run when lives is exactly zero:",
+                "es": "Completa la condición: se ejecuta cuando lives sea exactamente cero:"
+              },
+              "code": "if (lives ___ 0)\n{\n    Console.WriteLine(\"Game over\");\n}",
+              "blanks": [
+                {
+                  "answer": "==",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "== compares; = would assign. For 'is equal to zero' you need ==.",
+                "es": "== compara; = asignaría. Para 'es igual a cero' necesitas ==."
+              },
+              "hints": [
+                {
+                  "en": "Two equal signs in a row.",
+                  "es": "Dos signos igual seguidos."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u4",
+      "title": {
+        "en": "Loops",
+        "es": "Bucles"
+      },
+      "lessons": [
+        {
+          "id": "w1-l15-while",
+          "kind": "lesson",
+          "title": {
+            "en": "while Loops",
+            "es": "Bucles while"
+          },
+          "tip": {
+            "en": "A while loop repeats as long as its condition stays true. Change something inside, or it repeats forever!",
+            "es": "Un bucle while se repite mientras su condición siga siendo verdadera. ¡Cambia algo dentro o se repetirá para siempre!"
+          },
+          "exercises": [
+            {
+              "id": "w1-l15e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this program print?",
+                "es": "¿Qué muestra este programa?"
+              },
+              "code": "int i = 1;\nwhile (i <= 3)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+              "options": [
+                {
+                  "en": "1\n2\n3",
+                  "es": "1\n2\n3"
+                },
+                {
+                  "en": "1\n2\n3\n4",
+                  "es": "1\n2\n3\n4"
+                },
+                {
+                  "en": "3",
+                  "es": "3"
+                },
+                {
+                  "en": "Nothing — infinite loop",
+                  "es": "Nada: bucle infinito"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The loop runs while i <= 3: prints 1, 2, 3, then i becomes 4 and the condition fails.",
+                "es": "El bucle corre mientras i <= 3: muestra 1, 2, 3; luego i se vuelve 4 y la condición falla."
+              },
+              "hints": [
+                {
+                  "en": "Trace i step by step: 1, 2, 3... when does it stop?",
+                  "es": "Sigue a i paso a paso: 1, 2, 3... ¿cuándo se detiene?"
+                }
+              ]
+            },
+            {
+              "id": "w1-l15e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What happens if you forget i = i + 1 inside a while loop?",
+                "es": "¿Qué pasa si olvidas i = i + 1 dentro de un bucle while?"
+              },
+              "options": [
+                {
+                  "en": "The condition never changes and the loop runs forever",
+                  "es": "La condición nunca cambia y el bucle corre para siempre"
+                },
+                {
+                  "en": "The loop does not compile",
+                  "es": "El bucle no compila"
+                },
+                {
+                  "en": "The loop runs once and stops",
+                  "es": "El bucle corre una vez y se detiene"
+                },
+                {
+                  "en": "C# adds the increment automatically",
+                  "es": "C# añade el incremento automáticamente"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "That's the classic infinite loop! Something inside the loop must move it toward the exit condition.",
+                "es": "¡Ese es el clásico bucle infinito! Algo dentro del bucle debe acercarlo a su condición de salida."
+              },
+              "hints": [
+                {
+                  "en": "The condition i <= 3 never becomes false if i never changes...",
+                  "es": "La condición i <= 3 nunca se vuelve falsa si i nunca cambia..."
+                }
+              ]
+            },
+            {
+              "id": "w1-l15e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the loop so it runs while count is less than 5:",
+                "es": "Completa el bucle para que corra mientras count sea menor que 5:"
+              },
+              "code": "while (count ___ 5)\n{\n    Console.WriteLine(count);\n    count++;\n}",
+              "blanks": [
+                {
+                  "answer": "<",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "< means 'less than'. With count starting at 0, this prints 0, 1, 2, 3, 4.",
+                "es": "< significa 'menor que'. Con count empezando en 0, muestra 0, 1, 2, 3, 4."
+              },
+              "hints": [
+                {
+                  "en": "One character: the 'less than' sign.",
+                  "es": "Un solo carácter: el signo de 'menor que'."
+                }
+              ]
+            },
+            {
+              "id": "w1-l15e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Use a while loop to print the numbers 1 to 5, each on its own line.",
+                "es": "Usa un bucle while para mostrar los números del 1 al 5, cada uno en su línea."
+              },
+              "starter": "int i = 1;\n// Loop while i <= 5, print i, then increment\n",
+              "tests": [
+                {
+                  "name": "prints 1 to 5",
+                  "expectedOutput": "1\n2\n3\n4\n5",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "You just automated repetition! Writing those five lines by hand would be no fun at all.",
+                "es": "¡Acabas de automatizar la repetición! Escribir esas cinco líneas a mano no tendría ninguna gracia."
+              },
+              "hints": [
+                {
+                  "en": "while (i <= 5) { Console.WriteLine(i); i++; }",
+                  "es": "while (i <= 5) { Console.WriteLine(i); i++; }"
+                },
+                {
+                  "en": "i++ is the short form of i = i + 1.",
+                  "es": "i++ es la forma corta de i = i + 1."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l16-for",
+          "kind": "lesson",
+          "title": {
+            "en": "for Loops",
+            "es": "Bucles for"
+          },
+          "tip": {
+            "en": "The for loop packs counter + condition + step into one tidy line: for (start; condition; step).",
+            "es": "El bucle for junta contador + condición + paso en una sola línea ordenada: for (inicio; condición; paso)."
+          },
+          "exercises": [
+            {
+              "id": "w1-l16e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What are the three parts of a for header, in order?",
+                "es": "¿Cuáles son las tres partes de la cabecera de un for, en orden?"
+              },
+              "options": [
+                {
+                  "en": "start; condition; step",
+                  "es": "inicio; condición; paso"
+                },
+                {
+                  "en": "condition; start; step",
+                  "es": "condición; inicio; paso"
+                },
+                {
+                  "en": "step; condition; start",
+                  "es": "paso; condición; inicio"
+                },
+                {
+                  "en": "start; step; condition",
+                  "es": "inicio; paso; condición"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "for (int i = 0; i < 10; i++) — declare the counter, state when to continue, and say how it changes each round.",
+                "es": "for (int i = 0; i < 10; i++) — declara el contador, di cuándo continuar y cómo cambia en cada vuelta."
+              },
+              "hints": [
+                {
+                  "en": "You set up first, check second, and update third.",
+                  "es": "Primero preparas, segundo compruebas y tercero actualizas."
+                }
+              ]
+            },
+            {
+              "id": "w1-l16e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "for (int i = 0; i < 3; i++)\n{\n    Console.WriteLine(i);\n}",
+              "options": [
+                {
+                  "en": "0\n1\n2",
+                  "es": "0\n1\n2"
+                },
+                {
+                  "en": "1\n2\n3",
+                  "es": "1\n2\n3"
+                },
+                {
+                  "en": "0\n1\n2\n3",
+                  "es": "0\n1\n2\n3"
+                },
+                {
+                  "en": "3",
+                  "es": "3"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Starting at 0 and stopping before 3 gives 0, 1, 2. Programmers count from zero!",
+                "es": "Empezando en 0 y parando antes de 3 da 0, 1, 2. ¡Los programadores cuentan desde cero!"
+              },
+              "hints": [
+                {
+                  "en": "i starts at 0, and the loop stops when i < 3 is no longer true.",
+                  "es": "i empieza en 0 y el bucle para cuando i < 3 deja de ser verdadero."
+                }
+              ]
+            },
+            {
+              "id": "w1-l16e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the step so i jumps 2 by 2 (2, 4, 6... 10):",
+                "es": "Completa el paso para que i avance de 2 en 2 (2, 4, 6... 10):"
+              },
+              "code": "for (int i = 2; i <= 10; i += ___)\n{\n    Console.WriteLine(i);\n}",
+              "blanks": [
+                {
+                  "answer": "2",
+                  "caseSensitive": false
+                }
+              ],
+              "explanation": {
+                "en": "i += 2 adds 2 to i every round, landing only on even numbers.",
+                "es": "i += 2 suma 2 a i en cada vuelta, aterrizando solo en números pares."
+              },
+              "hints": [
+                {
+                  "en": "The jump size matches the even numbers.",
+                  "es": "El tamaño del salto coincide con los números pares."
+                }
+              ]
+            },
+            {
+              "id": "w1-l16e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Print a countdown from 10 down to 1, one number per line.",
+                "es": "Muestra una cuenta atrás del 10 al 1, un número por línea."
+              },
+              "starter": "// Use a for loop that counts DOWN\n",
+              "tests": [
+                {
+                  "name": "prints the countdown",
+                  "expectedOutput": "10\n9\n8\n7\n6\n5\n4\n3\n2\n1",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "for (int i = 10; i >= 1; i--) — the step can go backwards with --.",
+                "es": "for (int i = 10; i >= 1; i--) — el paso puede ir hacia atrás con --."
+              },
+              "hints": [
+                {
+                  "en": "Start at 10, keep going while i >= 1, and use i-- as the step.",
+                  "es": "Empieza en 10, sigue mientras i >= 1 y usa i-- como paso."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l17-break",
+          "kind": "lesson",
+          "title": {
+            "en": "break & continue",
+            "es": "break y continue"
+          },
+          "tip": {
+            "en": "break = leave the loop now. continue = skip to the next round. Two remote controls for your loops!",
+            "es": "break = salir del bucle ya. continue = saltar a la siguiente vuelta. ¡Dos controles remotos para tus bucles!"
+          },
+          "exercises": [
+            {
+              "id": "w1-l17e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "for (int i = 1; i <= 5; i++)\n{\n    if (i == 3)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}",
+              "options": [
+                {
+                  "en": "1\n2",
+                  "es": "1\n2"
+                },
+                {
+                  "en": "1\n2\n4\n5",
+                  "es": "1\n2\n4\n5"
+                },
+                {
+                  "en": "1\n2\n3",
+                  "es": "1\n2\n3"
+                },
+                {
+                  "en": "1\n2\n3\n4\n5",
+                  "es": "1\n2\n3\n4\n5"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "When i reaches 3, break exits the loop entirely — 3 and everything after never prints.",
+                "es": "Cuando i llega a 3, break sale del bucle por completo: el 3 y todo lo demás nunca se muestran."
+              },
+              "hints": [
+                {
+                  "en": "break stops the WHOLE loop, not just one round.",
+                  "es": "break detiene TODO el bucle, no solo una vuelta."
+                }
+              ]
+            },
+            {
+              "id": "w1-l17e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "for (int i = 1; i <= 5; i++)\n{\n    if (i == 3)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}",
+              "options": [
+                {
+                  "en": "1\n2\n4\n5",
+                  "es": "1\n2\n4\n5"
+                },
+                {
+                  "en": "1\n2",
+                  "es": "1\n2"
+                },
+                {
+                  "en": "1\n2\n3\n4\n5",
+                  "es": "1\n2\n3\n4\n5"
+                },
+                {
+                  "en": "3",
+                  "es": "3"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "continue skips only the current round (3 is missing) and the loop keeps going.",
+                "es": "continue se salta solo la vuelta actual (falta el 3) y el bucle sigue."
+              },
+              "hints": [
+                {
+                  "en": "continue skips ONE round, then keeps looping.",
+                  "es": "continue se salta UNA vuelta y sigue en bucle."
+                }
+              ]
+            },
+            {
+              "id": "w1-l17e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which statement exits the loop completely?",
+                "es": "¿Qué instrucción sale del bucle por completo?"
+              },
+              "options": [
+                {
+                  "en": "break",
+                  "es": "break"
+                },
+                {
+                  "en": "continue",
+                  "es": "continue"
+                },
+                {
+                  "en": "return true",
+                  "es": "return true"
+                },
+                {
+                  "en": "exit",
+                  "es": "exit"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "break leaves the loop; continue only skips to the next iteration. (You'll meet return much later.)",
+                "es": "break sale del bucle; continue solo salta a la siguiente iteración. (return lo conocerás mucho después.)"
+              },
+              "hints": [
+                {
+                  "en": "Five letters. It 'breaks' out.",
+                  "es": "Cinco letras. 'Rompe' y sale."
+                }
+              ]
+            },
+            {
+              "id": "w1-l17e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Print the odd numbers from 1 to 9 (1, 3, 5, 7, 9), skipping evens with continue.",
+                "es": "Muestra los números impares del 1 al 9 (1, 3, 5, 7, 9), saltando los pares con continue."
+              },
+              "starter": "for (int i = 1; i <= 9; i++)\n{\n    // If i is even (i % 2 == 0), continue\n    // Otherwise print i\n}",
+              "tests": [
+                {
+                  "name": "prints odd numbers",
+                  "expectedOutput": "1\n3\n5\n7\n9",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "if (i % 2 == 0) continue; skips evens. The % operator from unit 2 returns to help!",
+                "es": "if (i % 2 == 0) continue; se salta los pares. ¡El operador % de la unidad 2 vuelve para ayudar!"
+              },
+              "hints": [
+                {
+                  "en": "A number is even when i % 2 == 0.",
+                  "es": "Un número es par cuando i % 2 == 0."
+                },
+                {
+                  "en": "Use continue inside the if, and WriteLine after it.",
+                  "es": "Usa continue dentro del if, y WriteLine después."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l18-practice",
+          "kind": "lesson",
+          "title": {
+            "en": "Loop Gym",
+            "es": "Gimnasio de bucles"
+          },
+          "tip": {
+            "en": "Time to train! Nested loops, sums and patterns — the exercises real interviews are made of.",
+            "es": "¡Hora de entrenar! Bucles anidados, sumas y patrones: los ejercicios de las entrevistas de verdad."
+          },
+          "exercises": [
+            {
+              "id": "w1-l18e1",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Print a square of stars: three rows of *** (use a nested loop!).",
+                "es": "Muestra un cuadrado de estrellas: tres filas de *** (¡usa un bucle anidado!)."
+              },
+              "starter": "// Outer loop: 3 rows\n// Inner loop: 3 stars per row\n// Print the newline after each row\n",
+              "tests": [
+                {
+                  "name": "prints the square",
+                  "expectedOutput": "***\n***\n***",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "A loop inside a loop: the outer one picks the row, the inner one prints the stars, then a WriteLine() ends the row.",
+                "es": "Un bucle dentro de otro: el externo elige la fila, el interno imprime las estrellas y un WriteLine() cierra la fila."
+              },
+              "hints": [
+                {
+                  "en": "Inside the inner loop use Console.Write(\"*\") — Write does NOT jump to the next line.",
+                  "es": "Dentro del bucle interno usa Console.Write(\"*\") — Write NO salta de línea."
+                },
+                {
+                  "en": "After the inner loop, one Console.WriteLine() ends the row.",
+                  "es": "Después del bucle interno, un Console.WriteLine() termina la fila."
+                }
+              ]
+            },
+            {
+              "id": "w1-l18e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Add up all whole numbers from 1 to 100 and print the total.",
+                "es": "Suma todos los enteros del 1 al 100 y muestra el total."
+              },
+              "starter": "int total = 0;\n// Loop from 1 to 100, adding each number to total\n// Then print total\n",
+              "tests": [
+                {
+                  "name": "prints 5050",
+                  "expectedOutput": "5050",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "5050 — the famous Gauss result! total += i inside a loop does the whole job.",
+                "es": "5050 — ¡el famoso resultado de Gauss! total += i dentro de un bucle hace todo el trabajo."
+              },
+              "hints": [
+                {
+                  "en": "for (int i = 1; i <= 100; i++) total += i;",
+                  "es": "for (int i = 1; i <= 100; i++) total += i;"
+                },
+                {
+                  "en": "total += i is short for total = total + i.",
+                  "es": "total += i es la forma corta de total = total + i."
+                }
+              ]
+            },
+            {
+              "id": "w1-l18e3",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "How many times does the body run?",
+                "es": "¿Cuántas veces se ejecuta el cuerpo?"
+              },
+              "code": "for (int row = 0; row < 4; row++)\n{\n    for (int col = 0; col < 5; col++)\n    {\n        Console.Write(\"x\");\n    }\n}",
+              "options": [
+                {
+                  "en": "20",
+                  "es": "20"
+                },
+                {
+                  "en": "9",
+                  "es": "9"
+                },
+                {
+                  "en": "4",
+                  "es": "4"
+                },
+                {
+                  "en": "5",
+                  "es": "5"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Nested loops multiply: 4 rows × 5 columns = 20 runs of the innermost body.",
+                "es": "Los bucles anidados se multiplican: 4 filas × 5 columnas = 20 ejecuciones del cuerpo interno."
+              },
+              "hints": [
+                {
+                  "en": "For EACH row, the inner loop runs 5 times...",
+                  "es": "Por CADA fila, el bucle interno corre 5 veces..."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l19-quiz4",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 4 Quiz",
+            "es": "Examen de la unidad 4"
+          },
+          "tip": {
+            "en": "Loops are the engine of every program. Let's check your engine!",
+            "es": "Los bucles son el motor de todo programa. ¡Revisemos tu motor!"
+          },
+          "exercises": [
+            {
+              "id": "w1-l19e1",
+              "type": "output",
+              "xp": 12,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "int n = 0;\nwhile (n < 2)\n{\n    Console.WriteLine(n);\n    n++;\n}",
+              "options": [
+                {
+                  "en": "0\n1",
+                  "es": "0\n1"
+                },
+                {
+                  "en": "1\n2",
+                  "es": "1\n2"
+                },
+                {
+                  "en": "0\n1\n2",
+                  "es": "0\n1\n2"
+                },
+                {
+                  "en": "2",
+                  "es": "2"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Starts at 0, prints while n < 2: 0 then 1. When n is 2 the condition fails.",
+                "es": "Empieza en 0 y muestra mientras n < 2: 0 y 1. Cuando n vale 2, la condición falla."
+              },
+              "hints": [
+                {
+                  "en": "The loop stops BEFORE printing a value that fails the condition.",
+                  "es": "El bucle se detiene ANTES de mostrar un valor que falla la condición."
+                }
+              ]
+            },
+            {
+              "id": "w1-l19e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Which loop is best when you know exactly how many times to repeat?",
+                "es": "¿Qué bucle es mejor cuando sabes exactamente cuántas veces repetir?"
+              },
+              "options": [
+                {
+                  "en": "for",
+                  "es": "for"
+                },
+                {
+                  "en": "while",
+                  "es": "while"
+                },
+                {
+                  "en": "do...while",
+                  "es": "do...while"
+                },
+                {
+                  "en": "if",
+                  "es": "if"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "for packs the counter setup, condition and step together — perfect for counted repetition.",
+                "es": "for junta la preparación del contador, la condición y el paso: perfecto para repetición contada."
+              },
+              "hints": [
+                {
+                  "en": "Three letters, one tidy header.",
+                  "es": "Tres letras, una cabecera ordenada."
+                }
+              ]
+            },
+            {
+              "id": "w1-l19e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "continue ends the loop immediately.",
+                "es": "continue termina el bucle inmediatamente."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — that's break. continue only skips the rest of the current round.",
+                "es": "Falso — eso es break. continue solo se salta el resto de la vuelta actual."
+              },
+              "hints": [
+                {
+                  "en": "Two keywords, two different exit doors.",
+                  "es": "Dos palabras clave, dos puertas de salida distintas."
+                }
+              ]
+            },
+            {
+              "id": "w1-l19e4",
+              "type": "output",
+              "xp": 12,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "for (int i = 1; i <= 10; i += 3)\n{\n    Console.WriteLine(i);\n}",
+              "options": [
+                {
+                  "en": "1\n4\n7\n10",
+                  "es": "1\n4\n7\n10"
+                },
+                {
+                  "en": "1\n3\n5\n7\n9",
+                  "es": "1\n3\n5\n7\n9"
+                },
+                {
+                  "en": "3\n6\n9",
+                  "es": "3\n6\n9"
+                },
+                {
+                  "en": "1\n2\n3",
+                  "es": "1\n2\n3"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "i += 3 jumps three each round: 1, 4, 7, then 10. Next would be 13, but 13 > 10 stops it.",
+                "es": "i += 3 salta de tres en tres: 1, 4, 7 y 10. La siguiente sería 13, pero 13 > 10 lo detiene."
+              },
+              "hints": [
+                {
+                  "en": "Add 3 each time, starting from 1.",
+                  "es": "Suma 3 cada vez, empezando en 1."
+                }
+              ]
+            },
+            {
+              "id": "w1-l19e5",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the loop header to repeat 10 times:",
+                "es": "Completa la cabecera del bucle para repetir 10 veces:"
+              },
+              "code": "for (int i = 0; i ___ 10; i++)\n{\n    Console.WriteLine(\"Round \" + i);\n}",
+              "blanks": [
+                {
+                  "answer": "<",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "With i from 0 to 9, the body runs exactly 10 times — the standard C# pattern.",
+                "es": "Con i de 0 a 9, el cuerpo se ejecuta exactamente 10 veces: el patrón estándar de C#."
+              },
+              "hints": [
+                {
+                  "en": "Zero-based counting needs 'less than'.",
+                  "es": "El conteo desde cero necesita 'menor que'."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u5",
+      "title": {
+        "en": "Arrays, Input & Strings",
+        "es": "Arreglos, entrada y strings"
+      },
+      "lessons": [
+        {
+          "id": "w1-l20-arrays",
+          "kind": "lesson",
+          "title": {
+            "en": "Arrays: Many Boxes, One Name",
+            "es": "Arreglos: muchas cajas, un nombre"
+          },
+          "tip": {
+            "en": "An array stores several values under one name, numbered from 0. scores[0] is the first one!",
+            "es": "Un arreglo guarda varios valores bajo un nombre, numerados desde 0. ¡scores[0] es el primero!"
+          },
+          "exercises": [
+            {
+              "id": "w1-l20e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which line correctly creates an array of 3 ints?",
+                "es": "¿Qué línea crea correctamente un arreglo de 3 int?"
+              },
+              "options": [
+                {
+                  "en": "int[] scores = new int[3];",
+                  "es": "int[] scores = new int[3];"
+                },
+                {
+                  "en": "int scores = new int[3];",
+                  "es": "int scores = new int[3];"
+                },
+                {
+                  "en": "int[] scores = new int(3);",
+                  "es": "int[] scores = new int(3);"
+                },
+                {
+                  "en": "array scores = new int[3];",
+                  "es": "array scores = new int[3];"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The type gets square brackets (int[]), and new int[3] reserves three slots.",
+                "es": "El tipo lleva corchetes (int[]) y new int[3] reserva tres espacios."
+              },
+              "hints": [
+                {
+                  "en": "The brackets in the type AND the size in new int[...].",
+                  "es": "Los corchetes en el tipo Y el tamaño en new int[...]."
+                }
+              ]
+            },
+            {
+              "id": "w1-l20e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "int[] nums = { 10, 20, 30 };\nConsole.WriteLine(nums[1]);",
+              "options": [
+                {
+                  "en": "20",
+                  "es": "20"
+                },
+                {
+                  "en": "10",
+                  "es": "10"
+                },
+                {
+                  "en": "30",
+                  "es": "30"
+                },
+                {
+                  "en": "1",
+                  "es": "1"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Arrays are zero-indexed: nums[0] is 10, nums[1] is 20, nums[2] is 30.",
+                "es": "Los arreglos empiezan en cero: nums[0] es 10, nums[1] es 20, nums[2] es 30."
+              },
+              "hints": [
+                {
+                  "en": "The FIRST element is index 0, not 1.",
+                  "es": "El PRIMER elemento es el índice 0, no 1."
+                }
+              ]
+            },
+            {
+              "id": "w1-l20e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the array creation:",
+                "es": "Completa la creación del arreglo:"
+              },
+              "code": "int[] scores = ___ int[3];",
+              "blanks": [
+                {
+                  "answer": "new",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "new is the keyword that creates the array in memory.",
+                "es": "new es la palabra clave que crea el arreglo en memoria."
+              },
+              "hints": [
+                {
+                  "en": "Three letters — the same word that creates objects.",
+                  "es": "Tres letras: la misma palabra que crea objetos."
+                }
+              ]
+            },
+            {
+              "id": "w1-l20e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Create a string array with \"apple\", \"banana\", \"cherry\" and print the second one.",
+                "es": "Crea un arreglo de strings con \"apple\", \"banana\", \"cherry\" y muestra el segundo."
+              },
+              "starter": "// Create the array with { }\n// Print the element at index 1\n",
+              "tests": [
+                {
+                  "name": "prints banana",
+                  "expectedOutput": "banana",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "string[] fruits = { \"apple\", \"banana\", \"cherry\" }; then fruits[1] is \"banana\".",
+                "es": "string[] fruits = { \"apple\", \"banana\", \"cherry\" }; luego fruits[1] es \"banana\"."
+              },
+              "hints": [
+                {
+                  "en": "The second element lives at index 1.",
+                  "es": "El segundo elemento vive en el índice 1."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l21-arrayloops",
+          "kind": "lesson",
+          "title": {
+            "en": "Arrays + Loops = 💜",
+            "es": "Arreglos + bucles = 💜"
+          },
+          "tip": {
+            "en": "Arrays and loops are best friends: for (int i = 0; i < array.Length; i++) visits every element.",
+            "es": "Arreglos y bucles son mejores amigos: for (int i = 0; i < array.Length; i++) visita cada elemento."
+          },
+          "exercises": [
+            {
+              "id": "w1-l21e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which property tells you how many elements an array has?",
+                "es": "¿Qué propiedad indica cuántos elementos tiene un arreglo?"
+              },
+              "options": [
+                {
+                  "en": "Length",
+                  "es": "Length"
+                },
+                {
+                  "en": "Size",
+                  "es": "Size"
+                },
+                {
+                  "en": "Count",
+                  "es": "Count"
+                },
+                {
+                  "en": "Elements",
+                  "es": "Elements"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Arrays have .Length. (Lists, which you'll meet later, use .Count — a classic mix-up!)",
+                "es": "Los arreglos tienen .Length. (Las Lists, que conocerás luego, usan .Count: ¡un lío clásico!)"
+              },
+              "hints": [
+                {
+                  "en": "Six letters, starts with L.",
+                  "es": "Seis letras, empieza con L."
+                }
+              ]
+            },
+            {
+              "id": "w1-l21e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "int[] nums = { 5, 6, 7 };\nforeach (int n in nums)\n{\n    Console.WriteLine(n);\n}",
+              "options": [
+                {
+                  "en": "5\n6\n7",
+                  "es": "5\n6\n7"
+                },
+                {
+                  "en": "0\n1\n2",
+                  "es": "0\n1\n2"
+                },
+                {
+                  "en": "567",
+                  "es": "567"
+                },
+                {
+                  "en": "5",
+                  "es": "5"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "foreach visits every element in order and calls it n. No index bookkeeping needed!",
+                "es": "foreach visita cada elemento en orden y lo llama n. ¡Sin gestionar índices!"
+              },
+              "hints": [
+                {
+                  "en": "foreach gives you the VALUES, one by one.",
+                  "es": "foreach te da los VALORES, uno por uno."
+                }
+              ]
+            },
+            {
+              "id": "w1-l21e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Print every element of { 4, 8, 15, 16, 23, 42 }, one per line (use a loop!).",
+                "es": "Muestra cada elemento de { 4, 8, 15, 16, 23, 42 }, uno por línea (¡usa un bucle!)."
+              },
+              "starter": "int[] numbers = { 4, 8, 15, 16, 23, 42 };\n// Loop and print each one\n",
+              "tests": [
+                {
+                  "name": "prints all six numbers",
+                  "expectedOutput": "4\n8\n15\n16\n23\n42",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "foreach (int n in numbers) { Console.WriteLine(n); } — or a for loop up to numbers.Length.",
+                "es": "foreach (int n in numbers) { Console.WriteLine(n); } — o un bucle for hasta numbers.Length."
+              },
+              "hints": [
+                {
+                  "en": "foreach is the shortest way; for with numbers.Length works too.",
+                  "es": "foreach es la forma más corta; for con numbers.Length también funciona."
+                }
+              ]
+            },
+            {
+              "id": "w1-l21e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Print the SUM of { 4, 8, 15, 16, 23, 42 }.",
+                "es": "Muestra la SUMA de { 4, 8, 15, 16, 23, 42 }."
+              },
+              "starter": "int[] numbers = { 4, 8, 15, 16, 23, 42 };\nint total = 0;\n// Add each number to total, then print it\n",
+              "tests": [
+                {
+                  "name": "prints 108",
+                  "expectedOutput": "108",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "108! Loop, add, print. This pattern (accumulator) appears in EVERY real program.",
+                "es": "¡108! Bucle, suma, muestra. Este patrón (acumulador) aparece en TODOS los programas reales."
+              },
+              "hints": [
+                {
+                  "en": "Inside the loop: total += n;",
+                  "es": "Dentro del bucle: total += n;"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l22-input",
+          "kind": "lesson",
+          "title": {
+            "en": "Talking to the User",
+            "es": "Hablando con el usuario"
+          },
+          "tip": {
+            "en": "Console.ReadLine() waits for the user to type something. Here your program comes ALIVE!",
+            "es": "Console.ReadLine() espera a que el usuario escriba algo. ¡Aquí tu programa cobra VIDA!"
+          },
+          "exercises": [
+            {
+              "id": "w1-l22e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What type does Console.ReadLine() return?",
+                "es": "¿Qué tipo devuelve Console.ReadLine()?"
+              },
+              "options": [
+                {
+                  "en": "string",
+                  "es": "string"
+                },
+                {
+                  "en": "int",
+                  "es": "int"
+                },
+                {
+                  "en": "bool",
+                  "es": "bool"
+                },
+                {
+                  "en": "It returns nothing",
+                  "es": "No devuelve nada"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "ReadLine always gives you a string — even if the user typed numbers. Convert them with int.Parse!",
+                "es": "ReadLine siempre da un string, ¡aunque el usuario escriba números! Conviértelos con int.Parse."
+              },
+              "hints": [
+                {
+                  "en": "Everything typed is text at first.",
+                  "es": "Todo lo tecleado es texto al principio."
+                }
+              ]
+            },
+            {
+              "id": "w1-l22e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the line that reads the user's name:",
+                "es": "Completa la línea que lee el nombre del usuario:"
+              },
+              "code": "string name = Console.___();",
+              "blanks": [
+                {
+                  "answer": "ReadLine",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "ReadLine reads one full line of user input.",
+                "es": "ReadLine lee una línea completa de entrada del usuario."
+              },
+              "hints": [
+                {
+                  "en": "It's the reading twin of WriteLine.",
+                  "es": "Es el gemelo lector de WriteLine."
+                }
+              ]
+            },
+            {
+              "id": "w1-l22e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "The user typed \"25\". How do you turn it into the int 25?",
+                "es": "El usuario escribió \"25\". ¿Cómo lo conviertes en el int 25?"
+              },
+              "options": [
+                {
+                  "en": "int.Parse(input)",
+                  "es": "int.Parse(input)"
+                },
+                {
+                  "en": "(string)input",
+                  "es": "(string)input"
+                },
+                {
+                  "en": "input.ToInt()",
+                  "es": "input.ToInt()"
+                },
+                {
+                  "en": "int input2 = input;",
+                  "es": "int input2 = input;"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "int.Parse converts numeric text into a real int. If the text isn't numeric, it throws an exception!",
+                "es": "int.Parse convierte texto numérico en un int real. ¡Si el texto no es numérico, lanza una excepción!"
+              },
+              "hints": [
+                {
+                  "en": "The type name plus a conversion method.",
+                  "es": "El nombre del tipo más un método de conversión."
+                }
+              ]
+            },
+            {
+              "id": "w1-l22e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Read the user's name and greet them: with input Bit, print Hello, Bit!",
+                "es": "Lee el nombre del usuario y salúdalo: con la entrada Bit, muestra Hello, Bit!"
+              },
+              "starter": "// Read a line into a variable\n// Print: Hello, <name>!\n",
+              "tests": [
+                {
+                  "name": "greets Bit",
+                  "expectedOutput": "Hello, Bit!",
+                  "match": "exact",
+                  "stdin": "Bit"
+                },
+                {
+                  "name": "greets Ada",
+                  "expectedOutput": "Hello, Ada!",
+                  "match": "exact",
+                  "stdin": "Ada"
+                }
+              ],
+              "explanation": {
+                "en": "string name = Console.ReadLine(); then Console.WriteLine(\"Hello, \" + name + \"!\"); — your first interactive program!",
+                "es": "string name = Console.ReadLine(); luego Console.WriteLine(\"Hello, \" + name + \"!\"); — ¡tu primer programa interactivo!"
+              },
+              "hints": [
+                {
+                  "en": "Store ReadLine() in a string variable first.",
+                  "es": "Guarda ReadLine() en una variable string primero."
+                },
+                {
+                  "en": "Glue the pieces with +: \"Hello, \" + name + \"!\"",
+                  "es": "Une las piezas con +: \"Hello, \" + name + \"!\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l23-strings",
+          "kind": "lesson",
+          "title": {
+            "en": "String Superpowers",
+            "es": "Superpoderes de los strings"
+          },
+          "tip": {
+            "en": "Strings have powers: .Length, .ToUpper(), .Substring() — and $\"...\" interpolation to inject variables into text.",
+            "es": "Los strings tienen poderes: .Length, .ToUpper(), .Substring() — y la interpolación $\"...\" para inyectar variables en el texto."
+          },
+          "exercises": [
+            {
+              "id": "w1-l23e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "Console.WriteLine(\"DevQuest\".Length);",
+              "options": [
+                {
+                  "en": "8",
+                  "es": "8"
+                },
+                {
+                  "en": "7",
+                  "es": "7"
+                },
+                {
+                  "en": "9",
+                  "es": "9"
+                },
+                {
+                  "en": "Length",
+                  "es": "Length"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "D-e-v-Q-u-e-s-t = 8 characters. .Length counts them all.",
+                "es": "D-e-v-Q-u-e-s-t = 8 caracteres. .Length los cuenta todos."
+              },
+              "hints": [
+                {
+                  "en": "Count the letters of DevQuest carefully.",
+                  "es": "Cuenta las letras de DevQuest con cuidado."
+                }
+              ]
+            },
+            {
+              "id": "w1-l23e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "Console.WriteLine(\"devquest\".ToUpper());",
+              "options": [
+                {
+                  "en": "DEVQUEST",
+                  "es": "DEVQUEST"
+                },
+                {
+                  "en": "devquest",
+                  "es": "devquest"
+                },
+                {
+                  "en": "Devquest",
+                  "es": "Devquest"
+                },
+                {
+                  "en": "DevQuest",
+                  "es": "DevQuest"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "ToUpper() returns a shouty copy of the string. ToUpper doesn't change the original — it returns a new one!",
+                "es": "ToUpper() devuelve una copia en mayúsculas. ToUpper no cambia el original: ¡devuelve uno nuevo!"
+              },
+              "hints": [
+                {
+                  "en": "Every letter goes to uppercase.",
+                  "es": "Cada letra pasa a mayúscula."
+                }
+              ]
+            },
+            {
+              "id": "w1-l23e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the code to extract \"Dev\" (the first 3 letters):",
+                "es": "Completa el código para extraer \"Dev\" (las primeras 3 letras):"
+              },
+              "code": "Console.WriteLine(\"DevQuest\".___(0, 3));",
+              "blanks": [
+                {
+                  "answer": "Substring",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Substring(startIndex, length) copies a piece of the string starting at position 0, 3 characters long.",
+                "es": "Substring(índiceInicio, longitud) copia un trozo del string empezando en la posición 0, de 3 caracteres."
+              },
+              "hints": [
+                {
+                  "en": "It's the method for cutting out a piece: Sub + string.",
+                  "es": "Es el método para cortar un trozo: Sub + string."
+                }
+              ]
+            },
+            {
+              "id": "w1-l23e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "With name = \"Ada\" and age = 36, use string interpolation to print: Ada is 36 years old",
+                "es": "Con name = \"Ada\" y age = 36, usa interpolación de strings para mostrar: Ada is 36 years old"
+              },
+              "starter": "string name = \"Ada\";\nint age = 36;\n// Use $\"...\" with {name} and {age}\n",
+              "tests": [
+                {
+                  "name": "prints the interpolated sentence",
+                  "expectedOutput": "Ada is 36 years old",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "$\"{name} is {age} years old\" — the $ turns the string into a template with {holes} for variables. Much cleaner than +!",
+                "es": "$\"{name} is {age} years old\" — el $ convierte el string en una plantilla con {huecos} para variables. ¡Mucho más limpio que +!"
+              },
+              "hints": [
+                {
+                  "en": "Start the string with $ before the opening quote.",
+                  "es": "Empieza el string con $ antes de la comilla de apertura."
+                },
+                {
+                  "en": "Variables go inside curly braces: {name} and {age}.",
+                  "es": "Las variables van entre llaves: {name} y {age}."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l24-quiz5",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 5 Quiz",
+            "es": "Examen de la unidad 5"
+          },
+          "tip": {
+            "en": "Last quiz before the BOSS! Arrays, input, strings — you know this.",
+            "es": "¡Último examen antes del JEFE! Arreglos, entrada, strings: esto ya lo sabes."
+          },
+          "exercises": [
+            {
+              "id": "w1-l24e1",
+              "type": "output",
+              "xp": 12,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "int[] a = { 7, 14, 21 };\nConsole.WriteLine(a[2]);",
+              "options": [
+                {
+                  "en": "21",
+                  "es": "21"
+                },
+                {
+                  "en": "14",
+                  "es": "14"
+                },
+                {
+                  "en": "7",
+                  "es": "7"
+                },
+                {
+                  "en": "2",
+                  "es": "2"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Index 2 is the THIRD element: 21.",
+                "es": "El índice 2 es el TERCER elemento: 21."
+              },
+              "hints": [
+                {
+                  "en": "Zero-based indexing: 0, 1, 2.",
+                  "es": "Índices desde cero: 0, 1, 2."
+                }
+              ]
+            },
+            {
+              "id": "w1-l24e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "How do you read what the user types?",
+                "es": "¿Cómo lees lo que el usuario escribe?"
+              },
+              "options": [
+                {
+                  "en": "Console.ReadLine()",
+                  "es": "Console.ReadLine()"
+                },
+                {
+                  "en": "Console.WriteLine()",
+                  "es": "Console.WriteLine()"
+                },
+                {
+                  "en": "Console.ReadValue()",
+                  "es": "Console.ReadValue()"
+                },
+                {
+                  "en": "Input.Read()",
+                  "es": "Input.Read()"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Console.ReadLine() waits for a line of input and returns it as a string.",
+                "es": "Console.ReadLine() espera una línea de entrada y la devuelve como string."
+              },
+              "hints": [
+                {
+                  "en": "Read + Line, on the Console.",
+                  "es": "Read + Line, en la Console."
+                }
+              ]
+            },
+            {
+              "id": "w1-l24e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Console.ReadLine() can return an int directly.",
+                "es": "Console.ReadLine() puede devolver un int directamente."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — it always returns string. Use int.Parse to convert numeric text.",
+                "es": "Falso: siempre devuelve string. Usa int.Parse para convertir texto numérico."
+              },
+              "hints": [
+                {
+                  "en": "Remember the conversion lesson.",
+                  "es": "Recuerda la lección de conversión."
+                }
+              ]
+            },
+            {
+              "id": "w1-l24e4",
+              "type": "output",
+              "xp": 12,
+              "prompt": {
+                "en": "What does this print?",
+                "es": "¿Qué muestra esto?"
+              },
+              "code": "string hero = \"Bit\";\nConsole.WriteLine($\"{hero} to the rescue!\");",
+              "options": [
+                {
+                  "en": "Bit to the rescue!",
+                  "es": "Bit to the rescue!"
+                },
+                {
+                  "en": "{hero} to the rescue!",
+                  "es": "{hero} to the rescue!"
+                },
+                {
+                  "en": "hero to the rescue!",
+                  "es": "hero to the rescue!"
+                },
+                {
+                  "en": "It does not compile",
+                  "es": "No compila"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The $ prefix makes {hero} a hole that gets filled with the variable's value.",
+                "es": "El prefijo $ convierte {hero} en un hueco que se rellena con el valor de la variable."
+              },
+              "hints": [
+                {
+                  "en": "Interpolation replaces {placeholders} with values.",
+                  "es": "La interpolación reemplaza {marcadores} con valores."
+                }
+              ]
+            },
+            {
+              "id": "w1-l24e5",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the loop to visit every element of items:",
+                "es": "Completa el bucle para visitar cada elemento de items:"
+              },
+              "code": "for (int i = 0; i < items.___; i++)\n{\n    Console.WriteLine(items[i]);\n}",
+              "blanks": [
+                {
+                  "answer": "Length",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "items.Length is the number of elements — the loop stops exactly at the end.",
+                "es": "items.Length es el número de elementos: el bucle para justo al final."
+              },
+              "hints": [
+                {
+                  "en": "The array property that counts elements.",
+                  "es": "La propiedad del arreglo que cuenta elementos."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1-l25-boss",
+          "kind": "boss",
+          "title": {
+            "en": "BOSS: The Compiler Guardian",
+            "es": "JEFE: El Guardián del Compilador"
+          },
+          "tip": {
+            "en": "Everything you learned in this world, all at once. Beat the Guardian and claim your crown! 👑",
+            "es": "Todo lo que aprendiste en este mundo, de golpe. ¡Vence al Guardián y reclama tu corona! 👑"
+          },
+          "exercises": [
+            {
+              "id": "w1-l25e1",
+              "type": "output",
+              "xp": 15,
+              "prompt": {
+                "en": "Guardian's trap! What does this print?",
+                "es": "¡Trampa del Guardián! ¿Qué muestra esto?"
+              },
+              "code": "Console.WriteLine(\"Score: \" + 2 + 3);",
+              "options": [
+                {
+                  "en": "Score: 23",
+                  "es": "Score: 23"
+                },
+                {
+                  "en": "Score: 5",
+                  "es": "Score: 5"
+                },
+                {
+                  "en": "Score: 2 + 3",
+                  "es": "Score: 2 + 3"
+                },
+                {
+                  "en": "It does not compile",
+                  "es": "No compila"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Left to right: \"Score: \" + 2 makes \"Score: 2\" (text), then + 3 glues on the 3 → \"Score: 23\". Use parentheses \"Score: \" + (2 + 3) for 5!",
+                "es": "De izquierda a derecha: \"Score: \" + 2 forma \"Score: 2\" (texto), luego + 3 pega el 3 → \"Score: 23\". ¡Usa paréntesis \"Score: \" + (2 + 3) para obtener 5!"
+              },
+              "hints": [
+                {
+                  "en": "Once a string joins the party, + means GLUE, not add.",
+                  "es": "Cuando un string entra en la escena, + significa PEGAR, no sumar."
+                }
+              ]
+            },
+            {
+              "id": "w1-l25e2",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "The Guardian's first gate: print every number from 1 to 15, but replace multiples of 3 with Fizz, multiples of 5 with Buzz, and multiples of both with FizzBuzz.",
+                "es": "La primera puerta del Guardián: muestra cada número del 1 al 15, pero reemplaza los múltiplos de 3 con Fizz, los de 5 con Buzz y los de ambos con FizzBuzz."
+              },
+              "starter": "// The legendary FizzBuzz!\n// Loop 1..15, check multiples of 3 and 5\n",
+              "tests": [
+                {
+                  "name": "fizzbuzz 1-15",
+                  "expectedOutput": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "You just solved THE classic interview question. Check the 'both' case FIRST, then 3, then 5, else the number.",
+                "es": "Acabas de resolver LA pregunta clásica de entrevistas. Evalúa el caso 'ambos' PRIMERO, luego 3, luego 5, y si no, el número."
+              },
+              "hints": [
+                {
+                  "en": "A number divisible by both satisfies n % 3 == 0 && n % 5 == 0 — check it before the others.",
+                  "es": "Un número divisible por ambos cumple n % 3 == 0 && n % 5 == 0: evalúalo antes que los demás."
+                },
+                {
+                  "en": "Use if / else if / else inside the loop.",
+                  "es": "Usa if / else if / else dentro del bucle."
+                }
+              ]
+            },
+            {
+              "id": "w1-l25e3",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Second gate: read three numbers (one per line) and print the biggest one.",
+                "es": "Segunda puerta: lee tres números (uno por línea) y muestra el mayor."
+              },
+              "starter": "// Read three lines with Console.ReadLine()\n// Convert with int.Parse and print the max\n",
+              "tests": [
+                {
+                  "name": "max of 4, 9, 2",
+                  "expectedOutput": "9",
+                  "match": "exact",
+                  "stdin": "4\n9\n2"
+                },
+                {
+                  "name": "max of 10, 3, 7",
+                  "expectedOutput": "10",
+                  "match": "exact",
+                  "stdin": "10\n3\n7"
+                }
+              ],
+              "explanation": {
+                "en": "int.Parse(Console.ReadLine()) three times, then Math.Max(Math.Max(a, b), c) — or an if chain!",
+                "es": "int.Parse(Console.ReadLine()) tres veces, luego Math.Max(Math.Max(a, b), c) — ¡o una cadena de if!"
+              },
+              "hints": [
+                {
+                  "en": "int a = int.Parse(Console.ReadLine()); — repeat for b and c.",
+                  "es": "int a = int.Parse(Console.ReadLine()); — repite para b y c."
+                },
+                {
+                  "en": "Math.Max can nest: Math.Max(Math.Max(a, b), c).",
+                  "es": "Math.Max se puede anidar: Math.Max(Math.Max(a, b), c)."
+                }
+              ]
+            },
+            {
+              "id": "w1-l25e4",
+              "type": "output",
+              "xp": 15,
+              "prompt": {
+                "en": "Third gate: what does this print?",
+                "es": "Tercera puerta: ¿qué muestra esto?"
+              },
+              "code": "int magic = 7;\nwhile (true)\n{\n    if (magic % 2 == 0)\n    {\n        break;\n    }\n    magic = magic + 3;\n}\nConsole.WriteLine(magic);",
+              "options": [
+                {
+                  "en": "10",
+                  "es": "10"
+                },
+                {
+                  "en": "7",
+                  "es": "7"
+                },
+                {
+                  "en": "13",
+                  "es": "13"
+                },
+                {
+                  "en": "It loops forever",
+                  "es": "Se queda en bucle infinito"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "7 (odd) → 10 (even!) → break. The loop exits and prints 10.",
+                "es": "7 (impar) → 10 (¡par!) → break. El bucle sale y muestra 10."
+              },
+              "hints": [
+                {
+                  "en": "Trace the loop: add 3 to 7. Is the result even?",
+                  "es": "Sigue el bucle: suma 3 a 7. ¿El resultado es par?"
+                }
+              ]
+            },
+            {
+              "id": "w1-l25e5",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Fourth gate: print the 7 times table, from \"7 x 1 = 7\" to \"7 x 10 = 70\".",
+                "es": "Cuarta puerta: muestra la tabla del 7, desde \"7 x 1 = 7\" hasta \"7 x 10 = 70\"."
+              },
+              "starter": "// Loop 1..10 and print: 7 x i = result\n",
+              "tests": [
+                {
+                  "name": "prints the 7 times table",
+                  "expectedOutput": "7 x 1 = 7\n7 x 2 = 14\n7 x 3 = 21\n7 x 4 = 28\n7 x 5 = 35\n7 x 6 = 42\n7 x 7 = 49\n7 x 8 = 56\n7 x 9 = 63\n7 x 10 = 70",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Interpolation shines here: Console.WriteLine($\"7 x {i} = {7 * i}\");",
+                "es": "Aquí brilla la interpolación: Console.WriteLine($\"7 x {i} = {7 * i}\");"
+              },
+              "hints": [
+                {
+                  "en": "Use $\"7 x {i} = {7 * i}\" inside a for loop from 1 to 10.",
+                  "es": "Usa $\"7 x {i} = {7 * i}\" dentro de un for del 1 al 10."
+                }
+              ]
+            },
+            {
+              "id": "w1-l25e6",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Final gate: print the sum of all EVEN numbers from 1 to 20.",
+                "es": "Puerta final: muestra la suma de todos los números PARES del 1 al 20."
+              },
+              "starter": "// Sum the evens: 2 + 4 + ... + 20\n",
+              "tests": [
+                {
+                  "name": "prints 110",
+                  "expectedOutput": "110",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "110! Combine three skills: a loop, the % operator to detect evens, and an accumulator. World 1 is YOURS! 🏆",
+                "es": "¡110! Combina tres habilidades: un bucle, el operador % para detectar pares y un acumulador. ¡El mundo 1 es TUYO! 🏆"
+              },
+              "hints": [
+                {
+                  "en": "Loop 1..20 and only add when i % 2 == 0.",
+                  "es": "Bucle del 1 al 20 y suma solo cuando i % 2 == 0."
+                },
+                {
+                  "en": "Or loop only the evens: for (int i = 2; i <= 20; i += 2).",
+                  "es": "O recorre solo los pares: for (int i = 2; i <= 20; i += 2)."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "cheatSheet": [
+    {
+      "title": {
+        "en": "Output & text",
+        "es": "Salida y texto"
+      },
+      "items": [
+        {
+          "en": "Console.WriteLine(\"text\");",
+          "es": "Console.WriteLine(\"text\");"
+        },
+        {
+          "en": "Comments start with //",
+          "es": "Los comentarios empiezan con //"
+        },
+        {
+          "en": "$\"name is {age}\" — interpolation",
+          "es": "$\"name is {age}\" — interpolación"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Variables",
+        "es": "Variables"
+      },
+      "items": [
+        {
+          "en": "int age = 25;  double price = 9.99;  string name = \"Ada\";  bool ok = true;",
+          "es": "int age = 25;  double price = 9.99;  string name = \"Ada\";  bool ok = true;"
+        },
+        {
+          "en": "int / int = integer division (decimals dropped!)",
+          "es": "int / int = división entera (¡se pierden los decimales!)"
+        },
+        {
+          "en": "% gives the remainder: 9 % 4 = 1",
+          "es": "% da el resto: 9 % 4 = 1"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Decisions",
+        "es": "Decisiones"
+      },
+      "items": [
+        {
+          "en": "if (x > 5) { } else if (x == 3) { } else { }",
+          "es": "if (x > 5) { } else if (x == 3) { } else { }"
+        },
+        {
+          "en": "== compares, = assigns",
+          "es": "== compara, = asigna"
+        },
+        {
+          "en": "&& and · || or · ! not",
+          "es": "&& y · || o · ! no"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Loops",
+        "es": "Bucles"
+      },
+      "items": [
+        {
+          "en": "for (int i = 0; i < 10; i++) { }",
+          "es": "for (int i = 0; i < 10; i++) { }"
+        },
+        {
+          "en": "while (condition) { } — change something inside!",
+          "es": "while (condición) { } — ¡cambia algo dentro!"
+        },
+        {
+          "en": "break exits · continue skips one round",
+          "es": "break sale · continue se salta una vuelta"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Arrays & input",
+        "es": "Arreglos y entrada"
+      },
+      "items": [
+        {
+          "en": "int[] nums = { 1, 2, 3 }; nums[0] is the first",
+          "es": "int[] nums = { 1, 2, 3 }; nums[0] es el primero"
+        },
+        {
+          "en": "nums.Length — how many elements",
+          "es": "nums.Length — cuántos elementos"
+        },
+        {
+          "en": "string name = Console.ReadLine();",
+          "es": "string name = Console.ReadLine();"
+        }
+      ]
+    }
+  ]
+}

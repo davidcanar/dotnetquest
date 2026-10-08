@@ -1,0 +1,2263 @@
+{
+  "id": "w11-maui",
+  "order": 11,
+  "track": "multiplatform",
+  "title": {
+    "en": ".NET MAUI",
+    "es": ".NET MAUI"
+  },
+  "subtitle": {
+    "en": "One C# codebase for Android, iOS, Windows and macOS",
+    "es": "Un solo código C# para Android, iOS, Windows y macOS"
+  },
+  "intro": {
+    "en": "Write once, run on four platforms: .NET MAUI compiles your C# and XAML into native Android, iOS, Windows and macOS apps. Same skills as WPF — bigger stage.",
+    "es": "Escribe una vez, ejecuta en cuatro plataformas: .NET MAUI compila tu C# y XAML en apps nativas para Android, iOS, Windows y macOS. Las mismas habilidades que WPF, en un escenario mayor."
+  },
+  "icon": "📱",
+  "color": "#f472b6",
+  "cheatSheet": [
+    {
+      "title": {
+        "en": "MAUI basics",
+        "es": "Lo básico de MAUI"
+      },
+      "items": [
+        {
+          "en": "dotnet new maui -o MyMobApp",
+          "es": "dotnet new maui -o MyMobApp"
+        },
+        {
+          "en": "One project, four targets: Android, iOS, Windows (WinUI 3), macOS",
+          "es": "Un proyecto, cuatro destinos: Android, iOS, Windows (WinUI 3), macOS"
+        },
+        {
+          "en": "Handlers connect cross-platform controls to native ones",
+          "es": "Los handlers conectan controles multiplataforma con los nativos"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "UI",
+        "es": "UI"
+      },
+      "items": [
+        {
+          "en": "Same XAML as WPF-ish: Label, Button, StackLayout (VerticalStackLayout)",
+          "es": "XAML parecido a WPF: Label, Button, VerticalStackLayout"
+        },
+        {
+          "en": "{Binding} works the same — MVVM transfers 100%",
+          "es": "{Binding} funciona igual: MVVM se transfiere al 100%"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Platform access",
+        "es": "Acceso a plataforma"
+      },
+      "items": [
+        {
+          "en": "DeviceInfo.Platform — Android / iOS / MacCatalyst / WinUI",
+          "es": "DeviceInfo.Platform — Android / iOS / MacCatalyst / WinUI"
+        },
+        {
+          "en": "Preferences.Set/Get — simple key-value storage",
+          "es": "Preferences.Set/Get — almacenamiento simple clave-valor"
+        },
+        {
+          "en": "Interfaces + DI = platform services done cleanly",
+          "es": "Interfaces + DI = servicios de plataforma bien hechos"
+        }
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "u1",
+      "title": {
+        "en": "MAUI Foundations",
+        "es": "Fundamentos de MAUI"
+      },
+      "lessons": [
+        {
+          "id": "w11-l01-what",
+          "kind": "lesson",
+          "title": {
+            "en": "One Codebase, Four Platforms",
+            "es": "Un código, cuatro plataformas"
+          },
+          "tip": {
+            "en": ".NET MAUI (Multi-platform App UI) compiles one C# project into native Android, iOS, Windows and macOS apps. Your WPF skills transfer almost entirely.",
+            "es": ".NET MAUI (Multi-platform App UI) compila un proyecto C# en apps nativas para Android, iOS, Windows y macOS. Tus habilidades de WPF se transfieren casi por completo."
+          },
+          "exercises": [
+            {
+              "id": "w11-l01e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which platforms does one MAUI project target?",
+                "es": "¿A qué plataformas apunta un proyecto MAUI?"
+              },
+              "options": [
+                {
+                  "en": "Android, iOS, Windows, macOS",
+                  "es": "Android, iOS, Windows, macOS"
+                },
+                {
+                  "en": "Only Android",
+                  "es": "Solo Android"
+                },
+                {
+                  "en": "Windows and Linux",
+                  "es": "Windows y Linux"
+                },
+                {
+                  "en": "The web browser",
+                  "es": "El navegador web"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Four platforms from one project — the promise of 'write once, run natively everywhere'.",
+                "es": "Cuatro plataformas desde un proyecto: la promesa de 'escribe una vez, corre nativo donde sea'."
+              },
+              "hints": [
+                {
+                  "en": "The two phones plus the two desktops.",
+                  "es": "Los dos teléfonos más los dos escritorios."
+                }
+              ]
+            },
+            {
+              "id": "w11-l01e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "MAUI apps render using...",
+                "es": "Las apps MAUI se dibujan usando..."
+              },
+              "options": [
+                {
+                  "en": "NATIVE platform controls (real Android button, real iOS button)",
+                  "es": "Controles NATIVOS de la plataforma (botón Android real, botón iOS real)"
+                },
+                {
+                  "en": "Screenshots baked into the app",
+                  "es": "Capturas incluidas en la app"
+                },
+                {
+                  "en": "Only text consoles",
+                  "es": "Solo consolas de texto"
+                },
+                {
+                  "en": "A web view with HTML",
+                  "es": "Una vista web con HTML"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Unlike web-in-a-shell approaches, MAUI maps cross-platform controls to REAL native controls via handlers.",
+                "es": "A diferencia de los enfoques web-en-cáscara, MAUI mapea controles multiplataforma a controles NATIVOS mediante handlers."
+              },
+              "hints": [
+                {
+                  "en": "N is for native.",
+                  "es": "La N es de nativo."
+                }
+              ]
+            },
+            {
+              "id": "w11-l01e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "A WPF developer's MVVM and data-binding knowledge transfers to MAUI.",
+                "es": "El conocimiento de MVVM y data binding de un desarrollador WPF se transfiere a MAUI."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — same XAML family, same binding engine, same MVVM pattern. You're 80% there already.",
+                "es": "Verdadero: misma familia XAML, mismo motor de binding, mismo patrón MVVM. Ya llevas el 80% del camino."
+              },
+              "hints": [
+                {
+                  "en": "You just learned binding in the WPF world.",
+                  "es": "Acabas de aprender binding en el mundo WPF."
+                }
+              ]
+            },
+            {
+              "id": "w11-l01e4",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match each framework to its sweet spot:",
+                "es": "Relaciona cada framework con su punto fuerte:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "MAUI",
+                    "es": "MAUI"
+                  },
+                  "right": {
+                    "en": "native mobile + desktop apps",
+                    "es": "apps móviles y de escritorio nativas"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Blazor",
+                    "es": "Blazor"
+                  },
+                  "right": {
+                    "en": "web UIs in C#",
+                    "es": "UIs web en C#"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "WPF",
+                    "es": "WPF"
+                  },
+                  "right": {
+                    "en": "rich Windows-only desktop",
+                    "es": "escritorio rico solo para Windows"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "ASP.NET Core",
+                    "es": "ASP.NET Core"
+                  },
+                  "right": {
+                    "en": "the server behind them all",
+                    "es": "el servidor detrás de todos"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The .NET ecosystem covers every surface — and they all speak C#.",
+                "es": "El ecosistema .NET cubre cada superficie y todos hablan C#."
+              },
+              "hints": [
+                {
+                  "en": "ASP.NET Core powers this game's server.",
+                  "es": "ASP.NET Core alimenta el servidor de este juego."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w11-l02-handlers",
+          "kind": "lesson",
+          "title": {
+            "en": "Handlers: The Native Bridge",
+            "es": "Handlers: el puente nativo"
+          },
+          "tip": {
+            "en": "A MAUI Button is a cross-platform description. A HANDLER maps it to the real native control per platform (Android.Widget.Button on Android, UIButton on iOS). One name, native reality.",
+            "es": "Un Button de MAUI es una descripción multiplataforma. Un HANDLER lo mapea al control nativo real de cada plataforma (Android.Widget.Button en Android, UIButton en iOS). Un nombre, realidad nativa."
+          },
+          "exercises": [
+            {
+              "id": "w11-l02e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What does a MAUI Handler do?",
+                "es": "¿Qué hace un Handler de MAUI?"
+              },
+              "options": [
+                {
+                  "en": "Connects a cross-platform control to the native control of each platform",
+                  "es": "Conecta un control multiplataforma con el control nativo de cada plataforma"
+                },
+                {
+                  "en": "Handles user complaints",
+                  "es": "Gestiona quejas de usuarios"
+                },
+                {
+                  "en": "Translates XAML to HTML",
+                  "es": "Traduce XAML a HTML"
+                },
+                {
+                  "en": "Stores app data",
+                  "es": "Guarda datos de la app"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Handlers are the native bridge — your code says Button, Android hears Android.Widget.Button.",
+                "es": "Los handlers son el puente nativo: tu código dice Button y Android escucha Android.Widget.Button."
+              },
+              "hints": [
+                {
+                  "en": "One abstraction, four realities.",
+                  "es": "Una abstracción, cuatro realidades."
+                }
+              ]
+            },
+            {
+              "id": "w11-l02e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the MAUI control to its purpose:",
+                "es": "Relaciona el control MAUI con su propósito:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Label",
+                    "es": "Label"
+                  },
+                  "right": {
+                    "en": "display text",
+                    "es": "mostrar texto"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Entry",
+                    "es": "Entry"
+                  },
+                  "right": {
+                    "en": "single-line input",
+                    "es": "entrada de una línea"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Editor",
+                    "es": "Editor"
+                  },
+                  "right": {
+                    "en": "multi-line input",
+                    "es": "entrada multilínea"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "CollectionView",
+                    "es": "CollectionView"
+                  },
+                  "right": {
+                    "en": "scrollable list of items",
+                    "es": "lista desplazable de elementos"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "A compact control vocabulary covers most mobile screens.",
+                "es": "Un vocabulario compacto de controles cubre la mayoría de pantallas móviles."
+              },
+              "hints": [
+                {
+                  "en": "Editor = the big one.",
+                  "es": "Editor = el grande."
+                }
+              ]
+            },
+            {
+              "id": "w11-l02e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the layout that stacks children vertically (the MAUI-preferred name):",
+                "es": "Completa el layout que apila hijos verticalmente (el nombre preferido en MAUI):"
+              },
+              "code": "<Vertical___Layout>\n    <Label Text=\"top\" />\n    <Label Text=\"bottom\" />\n</Vertical___Layout>",
+              "blanks": [
+                {
+                  "answer": "Stack",
+                  "caseSensitive": true
+                },
+                {
+                  "answer": "Stack",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "VerticalStackLayout is MAUI's modern stack (the old StackPanel name is gone).",
+                "es": "VerticalStackLayout es el stack moderno de MAUI (adiós StackPanel)."
+              },
+              "hints": [
+                {
+                  "en": "Vertical + Stack + Layout.",
+                  "es": "Vertical + Stack + Layout."
+                }
+              ]
+            },
+            {
+              "id": "w11-l02e4",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "You can customize a native control's appearance per platform through handler customizations without forking your whole UI.",
+                "es": "Puedes personalizar la apariencia nativa por plataforma mediante customizaciones de handler sin duplicar toda tu UI."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — handlers support per-platform tweaking: shared by default, native when you want it.",
+                "es": "Verdadero: los handlers permiten ajustes por plataforma; compartido por defecto, nativo cuando quieras."
+              },
+              "hints": [
+                {
+                  "en": "Shared first, native when needed.",
+                  "es": "Compartido primero, nativo si hace falta."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w11-l03-quiz1",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 1 Quiz",
+            "es": "Examen de la unidad 1"
+          },
+          "tip": {
+            "en": "MAUI foundations!",
+            "es": "¡Fundamentos de MAUI!"
+          },
+          "exercises": [
+            {
+              "id": "w11-l03e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What command scaffolds a new MAUI app?",
+                "es": "¿Qué comando crea una nueva app MAUI?"
+              },
+              "options": [
+                {
+                  "en": "dotnet new maui",
+                  "es": "dotnet new maui"
+                },
+                {
+                  "en": "dotnet new mobile",
+                  "es": "dotnet new mobile"
+                },
+                {
+                  "en": "maui init",
+                  "es": "maui init"
+                },
+                {
+                  "en": "dotnet new android",
+                  "es": "dotnet new android"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "dotnet new maui — one template, all four platforms.",
+                "es": "dotnet new maui: una plantilla, cuatro plataformas."
+              },
+              "hints": [
+                {
+                  "en": "The framework's own name.",
+                  "es": "El nombre del propio framework."
+                }
+              ]
+            },
+            {
+              "id": "w11-l03e2",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "MAUI apps are interpreted — they are not truly native.",
+                "es": "Las apps MAUI son interpretadas: no son realmente nativas."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — MAUI apps are AHEAD-OF-TIME compiled to native code per platform. Native performance, shared logic.",
+                "es": "Falso: las apps MAUI se compilan AOT a código nativo por plataforma. Rendimiento nativo con lógica compartida."
+              },
+              "hints": [
+                {
+                  "en": "Compiled or interpreted?",
+                  "es": "¿Compilado o interpretado?"
+                }
+              ]
+            },
+            {
+              "id": "w11-l03e3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Which piece of MAUI maps cross-platform controls to native controls?",
+                "es": "¿Qué pieza de MAUI mapea los controles multiplataforma a los nativos?"
+              },
+              "options": [
+                {
+                  "en": "Handlers",
+                  "es": "Handlers"
+                },
+                {
+                  "en": "Services",
+                  "es": "Services"
+                },
+                {
+                  "en": "Migrations",
+                  "es": "Migrations"
+                },
+                {
+                  "en": "Middleware",
+                  "es": "Middleware"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The handler architecture: property mappers + native view factories.",
+                "es": "La arquitectura de handlers: mapeadores de propiedades y fábricas de vistas nativas."
+              },
+              "hints": [
+                {
+                  "en": "They HANDLE the platform details.",
+                  "es": "Ellos MANEJAN los detalles de plataforma."
+                }
+              ]
+            },
+            {
+              "id": "w11-l03e4",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": {
+                "en": "Order the MAUI screen anatomy:",
+                "es": "Ordena la anatomía de una pantalla MAUI:"
+              },
+              "code": "<ContentPage>\n  <VerticalStackLayout>\n    <Label Text=\"Welcome to MAUI!\" />\n    <Button Text=\"Start\" />\n  </VerticalStackLayout>\n</ContentPage>",
+              "explanation": {
+                "en": "Page → layout → controls. Identical nesting philosophy to WPF.",
+                "es": "Página → layout → controles. La misma filosofía de anidación que WPF."
+              },
+              "hints": [
+                {
+                  "en": "Page, layout, then controls.",
+                  "es": "Página, layout y controles."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": {
+        "en": "Platform APIs",
+        "es": "APIs de plataforma"
+      },
+      "lessons": [
+        {
+          "id": "w11-l04-essentials",
+          "kind": "lesson",
+          "title": {
+            "en": "MAUI Essentials",
+            "es": "MAUI Essentials"
+          },
+          "tip": {
+            "en": "MAUI Essentials is a toolbox of cross-platform device APIs: GPS, sensors, camera, clipboard, connectivity — one C# API, native implementation per platform.",
+            "es": "MAUI Essentials es una caja de herramientas de APIs de dispositivo: GPS, sensores, cámara, portapapeles, conectividad; una API de C# con implementación nativa por plataforma."
+          },
+          "exercises": [
+            {
+              "id": "w11-l04e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the Essentials API to what it gives you:",
+                "es": "Relaciona la API de Essentials con lo que te da:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Geolocation",
+                    "es": "Geolocation"
+                  },
+                  "right": {
+                    "en": "the device's GPS position",
+                    "es": "la posición GPS del dispositivo"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Clipboard",
+                    "es": "Clipboard"
+                  },
+                  "right": {
+                    "en": "copy and paste text",
+                    "es": "copiar y pegar texto"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Connectivity",
+                    "es": "Connectivity"
+                  },
+                  "right": {
+                    "en": "network availability state",
+                    "es": "estado de la red"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Preferences",
+                    "es": "Preferences"
+                  },
+                  "right": {
+                    "en": "tiny key-value storage",
+                    "es": "almacenamiento clave-valor pequeño"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Device features that used to need per-platform code — now one call each.",
+                "es": "Funciones del dispositivo que antes exigían código por plataforma, ahora en una llamada cada una."
+              },
+              "hints": [
+                {
+                  "en": "Preferences = tiny settings storage.",
+                  "es": "Preferences = ajustes pequeños."
+                }
+              ]
+            },
+            {
+              "id": "w11-l04e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the call storing the user's theme choice:",
+                "es": "Completa la llamada que guarda el tema elegido:"
+              },
+              "code": "Preferences.___(\"theme\", \"dark\");",
+              "blanks": [
+                {
+                  "answer": "Set",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Preferences.Set(key, value) persists across app restarts.",
+                "es": "Preferences.Set(clave, valor) persiste entre reinicios de la app."
+              },
+              "hints": [
+                {
+                  "en": "Set it and forget it.",
+                  "es": "Asigna y olvídate."
+                }
+              ]
+            },
+            {
+              "id": "w11-l04e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Why is a cross-platform Geolocation API valuable?",
+                "es": "¿Por qué es valiosa una API Geolocation multiplataforma?"
+              },
+              "options": [
+                {
+                  "en": "Android GPS, iOS GPS and Windows location each have totally different native APIs",
+                  "es": "El GPS de Android, el de iOS y la ubicación de Windows tienen APIs nativas totalmente distintas"
+                },
+                {
+                  "en": "GPS requires it by law",
+                  "es": "El GPS lo exige la ley"
+                },
+                {
+                  "en": "It makes coordinates more accurate",
+                  "es": "Hace las coordenadas más precisas"
+                },
+                {
+                  "en": "It isn't particularly valuable",
+                  "es": "No es especialmente valiosa"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Three platforms, three completely different native APIs — Essentials unifies them into one call.",
+                "es": "Tres plataformas, tres APIs nativas distintas: Essentials las unifica en una llamada."
+              },
+              "hints": [
+                {
+                  "en": "Count the native APIs it replaces.",
+                  "es": "Cuenta las APIs nativas que reemplaza."
+                }
+              ]
+            },
+            {
+              "id": "w11-l04e4",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "Essentials APIs abstract the platform, but you can still drop to per-platform code when needed.",
+                "es": "Las APIs de Essentials abstraen la plataforma, pero puedes bajar a código específico cuando lo necesites."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — shared by default, with escape hatches (partial classes, #if platforms, partial methods) when a platform needs special treatment.",
+                "es": "Verdadero: compartido por defecto con vías de escape (clases parciales, #if de plataformas) cuando una plataforma requiere algo especial."
+              },
+              "hints": [
+                {
+                  "en": "Abstraction with escape hatches.",
+                  "es": "Abstracción con válvulas de escape."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w11-l05-interfaces",
+          "kind": "lesson",
+          "title": {
+            "en": "Platform Services via Interfaces (Runnable!)",
+            "es": "Servicios de plataforma vía interfaces (¡ejecutable!)"
+          },
+          "tip": {
+            "en": "The professional pattern for platform code: define an interface (IDialogService), implement it per platform, and inject it via DI. Your logic stays testable — and you can RUN the pattern here.",
+            "es": "El patrón profesional para código de plataforma: define una interfaz (IDialogService), impleméntala por plataforma e inyéctala con DI. Tu lógica sigue testeable, y puedes EJECUTAR el patrón aquí."
+          },
+          "exercises": [
+            {
+              "id": "w11-l05e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Your ViewModel needs to show an alert. The MVVM+MAUI clean way?",
+                "es": "Tu ViewModel necesita mostrar una alerta. ¿La forma limpia con MVVM y MAUI?"
+              },
+              "options": [
+                {
+                  "en": "Inject an IAlertService interface; each platform implements it natively",
+                  "es": "Inyectar una interfaz IAlertService; cada plataforma la implementa de forma nativa"
+                },
+                {
+                  "en": "Call Android's AlertDialog directly from the ViewModel",
+                  "es": "Llamar al AlertDialog de Android directo desde el ViewModel"
+                },
+                {
+                  "en": "Skip alerts entirely",
+                  "es": "Omitir las alertas"
+                },
+                {
+                  "en": "Write to the console",
+                  "es": "Escribir en consola"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Interface in the ViewModel, native implementation per platform, wired by DI — testable and clean.",
+                "es": "Interfaz en el ViewModel, implementación nativa por plataforma y cableado con DI: testeable y limpio."
+              },
+              "hints": [
+                {
+                  "en": "Contract + implementations + DI.",
+                  "es": "Contrato + implementaciones + DI."
+                }
+              ]
+            },
+            {
+              "id": "w11-l05e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: define IDeviceService with string GetOs(); implement AndroidDevice (\"Android\") and WindowsDevice (\"Windows\"). A factory picks by a settings string — return GetOs() for \"mobile\" and \"desktop\" settings.",
+                "es": "EJECUTABLE: define IDeviceService con string GetOs(); implementa AndroidDevice (\"Android\") y WindowsDevice (\"Windows\"). Una fábrica elige según un ajuste: devuelve GetOs() para los ajustes \"mobile\" y \"desktop\"."
+              },
+              "starter": "// interface + two implementations + factory by setting\n",
+              "tests": [
+                {
+                  "name": "platform picked",
+                  "expectedOutput": "Android\nWindows",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "The factory returned the right PLATFORM SERVICE without the caller knowing which — DI thinking in miniature.",
+                "es": "La fábrica devolvió el SERVICIO de plataforma correcto sin que quien llama sepa cuál: pensamiento DI en miniatura."
+              },
+              "hints": [
+                {
+                  "en": "IDeviceService Pick(string setting) => setting == \"mobile\" ? new AndroidDevice() : new WindowsDevice();",
+                  "es": "IDeviceService Pick(string setting) => setting == \"mobile\" ? new AndroidDevice() : new WindowsDevice();"
+                }
+              ]
+            },
+            {
+              "id": "w11-l05e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "With interface-based platform services, you can test app logic by injecting a FAKE service.",
+                "es": "Con servicios de plataforma basados en interfaces, puedes probar la lógica inyectando un servicio FALSO."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — a FakeDeviceService returning preset values tests your logic without any device.",
+                "es": "Verdadero: un FakeDeviceService con valores predefinidos prueba tu lógica sin ningún dispositivo."
+              },
+              "hints": [
+                {
+                  "en": "What did the factory hand back — a real phone?",
+                  "es": "¿Qué devolvió la fábrica: un teléfono real?"
+                }
+              ]
+            },
+            {
+              "id": "w11-l05e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: fake it! Implement FakeDeviceService : IDeviceService where GetOs returns \"TestOS\". Write Greet(IDeviceService d) => $\"hello from {d.GetOs()}\"; print it with the fake.",
+                "es": "EJECUTABLE: falsifícalo. Implementa FakeDeviceService : IDeviceService cuyo GetOs devuelve \"TestOS\". Escribe Greet(IDeviceService d) => $\"hello from {d.GetOs()}\"; y muéstralo con el falso."
+              },
+              "starter": "// interface + fake implementation + greeting through the contract\n",
+              "tests": [
+                {
+                  "name": "fake injected",
+                  "expectedOutput": "hello from TestOS",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Dependency injection with fakes: the same technique the Testing world deepens next.",
+                "es": "Inyección de dependencias con falsos: la misma técnica que profundiza el mundo de Testing."
+              },
+              "hints": [
+                {
+                  "en": "Console.WriteLine(Greet(new FakeDeviceService()));",
+                  "es": "Console.WriteLine(Greet(new FakeDeviceService()));"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w11-l06-quiz2",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 2 Quiz",
+            "es": "Examen de la unidad 2"
+          },
+          "tip": {
+            "en": "Platform APIs check!",
+            "es": "¡Control de APIs de plataforma!"
+          },
+          "exercises": [
+            {
+              "id": "w11-l06e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Best storage choice for 'remember the user's sound on/off preference'?",
+                "es": "La mejor opción para 'recordar si el sonido está activado'"
+              },
+              "options": [
+                {
+                  "en": "Preferences (key-value, persists automatically)",
+                  "es": "Preferences (clave-valor, persiste automáticamente)"
+                },
+                {
+                  "en": "A full SQL database",
+                  "es": "Una base de datos SQL completa"
+                },
+                {
+                  "en": "A sticky note on the screen",
+                  "es": "Una nota adhesiva en la pantalla"
+                },
+                {
+                  "en": "A static variable (lost on restart)",
+                  "es": "Una variable static (se pierde al reiniciar)"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Simple settings → Preferences. Big structured data → database. Right tool, right job.",
+                "es": "Ajustes simples → Preferences. Datos estructurados grandes → base de datos."
+              },
+              "hints": [
+                {
+                  "en": "One boolean value.",
+                  "es": "Un solo valor booleano."
+                }
+              ]
+            },
+            {
+              "id": "w11-l06e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "DeviceInfo.Platform lets you branch per OS. What's the DANGER of overusing it?",
+                "es": "DeviceInfo.Platform permite ramificar por SO. ¿Cuál es el PELIGRO de abusar de ello?"
+              },
+              "options": [
+                {
+                  "en": "Your shared code fills with platform if-checks — hard to maintain",
+                  "es": "El código compartido se llena de ifs por plataforma: difícil de mantener"
+                },
+                {
+                  "en": "It crashes on Android",
+                  "es": "Falla en Android"
+                },
+                {
+                  "en": "It is not supported",
+                  "es": "No está soportado"
+                },
+                {
+                  "en": "There is no danger",
+                  "es": "No hay peligro"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Prefer interfaces + DI for behavior differences; use platform checks sparingly for small tweaks.",
+                "es": "Prefiere interfaces + DI para diferencias de comportamiento; usa comprobaciones solo para ajustes menores."
+              },
+              "hints": [
+                {
+                  "en": "How many `if Android` lines before it's unmanageable?",
+                  "es": "¿Cuántos `if Android` antes de volverse inmanejable?"
+                }
+              ]
+            },
+            {
+              "id": "w11-l06e3",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": {
+                "en": "Order the dependency-injection registration flow in a MAUI app:",
+                "es": "Ordena el flujo de registro de dependencias en una app MAUI:"
+              },
+              "code": "builder.Services.AddSingleton<IDeviceService, DeviceService>();\nvar app = builder.Build();\nvar device = app.Services.GetService<IDeviceService>();\nConsole.WriteLine(device.GetOs());",
+              "explanation": {
+                "en": "Register → build → resolve → use. The same DI flow as ASP.NET Core and WPF's Microsoft.Extensions.",
+                "es": "Registrar → construir → resolver → usar. El mismo flujo DI que ASP.NET Core y WPF."
+              },
+              "hints": [
+                {
+                  "en": "Register before build; resolve after.",
+                  "es": "Registra antes de construir; resuelve después."
+                }
+              ]
+            },
+            {
+              "id": "w11-l06e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE mini-DI: class Container { Register<T>(T inst); Get<T>() } — register IDeviceService fake, resolve it, print GetOs().",
+                "es": "MINI-DI EJECUTABLE: class Container { Register<T>(T inst); Get<T>() } — registra el fake de IDeviceService, resuélvelo y muestra GetOs()."
+              },
+              "starter": "// tiny generic container + register + resolve\n",
+              "tests": [
+                {
+                  "name": "resolved from container",
+                  "expectedOutput": "TestOS",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "You built a working DI container — now the magic of builder.Services is demystified.",
+                "es": "Construiste un contenedor DI funcional: la magia de builder.Services ya no tiene secretos."
+              },
+              "hints": [
+                {
+                  "en": "class Container { static Dictionary<Type, object> map; public static void Register<T>(T o) => map[typeof(T)] = o!; public static T Get<T>() => (T)map[typeof(T)]; }",
+                  "es": "class Container { static Dictionary<Type, object> map; public static void Register<T>(T o) => map[typeof(T)] = o!; public static T Get<T>() => (T)map[typeof(T)]; }"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w11-l05b-resources",
+          "kind": "lesson",
+          "title": {
+            "en": "Resources: Images, Fonts & Colors",
+            "es": "Recursos: imágenes, fuentes y colores"
+          },
+          "tip": {
+            "en": "MAUI centralizes assets in Resources folder: images (single SVG scaled per platform/DPI), fonts, colors. One file serves every screen density — no more @2x/@3x juggling.",
+            "es": "MAUI centraliza los recursos en la carpeta Resources: imágenes (un solo SVG escalado por plataforma y densidad), fuentes y colores. Un archivo sirve para todas las densidades, sin @2x ni @3x."
+          },
+          "exercises": [
+            {
+              "id": "w11-l05be1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Why does MAUI prefer SVG images for app graphics?",
+                "es": "¿Por qué MAUI prefiere imágenes SVG para los gráficos?"
+              },
+              "options": [
+                {
+                  "en": "One vector file scales crisply to every screen density automatically",
+                  "es": "Un archivo vectorial escala con nitidez a todas las densidades automáticamente"
+                },
+                {
+                  "en": "SVGs are smaller than PNGs always",
+                  "es": "Los SVG siempre pesan menos que los PNG"
+                },
+                {
+                  "en": "PNG is not supported",
+                  "es": "PNG no está soportado"
+                },
+                {
+                  "en": "SVGs animate themselves",
+                  "es": "Los SVG se animan solos"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Vector in, every resolution out — MAUI rasterizes per device at build time.",
+                "es": "Vector entra, todas las resoluciones salen: MAUI rasteriza por dispositivo al compilar."
+              },
+              "hints": [
+                {
+                  "en": "Vectors scale without blur.",
+                  "es": "Los vectores escalan sin borrosidad."
+                }
+              ]
+            },
+            {
+              "id": "w11-l05be2",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the folder that stores fonts, images and colors:",
+                "es": "Completa la carpeta que guarda fuentes, imágenes y colores:"
+              },
+              "code": "MAUI app project\n └── ___",
+              "blanks": [
+                {
+                  "answer": "Resources",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Resources/Fonts, Resources/Images, Resources/Styles — one convention everywhere.",
+                "es": "Resources/Fonts, Resources/Images, Resources/Styles: una convención para todo."
+              },
+              "hints": [
+                {
+                  "en": "Where assets are kept.",
+                  "es": "Donde viven los recursos."
+                }
+              ]
+            },
+            {
+              "id": "w11-l05be3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "You must provide separate icon files for every phone model.",
+                "es": "Debes proveer archivos de icono separados para cada modelo de teléfono."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — single SVG source, MAUI generates all sizes at build.",
+                "es": "Falso: un SVG fuente y MAUI genera todos los tamaños al compilar."
+              },
+              "hints": [
+                {
+                  "en": "One file to rule them all.",
+                  "es": "Un archivo para governarlos a todos."
+                }
+              ]
+            },
+            {
+              "id": "w11-l05be4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: app theming via resources — dictionary of colors {\"primary\": \"#5b5bd6\", \"danger\": \"#ef4444\"}; write GetColor(dict, key) with a null-safe fallback \"#000000\". Print primary, danger and missing.",
+                "es": "EJECUTABLE: tematización por recursos — diccionario de colores {\"primary\": \"#5b5bd6\", \"danger\": \"#ef4444\"}; escribe GetColor(dict, key) con respaldo seguro \"#000000\". Muestra primary, danger y uno inexistente."
+              },
+              "starter": "// dictionary + TryGetValue fallback\n",
+              "tests": [
+                {
+                  "name": "theme lookup",
+                  "expectedOutput": "#5b5bd6\n#ef4444\n#000000",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "TryGetValue + fallback = safe theme lookups, the same defensive pattern as this game's CSS variables.",
+                "es": "TryGetValue + respaldo = búsquedas seguras de tema, el mismo patrón defensivo que las variables CSS de este juego."
+              },
+              "hints": [
+                {
+                  "en": "colors.TryGetValue(key, out var c) ? c : \"#000000\"",
+                  "es": "colors.TryGetValue(key, out var c) ? c : \"#000000\""
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": {
+        "en": "MVVM Reborn & Deploy",
+        "es": "MVVM renace y despliegue"
+      },
+      "lessons": [
+        {
+          "id": "w11-l07-binding",
+          "kind": "lesson",
+          "title": {
+            "en": "Bindings, Reborn",
+            "es": "Bindings, renacidos"
+          },
+          "tip": {
+            "en": "MAUI's binding engine is the same idea as WPF's: {Binding Property} + INotifyPropertyChanged. Your ViewModels from world 10 would run here almost unchanged.",
+            "es": "El motor de binding de MAUI es la misma idea que el de WPF: {Binding Propiedad} + INotifyPropertyChanged. Tus ViewModels del mundo 10 correrían aquí casi sin cambios."
+          },
+          "exercises": [
+            {
+              "id": "w11-l07e1",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the binding to the ViewModel's username:",
+                "es": "Completa el binding al username del ViewModel:"
+              },
+              "code": "<Label Text=\"{Binding ___}\" />",
+              "blanks": [
+                {
+                  "answer": "Username",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Same binding syntax as WPF — path to the property.",
+                "es": "Misma sintaxis de binding que WPF: la ruta a la propiedad."
+              },
+              "hints": [
+                {
+                  "en": "The username property.",
+                  "es": "La propiedad del nombre de usuario."
+                }
+              ]
+            },
+            {
+              "id": "w11-l07e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: reuse your skills — a notified Name property (INotifyPropertyChanged) whose setter fires PropertyChanged with \"Name\". Set once, count events (1).",
+                "es": "EJECUTABLE: reutiliza tus habilidades — propiedad Name notificadora (INotifyPropertyChanged) que lance PropertyChanged con \"Name\". Asigna una vez y cuenta los eventos (1)."
+              },
+              "starter": "using System.ComponentModel;\n\n// notified Name property + event count\n",
+              "tests": [
+                {
+                  "name": "one notification",
+                  "expectedOutput": "1",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Write the ViewModel once — WPF, MAUI, even Blazor pages consume it.",
+                "es": "Escribe el ViewModel una vez: WPF, MAUI e incluso páginas Blazor lo consumen."
+              },
+              "hints": [
+                {
+                  "en": "Same INotifyPropertyChanged pattern; raise with new PropertyChangedEventArgs(\"Name\").",
+                  "es": "Mismo patrón INotifyPropertyChanged; lanza con new PropertyChangedEventArgs(\"Name\")."
+                }
+              ]
+            },
+            {
+              "id": "w11-l07e3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What is XAML Hot Reload?",
+                "es": "¿Qué es XAML Hot Reload?"
+              },
+              "options": [
+                {
+                  "en": "UI changes appear on the running device as you type — no rebuild",
+                  "es": "Los cambios de UI aparecen en el dispositivo en ejecución mientras escribes, sin recompilar"
+                },
+                {
+                  "en": "A CPU stress test",
+                  "es": "Una prueba de estrés de CPU"
+                },
+                {
+                  "en": "Automatic bug fixing",
+                  "es": "Corrección automática de bugs"
+                },
+                {
+                  "en": "An offline mode",
+                  "es": "Un modo sin conexión"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Hot Reload + .NET Hot Restart make mobile development feel as fast as desktop.",
+                "es": "Hot Reload y .NET Hot Restart hacen que desarrollar para móvil se sienta tan ágil como escritorio."
+              },
+              "hints": [
+                {
+                  "en": "Hot = while running.",
+                  "es": "Hot = mientras corre."
+                }
+              ]
+            },
+            {
+              "id": "w11-l07e4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "MAUI's MVVM community toolkit generates PropertyChanged code from [ObservableProperty] attributes, removing boilerplate.",
+                "es": "El toolkit comunitario MVVM de MAUI genera código de PropertyChanged desde atributos [ObservableProperty], eliminando boilerplate."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — source generators write the notification plumbing for you: [ObservableProperty] private string name; is enough.",
+                "es": "Verdadero: los source generators escriben el cableado de notificaciones por ti; [ObservableProperty] private string name; basta."
+              },
+              "hints": [
+                {
+                  "en": "Source generators do the typing.",
+                  "es": "Los source generators escriben por ti."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w11-l08-deploy",
+          "kind": "lesson",
+          "title": {
+            "en": "Shipping to Stores",
+            "es": "Publicar en las tiendas"
+          },
+          "tip": {
+            "en": "MAUI apps ship to Google Play, the Apple App Store and the Microsoft Store. Each store has packaging rules, signing requirements and review — dotnet publish handles the heavy lifting.",
+            "es": "Las apps MAUI se publican en Google Play, el App Store de Apple y la Microsoft Store. Cada tienda tiene reglas de empaquetado, firma y revisión; dotnet publish hace el trabajo pesado."
+          },
+          "exercises": [
+            {
+              "id": "w11-l08e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the store to its package format:",
+                "es": "Relaciona la tienda con su formato de paquete:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Google Play",
+                    "es": "Google Play"
+                  },
+                  "right": {
+                    "en": ".aab (Android App Bundle)",
+                    "es": ".aab (Android App Bundle)"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Apple App Store",
+                    "es": "Apple App Store"
+                  },
+                  "right": {
+                    "en": ".ipa via Xcode/CLI",
+                    "es": ".ipa vía Xcode/CLI"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Microsoft Store",
+                    "es": "Microsoft Store"
+                  },
+                  "right": {
+                    "en": ".msix",
+                    "es": ".msix"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Direct Android APK",
+                    "es": "APK directo para Android"
+                  },
+                  "right": {
+                    "en": "sideloading only",
+                    "es": "solo instalación manual"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Three stores, three packages — one source project.",
+                "es": "Tres tiendas, tres paquetes, un solo proyecto fuente."
+              },
+              "hints": [
+                {
+                  "en": "The Microsoft Store uses MSIX.",
+                  "es": "La Microsoft Store usa MSIX."
+                }
+              ]
+            },
+            {
+              "id": "w11-l08e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Why does store submission require code SIGNING?",
+                "es": "¿Por qué la publicación exige FIRMAR el código?"
+              },
+              "options": [
+                {
+                  "en": "To prove the app comes from you and hasn't been tampered with",
+                  "es": "Para probar que la app es tuya y que nadie la alteró"
+                },
+                {
+                  "en": "To make it faster",
+                  "es": "Para hacerla más rápida"
+                },
+                {
+                  "en": "To translate the app",
+                  "es": "Para traducirla"
+                },
+                {
+                  "en": "Signing is optional everywhere",
+                  "es": "La firma es opcional"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Signing = identity + integrity. Stores and phones verify it before trusting your app.",
+                "es": "Firmar = identidad + integridad. Las tiendas y los teléfonos lo verifican antes de confiar."
+              },
+              "hints": [
+                {
+                  "en": "Identity + integrity.",
+                  "es": "Identidad e integridad."
+                }
+              ]
+            },
+            {
+              "id": "w11-l08e3",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the command publishing a Release build:",
+                "es": "Completa el comando que publica en modo Release:"
+              },
+              "code": "dotnet publish -c ___",
+              "blanks": [
+                {
+                  "answer": "Release",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Release builds optimize and strip debug code — what stores expect.",
+                "es": "Las builds Release optimizan y quitan código de depuración: lo que las tiendas esperan."
+              },
+              "hints": [
+                {
+                  "en": "The opposite of Debug.",
+                  "es": "Lo contrario de Debug."
+                }
+              ]
+            },
+            {
+              "id": "w11-l08e4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "You can target a single platform at publish time even if the project supports all four.",
+                "es": "Puedes apuntar a una sola plataforma al publicar aunque el proyecto soporte las cuatro."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — dotnet publish takes the target framework (net10.0-android, -ios, -windows...). Ship per platform as needed.",
+                "es": "Verdadero: dotnet publish acepta el framework destino (net10.0-android, -ios, -windows). Publica por plataforma según necesites."
+              },
+              "hints": [
+                {
+                  "en": "The TargetFramework from the csproj.",
+                  "es": "El TargetFramework del csproj."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w11-l09-quiz3",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 3 Quiz",
+            "es": "Examen de la unidad 3"
+          },
+          "tip": {
+            "en": "Final MAUI quiz!",
+            "es": "¡Último examen de MAUI!"
+          },
+          "exercises": [
+            {
+              "id": "w11-l09e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What makes MAUI 'multi-platform APP UI'?",
+                "es": "¿Qué hace a MAUI 'multi-platform APP UI'?"
+              },
+              "options": [
+                {
+                  "en": "One C#/XAML project producing native apps on four platforms",
+                  "es": "Un proyecto C#/XAML que produce apps nativas en cuatro plataformas"
+                },
+                {
+                  "en": "It only makes websites",
+                  "es": "Solo hace sitios web"
+                },
+                {
+                  "en": "It translates apps at runtime",
+                  "es": "Traduce apps en tiempo de ejecución"
+                },
+                {
+                  "en": "It requires four separate codebases",
+                  "es": "Requiere cuatro códigos fuente separados"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Shared logic + shared UI, native output.",
+                "es": "Lógica y UI compartidas, salida nativa."
+              },
+              "hints": [
+                {
+                  "en": "One project, many platforms.",
+                  "es": "Un proyecto, muchas plataformas."
+                }
+              ]
+            },
+            {
+              "id": "w11-l09e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the pattern to where you learned it:",
+                "es": "Relaciona el patrón con donde lo aprendiste:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Interfaces + DI for platforms",
+                    "es": "Interfaces + DI para plataformas"
+                  },
+                  "right": {
+                    "en": "world 11 (MAUI)",
+                    "es": "mundo 11 (MAUI)"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "INotifyPropertyChanged",
+                    "es": "INotifyPropertyChanged"
+                  },
+                  "right": {
+                    "en": "world 10 (WPF) — reused here",
+                    "es": "mundo 10 (WPF), reutilizado aquí"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "[Fact] tests",
+                    "es": "pruebas [Fact]"
+                  },
+                  "right": {
+                    "en": "world 12 (Testing) — next!",
+                    "es": "mundo 12 (Testing), ¡siguiente!"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "try/catch around await",
+                    "es": "try/catch alrededor de await"
+                  },
+                  "right": {
+                    "en": "world 6 (Async)",
+                    "es": "mundo 6 (Async)"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Patterns compound — each world reused the last one's tools.",
+                "es": "Los patrones se acumulan: cada mundo reutilizó las herramientas del anterior."
+              },
+              "hints": [
+                {
+                  "en": "Chronological order.",
+                  "es": "Orden cronológico."
+                }
+              ]
+            },
+            {
+              "id": "w11-l09e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: cross-platform localization — record strings per language and pick. class Strings { public string Hello => Lang == \"es\" ? \"hola\" : \"hello\"; public string Lang; } — print Hello for \"es\" and \"en\".",
+                "es": "EJECUTABLE: localización multiplataforma — class Strings { public string Hello => Lang == \"es\" ? \"hola\" : \"hello\"; public string Lang; } — muestra Hello para \"es\" y \"en\"."
+              },
+              "starter": "// per-language strings object\n",
+              "tests": [
+                {
+                  "name": "localized hello",
+                  "expectedOutput": "hola\nhello",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "This game itself localizes EN/ES this way — you now understand its i18n core.",
+                "es": "Este juego localiza EN/ES exactamente así: ya entiendes su núcleo i18n."
+              },
+              "hints": [
+                {
+                  "en": "Two Strings objects with different Lang values; print s.Hello each.",
+                  "es": "Dos objetos Strings con Lang distinto; imprime s.Hello en cada uno."
+                }
+              ]
+            },
+            {
+              "id": "w11-l09e4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Skills from this world transfer to Blazor (bindings), WPF (XAML/MVVM) and ASP.NET Core (DI).",
+                "es": "Las habilidades de este mundo se transfieren a Blazor (bindings), WPF (XAML/MVVM) y ASP.NET Core (DI)."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — that's the quiet superpower of .NET: learn one ecosystem, ship everywhere.",
+                "es": "Verdadero: el superpoder silencioso de .NET es aprender un ecosistema y publicar en todas partes."
+              },
+              "hints": [
+                {
+                  "en": "You've literally done all three.",
+                  "es": "De hecho ya hiciste los tres."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w11-l10-boss",
+          "kind": "boss",
+          "title": {
+            "en": "BOSS: The Four-Headed Platform",
+            "es": "JEFE: La Bestia de cuatro plataformas"
+          },
+          "tip": {
+            "en": "One app, four platforms, every skill at once: interfaces, DI, fakes, localization. Tame the beast! 📱🔥",
+            "es": "Una app, cuatro plataformas, todas las habilidades: interfaces, DI, falsos y localización. ¡Domesticar a la bestia! 📱🔥"
+          },
+          "exercises": [
+            {
+              "id": "w11-l10e1",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Head 1: interface IGreeter with string Greet(); implement MauiGreeter (\"Hi from MAUI!\") and FakeGreeter (\"hi, test\").",
+                "es": "Cabeza 1: interfaz IGreeter con string Greet(); implementa MauiGreeter (\"Hi from MAUI!\") y FakeGreeter (\"hi, test\")."
+              },
+              "starter": "// interface + two implementations\n",
+              "tests": [
+                {
+                  "name": "greeters ready",
+                  "expectedOutput": "2",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Count the implementations via typeof checks — print 2 when both exist.",
+                "es": "Cuenta las implementaciones con typeof — muestra 2 si existen ambas."
+              },
+              "hints": [
+                {
+                  "en": "Print the count of types assignable to IGreeter from a known list.",
+                  "es": "Muestra el conteo de tipos asignables a IGreeter de una lista conocida."
+                }
+              ]
+            },
+            {
+              "id": "w11-l10e2",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Head 2: DI container — register MauiGreeter as IGreeter, resolve it, print its Greet().",
+                "es": "Cabeza 2: contenedor DI — registra MauiGreeter como IGreeter, resuélvelo y muestra Greet()."
+              },
+              "starter": "// register + resolve with your mini container\n",
+              "tests": [
+                {
+                  "name": "resolved greeting",
+                  "expectedOutput": "Hi from MAUI!",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Your Phase-3 skills: register once, resolve anywhere.",
+                "es": "Habilidades de la fase 3: registra una vez, resuelve donde sea."
+              },
+              "hints": [
+                {
+                  "en": "Container.Register<IGreeter>(new MauiGreeter()); Container.Get<IGreeter>().Greet()",
+                  "es": "Container.Register<IGreeter>(new MauiGreeter()); Container.Get<IGreeter>().Greet()"
+                }
+              ]
+            },
+            {
+              "id": "w11-l10e3",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Head 3: localization — the resolved greeter should greet in the user's language. Given lang \"es\", MauiGreeter.Greet() returns \"¡Hola desde MAUI!\"; \"en\" returns \"Hi from MAUI!\". Print both.",
+                "es": "Cabeza 3: localización — el greeter debe saludar en el idioma del usuario. Con lang \"es\", MauiGreeter.Greet() devuelve \"¡Hola desde MAUI!\"; con \"en\", \"Hi from MAUI!\". Muestra ambos."
+              },
+              "starter": "// language-aware greeter\n",
+              "tests": [
+                {
+                  "name": "both languages",
+                  "expectedOutput": "¡Hola desde MAUI!\nHi from MAUI!",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Bilingual apps are just parameterized greetings — you've built one.",
+                "es": "Las apps bilingües son saludos parametrizados: acabas de construir una."
+              },
+              "hints": [
+                {
+                  "en": "Constructor takes lang; Greet switches on it.",
+                  "es": "El constructor recibe lang y Greet decide con él."
+                }
+              ]
+            },
+            {
+              "id": "w11-l10e4",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Final head: prove testability — resolve the FakeGreeter through the container (registered when a \"test\" flag is set) and print its Greet(). The beast bows: MAUI mastered! 📱🏆",
+                "es": "Cabeza final: demuestra testeabilidad — resuelve el FakeGreeter del contenedor (registrado con bandera \"test\") y muestra su Greet(). La bestia se inclina: ¡MAUI dominado! 📱🏆"
+              },
+              "starter": "// register per flag, resolve, greet\n",
+              "tests": [
+                {
+                  "name": "fake resolved",
+                  "expectedOutput": "hi, test",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Platform services, DI, localization AND testability — the complete multi-platform toolkit. MAUI: conquered! 📱🏆",
+                "es": "Servicios de plataforma, DI, localización y testeabilidad: el kit completo multiplataforma. ¡MAUI conquistado! 📱🏆"
+              },
+              "hints": [
+                {
+                  "en": "if (testMode) register FakeGreeter else MauiGreeter; resolve and print.",
+                  "es": "if (testMode) registra FakeGreeter; si no, MauiGreeter; resuelve y muestra."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3b",
+      "title": {
+        "en": "Real Device Powers",
+        "es": "Poderes reales de dispositivo"
+      },
+      "lessons": [
+        {
+          "id": "w11-l06b-async",
+          "kind": "lesson",
+          "title": {
+            "en": "Async Device Work",
+            "es": "Trabajo asíncrono de dispositivo"
+          },
+          "tip": {
+            "en": "Device APIs are slow (GPS takes seconds, network takes longer) — so they're ALL async. Your world-6 skills are mandatory here: await everything.",
+            "es": "Las APIs de dispositivo son lentas (el GPS tarda segundos, la red más) por eso son TODAS async. Tus habilidades del mundo 6 son obligatorias aquí: espera todo con await."
+          },
+          "exercises": [
+            {
+              "id": "w11-l06be1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Why is Geolocation.GetLastKnownLocationAsync() async?",
+                "es": "¿Por qué Geolocation.GetLastKnownLocationAsync() es async?"
+              },
+              "options": [
+                {
+                  "en": "GPS hardware can take seconds — the thread must not block",
+                  "es": "El hardware del GPS puede tardar segundos: el hilo no debe bloquearse"
+                },
+                {
+                  "en": "It's a naming fashion",
+                  "es": "Es una moda de nombres"
+                },
+                {
+                  "en": "GPS is instant",
+                  "es": "El GPS es instantáneo"
+                },
+                {
+                  "en": "Because of the database",
+                  "es": "Por la base de datos"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Hardware latency is unpredictable; async keeps the UI painting while the chip works.",
+                "es": "La latencia del hardware es impredecible; async mantiene la UI fluida mientras el chip trabaja."
+              },
+              "hints": [
+                {
+                  "en": "Hardware takes time.",
+                  "es": "El hardware toma tiempo."
+                }
+              ]
+            },
+            {
+              "id": "w11-l06be2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: simulate a GPS service — interface IGeoService with Task<string> GetPositionAsync(); fake implementation awaits 20ms then returns \"lat:10,lon:20\". Await it and print.",
+                "es": "EJECUTABLE: simula un GPS — interfaz IGeoService con Task<string> GetPositionAsync(); el falso espera 20ms y devuelve \"lat:10,lon:20\". Espera la tarea y muestra el resultado."
+              },
+              "starter": "// interface with async method + fake + await\n",
+              "tests": [
+                {
+                  "name": "position fetched",
+                  "expectedOutput": "lat:10,lon:20",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Interface + async + fake: the complete recipe for testable device code.",
+                "es": "Interfaz + async + falso: la receta completa para código de dispositivo testeable."
+              },
+              "hints": [
+                {
+                  "en": "async Task<string> GetPositionAsync() { await Task.Delay(20); return \"lat:10,lon:20\"; }",
+                  "es": "async Task<string> GetPositionAsync() { await Task.Delay(20); return \"lat:10,lon:20\"; }"
+                }
+              ]
+            },
+            {
+              "id": "w11-l06be3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What is a common real-world device permission flow?",
+                "es": "¿Cuál es un flujo común de permisos de dispositivo?"
+              },
+              "options": [
+                {
+                  "en": "Check/Request permission BEFORE calling the API (e.g. location)",
+                  "es": "Comprobar/Solicitar permiso ANTES de llamar a la API (p. ej. ubicación)"
+                },
+                {
+                  "en": "Permissions never exist on phones",
+                  "es": "Los permisos no existen en teléfonos"
+                },
+                {
+                  "en": "All permissions are granted at install",
+                  "es": "Todos los permisos se otorgan al instalar"
+                },
+                {
+                  "en": "Permissions only apply to cameras",
+                  "es": "Los permisos solo aplican a cámaras"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Location, camera, microphone: check status, request if needed, THEN call the API — handle the 'denied' case too.",
+                "es": "Ubicación, cámara, micrófono: comprueba el estado, pide si hace falta y LLAMA a la API; también maneja el 'denegado'."
+              },
+              "hints": [
+                {
+                  "en": "Ask, then use.",
+                  "es": "Pide, luego usa."
+                }
+              ]
+            },
+            {
+              "id": "w11-l06be4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: permission-gated service — interface IGeoService also has Task<bool> HasPermissionAsync(). Fake: permission true, position \"ok\". Write SafeGetPositionAsync that checks first and returns \"denied\" when no permission; print both branches (granted: \"ok\", denied: \"denied\").",
+                "es": "EJECUTABLE: servicio con permiso — IGeoService también tiene Task<bool> HasPermissionAsync(). El falso: permiso true y posición \"ok\". Escribe SafeGetPositionAsync que compruebe primero y devuelva \"denied\" sin permiso; muestra ambas ramas (\"ok\" y \"denied\")."
+              },
+              "starter": "// check permission, then fetch; both branches\n",
+              "tests": [
+                {
+                  "name": "both branches",
+                  "expectedOutput": "ok\ndenied",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Permission gates are just ifs before awaits — but forgetting them breaks real apps.",
+                "es": "Las puertas de permiso son simples ifs antes del await; olvidarlas rompe apps reales."
+              },
+              "hints": [
+                {
+                  "en": "if (await geo.HasPermissionAsync()) return await geo.GetPositionAsync(); return \"denied\";",
+                  "es": "if (await geo.HasPermissionAsync()) return await geo.GetPositionAsync(); return \"denied\";"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w11-l06c-lifecycle",
+          "kind": "lesson",
+          "title": {
+            "en": "App Lifecycle",
+            "es": "Ciclo de vida de la app"
+          },
+          "tip": {
+            "en": "Mobile apps pause and resume constantly (a call comes in!). MAUI notifies via lifecycle events: save state on sleep, restore on resume. Your streak would vanish without it.",
+            "es": "Las apps móviles se pausan y reanudan constantemente (¡llamada entrante!). MAUI avisa con eventos del ciclo de vida: guarda estado al dormir y restaura al reanudar. Sin esto, tu racha desaparecería."
+          },
+          "exercises": [
+            {
+              "id": "w11-l06ce1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the lifecycle event to your action:",
+                "es": "Relaciona el evento del ciclo de vida con tu acción:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "OnStart",
+                    "es": "OnStart"
+                  },
+                  "right": {
+                    "en": "initial load / first setup",
+                    "es": "carga inicial y configuración"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "OnSleep",
+                    "es": "OnSleep"
+                  },
+                  "right": {
+                    "en": "save state — may be killed anytime after",
+                    "es": "guarda estado: pueden matar la app después"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "OnResume",
+                    "es": "OnResume"
+                  },
+                  "right": {
+                    "en": "refresh anything time-sensitive",
+                    "es": "refresca lo sensible al tiempo"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Exit",
+                    "es": "Exit"
+                  },
+                  "right": {
+                    "en": "final cleanup",
+                    "es": "limpieza final"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "OnSleep is the critical one: your last chance to persist.",
+                "es": "OnSleep es el crítico: tu última oportunidad de persistir."
+              },
+              "hints": [
+                {
+                  "en": "Sleep = save.",
+                  "es": "Sleep = guardar."
+                }
+              ]
+            },
+            {
+              "id": "w11-l06ce2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "A phone call interrupts your game. Which event fires, and what should you do?",
+                "es": "Una llamada interrumpe tu juego. ¿Qué evento se dispara y qué debes hacer?"
+              },
+              "options": [
+                {
+                  "en": "OnSleep — persist progress immediately",
+                  "es": "OnSleep: persiste el progreso inmediatamente"
+                },
+                {
+                  "en": "Nothing — the OS saves games",
+                  "es": "Nada: el SO guarda los juegos"
+                },
+                {
+                  "en": "Exit — close everything",
+                  "es": "Exit: cierra todo"
+                },
+                {
+                  "en": "OnStart — reload everything",
+                  "es": "OnStart: recarga todo"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "OnSleep fires; persist NOW or the OS may reclaim memory and lose it.",
+                "es": "Se dispara OnSleep; persiste YA o el SO puede reclamar la memoria y perderlo."
+              },
+              "hints": [
+                {
+                  "en": "Save point!",
+                  "es": "¡Punto de guardado!"
+                }
+              ]
+            },
+            {
+              "id": "w11-l06ce3",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: simulate lifecycle persistence — a Lifecycler with Save() storing state and Restore() returning it. Call Save(\"mid-game\"), then Restore and print.",
+                "es": "EJECUTABLE: simula la persistencia — un Lifecycler con Save() que guarda estado y Restore() que lo devuelve. Llama Save(\"mid-game\"), luego Restore y muestra."
+              },
+              "starter": "// Save + Restore roundtrip\n",
+              "tests": [
+                {
+                  "name": "state survived",
+                  "expectedOutput": "mid-game",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Same pattern as real OnSleep/OnResume — just without the OS.",
+                "es": "El mismo patrón que OnSleep/OnResume reales, sin el SO."
+              },
+              "hints": [
+                {
+                  "en": "Store the string in a field on Save; Restore returns it.",
+                  "es": "Guarda el string en un campo en Save; Restore lo devuelve."
+                }
+              ]
+            },
+            {
+              "id": "w11-l06ce4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "On resume, time-based data (streaks, daily bonuses) should be revalidated.",
+                "es": "Al reanudar, los datos sensibles al tiempo (rachas, bonos diarios) deben revalidarse."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — a 'day' may have passed while backgrounded. This game re-checks streaks exactly this way.",
+                "es": "Verdadero: puede haber pasado un 'día' en segundo plano. Este juego revalida las rachas exactamente así."
+              },
+              "hints": [
+                {
+                  "en": "What changed while you were away?",
+                  "es": "¿Qué cambió mientras no mirabas?"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w11-l10c-shell",
+          "kind": "lesson",
+          "title": {
+            "en": "Shell Navigation",
+            "es": "Navegación Shell"
+          },
+          "tip": {
+            "en": "MAUI Shell is the app skeleton: FlyoutItem menus, Tabs, and URI-based navigation with Shell.Current.GoToAsync(\"details?id=5\") — URLs for your app, like Blazor routing.",
+            "es": "MAUI Shell es el esqueleto de la app: menús FlyoutItem, Tabs y navegación por rutas con Shell.Current.GoToAsync(\"details?id=5\"): URLs para tu app, como el routing de Blazor."
+          },
+          "exercises": [
+            {
+              "id": "w11-l10ce1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What is MAUI Shell?",
+                "es": "¿Qué es MAUI Shell?"
+              },
+              "options": [
+                {
+                  "en": "The app skeleton: menus, tabs and URI-based navigation",
+                  "es": "El esqueleto de la app: menús, tabs y navegación por URI"
+                },
+                {
+                  "en": "A Linux terminal",
+                  "es": "Una terminal de Linux"
+                },
+                {
+                  "en": "An icon pack",
+                  "es": "Un paquete de iconos"
+                },
+                {
+                  "en": "A database shell",
+                  "es": "Una consola de base de datos"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Shell reduces app chrome to declarative descriptions plus URI navigation.",
+                "es": "Shell reduce el armazón de la app a descripciones declarativas y navegación por URI."
+              },
+              "hints": [
+                {
+                  "en": "The outer skeleton of the app.",
+                  "es": "El armazón exterior de la app."
+                }
+              ]
+            },
+            {
+              "id": "w11-l10ce2",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the navigation call to the details route:",
+                "es": "Completa la llamada de navegación a la ruta details:"
+              },
+              "code": "await Shell.Current.___(\"details?id=5\");",
+              "blanks": [
+                {
+                  "answer": "GoToAsync",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "GoToAsync navigates by URI — with query-string arguments.",
+                "es": "GoToAsync navega por URI, con argumentos tipo query string."
+              },
+              "hints": [
+                {
+                  "en": "Go + To + Async.",
+                  "es": "Go + To + Async."
+                }
+              ]
+            },
+            {
+              "id": "w11-l10ce3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "How does the details page receive the id=5 argument?",
+                "es": "¿Cómo recibe la página details el argumento id=5?"
+              },
+              "options": [
+                {
+                  "en": "[QueryProperty(nameof(Id), \"id\")] on the page class",
+                  "es": "[QueryProperty(nameof(Id), \"id\")] en la clase de la página"
+                },
+                {
+                  "en": "It doesn't — arguments are lost",
+                  "es": "No puede: los argumentos se pierden"
+                },
+                {
+                  "en": "Through the file system",
+                  "es": "A través del sistema de archivos"
+                },
+                {
+                  "en": "Only via global variables",
+                  "es": "Solo con variables globales"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "QueryProperty attributes map URI query params to page properties.",
+                "es": "Los atributos QueryProperty mapean parámetros de la URI a propiedades de la página."
+              },
+              "hints": [
+                {
+                  "en": "Query + Property.",
+                  "es": "Query + Property."
+                }
+              ]
+            },
+            {
+              "id": "w11-l10ce4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "URI-based navigation means pages can be reached by name from anywhere in the app.",
+                "es": "La navegación por URI permite alcanzar páginas por nombre desde cualquier parte de la app."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — GoToAsync(\"//login\") works from any page; routes are global.",
+                "es": "Verdadero: GoToAsync(\"//login\") funciona desde cualquier página; las rutas son globales."
+              },
+              "hints": [
+                {
+                  "en": "Global route table.",
+                  "es": "Tabla de rutas global."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w11-l10d-a11y",
+          "kind": "lesson",
+          "title": {
+            "en": "Accessibility",
+            "es": "Accesibilidad"
+          },
+          "tip": {
+            "en": "Great mobile apps work with screen readers and large fonts: SemanticProperties.Description on controls, AutomationId for tests, and scalable fonts. Everyone deserves to play.",
+            "es": "Las grandes apps móviles funcionan con lectores de pantalla y fuentes grandes: SemanticProperties.Description en los controles, AutomationId para pruebas y fuentes escalables. Todos merecen jugar."
+          },
+          "exercises": [
+            {
+              "id": "w11-l10de1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What does SemanticProperties.Description do?",
+                "es": "¿Qué hace SemanticProperties.Description?"
+              },
+              "options": [
+                {
+                  "en": "Gives screen readers a spoken description of the control",
+                  "es": "Da a los lectores de pantalla una descripción hablada del control"
+                },
+                {
+                  "en": "Adds a tooltip on hover",
+                  "es": "Añade un tooltip al pasar el ratón"
+                },
+                {
+                  "en": "Changes the font size",
+                  "es": "Cambia el tamaño de fuente"
+                },
+                {
+                  "en": "Translates the app",
+                  "es": "Traduce la app"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "It's how a blind user's screen reader announces your button.",
+                "es": "Así anuncia el lector de pantalla tu botón a un usuario ciego."
+              },
+              "hints": [
+                {
+                  "en": "Description for the ears.",
+                  "es": "Descripción para los oídos."
+                }
+              ]
+            },
+            {
+              "id": "w11-l10de2",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the property letting tests find a control:",
+                "es": "Completa la propiedad que permite a las pruebas encontrar un control:"
+              },
+              "code": "<Button Automation___=\"login-button\" />",
+              "blanks": [
+                {
+                  "answer": "Id",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "AutomationId = stable handle for UI tests.",
+                "es": "AutomationId = identificador estable para pruebas de UI."
+              },
+              "hints": [
+                {
+                  "en": "Automation + Id.",
+                  "es": "Automation + Id."
+                }
+              ]
+            },
+            {
+              "id": "w11-l10de3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Accessibility only matters for a small audience and can wait.",
+                "es": "La accesibilidad solo importa para una audiencia pequeña y puede esperar."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — screen readers, large fonts and contrast help millions (and improve UX for everyone).",
+                "es": "Falso: lectores de pantalla, fuentes grandes y contraste ayudan a millones (y mejoran la UX de todos)."
+              },
+              "hints": [
+                {
+                  "en": "Millions of users.",
+                  "es": "Millones de usuarios."
+                }
+              ]
+            },
+            {
+              "id": "w11-l10de4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: scalable fonts — FontSize = base * scaleFactor, clamped to max 28. Base 14 with scale 1.3 prints 18.2; base 25 prints 28.",
+                "es": "EJECUTABLE: fuentes escalables — FontSize = base * factor, con máximo 28. Base 14 con escala 1.3 muestra 18.2; base 25 muestra 28."
+              },
+              "starter": "// scale + clamp\n",
+              "tests": [
+                {
+                  "name": "scaled fonts",
+                  "expectedOutput": "18.2\n28",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Font auto-scaling with a clamp: readable at every setting, never broken.",
+                "es": "Escalado de fuente con límite: legible en cualquier ajuste, nunca roto."
+              },
+              "hints": [
+                {
+                  "en": "Math.Min(28, 14 * 1.3) then Math.Min(28, 25 * 1.3)",
+                  "es": "Math.Min(28, 14 * 1.3) luego Math.Min(28, 25 * 1.3)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

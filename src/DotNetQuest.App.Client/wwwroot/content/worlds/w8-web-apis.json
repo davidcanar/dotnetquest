@@ -1,0 +1,2368 @@
+{
+  "id": "w8-web-apis",
+  "order": 8,
+  "track": "web",
+  "title": {
+    "en": "ASP.NET Core Web APIs",
+    "es": "Web APIs con ASP.NET Core"
+  },
+  "subtitle": {
+    "en": "Build real HTTP endpoints — the game actually calls them over the wire!",
+    "es": "Crea endpoints HTTP reales: ¡el juego los llama de verdad por la red!"
+  },
+  "intro": {
+    "en": "APIs are how apps talk: your game calls this website's API right now. Here you build REAL endpoints — and the exercises send real HTTP requests to them!",
+    "es": "Las APIs son como hablan las apps: tu juego llama ahora mismo a la API de este sitio. Aquí construyes endpoints REALES y los ejercicios les envían peticiones HTTP de verdad."
+  },
+  "icon": "🌐",
+  "color": "#3b82f6",
+  "cheatSheet": [
+    {
+      "title": {
+        "en": "Minimal APIs",
+        "es": "Minimal APIs"
+      },
+      "items": [
+        {
+          "en": "var builder = WebApplication.CreateBuilder();",
+          "es": "var builder = WebApplication.CreateBuilder();"
+        },
+        {
+          "en": "var app = builder.Build();",
+          "es": "var app = builder.Build();"
+        },
+        {
+          "en": "app.MapGet(\"/hello\", () => \"world\");",
+          "es": "app.MapGet(\"/hello\", () => \"world\");"
+        },
+        {
+          "en": "return app;  // the harness hosts it",
+          "es": "return app;  // el sistema lo aloja"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "HTTP verbs",
+        "es": "Verbos HTTP"
+      },
+      "items": [
+        {
+          "en": "GET = read · POST = create · PUT = replace · DELETE = remove",
+          "es": "GET = leer · POST = crear · PUT = reemplazar · DELETE = borrar"
+        },
+        {
+          "en": "200 OK · 201 Created · 404 Not Found · 400 Bad Request",
+          "es": "200 OK · 201 Created · 404 Not Found · 400 Bad Request"
+        },
+        {
+          "en": "Results.Ok(obj) · Results.NotFound()",
+          "es": "Results.Ok(obj) · Results.NotFound()"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Routes",
+        "es": "Rutas"
+      },
+      "items": [
+        {
+          "en": "app.MapGet(\"/players/{id}\", (int id) => ...)  // route parameter",
+          "es": "app.MapGet(\"/players/{id}\", (int id) => ...)  // parámetro de ruta"
+        },
+        {
+          "en": "app.MapGet(\"/search?q=ada\", (string q) => ...)  // query string",
+          "es": "app.MapGet(\"/search?q=ada\", (string q) => ...)  // query string"
+        }
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "u1",
+      "title": {
+        "en": "HTTP & REST",
+        "es": "HTTP y REST"
+      },
+      "lessons": [
+        {
+          "id": "w8-l01-http",
+          "kind": "lesson",
+          "title": {
+            "en": "How the Web Talks",
+            "es": "Cómo habla la web"
+          },
+          "tip": {
+            "en": "HTTP is a conversation: the client sends a request (method + path), the server answers with a response (status + body). Everything on the web is this dance.",
+            "es": "HTTP es una conversación: el cliente envía una petición (método + ruta) y el servidor responde (estado + cuerpo). Todo en la web es este baile."
+          },
+          "exercises": [
+            {
+              "id": "w8-l01e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the HTTP verb to its meaning:",
+                "es": "Relaciona el verbo HTTP con su significado:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "GET",
+                    "es": "GET"
+                  },
+                  "right": {
+                    "en": "read data — never changes anything",
+                    "es": "leer datos: nunca cambia nada"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "POST",
+                    "es": "POST"
+                  },
+                  "right": {
+                    "en": "create something new",
+                    "es": "crear algo nuevo"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "PUT",
+                    "es": "PUT"
+                  },
+                  "right": {
+                    "en": "replace something entirely",
+                    "es": "reemplazar algo por completo"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "DELETE",
+                    "es": "DELETE"
+                  },
+                  "right": {
+                    "en": "remove it",
+                    "es": "eliminarlo"
+                  }
+                }
+              ],
+              "explanation": {
+                "en": "CRUD mapped to verbs: GET/POST/PUT/DELETE ≈ Read/Create/Update/Delete.",
+                "es": "CRUD mapeado a verbos: GET/POST/PUT/DELETE ≈ Leer/Crear/Actualizar/Borrar."
+              },
+              "hints": [
+                {
+                  "en": "POST = push something new to the server.",
+                  "es": "POST = empujar algo nuevo al servidor."
+                }
+              ]
+            },
+            {
+              "id": "w8-l01e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the status code to its meaning:",
+                "es": "Relaciona el código de estado con su significado:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "200",
+                    "es": "200"
+                  },
+                  "right": {
+                    "en": "OK — here's your data",
+                    "es": "OK: aquí están tus datos"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "404",
+                    "es": "404"
+                  },
+                  "right": {
+                    "en": "Not Found — no such thing",
+                    "es": "Not Found: no existe"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "400",
+                    "es": "400"
+                  },
+                  "right": {
+                    "en": "Bad Request — your input is broken",
+                    "es": "Bad Request: tu entrada está rota"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "201",
+                    "es": "201"
+                  },
+                  "right": {
+                    "en": "Created — your new thing exists",
+                    "es": "Created: tu cosa nueva existe"
+                  }
+                }
+              ],
+              "explanation": {
+                "en": "2xx = success, 4xx = your fault, 5xx = server's fault.",
+                "es": "2xx = éxito, 4xx = culpa tuya, 5xx = culpa del servidor."
+              },
+              "hints": [
+                {
+                  "en": "404 is the famous one.",
+                  "es": "El 404 es el famoso."
+                }
+              ]
+            },
+            {
+              "id": "w8-l01e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Your browser loads this very page. Which verb did it use?",
+                "es": "Tu navegador carga esta misma página. ¿Qué verbo usó?"
+              },
+              "options": [
+                {
+                  "en": "GET",
+                  "es": "GET"
+                },
+                {
+                  "en": "POST",
+                  "es": "POST"
+                },
+                {
+                  "en": "DELETE",
+                  "es": "DELETE"
+                },
+                {
+                  "en": "PUT",
+                  "es": "PUT"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Loading a page = fetching data = GET. That's why pages don't change data by just being viewed.",
+                "es": "Cargar una página = obtener datos = GET. Por eso ver una página no cambia datos."
+              },
+              "hints": [
+                {
+                  "en": "Reading, not writing.",
+                  "es": "Leer, no escribir."
+                }
+              ]
+            },
+            {
+              "id": "w8-l01e4",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "An API is a way for programs to talk to a server over HTTP using structured data.",
+                "es": "Una API es una forma de que los programas hablen con un servidor por HTTP usando datos estructurados."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — Application Programming Interface: programs as clients instead of humans with browsers.",
+                "es": "Verdadero: Interfaz de Programación de Aplicaciones; los programas son los clientes."
+              },
+              "hints": [
+                {
+                  "en": "You ARE the program talking to this game's API right now!",
+                  "es": "¡Este juego habla con su propia API ahora mismo!"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w8-l02-rest",
+          "kind": "lesson",
+          "title": {
+            "en": "REST: URLs That Make Sense",
+            "es": "REST: URLs con sentido"
+          },
+          "tip": {
+            "en": "REST designs URLs as nouns and verbs as HTTP methods: GET /players/3 reads player 3; DELETE /players/3 removes it. Predictable = usable.",
+            "es": "REST diseña URLs como sustantivos y los verbos como métodos HTTP: GET /players/3 lee al jugador 3; DELETE /players/3 lo elimina. Predecible = utilizable."
+          },
+          "exercises": [
+            {
+              "id": "w8-l02e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which URL follows REST conventions for fetching player number 3?",
+                "es": "¿Qué URL sigue las convenciones REST para obtener al jugador 3?"
+              },
+              "options": [
+                {
+                  "en": "GET /players/3",
+                  "es": "GET /players/3"
+                },
+                {
+                  "en": "GET /getPlayers?id=3",
+                  "es": "GET /getPlayers?id=3"
+                },
+                {
+                  "en": "GET /api/fetchPlayerNumberThree",
+                  "es": "GET /api/fetchPlayerNumberThree"
+                },
+                {
+                  "en": "POST /players/3",
+                  "es": "POST /players/3"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Nouns for resources, no verbs in the URL — the HTTP method IS the verb.",
+                "es": "Sustantivos para recursos, sin verbos en la URL: el método HTTP ES el verbo."
+              },
+              "hints": [
+                {
+                  "en": "The verb goes in the method, not the path.",
+                  "es": "El verbo va en el método, no en la ruta."
+                }
+              ]
+            },
+            {
+              "id": "w8-l02e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match each action to its REST endpoint:",
+                "es": "Relaciona cada acción con su endpoint REST:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "list all quests",
+                    "es": "listar todas las misiones"
+                  },
+                  "right": {
+                    "en": "GET /quests",
+                    "es": "GET /quests"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "create a quest",
+                    "es": "crear una misión"
+                  },
+                  "right": {
+                    "en": "POST /quests",
+                    "es": "POST /quests"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "read quest 7",
+                    "es": "leer la misión 7"
+                  },
+                  "right": {
+                    "en": "GET /quests/7",
+                    "es": "GET /quests/7"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "delete quest 7",
+                    "es": "borrar la misión 7"
+                  },
+                  "right": {
+                    "en": "DELETE /quests/7",
+                    "es": "DELETE /quests/7"
+                  }
+                }
+              ],
+              "explanation": {
+                "en": "Same noun, four verbs — a complete REST resource.",
+                "es": "Mismo sustantivo, cuatro verbos: un recurso REST completo."
+              },
+              "hints": [
+                {
+                  "en": "Same path, different verb.",
+                  "es": "Misma ruta, distinto verbo."
+                }
+              ]
+            },
+            {
+              "id": "w8-l02e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "GET requests should never change data on the server.",
+                "es": "Las peticiones GET nunca deberían cambiar datos del servidor."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — GET is safe. Preloaders, crawlers and browsers prefetch GETs constantly; a GET that deletes would be chaos.",
+                "es": "Verdadero: GET es seguro. Los navegadores prefetchean GETs constantemente; un GET que borre sería el caos."
+              },
+              "hints": [
+                {
+                  "en": "Safe = no side effects.",
+                  "es": "Seguro = sin efectos secundarios."
+                }
+              ]
+            },
+            {
+              "id": "w8-l02e4",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the REST path for updating item 12 (whole replacement):",
+                "es": "Completa la ruta REST para actualizar el item 12 (reemplazo completo):"
+              },
+              "code": "PUT /items/___",
+              "blanks": [
+                {
+                  "answer": "12",
+                  "caseSensitive": false
+                }
+              ],
+              "explanation": {
+                "en": "Resource id in the path, PUT method, done.",
+                "es": "El id del recurso en la ruta, método PUT, listo."
+              },
+              "hints": [
+                {
+                  "en": "The item number.",
+                  "es": "El número del item."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w8-l03-quiz1",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 1 Quiz",
+            "es": "Examen de la unidad 1"
+          },
+          "tip": {
+            "en": "HTTP + REST fundamentals!",
+            "es": "¡Fundamentos de HTTP y REST!"
+          },
+          "exercises": [
+            {
+              "id": "w8-l03e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What travels in an HTTP request?",
+                "es": "¿Qué viaja en una petición HTTP?"
+              },
+              "options": [
+                {
+                  "en": "Method, path, headers and an optional body",
+                  "es": "Método, ruta, cabeceras y un cuerpo opcional"
+                },
+                {
+                  "en": "Only the URL",
+                  "es": "Solo la URL"
+                },
+                {
+                  "en": "The client's entire hard drive",
+                  "es": "Todo el disco duro del cliente"
+                },
+                {
+                  "en": "A fax of the request",
+                  "es": "Un fax de la petición"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Method + path pick the action; headers add metadata; body carries data (POST/PUT).",
+                "es": "Método + ruta eligen la acción; las cabeceras añaden metadatos; el cuerpo lleva datos (POST/PUT)."
+              },
+              "hints": [
+                {
+                  "en": "Four parts, one optional.",
+                  "es": "Cuatro partes, una opcional."
+                }
+              ]
+            },
+            {
+              "id": "w8-l03e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "A client posts invalid JSON. Best status code?",
+                "es": "Un cliente envía JSON inválido. ¿Mejor código de estado?"
+              },
+              "options": [
+                {
+                  "en": "400 Bad Request",
+                  "es": "400 Bad Request"
+                },
+                {
+                  "en": "200 OK",
+                  "es": "200 OK"
+                },
+                {
+                  "en": "500 Internal Server Error",
+                  "es": "500 Internal Server Error"
+                },
+                {
+                  "en": "404 Not Found",
+                  "es": "404 Not Found"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The CLIENT broke the contract → 4xx. 500 would blame your server unfairly.",
+                "es": "El CLIENTE rompió el contrato → 4xx. Un 500 culparía injustamente a tu servidor."
+              },
+              "hints": [
+                {
+                  "en": "Whose fault is it?",
+                  "es": "¿De quién es la culpa?"
+                }
+              ]
+            },
+            {
+              "id": "w8-l03e3",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the response status for successful creation:",
+                "es": "Completa el estado de una creación exitosa:"
+              },
+              "code": "return Results.___(createdThing);  // 201",
+              "blanks": [
+                {
+                  "answer": "Created",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Results.Created sends 201 — 'your new thing exists'.",
+                "es": "Results.Created envía 201: 'tu cosa nueva existe'."
+              },
+              "hints": [
+                {
+                  "en": "The verb of birth.",
+                  "es": "El verbo del nacimiento."
+                }
+              ]
+            },
+            {
+              "id": "w8-l03e4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "In this very game, your lesson progress is saved through HTTP calls to an API.",
+                "es": "En este juego, tu progreso se guarda mediante llamadas HTTP a una API."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — /api/progress/lesson-complete is a real POST endpoint your browser calls after every lesson!",
+                "es": "Verdadero: /api/progress/lesson-complete es un POST real que tu navegador llama tras cada lección."
+              },
+              "hints": [
+                {
+                  "en": "Where did those XP numbers come from?",
+                  "es": "¿De dónde vinieron esos PX?"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": {
+        "en": "Minimal APIs",
+        "es": "Minimal APIs"
+      },
+      "lessons": [
+        {
+          "id": "w8-l04-firstapi",
+          "kind": "lesson",
+          "title": {
+            "en": "Your First Live Endpoint",
+            "es": "Tu primer endpoint vivo"
+          },
+          "tip": {
+            "en": "Write BuildApp() defining a route, and the game will HOST your API and call it over real HTTP. This is not a simulation — it's a live server!",
+            "es": "Escribe BuildApp() con una ruta y el juego ALOJARÁ tu API y la llamará por HTTP real. No es simulación: ¡es un servidor vivo!"
+          },
+          "exercises": [
+            {
+              "id": "w8-l04e1",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": {
+                "en": "Order the minimal API skeleton:",
+                "es": "Ordena el esqueleto de una minimal API:"
+              },
+              "code": "var builder = WebApplication.CreateBuilder();\nvar app = builder.Build();\napp.MapGet(\"/ping\", () => \"pong\");\nreturn app;",
+              "explanation": {
+                "en": "Builder → app → routes → return. (Our harness hosts the returned app.)",
+                "es": "Builder → app → rutas → return. (Nuestro sistema aloja la app devuelta.)"
+              },
+              "hints": [
+                {
+                  "en": "Create, build, map, return.",
+                  "es": "Crear, construir, mapear, devolver."
+                }
+              ]
+            },
+            {
+              "id": "w8-l04e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE EXERCISE: make GET /hello return exactly \"Hello, DevQuest!\". The game will host your API and hit it with a real request!",
+                "es": "EJERCICIO EN VIVO: haz que GET /hello devuelva exactamente \"Hello, DevQuest!\". ¡El juego alojará tu API y le disparará una petición real!"
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // Map GET /hello here\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "GET /hello",
+                  "expectedOutput": "Hello, DevQuest!",
+                  "match": "exact",
+                  "apiPath": "/hello"
+                }
+              ],
+              "explanation": {
+                "en": "A real Kestrel server started, received your request, and answered with your string. You built a web service!",
+                "es": "Un servidor Kestrel real arrancó, recibió tu petición y respondió con tu string. ¡Construiste un servicio web!"
+              },
+              "hints": [
+                {
+                  "en": "app.MapGet(\"/hello\", () => \"Hello, DevQuest!\");",
+                  "es": "app.MapGet(\"/hello\", () => \"Hello, DevQuest!\");"
+                }
+              ]
+            },
+            {
+              "id": "w8-l04e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "In the harness convention, what must BuildApp() return?",
+                "es": "En la convención del sistema, ¿qué debe devolver BuildApp()?"
+              },
+              "options": [
+                {
+                  "en": "The configured WebApplication (not started)",
+                  "es": "La WebApplication configurada (sin arrancar)"
+                },
+                {
+                  "en": "A string with the response",
+                  "es": "Un string con la respuesta"
+                },
+                {
+                  "en": "An HttpClient",
+                  "es": "Un HttpClient"
+                },
+                {
+                  "en": "Nothing — void",
+                  "es": "Nada: void"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Configure routes, return the app; the harness starts it on a random port and tests it.",
+                "es": "Configura rutas, devuelve la app; el sistema la arranca en un puerto aleatorio y la prueba."
+              },
+              "hints": [
+                {
+                  "en": "You prepare it, the harness runs it.",
+                  "es": "Tú la preparas, el sistema la ejecuta."
+                }
+              ]
+            },
+            {
+              "id": "w8-l04e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE: make GET /quest return the text \"Slay the Compiler\".",
+                "es": "EN VIVO: haz que GET /quest devuelva el texto \"Slay the Compiler\"."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // your quest route\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "GET /quest",
+                  "expectedOutput": "Slay the Compiler",
+                  "match": "exact",
+                  "apiPath": "/quest"
+                }
+              ],
+              "explanation": {
+                "en": "Route path + lambda = endpoint. That's minimal APIs: no ceremony.",
+                "es": "Ruta + lambda = endpoint. Así de simple son las minimal APIs."
+              },
+              "hints": [
+                {
+                  "en": "One MapGet, one lambda.",
+                  "es": "Un MapGet, una lambda."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w8-l05-routes",
+          "kind": "lesson",
+          "title": {
+            "en": "Route Parameters",
+            "es": "Parámetros de ruta"
+          },
+          "tip": {
+            "en": "/players/{id} captures part of the path into a parameter: the lambda receives it typed — (int id) even parses it for you.",
+            "es": "/players/{id} captura parte de la ruta en un parámetro: la lambda lo recibe tipado — (int id) hasta lo convierte."
+          },
+          "exercises": [
+            {
+              "id": "w8-l05e1",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the route to capture the item id:",
+                "es": "Completa la ruta para capturar el id del item:"
+              },
+              "code": "app.MapGet(\"/items/{id}\", (int ___) => $\"item {id}\");",
+              "blanks": [
+                {
+                  "answer": "id",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "{id} in the path binds to the matching lambda parameter.",
+                "es": "{id} en la ruta se vincula al parámetro homónimo de la lambda."
+              },
+              "hints": [
+                {
+                  "en": "Same name in braces and lambda.",
+                  "es": "Mismo nombre en llaves y lambda."
+                }
+              ]
+            },
+            {
+              "id": "w8-l05e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE: make GET /double/{n} return n×2 as text. GET /double/21 should return \"42\".",
+                "es": "EN VIVO: haz que GET /double/{n} devuelva n×2 como texto. GET /double/21 debe devolver \"42\"."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // route: /double/{n}\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "doubles 21",
+                  "expectedOutput": "42",
+                  "match": "exact",
+                  "apiPath": "/double/21"
+                },
+                {
+                  "name": "doubles 5",
+                  "expectedOutput": "10",
+                  "match": "exact",
+                  "apiPath": "/double/5"
+                }
+              ],
+              "explanation": {
+                "en": "Typed route parameters: (int n) => (n * 2).ToString() — parsing handled.",
+                "es": "Parámetros tipados: (int n) => (n * 2).ToString(); el parseo viene de serie."
+              },
+              "hints": [
+                {
+                  "en": "app.MapGet(\"/double/{n}\", (int n) => (n * 2).ToString());",
+                  "es": "app.MapGet(\"/double/{n}\", (int n) => (n * 2).ToString());"
+                }
+              ]
+            },
+            {
+              "id": "w8-l05e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "GET /double/abc hits your (int n) route. What happens?",
+                "es": "GET /double/abc llega a tu ruta (int n). ¿Qué pasa?"
+              },
+              "options": [
+                {
+                  "en": "400 Bad Request — 'abc' isn't an int",
+                  "es": "400 Bad Request: 'abc' no es int"
+                },
+                {
+                  "en": "It returns 0",
+                  "es": "Devuelve 0"
+                },
+                {
+                  "en": "It crashes the server",
+                  "es": "El servidor falla"
+                },
+                {
+                  "en": "It returns \"abcabc\"",
+                  "es": "Devuelve \"abcabc\""
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Typed route parameters auto-reject unparseable values with 400 — validation for free.",
+                "es": "Los parámetros tipados rechazan valores imposibles con 400: validación gratis."
+              },
+              "hints": [
+                {
+                  "en": "The route constraint protects you.",
+                  "es": "La restricción de ruta te protege."
+                }
+              ]
+            },
+            {
+              "id": "w8-l05e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE: make GET /greet/{name} return \"Hola, <name>!\" — GET /greet/Ada returns \"Hola, Ada!\".",
+                "es": "EN VIVO: haz que GET /greet/{name} devuelva \"Hola, <name>!\" — GET /greet/Ada devuelve \"Hola, Ada!\"."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // greet route\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "greets Ada",
+                  "expectedOutput": "Hola, Ada!",
+                  "match": "exact",
+                  "apiPath": "/greet/Ada"
+                }
+              ],
+              "explanation": {
+                "en": "Dynamic responses from route input — the seed of every real API.",
+                "es": "Respuestas dinámicas desde la ruta: la semilla de toda API real."
+              },
+              "hints": [
+                {
+                  "en": "(string name) => $\"Hola, {name}!\"",
+                  "es": "(string name) => $\"Hola, {name}!\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w8-l06-quiz2",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 2 Quiz",
+            "es": "Examen de la unidad 2"
+          },
+          "tip": {
+            "en": "Minimal APIs check!",
+            "es": "¡Control de minimal APIs!"
+          },
+          "exercises": [
+            {
+              "id": "w8-l06e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the piece to its role:",
+                "es": "Relaciona la pieza con su rol:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "CreateBuilder",
+                    "es": "CreateBuilder"
+                  },
+                  "right": {
+                    "en": "prepares the host configuration",
+                    "es": "prepara la configuración del host"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "builder.Build",
+                    "es": "builder.Build"
+                  },
+                  "right": {
+                    "en": "assembles the app",
+                    "es": "ensambla la app"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "MapGet",
+                    "es": "MapGet"
+                  },
+                  "right": {
+                    "en": "wires a route to a handler",
+                    "es": "conecta una ruta con un manejador"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "lambda",
+                    "es": "lambda"
+                  },
+                  "right": {
+                    "en": "the handler that produces the response",
+                    "es": "el manejador que produce la respuesta"
+                  }
+                }
+              ],
+              "explanation": {
+                "en": "Four steps, one live endpoint.",
+                "es": "Cuatro pasos, un endpoint vivo."
+              },
+              "hints": [
+                {
+                  "en": "The lambda answers the request.",
+                  "es": "La lambda responde la petición."
+                }
+              ]
+            },
+            {
+              "id": "w8-l06e2",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": {
+                "en": "This API should respond to GET /hi but the route is wrong. Fix it (the game will call /hi for real)!",
+                "es": "Esta API debería responder a GET /hi pero la ruta está mal. ¡Arréglalo (el juego llamará a /hi de verdad)!"
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        app.MapGet(\"/hello\", () => \"hi there\");\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "GET /hi",
+                  "expectedOutput": "hi there",
+                  "match": "exact",
+                  "apiPath": "/hi"
+                }
+              ],
+              "explanation": {
+                "en": "The path string must match what the client calls.",
+                "es": "El string de la ruta debe coincidir con lo que el cliente llama."
+              },
+              "hints": [
+                {
+                  "en": "Map /hello → /hi.",
+                  "es": "Cambia /hello por /hi."
+                }
+              ]
+            },
+            {
+              "id": "w8-l06e3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Two routes: MapGet(\"/x/{id}\", ...) and MapGet(\"/x/latest\", ...). Which wins for GET /x/latest?",
+                "es": "Dos rutas: MapGet(\"/x/{id}\") y MapGet(\"/x/latest\"). ¿Cuál gana en GET /x/latest?"
+              },
+              "options": [
+                {
+                  "en": "The literal route — exact matches beat parameters",
+                  "es": "La literal: las coincidencias exactas ganan a los parámetros"
+                },
+                {
+                  "en": "The parameter one — always",
+                  "es": "La de parámetro, siempre"
+                },
+                {
+                  "en": "Random choice",
+                  "es": "Al azar"
+                },
+                {
+                  "en": "Both run",
+                  "es": "Ambas se ejecutan"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "ASP.NET Core routing prefers more specific (literal) routes.",
+                "es": "El enrutado de ASP.NET Core prefiere las rutas más específicas (literales)."
+              },
+              "hints": [
+                {
+                  "en": "Specific beats generic.",
+                  "es": "Lo específico gana a lo genérico."
+                }
+              ]
+            },
+            {
+              "id": "w8-l06e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE FINAL: build GET /add/{a}/{b} returning the sum as text. /add/2/3 → \"5\".",
+                "es": "FINAL EN VIVO: construye GET /add/{a}/{b} que devuelva la suma como texto. /add/2/3 → \"5\"."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // add route with two parameters\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "2+3",
+                  "expectedOutput": "5",
+                  "match": "exact",
+                  "apiPath": "/add/2/3"
+                },
+                {
+                  "name": "10+40",
+                  "expectedOutput": "50",
+                  "match": "exact",
+                  "apiPath": "/add/10/40"
+                }
+              ],
+              "explanation": {
+                "en": "Two typed parameters, one calculation, real HTTP. You're officially an API developer!",
+                "es": "Dos parámetros tipados, un cálculo, HTTP real. ¡Ya eres desarrollador de APIs!"
+              },
+              "hints": [
+                {
+                  "en": "(int a, int b) => (a + b).ToString()",
+                  "es": "(int a, int b) => (a + b).ToString()"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": {
+        "en": "Results & Status Codes",
+        "es": "Results y códigos de estado"
+      },
+      "lessons": [
+        {
+          "id": "w8-l07-results",
+          "kind": "lesson",
+          "title": {
+            "en": "Results: Speaking HTTP",
+            "es": "Results: hablar HTTP"
+          },
+          "tip": {
+            "en": "Return a plain value and you get 200 with that body. Return Results.NotFound() and you get a proper 404. Results.* lets your endpoint speak fluent HTTP.",
+            "es": "Devuelve un valor simple y obtienes 200 con ese cuerpo. Devuelve Results.NotFound() y obtienes un 404 correcto. Results.* hace que tu endpoint hable HTTP con fluidez."
+          },
+          "exercises": [
+            {
+              "id": "w8-l07e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What does `return Results.NotFound();` send?",
+                "es": "¿Qué envía `return Results.NotFound();`?"
+              },
+              "options": [
+                {
+                  "en": "404 with an empty/default body",
+                  "es": "404 con cuerpo vacío o por defecto"
+                },
+                {
+                  "en": "404 with the string NotFound",
+                  "es": "404 con el texto NotFound"
+                },
+                {
+                  "en": "200 with null",
+                  "es": "200 con null"
+                },
+                {
+                  "en": "It throws an exception",
+                  "es": "Lanza una excepción"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "NotFound() produces the standard 404 status (body defaults to empty).",
+                "es": "NotFound() produce el estado estándar 404 (cuerpo vacío por defecto)."
+              },
+              "hints": [
+                {
+                  "en": "Status first, body second.",
+                  "es": "Primero el estado, luego el cuerpo."
+                }
+              ]
+            },
+            {
+              "id": "w8-l07e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE: GET /treasure returns 404 (no body needed) — the game checks the status code only.",
+                "es": "EN VIVO: GET /treasure devuelve 404 (sin cuerpo) — el juego solo comprueba el código."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // treasure route returning Results.NotFound()\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "404 treasure",
+                  "expectedOutput": "",
+                  "match": "contains",
+                  "apiPath": "/treasure",
+                  "expectedStatus": 404
+                }
+              ],
+              "explanation": {
+                "en": "A real 404 over real HTTP — your endpoint just spoke proper HTTP semantics.",
+                "es": "Un 404 real sobre HTTP real: tu endpoint acaba de hablar semántica HTTP correcta."
+              },
+              "hints": [
+                {
+                  "en": "app.MapGet(\"/treasure\", () => Results.NotFound());",
+                  "es": "app.MapGet(\"/treasure\", () => Results.NotFound());"
+                }
+              ]
+            },
+            {
+              "id": "w8-l07e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE: GET /gold/{amount} returns 200 with the text \"gold: <amount>\" — test calls /gold/100.",
+                "es": "EN VIVO: GET /gold/{amount} devuelve 200 con el texto \"gold: <amount>\" — se llama con /gold/100."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // gold route using Results.Ok\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "gold 100",
+                  "expectedOutput": "gold: 100",
+                  "match": "exact",
+                  "apiPath": "/gold/100",
+                  "expectedStatus": 200
+                }
+              ],
+              "explanation": {
+                "en": "Results.Ok(value) is the explicit 200 — same as returning the value directly, but louder.",
+                "es": "Results.Ok(valor) es el 200 explícito: igual que devolver el valor, pero más claro."
+              },
+              "hints": [
+                {
+                  "en": "(int amount) => Results.Ok($\"gold: {amount}\")",
+                  "es": "(int amount) => Results.Ok($\"gold: {amount}\")"
+                }
+              ]
+            },
+            {
+              "id": "w8-l07e4",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the Results helper to its status:",
+                "es": "Relaciona el helper de Results con su estado:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Results.Ok",
+                    "es": "Results.Ok"
+                  },
+                  "right": {
+                    "en": "200",
+                    "es": "200"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Results.Created",
+                    "es": "Results.Created"
+                  },
+                  "right": {
+                    "en": "201",
+                    "es": "201"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Results.NotFound",
+                    "es": "Results.NotFound"
+                  },
+                  "right": {
+                    "en": "404",
+                    "es": "404"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Results.BadRequest",
+                    "es": "Results.BadRequest"
+                  },
+                  "right": {
+                    "en": "400",
+                    "es": "400"
+                  }
+                }
+              ],
+              "explanation": {
+                "en": "One helper per situation — no magic numbers needed.",
+                "es": "Un helper por situación: sin números mágicos."
+              },
+              "hints": [
+                {
+                  "en": "BadRequest = 4xx client error.",
+                  "es": "BadRequest = error 4xx del cliente."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w8-l08-quiz3",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 3 Quiz",
+            "es": "Examen de la unidad 3"
+          },
+          "tip": {
+            "en": "Status codes and services!",
+            "es": "¡Códigos de estado y servicios!"
+          },
+          "exercises": [
+            {
+              "id": "w8-l08e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Dependency Injection (builder.Services) means...",
+                "es": "La inyección de dependencias (builder.Services) significa..."
+              },
+              "options": [
+                {
+                  "en": "the app hands your classes their dependencies instead of them creating everything",
+                  "es": "la app entrega las dependencias a tus clases en vez de que cada una las cree"
+                },
+                {
+                  "en": "injecting code into other people's apps",
+                  "es": "inyectar código en apps ajenas"
+                },
+                {
+                  "en": "a database technology",
+                  "es": "una tecnología de base de datos"
+                },
+                {
+                  "en": "a synonym for copy-paste",
+                  "es": "un sinónimo de copiar y pegar"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "DI wires implementations to interfaces centrally — testable, swappable, clean.",
+                "es": "DI conecta implementaciones a interfaces de forma central: testeable, intercambiable, limpio."
+              },
+              "hints": [
+                {
+                  "en": "Who creates your dependencies? Ideally not you.",
+                  "es": "¿Quién crea tus dependencias? Idealmente no tú."
+                }
+              ]
+            },
+            {
+              "id": "w8-l08e2",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete registering a service:",
+                "es": "Completa el registro de un servicio:"
+              },
+              "code": "builder.Services.___<IQuestService, QuestService>();",
+              "blanks": [
+                {
+                  "answer": "AddSingleton",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "AddSingleton (one instance forever), AddScoped (per request), AddTransient (every time).",
+                "es": "AddSingleton (una instancia para siempre), AddScoped (por petición), AddTransient (cada vez)."
+              },
+              "hints": [
+                {
+                  "en": "One instance for the whole app life.",
+                  "es": "Una instancia durante toda la vida de la app."
+                }
+              ]
+            },
+            {
+              "id": "w8-l08e3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "This game's own /api/tutor/chat endpoint calls its AI provider via an injected HttpClient service. Why?",
+                "es": "El endpoint /api/tutor/chat de este juego llama a su proveedor de IA mediante un servicio HttpClient inyectado. ¿Por qué?"
+              },
+              "options": [
+                {
+                  "en": "The service is registered once, tested once, and any endpoint can use it",
+                  "es": "El servicio se registra una vez, se prueba una vez y cualquier endpoint puede usarlo"
+                },
+                {
+                  "en": "Because copy-paste was full",
+                  "es": "Porque el copiar y pegar estaba lleno"
+                },
+                {
+                  "en": "To slow down responses",
+                  "es": "Para ralentizar las respuestas"
+                },
+                {
+                  "en": "Services are mandatory syntax",
+                  "es": "Los servicios son sintaxis obligatoria"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "One AiTutorService registration, used by every endpoint — DI in production.",
+                "es": "Una AiTutorService registrada, usada por todos los endpoints: DI en producción."
+              },
+              "hints": [
+                {
+                  "en": "Register once, use everywhere.",
+                  "es": "Registra una vez, usa en todas partes."
+                }
+              ]
+            },
+            {
+              "id": "w8-l08e4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "You just used a real HTTP client against a real hosted server in this world's exercises.",
+                "es": "En los ejercicios de este mundo usaste un cliente HTTP real contra un servidor real."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — the runner hosted your BuildApp() on Kestrel and made real requests. Full-stack, for real!",
+                "es": "Verdadero: el sistema alojó tu BuildApp() en Kestrel y hizo peticiones reales. ¡Full-stack de verdad!"
+              },
+              "hints": [
+                {
+                  "en": "Was it simulated?",
+                  "es": "¿Era simulado?"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w8-l09-boss",
+          "kind": "boss",
+          "title": {
+            "en": "BOSS: The Gatekeeper",
+            "es": "JEFE: El Guardián"
+          },
+          "tip": {
+            "en": "Three live endpoints, each a harder gate. Satisfy the Gatekeeper and the web world is yours! 🌐",
+            "es": "Tres endpoints en vivo, cada uno una puerta más difícil. ¡Satisface al Guardián y el mundo web es tuyo! 🌐"
+          },
+          "exercises": [
+            {
+              "id": "w8-l09e1",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 1: GET /status/{hp} returns \"alive\" when hp > 0, otherwise 404 (Results.NotFound).",
+                "es": "Puerta 1: GET /status/{hp} devuelve \"alive\" si hp > 0; si no, 404 (Results.NotFound)."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // conditional status route\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "alive at 100",
+                  "expectedOutput": "alive",
+                  "match": "exact",
+                  "apiPath": "/status/100",
+                  "expectedStatus": 200
+                },
+                {
+                  "name": "dead at 0",
+                  "expectedOutput": "",
+                  "match": "contains",
+                  "apiPath": "/status/0",
+                  "expectedStatus": 404
+                }
+              ],
+              "explanation": {
+                "en": "Conditional logic inside the handler — return different Results per branch.",
+                "es": "Lógica condicional en el manejador: devuelve Results distintos por rama."
+              },
+              "hints": [
+                {
+                  "en": "(int hp) => hp > 0 ? Results.Ok(\"alive\") : Results.NotFound()",
+                  "es": "(int hp) => hp > 0 ? Results.Ok(\"alive\") : Results.NotFound()"
+                }
+              ]
+            },
+            {
+              "id": "w8-l09e2",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 2: GET /double/{n} returns 400 when n is negative, otherwise 200 with the doubled number as text.",
+                "es": "Puerta 2: GET /double/{n} devuelve 400 si n es negativo; si no, 200 con el doble como texto."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // guarded double route\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "doubles 5",
+                  "expectedOutput": "10",
+                  "match": "exact",
+                  "apiPath": "/double/5",
+                  "expectedStatus": 200
+                },
+                {
+                  "name": "rejects -3",
+                  "expectedOutput": "",
+                  "match": "contains",
+                  "apiPath": "/double/-3",
+                  "expectedStatus": 400
+                }
+              ],
+              "explanation": {
+                "en": "Input validation with proper status codes — professional API behavior.",
+                "es": "Validación de entrada con códigos correctos: comportamiento profesional de API."
+              },
+              "hints": [
+                {
+                  "en": "n < 0 ? Results.BadRequest() : Results.Ok((n * 2).ToString())",
+                  "es": "n < 0 ? Results.BadRequest() : Results.Ok((n * 2).ToString())"
+                }
+              ]
+            },
+            {
+              "id": "w8-l09e3",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Final gate: GET /shop/{id} — ids 1..3 return \"sword\", \"shield\", \"potion\"; any other id returns 404.",
+                "es": "Puerta final: GET /shop/{id} — ids 1..3 devuelven \"sword\", \"shield\", \"potion\"; cualquier otro devuelve 404."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // shop lookup route\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "item 1",
+                  "expectedOutput": "sword",
+                  "match": "exact",
+                  "apiPath": "/shop/1",
+                  "expectedStatus": 200
+                },
+                {
+                  "name": "item 3",
+                  "expectedOutput": "potion",
+                  "match": "exact",
+                  "apiPath": "/shop/3",
+                  "expectedStatus": 200
+                },
+                {
+                  "name": "item 99",
+                  "expectedOutput": "",
+                  "match": "contains",
+                  "apiPath": "/shop/99",
+                  "expectedStatus": 404
+                }
+              ],
+              "explanation": {
+                "en": "A lookup table + conditional 404: the skeleton of every real data API. The Gatekeeper opens the gate! 🌐🏆",
+                "es": "Tabla de búsqueda + 404 condicional: el esqueleto de toda API de datos. ¡El Guardián abre la puerta! 🌐🏆"
+              },
+              "hints": [
+                {
+                  "en": "var shop = new[] { \"sword\", \"shield\", \"potion\" }; id >= 1 && id <= 3 ? Results.Ok(shop[id-1]) : Results.NotFound()",
+                  "es": "var shop = new[] { \"sword\", \"shield\", \"potion\" }; id >= 1 && id <= 3 ? Results.Ok(shop[id-1]) : Results.NotFound()"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3b",
+      "title": {
+        "en": "Query Strings & JSON",
+        "es": "Query strings y JSON"
+      },
+      "lessons": [
+        {
+          "id": "w8-l10-query",
+          "kind": "lesson",
+          "title": {
+            "en": "Query Strings",
+            "es": "Query strings"
+          },
+          "tip": {
+            "en": "Everything after ? in a URL is a query string: /search?q=ada&size=10. Bind them as simple lambda parameters — optional ones get default values.",
+            "es": "Todo lo que sigue al ? de una URL es el query string: /search?q=ada&size=10. Vincúlalos como parámetros simples de la lambda; los opcionales toman su valor por defecto."
+          },
+          "exercises": [
+            {
+              "id": "w8-l10e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "In /search?q=ada&size=10, what are q and size?",
+                "es": "En /search?q=ada&size=10, ¿qué son q y size?"
+              },
+              "options": [
+                {
+                  "en": "Query string parameters",
+                  "es": "Parámetros de query string"
+                },
+                {
+                  "en": "Route parameters",
+                  "es": "Parámetros de ruta"
+                },
+                {
+                  "en": "HTTP headers",
+                  "es": "Cabeceras HTTP"
+                },
+                {
+                  "en": "Status codes",
+                  "es": "Códigos de estado"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "?key=value pairs = query string: filters, page sizes, search terms.",
+                "es": "Pares clave=valor tras ?: filtros, tamaños de página, búsquedas."
+              },
+              "hints": [
+                {
+                  "en": "They live after the ?.",
+                  "es": "Viven después del ?."
+                }
+              ]
+            },
+            {
+              "id": "w8-l10e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE: GET /shout?text=hi returns the text uppercased: GET /shout?text=hi returns \"HI\".",
+                "es": "EN VIVO: GET /shout?text=hi devuelve el texto en mayúsculas: \"HI\"."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // shout route binding ?text=\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "shouts hi",
+                  "expectedOutput": "HI",
+                  "match": "exact",
+                  "apiPath": "/shout?text=hi",
+                  "expectedStatus": 200
+                }
+              ],
+              "explanation": {
+                "en": "The lambda parameter (string text) binds straight from ?text=...",
+                "es": "El parámetro (string text) se vincula directo de ?text=..."
+              },
+              "hints": [
+                {
+                  "en": "app.MapGet(\"/shout\", (string text) => text.ToUpper());",
+                  "es": "app.MapGet(\"/shout\", (string text) => text.ToUpper());"
+                }
+              ]
+            },
+            {
+              "id": "w8-l10e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE: GET /power?base=2&exp=3 returns base^exp as text (\"8\").",
+                "es": "EN VIVO: GET /power?base=2&exp=3 devuelve base^exp como texto (\"8\")."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // power route with two query parameters\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "2^3",
+                  "expectedOutput": "8",
+                  "match": "exact",
+                  "apiPath": "/power?base=2&exp=3",
+                  "expectedStatus": 200
+                }
+              ],
+              "explanation": {
+                "en": "Multiple query parameters bind by name — order never matters.",
+                "es": "Varios parámetros se vinculan por nombre: el orden no importa."
+              },
+              "hints": [
+                {
+                  "en": "(int baseNum, int exp) with Math.Pow, or a loop multiplying.",
+                  "es": "(int baseNum, int exp) con Math.Pow o un bucle que multiplique."
+                }
+              ]
+            },
+            {
+              "id": "w8-l10e4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Query strings appear in the URL and are visible to the user.",
+                "es": "Los query strings aparecen en la URL y son visibles para el usuario."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — never put secrets in a query string (they land in logs and history).",
+                "es": "Verdadero: nunca pongas secretos en el query string (acaban en logs e historial)."
+              },
+              "hints": [
+                {
+                  "en": "Look at the address bar.",
+                  "es": "Mira la barra de direcciones."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w8-l11-json",
+          "kind": "lesson",
+          "title": {
+            "en": "JSON Responses",
+            "es": "Respuestas JSON"
+          },
+          "tip": {
+            "en": "Return an object and ASP.NET serializes it to JSON automatically. { name: value } in C# becomes {\"name\":\"value\"} on the wire — the language of every modern API.",
+            "es": "Devuelve un objeto y ASP.NET lo serializa a JSON automáticamente. { name: value } en C# llega como {\"name\":\"value\"}: el idioma de toda API moderna."
+          },
+          "exercises": [
+            {
+              "id": "w8-l11e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What does an endpoint returning `new { Name = \"Ada\" }` send on the wire?",
+                "es": "¿Qué envía un endpoint que devuelve `new { Name = \"Ada\" }`?"
+              },
+              "options": [
+                {
+                  "en": "{\"Name\":\"Ada\"} with Content-Type application/json",
+                  "es": "{\"Name\":\"Ada\"} con Content-Type application/json"
+                },
+                {
+                  "en": "The text Ada",
+                  "es": "El texto Ada"
+                },
+                {
+                  "en": "An empty 204",
+                  "es": "Un 204 vacío"
+                },
+                {
+                  "en": "C# source code",
+                  "es": "Código fuente C#"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Object → JSON serialization is automatic in minimal APIs.",
+                "es": "Objeto → JSON es automático en minimal APIs."
+              },
+              "hints": [
+                {
+                  "en": "Objects become JSON bodies.",
+                  "es": "Los objetos se vuelven cuerpos JSON."
+                }
+              ]
+            },
+            {
+              "id": "w8-l11e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE: GET /player/7 returns JSON {\"id\":7,\"name\":\"bit\"} (an anonymous object). The game checks the raw body.",
+                "es": "EN VIVO: GET /player/7 devuelve JSON {\"id\":7,\"name\":\"bit\"} (un objeto anónimo). El juego comprueba el cuerpo crudo."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // player route returning an anonymous object\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "player json",
+                  "expectedOutput": "{\"id\":7,\"name\":\"bit\"}",
+                  "match": "exact",
+                  "apiPath": "/player/7"
+                }
+              ],
+              "explanation": {
+                "en": "Anonymous objects + automatic JSON = instant structured APIs.",
+                "es": "Objetos anónimos + JSON automático = APIs estructuradas al instante."
+              },
+              "hints": [
+                {
+                  "en": "(int id) => Results.Ok(new { id, name = \"bit\" })",
+                  "es": "(int id) => Results.Ok(new { id, name = \"bit\" })"
+                }
+              ]
+            },
+            {
+              "id": "w8-l11e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "JSON is human-readable, which makes debugging APIs much easier.",
+                "es": "JSON es legible por humanos, lo que facilita depurar APIs."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — you can read API responses with your own eyes. (Binary formats are faster, but JSON wins on clarity.)",
+                "es": "Verdadero: puedes leer las respuestas con tus propios ojos (los formatos binarios son más rápidos, pero JSON gana en claridad)."
+              },
+              "hints": [
+                {
+                  "en": "Have you seen the test bodies in this world?",
+                  "es": "¿Viste los cuerpos de prueba en este mundo?"
+                }
+              ]
+            },
+            {
+              "id": "w8-l11e4",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the JSON data format name:",
+                "es": "Completa el nombre del formato de datos JSON:"
+              },
+              "code": "JavaScript Object ___",
+              "blanks": [
+                {
+                  "answer": "Notation",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Notation — a text format for structured data, language-independent despite the name.",
+                "es": "Notation: formato de texto para datos estructurados, independiente del lenguaje pese al nombre."
+              },
+              "hints": [
+                {
+                  "en": "The N in JSON.",
+                  "es": "La N de JSON."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w8-l115-testing",
+          "kind": "lesson",
+          "title": {
+            "en": "How APIs Are Tested",
+            "es": "Cómo se prueban las APIs"
+          },
+          "tip": {
+            "en": "Professionals test APIs exactly like this world does: start the app, fire real requests, compare status and body. You've been doing pro-level testing all along!",
+            "es": "Los profesionales prueban APIs exactamente como este mundo: arrancan la app, disparan peticiones reales y comparan estado y cuerpo. ¡Llevas todo el mundo haciendo pruebas de nivel profesional!"
+          },
+          "exercises": [
+            {
+              "id": "w8-l115e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the test concern to what you check:",
+                "es": "Relaciona la preocupación de prueba con lo que compruebas:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "did it succeed?",
+                    "es": "¿funcionó?"
+                  },
+                  "right": {
+                    "en": "the status code",
+                    "es": "el código de estado"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "is the answer right?",
+                    "es": "¿es correcta la respuesta?"
+                  },
+                  "right": {
+                    "en": "the response body",
+                    "es": "el cuerpo de la respuesta"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "is it fast?",
+                    "es": "¿es rápida?"
+                  },
+                  "right": {
+                    "en": "response time",
+                    "es": "el tiempo de respuesta"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "does it reject garbage?",
+                    "es": "¿rechaza basura?"
+                  },
+                  "right": {
+                    "en": "400 on bad input",
+                    "es": "400 con entrada inválida"
+                  }
+                }
+              ],
+              "explanation": {
+                "en": "Status, body, latency, rejection — the four pillars of API testing.",
+                "es": "Estado, cuerpo, latencia y rechazo: los cuatro pilares de las pruebas de APIs."
+              },
+              "hints": [
+                {
+                  "en": "Four pillars, four checks.",
+                  "es": "Cuatro pilares, cuatro comprobaciones."
+                }
+              ]
+            },
+            {
+              "id": "w8-l115e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "A test asserts 404 but your endpoint returns 200 with an error message. The test...",
+                "es": "Una prueba espera 404 pero tu endpoint devuelve 200 con un mensaje de error. La prueba..."
+              },
+              "options": [
+                {
+                  "en": "correctly fails — 200 lies about the failure",
+                  "es": "falla correctamente: el 200 miente sobre el fallo"
+                },
+                {
+                  "en": "passes — the body explains it",
+                  "es": "pasa: el cuerpo lo explica"
+                },
+                {
+                  "en": "crashes the test runner",
+                  "es": "rompe el ejecutor de pruebas"
+                },
+                {
+                  "en": "retries forever",
+                  "es": "reintenta para siempre"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Status codes are contracts; tests enforce them. This is why honest statuses matter.",
+                "es": "Los códigos de estado son contratos y las pruebas los exigen. Por eso importa la honestidad."
+              },
+              "hints": [
+                {
+                  "en": "The machine reads the status first.",
+                  "es": "La máquina lee primero el estado."
+                }
+              ]
+            },
+            {
+              "id": "w8-l115e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "The runner in this game starts your BuildApp() server fresh for every exercise submission.",
+                "es": "El sistema de este juego arranca tu servidor BuildApp() de nuevo en cada envío."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — fresh process, fresh port, no leftover state. Real integration testing, isolated every time.",
+                "es": "Verdadero: proceso y puerto nuevos sin estado residual. Integración real aislada cada vez."
+              },
+              "hints": [
+                {
+                  "en": "Isolation is a testing virtue.",
+                  "es": "El aislamiento es una virtud."
+                }
+              ]
+            },
+            {
+              "id": "w8-l115e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Final drill: GET /health returns 200 with \"ok\", and GET /health?fail=1 returns 500. Both paths tested!",
+                "es": "Drill final: GET /health devuelve 200 con \"ok\" y GET /health?fail=1 devuelve 500. ¡Se prueban ambas rutas!"
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // health route with optional ?fail=1\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "healthy",
+                  "expectedOutput": "ok",
+                  "match": "exact",
+                  "apiPath": "/health",
+                  "expectedStatus": 200
+                },
+                {
+                  "name": "failing",
+                  "expectedOutput": "",
+                  "match": "contains",
+                  "apiPath": "/health?fail=1",
+                  "expectedStatus": 500
+                }
+              ],
+              "explanation": {
+                "en": "Success and failure paths, both tested — the habit that separates professionals from tourists. World complete! 🌐🏆",
+                "es": "Camino de éxito y de fallo probados: el hábito que separa profesionales de turistas. ¡Mundo completado! 🌐🏆"
+              },
+              "hints": [
+                {
+                  "en": "Read the query: bool fail = ...; return fail ? Results.StatusCode(500) : Results.Ok(\"ok\");",
+                  "es": "Lee el query: bool fail = ...; return fail ? Results.StatusCode(500) : Results.Ok(\"ok\");"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u4",
+      "title": {
+        "en": "Robust APIs",
+        "es": "APIs robustas"
+      },
+      "lessons": [
+        {
+          "id": "w8-l12-validation",
+          "kind": "lesson",
+          "title": {
+            "en": "Validating Input",
+            "es": "Validar entradas"
+          },
+          "tip": {
+            "en": "Clients send garbage — accidentally or on purpose. A robust API checks every input and answers 400 Bad Request when it's unusable.",
+            "es": "Los clientes envían basura, por accidente o a propósito. Una API robusta revisa cada entrada y responde 400 cuando no sirven."
+          },
+          "exercises": [
+            {
+              "id": "w8-l12e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "A client asks for /players/-5. What should a robust API do?",
+                "es": "Un cliente pide /players/-5. ¿Qué debe hacer una API robusta?"
+              },
+              "options": [
+                {
+                  "en": "Reject it with 400 Bad Request",
+                  "es": "Rechazarla con 400 Bad Request"
+                },
+                {
+                  "en": "Return player -5",
+                  "es": "Devolver al player -5"
+                },
+                {
+                  "en": "Return 200 with nothing",
+                  "es": "Devolver 200 sin nada"
+                },
+                {
+                  "en": "Crash loudly",
+                  "es": "Fallar ruidosamente"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Invalid input gets an explicit 400 — the client learns exactly what went wrong.",
+                "es": "Entrada inválida → 400 explícito: el cliente aprende qué falló."
+              },
+              "hints": [
+                {
+                  "en": "Refuse politely.",
+                  "es": "Rechaza con educación."
+                }
+              ]
+            },
+            {
+              "id": "w8-l12e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE: GET /age/{n} returns 400 when n is negative, otherwise 200 with \"age: <n>\".",
+                "es": "EN VIVO: GET /age/{n} devuelve 400 si n es negativo; si no, 200 con \"age: <n>\"."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // validated age route\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "valid age",
+                  "expectedOutput": "age: 30",
+                  "match": "exact",
+                  "apiPath": "/age/30",
+                  "expectedStatus": 200
+                },
+                {
+                  "name": "negative age",
+                  "expectedOutput": "",
+                  "match": "contains",
+                  "apiPath": "/age/-1",
+                  "expectedStatus": 400
+                }
+              ],
+              "explanation": {
+                "en": "One if, one 400 — the difference between a toy and a professional API.",
+                "es": "Un if y un 400: la diferencia entre un juguete y una API profesional."
+              },
+              "hints": [
+                {
+                  "en": "n < 0 ? Results.BadRequest() : Results.Ok($\"age: {n}\")",
+                  "es": "n < 0 ? Results.BadRequest() : Results.Ok($\"age: {n}\")"
+                }
+              ]
+            },
+            {
+              "id": "w8-l12e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Typed route parameters (int id) already reject non-numeric values with 400 automatically.",
+                "es": "Los parámetros de ruta tipados (int id) ya rechazan valores no numéricos con 400 automáticamente."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — ASP.NET Core route constraints handle that for free. Manual checks are for VALUE rules (like negatives).",
+                "es": "Verdadero: las restricciones de ruta lo hacen gratis. Las comprobaciones manuales son para reglas de VALOR (negativos, rangos)."
+              },
+              "hints": [
+                {
+                  "en": "Syntax vs. semantics.",
+                  "es": "Sintaxis contra semántica."
+                }
+              ]
+            },
+            {
+              "id": "w8-l12e4",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the situation to the right status:",
+                "es": "Relaciona la situación con el estado correcto:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "id not in database",
+                    "es": "id que no está en la base"
+                  },
+                  "right": {
+                    "en": "404",
+                    "es": "404"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "negative price submitted",
+                    "es": "precio negativo enviado"
+                  },
+                  "right": {
+                    "en": "400",
+                    "es": "400"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "new player created",
+                    "es": "nuevo player creado"
+                  },
+                  "right": {
+                    "en": "201",
+                    "es": "201"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "your own code threw",
+                    "es": "tu propio código lanzó error"
+                  },
+                  "right": {
+                    "en": "500",
+                    "es": "500"
+                  }
+                }
+              ],
+              "explanation": {
+                "en": "Status codes are a language — speak it precisely and clients will love you.",
+                "es": "Los códigos de estado son un idioma: háblalo con precisión y los clientes te amarán."
+              },
+              "hints": [
+                {
+                  "en": "500 = your (server's) fault.",
+                  "es": "500 = culpa del servidor."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w8-l13-quiz4",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 4 Quiz",
+            "es": "Examen de la unidad 4"
+          },
+          "tip": {
+            "en": "Robustness check before the final boss!",
+            "es": "¡Control de robustez antes del jefe final!"
+          },
+          "exercises": [
+            {
+              "id": "w8-l13e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Which is a well-designed error response?",
+                "es": "¿Cuál es una respuesta de error bien diseñada?"
+              },
+              "options": [
+                {
+                  "en": "400 with a JSON body explaining the problem",
+                  "es": "400 con cuerpo JSON que explica el problema"
+                },
+                {
+                  "en": "200 with the text \"it failed\"",
+                  "es": "200 con el texto \"falló\""
+                },
+                {
+                  "en": "Empty 500 for every mistake",
+                  "es": "500 vacío para cada error"
+                },
+                {
+                  "en": "No response at all",
+                  "es": "Sin respuesta"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Correct status + helpful body = clients that can actually recover.",
+                "es": "Estado correcto + cuerpo útil = clientes que pueden recuperarse."
+              },
+              "hints": [
+                {
+                  "en": "Help the client fix it.",
+                  "es": "Ayuda al cliente a arreglarlo."
+                }
+              ]
+            },
+            {
+              "id": "w8-l13e2",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the helper for 'we broke it' errors:",
+                "es": "Completa el helper para errores 'los rompimos nosotros':"
+              },
+              "code": "return Results.___();  // 500",
+              "blanks": [
+                {
+                  "answer": "Problem",
+                  "caseSensitive": false
+                }
+              ],
+              "explanation": {
+                "en": "Results.Problem() emits a structured error document (default 500).",
+                "es": "Results.Problem() emite un documento de error estructurado (por defecto 500)."
+              },
+              "hints": [
+                {
+                  "en": "A 'problem' document.",
+                  "es": "Un documento de 'problema'."
+                }
+              ]
+            },
+            {
+              "id": "w8-l13e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "It's fine to return 200 OK even when something failed, as long as the body mentions it.",
+                "es": "Está bien devolver 200 OK aunque algo fallara, si el cuerpo lo menciona."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — status codes exist so clients don't have to parse every body to detect failure.",
+                "es": "Falso: los códigos existen para que el cliente no tenga que interpretar cada cuerpo."
+              },
+              "hints": [
+                {
+                  "en": "Machines read statuses first.",
+                  "es": "Las máquinas leen primero los estados."
+                }
+              ]
+            },
+            {
+              "id": "w8-l13e4",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What makes an API 'RESTful' in spirit (beyond URLs)?",
+                "es": "¿Qué hace 'RESTful' a una API en espíritu (más allá de las URLs)?"
+              },
+              "options": [
+                {
+                  "en": "Using HTTP verbs and status codes as they were designed",
+                  "es": "Usar verbos y códigos HTTP como fueron diseñados"
+                },
+                {
+                  "en": "Responding in XML only",
+                  "es": "Responder solo en XML"
+                },
+                {
+                  "en": "Never sending a body",
+                  "es": "Nunca enviar cuerpo"
+                },
+                {
+                  "en": "Using only GET",
+                  "es": "Usar solo GET"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "REST = use the protocol's semantics honestly: verbs for actions, statuses for outcomes.",
+                "es": "REST = usar la semántica del protocolo con honestidad: verbos para acciones, estados para resultados."
+              },
+              "hints": [
+                {
+                  "en": "Honesty to the protocol.",
+                  "es": "Honestidad con el protocolo."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w8-l14-boss",
+          "kind": "boss",
+          "title": {
+            "en": "BOSS: The API Overlord",
+            "es": "JEFE: El Overlord de las APIs"
+          },
+          "tip": {
+            "en": "A complete mini-API: multiple routes, JSON, validation, proper statuses. Beat the Overlord and the web world is yours! 🌐🏆",
+            "es": "Una mini-API completa: rutas múltiples, JSON, validación y estados correctos. ¡Vence al Overlord y el mundo web es tuyo! 🌐🏆"
+          },
+          "exercises": [
+            {
+              "id": "w8-l14e1",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 1: GET /heroes returns JSON [{\"name\":\"ada\",\"score\":100},{\"name\":\"bit\",\"score\":250}] (exact body).",
+                "es": "Puerta 1: GET /heroes devuelve JSON [{\"name\":\"ada\",\"score\":100},{\"name\":\"bit\",\"score\":250}] (cuerpo exacto)."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // heroes list route\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "heroes list",
+                  "expectedOutput": "[{\"name\":\"ada\",\"score\":100},{\"name\":\"bit\",\"score\":250}]",
+                  "match": "exact",
+                  "apiPath": "/heroes"
+                }
+              ],
+              "explanation": {
+                "en": "A list of anonymous objects serialized to a JSON array — the classic list endpoint.",
+                "es": "Una lista de objetos anónimos serializada a array JSON: el endpoint de lista clásico."
+              },
+              "hints": [
+                {
+                  "en": "Results.Ok(new[] { new { name = \"ada\", score = 100 }, new { name = \"bit\", score = 250 } })",
+                  "es": "Results.Ok(new[] { new { name = \"ada\", score = 100 }, new { name = \"bit\", score = 250 } })"
+                }
+              ]
+            },
+            {
+              "id": "w8-l14e2",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 2: GET /heroes/{id} returns that hero's JSON (0 → ada, 1 → bit); any other id → 404.",
+                "es": "Puerta 2: GET /heroes/{id} devuelve el JSON de ese héroe (0 → ada, 1 → bit); cualquier otro id → 404."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // hero by id route with 404 guard\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "hero 0",
+                  "expectedOutput": "{\"name\":\"ada\",\"score\":100}",
+                  "match": "exact",
+                  "apiPath": "/heroes/0",
+                  "expectedStatus": 200
+                },
+                {
+                  "name": "hero 99",
+                  "expectedOutput": "",
+                  "match": "contains",
+                  "apiPath": "/heroes/99",
+                  "expectedStatus": 404
+                }
+              ],
+              "explanation": {
+                "en": "List + lookup + 404 guard: the real shape of every read API.",
+                "es": "Lista + búsqueda + guardia 404: la forma real de toda API de lectura."
+              },
+              "hints": [
+                {
+                  "en": "Build the array, check bounds, return Results.Ok or Results.NotFound.",
+                  "es": "Construye el arreglo, verifica límites y devuelve Results.Ok o Results.NotFound."
+                }
+              ]
+            },
+            {
+              "id": "w8-l14e3",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 3: GET /top returns the JSON of the hero with the HIGHEST score ({\"name\":\"bit\",\"score\":250}).",
+                "es": "Puerta 3: GET /top devuelve el JSON del héroe con MAYOR score ({\"name\":\"bit\",\"score\":250})."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // top hero route\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "top hero",
+                  "expectedOutput": "{\"name\":\"bit\",\"score\":250}",
+                  "match": "exact",
+                  "apiPath": "/top"
+                }
+              ],
+              "explanation": {
+                "en": "Business logic (who leads?) exposed over HTTP — your API now ANSWERS QUESTIONS.",
+                "es": "Lógica de negocio (¿quién lidera?) expuesta por HTTP: tu API ahora RESPONDE PREGUNTAS."
+              },
+              "hints": [
+                {
+                  "en": "Order or compare scores, return the winner object.",
+                  "es": "Ordena o compara scores y devuelve el objeto ganador."
+                }
+              ]
+            },
+            {
+              "id": "w8-l14e4",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Final gate: GET /boost/{id} returns the JSON of hero <id> with score +100 (200); unknown id → 404. /boost/0 → {\"name\":\"ada\",\"score\":200}.",
+                "es": "Puerta final: GET /boost/{id} devuelve el JSON del héroe <id> con score +100 (200); id desconocido → 404. /boost/0 → {\"name\":\"ada\",\"score\":200}."
+              },
+              "starter": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing Microsoft.AspNetCore.Routing;\n\npublic static class Api\n{\n    public static WebApplication BuildApp()\n    {\n        var builder = WebApplication.CreateBuilder();\n        var app = builder.Build();\n\n        // boost route: fetch, transform, guard\n\n        return app;\n    }\n}",
+              "tests": [
+                {
+                  "name": "boost ada",
+                  "expectedOutput": "{\"name\":\"ada\",\"score\":200}",
+                  "match": "exact",
+                  "apiPath": "/boost/0",
+                  "expectedStatus": 200
+                },
+                {
+                  "name": "unknown id",
+                  "expectedOutput": "",
+                  "match": "contains",
+                  "apiPath": "/boost/42",
+                  "expectedStatus": 404
+                }
+              ],
+              "explanation": {
+                "en": "Read → transform → respond, with an error path. The Overlord kneels — you build real web APIs now! 🌐👑",
+                "es": "Leer → transformar → responder, con camino de error. ¡El Overlord se arrodilla: ahora construyes APIs web reales! 🌐👑"
+              },
+              "hints": [
+                {
+                  "en": "Fetch the hero by index, build a new anonymous object with score + 100, guard the bounds.",
+                  "es": "Obtén el héroe por índice, crea un objeto anónimo nuevo con score + 100 y protege los límites."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

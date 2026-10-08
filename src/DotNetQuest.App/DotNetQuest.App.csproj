@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.12" />
+    <PackageReference Include="QuestPDF" Version="2026.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetQuest.App.Client\DotNetQuest.App.Client.csproj" />
+    <ProjectReference Include="..\DotNetQuest.Shared\DotNetQuest.Shared.csproj" />
+    <!-- Build-order-only reference: the runner is spawned as a child process, not linked,
+         so its output is NOT copied into the app root (the CopyCodeRunner target does that). -->
+    <ProjectReference Include="..\DotNetQuest.Runner\DotNetQuest.Runner.csproj" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <!-- Never overwrite server configuration on publish: the deploy folder keeps
+       whatever appsettings.json the server already has (keys live there). A
+       template is provided at the repo root for first-time setup. -->
+  <ItemGroup>
+    <Content Remove="appsettings.json" />
+    <Content Remove="appsettings.Production.json" />
+    <None Include="appsettings.json" />
+    <None Include="appsettings.Production.json" />
+    <None Include="..\..\appsettings.template.json" CopyToPublishDirectory="PreserveNewest" Link="appsettings.template.json" />
+  </ItemGroup>
+
+  <!-- Copy the sandboxed runner build output next to the app (server spawns it as a child process). -->
+  <Target Name="CopyCodeRunner" AfterTargets="Build">
+    <ItemGroup>
+      <RunnerFiles Include="..\DotNetQuest.Runner\bin\$(Configuration)\net10.0\**\*.*" Exclude="..\DotNetQuest.Runner\bin\$(Configuration)\net10.0\ref\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(RunnerFiles)" DestinationFiles="@(RunnerFiles->'$(OutDir)runner\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+
+  <!-- Same copy for publish output, plus cleanup of stray runner files the default publish drops in the root. -->
+  <Target Name="CopyCodeRunnerToPublish" AfterTargets="Publish">
+    <ItemGroup>
+      <RunnerFiles Include="..\DotNetQuest.Runner\bin\$(Configuration)\net10.0\**\*.*" Exclude="..\DotNetQuest.Runner\bin\$(Configuration)\net10.0\ref\**\*.*" />
+      <RunnerRootJunk Include="$(PublishDir)DotNetQuest.Runner.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(RunnerFiles)" DestinationFiles="@(RunnerFiles->'$(PublishDir)runner\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Delete Files="@(RunnerRootJunk)" />
+  </Target>
+
+</Project>

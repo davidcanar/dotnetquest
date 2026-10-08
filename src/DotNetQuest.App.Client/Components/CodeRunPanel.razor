@@ -1,0 +1,53 @@
+@namespace DotNetQuest.App.Client.Components
+@using DotNetQuest.Shared.Api
+@inject I18nService I18n
+
+<div class="run-panel">
+    @if (Result.TimedOut)
+    {
+        <p class="run-error">⏱️ @I18n.T("code.timeout")</p>
+    }
+    else if (!Result.Compiled)
+    {
+        <p class="run-error-title">@I18n.T("code.compileError")</p>
+        @foreach (var diag in Result.Diagnostics.Take(6))
+        {
+            <pre class="run-diagnostics">@diag</pre>
+        }
+        @if (!string.IsNullOrEmpty(Result.Error))
+        {
+            <pre class="run-diagnostics">@Result.Error</pre>
+        }
+    }
+    else
+    {
+        if (!string.IsNullOrWhiteSpace(Result.Output))
+        {
+            <p class="run-label">@I18n.T("code.output")</p>
+            <pre class="run-output">@Result.Output</pre>
+        }
+        @if (Result.Tests.Count > 0)
+        {
+            <div class="test-list">
+                @foreach (var test in Result.Tests)
+                {
+                    <div class="test-row @(test.Passed ? "passed" : "failed")">
+                        <span>@(test.Passed ? "✔" : "✘") @test.Name</span>
+                        @if (!test.Passed)
+                        {
+                            <div class="test-diff">
+                                <span>@I18n.T("code.expected"): <code>@test.Expected</code></span>
+                                <span>@I18n.T("code.actual"): <code>@(string.IsNullOrWhiteSpace(test.Actual) ? "—" : test.Actual)</code></span>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public CodeRunResultDto Result { get; set; } =
+        new(false, [], string.Empty, [], false, 0, null);
+}

@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DotNetQuest.App.Client/DotNetQuest.App.Client.csproj" />
+    <Project Path="src/DotNetQuest.App/DotNetQuest.App.csproj" />
+    <Project Path="src/DotNetQuest.Runner/DotNetQuest.Runner.csproj" />
+    <Project Path="src/DotNetQuest.Shared/DotNetQuest.Shared.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DotNetQuest.Tests/DotNetQuest.Tests.csproj" />
+  </Folder>
+</Solution>

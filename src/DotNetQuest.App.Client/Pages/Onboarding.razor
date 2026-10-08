@@ -1,0 +1,142 @@
+@page "/onboarding"
+@using DotNetQuest.App.Client.Components
+@inject GameState Game
+@inject I18nService I18n
+@inject NavigationManager Nav
+
+<div class="onboarding">
+    <div class="onboarding-card">
+        <div class="onboarding-mascot">
+            <BitMascot Pose="@BitPoses.Cheer" Size="110" />
+        </div>
+        <h1>@I18n.T("onboarding.title")</h1>
+        <p class="muted">@I18n.T("onboarding.subtitle")</p>
+
+        @if (_step == 0)
+        {
+            <label class="field-label" for="nickname">@I18n.T("onboarding.nickname")</label>
+            <input id="nickname" class="text-input @NickClass" type="text" maxlength="24"
+                   value="@_nickname" @oninput="OnNickChanged" placeholder="@I18n.T("onboarding.nicknamePlaceholder")" />
+            <p class="field-hint @NickHintClass">@NickMessage</p>
+
+            <div class="lang-row">
+                <span class="muted">@I18n.T("onboarding.language"):</span>
+                <button class="chip @(I18n.Language == "en" ? "chip-active" : "")" @onclick='() => SetLanguage("en")'>EN</button>
+                <button class="chip @(I18n.Language == "es" ? "chip-active" : "")" @onclick='() => SetLanguage("es")'>ES</button>
+            </div>
+
+            <button class="btn btn-primary btn-block" disabled="@(!_nickOk || _busy)" @onclick="NextStep">
+                @I18n.T("onboarding.next")
+            </button>
+        }
+        else
+        {
+            <p class="field-label">@I18n.T("onboarding.avatar")</p>
+            <div class="avatar-grid">
+                @foreach (var avatar in AvatarRegistry.All)
+                {
+                    <button class="avatar-option @(_avatarId == avatar.Id ? "selected" : "")"
+                            @onclick="() => _avatarId = avatar.Id">
+                        <BitMascot Size="72" AvatarId="@avatar.Id" Pose="@BitPoses.Happy" />
+                    </button>
+                }
+            </div>
+            <button class="btn btn-primary btn-block" disabled="@_busy" @onclick="Finish">
+                🚀 @I18n.T("onboarding.start")
+            </button>
+            <button class="btn btn-ghost btn-block" @onclick="() => _step = 0">@I18n.T("common.back")</button>
+        }
+    </div>
+</div>
+
+@code {
+    private int _step;
+    private string _nickname = string.Empty;
+    private string _avatarId = "bit-classic";
+    private bool _nickOk;
+    private bool _busy;
+    private string _checkState = "idle";
+    private System.Threading.Timer? _debounce;
+
+    private string NickClass => _checkState switch
+    {
+        "ok" => "valid",
+        "taken" or "invalid" => "invalid",
+        _ => ""
+    };
+
+    private string NickHintClass => _checkState switch
+    {
+        "ok" => "ok-text",
+        "taken" or "invalid" => "error-text",
+        _ => ""
+    };
+
+    private string NickMessage => _checkState switch
+    {
+        "ok" => I18n.T("onboarding.nickFree"),
+        "taken" => I18n.T("onboarding.nickTaken"),
+        "invalid" => I18n.T("onboarding.nickInvalid"),
+        _ => I18n.T("onboarding.nickRule")
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Game.InitializeAsync();
+        if (Game.Player is null)
+        {
+            Nav.NavigateTo("/");
+            return;
+        }
+        if (Game.Player.OnboardingComplete)
+            Nav.NavigateTo("home");
+    }
+
+    private void OnNickChanged(ChangeEventArgs e)
+    {
+        _nickname = e.Value?.ToString() ?? string.Empty;
+        _nickOk = false;
+        _checkState = "idle";
+        _debounce?.Dispose();
+        var value = _nickname;
+        _debounce = new System.Threading.Timer(async _ =>
+        {
+            await InvokeAsync(async () =>
+            {
+                if (value.Trim().Length < 2)
+                {
+                    _checkState = value.Trim().Length == 0 ? "idle" : "invalid";
+                }
+                else
+                {
+                    var check = await Game.CheckNicknamePublic(value);
+                    _checkState = check.Available ? "ok" : (check.Error == "characters" || check.Error == "length" ? "invalid" : "taken");
+                    _nickOk = check.Available;
+                }
+                StateHasChanged();
+            });
+        }, null, 350, Timeout.Infinite);
+    }
+
+    private void NextStep() => _step = 1;
+
+    private async Task SetLanguage(string lang)
+    {
+        await I18n.SetLanguageAsync(lang);
+    }
+
+    private async Task Finish()
+    {
+        if (_busy) return;
+        _busy = true;
+        try
+        {
+            await Game.CompleteOnboardingAsync(_nickname.Trim(), _avatarId, I18n.Language);
+            Nav.NavigateTo("home");
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
+}

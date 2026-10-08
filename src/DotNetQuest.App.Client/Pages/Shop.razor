@@ -1,0 +1,95 @@
+@page "/shop"
+@using DotNetQuest.App.Client.Components
+@using DotNetQuest.Shared
+@inject GameState Game
+@inject I18nService I18n
+@inject ApiClient Api
+@inject NavigationManager Nav
+@inject Confetti Confetti
+
+<div class="page">
+    <h1 class="page-title">🛍️ @I18n.T("shop.title")</h1>
+    <p class="page-subtitle muted">
+        @I18n.T("shop.subtitle") — 💎 @(Game.Player?.Gems ?? 0)
+    </p>
+
+    <div class="shop-grid">
+        @foreach (var item in Shared.Shop.Items)
+        {
+            var disabled = item.Id switch
+            {
+                "streak-freeze" => (Game.Player?.StreakFreezeCount ?? 0) >= Shared.Shop.MaxStreakFreezes,
+                _ => false
+            };
+            <div class="shop-card">
+                <span class="shop-icon">@item.Icon</span>
+                <h3>@I18n.Pick(item.Name.En, item.Name.Es)</h3>
+                <p class="muted">@I18n.Pick(item.Desc.En, item.Desc.Es)</p>
+                @if (item.Id == "streak-freeze")
+                {
+                    <p class="shop-owned">@I18n.T("shop.owned"): @(Game.Player?.StreakFreezeCount ?? 0)/@Shared.Shop.MaxStreakFreezes</p>
+                }
+                <button class="btn btn-primary btn-block" disabled="@(_busy || disabled || (Game.Player?.Gems ?? 0) < item.Cost)"
+                        @onclick="() => Buy(item.Id)">
+                    💎 @item.Cost
+                </button>
+                @if (disabled)
+                {
+                    <p class="field-hint ok-text">@I18n.T("shop.maxReached")</p>
+                }
+            </div>
+        }
+    </div>
+
+    @if (_message is not null)
+    {
+        <p class="field-hint ok-text">@_message</p>
+    }
+    @if (_error is not null)
+    {
+        <p class="field-hint error-text">@_error</p>
+    }
+</div>
+
+@code {
+    private bool _busy;
+    private string? _message;
+    private string? _error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Game.InitializeAsync();
+        if (Game.Player is null) { Nav.NavigateTo("/"); return; }
+    }
+
+    private async Task Buy(string itemId)
+    {
+        if (_busy) return;
+        _busy = true;
+        _message = null;
+        _error = null;
+        try
+        {
+            var response = await Api.BuyAsync(itemId);
+            if (response is null)
+            {
+                _error = I18n.T("shop.failed");
+                return;
+            }
+            Game.UpdatePlayer(response.Player);
+            if (itemId == "heart-refill")
+            {
+                _message = I18n.T("shop.heartsRefilled");
+                await Confetti.BurstAsync();
+            }
+            else
+            {
+                _message = I18n.T("shop.bought");
+            }
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
+}

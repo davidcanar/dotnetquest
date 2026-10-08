@@ -1,0 +1,59 @@
+@namespace DotNetQuest.App.Client.Components
+@using DotNetQuest.Shared.Content
+
+<div class="parsons">
+    <p class="parsons-label">@I18n.T("exercise.parsonsTap")</p>
+    <div class="parsons-answer">
+        @if (_chosen.Count == 0)
+        {
+            <span class="parsons-empty muted">@I18n.T("exercise.parsonsEmpty")</span>
+        }
+        @foreach (var line in _chosen)
+        {
+            var l = line;
+            <button class="parsons-line placed mono" disabled="@Disabled" @onclick="() => Remove(l)">@l</button>
+        }
+    </div>
+    <div class="parsons-pool">
+        @foreach (var line in _pool)
+        {
+            var l = line;
+            <button class="parsons-line mono" disabled="@Disabled" @onclick="() => Add(l)">@l</button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public string[] Lines { get; set; } = [];
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public EventCallback<List<string>> LinesChanged { get; set; }
+    [Inject] private I18nService I18n { get; set; } = default!;
+
+    private List<string> _pool = [];
+    private List<string> _chosen = [];
+    private bool _initialized;
+
+    protected override void OnParametersSet()
+    {
+        if (_initialized || Lines.Length == 0) return;
+        _initialized = true;
+        // Deterministic shuffle so re-renders don't reshuffle mid-exercise.
+        var seed = Lines.Aggregate(17, (acc, l) => unchecked(acc * 31 + l.Length));
+        var rng = new Random(seed);
+        _pool = Lines.OrderBy(_ => rng.Next()).ToList();
+    }
+
+    private async Task Add(string line)
+    {
+        _pool.Remove(line);
+        _chosen.Add(line);
+        await LinesChanged.InvokeAsync(_chosen.ToList());
+    }
+
+    private async Task Remove(string line)
+    {
+        _chosen.Remove(line);
+        _pool.Add(line);
+        await LinesChanged.InvokeAsync(_chosen.ToList());
+    }
+}

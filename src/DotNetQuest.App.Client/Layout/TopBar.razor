@@ -1,0 +1,69 @@
+@namespace DotNetQuest.App.Client.Layout
+@using DotNetQuest.App.Client.Components
+@using DotNetQuest.Shared
+@inject GameState Game
+@inject I18nService I18n
+@inject NavigationManager Nav
+
+<header class="topbar">
+    <a class="topbar-brand" href="home">
+        <BitMascot Size="34" AvatarId="bit-classic" />
+        <span class="brand-name">DevQuest</span>
+    </a>
+
+    <div class="topbar-stats">
+        <div class="stat-chip stat-level" title="@I18n.T("topbar.level")">
+            <span class="stat-icon">⭐</span>
+            <span>@I18n.T("topbar.level") @Game.Level</span>
+        </div>
+        <div class="stat-chip stat-xp" title="@I18n.T("topbar.xp")">
+            <span class="stat-icon">⚡</span>
+            <span>@(Game.Player?.XpTotal ?? 0) XP</span>
+        </div>
+        <div class="stat-chip stat-streak" title="@I18n.T("topbar.streak")">
+            <span class="stat-icon">🔥</span>
+            <span>@(Game.Player?.StreakCurrent ?? 0)</span>
+        </div>
+        <div class="stat-chip stat-hearts" title="@I18n.T("topbar.hearts")">
+            <span class="stat-icon">❤️</span>
+            <span>@(Game.Player?.Hearts ?? 5)</span>
+        </div>
+        <div class="stat-chip stat-gems" title="@I18n.T("topbar.gems")">
+            <span class="stat-icon">💎</span>
+            <span>@(Game.Player?.Gems ?? 0)</span>
+        </div>
+    </div>
+
+    <div class="topbar-right">
+        <button class="lang-toggle" @onclick="ToggleLanguage" title="@I18n.T("topbar.language")">
+            @(I18n.Language == "es" ? "ES" : "EN")
+        </button>
+        <a class="avatar-chip" href="profile" title="@I18n.T("nav.profile")">
+            <BitMascot Size="34" AvatarId="@Game.Player?.AvatarId" />
+            <span class="avatar-name">@(Game.Player?.Nickname)</span>
+        </a>
+    </div>
+</header>
+
+@code {
+    protected override void OnInitialized()
+    {
+        // The top bar has no parameters, so Blazor never re-renders it when game
+        // state changes elsewhere — subscribe directly.
+        Game.StateChanged += OnStateChanged;
+    }
+
+    private void OnStateChanged() => InvokeAsync(StateHasChanged);
+
+    private async Task ToggleLanguage()
+    {
+        var next = I18n.Language == "en" ? "es" : "en";
+        await I18n.SetLanguageAsync(next);
+        if (Game.Player is not null)
+            await Game.UpdateProfileAsync(new DotNetQuest.Shared.Api.ProfileUpdateRequest(
+                null, null, null, new DotNetQuest.Shared.Api.PlayerSettingsDto(
+                    next, Game.Player.Settings.AutoSpeak, Game.Player.Settings.Sound, Game.Player.Settings.DarkMode)));
+        // Full reload so every page re-renders in the new language.
+        Nav.NavigateTo(Nav.Uri, forceLoad: true);
+    }
+}

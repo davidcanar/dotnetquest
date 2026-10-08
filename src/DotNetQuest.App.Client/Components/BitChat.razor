@@ -1,0 +1,258 @@
+@namespace DotNetQuest.App.Client.Components
+@using DotNetQuest.App.Client.Services
+@using DotNetQuest.Shared.Api
+@using DotNetQuest.Shared.Content
+@inject GameState Game
+@inject I18nService I18n
+@inject ApiClient Api
+@inject BitVoice Voice
+
+@if (!Visible) return;
+
+<div class="bit-drawer-backdrop" @onclick="RequestClose"></div>
+<div class="bit-drawer" role="dialog" aria-label="Bit">
+    <div class="bit-drawer-head">
+        <BitMascot Size="56" Pose="@(_waiting ? BitPoses.Think : (Voice.Speaking ? BitPoses.Talk : BitPoses.Happy))" Talking="@Voice.Speaking" />
+        <div class="bit-drawer-title">
+            <strong>Bit</strong>
+            <span class="muted">@I18n.T("bit.subtitle")</span>
+        </div>
+        <button class="icon-btn" @onclick="RequestClose" title="@I18n.T("common.close")">✕</button>
+    </div>
+
+    <div class="bit-messages" id="bit-messages">
+        @if (_messages.Count == 0)
+        {
+            <div class="bit-msg bit-msg-bit">
+                <p>@I18n.T("bit.greeting")</p>
+            </div>
+        }
+        @foreach (var msg in _messages)
+        {
+            <div class="bit-msg @(msg.Role == "user" ? "bit-msg-user" : "bit-msg-bit")">
+                @if (msg.Role == "user")
+                {
+                    <p>@msg.Content</p>
+                }
+                else
+                {
+                    <div class="bit-bubble">
+                        <pre class="bit-text">@msg.Content</pre>
+                        <div class="bit-msg-actions">
+                            @if (_voiceSupported && msg.Content.Length > 0)
+                            {
+                                <button class="icon-btn small" @onclick="() => Speak(msg.Content)" title="@I18n.T("bit.speak")">🔊</button>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        @if (_waiting)
+        {
+            <div class="bit-msg bit-msg-bit"><div class="bit-bubble typing"><span></span><span></span><span></span></div></div>
+        }
+    </div>
+
+    <div class="bit-hints">
+        @for (var i = 0; i < Math.Min(_hintsShown, Hints?.Count ?? 0); i++)
+        {
+            var hint = Hints![i];
+            <div class="hint-line">💡 @I18n.Pick(hint.En, hint.Es)</div>
+        }
+        @if (Hints is { Count: > 0 } && _hintsShown < Hints.Count)
+        {
+            var freeLeft = FreeHints - _hintUses;
+            <button class="btn btn-ghost btn-small" disabled="@_hintBusy" @onclick="ShowNextHint">
+                @if (freeLeft > 0)
+                {
+                    <span>💡 @I18n.T("bit.showHint") (@(freeLeft)/@FreeHints)</span>
+                }
+                else
+                {
+                    <span>💡 @I18n.T("bit.hintCost") — 💎@Shop.HintCost</span>
+                }
+            </button>
+        }
+    </div>
+
+    @if (Game.TutorConfigured)
+    {
+        <div class="bit-input-row">
+            <input class="text-input" placeholder="@I18n.T("bit.placeholder")" value="@_draft"
+                   @oninput="OnDraftChanged" @onkeydown="OnKey" />
+            <button class="btn btn-primary" disabled="@(_waiting || string.IsNullOrWhiteSpace(_draft))" @onclick="SendAsync">➤</button>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+    [Parameter] public string? LessonTitle { get; set; }
+    [Parameter] public string? ExercisePrompt { get; set; }
+    [Parameter] public string? ExerciseType { get; set; }
+    [Parameter] public string? StarterCode { get; set; }
+    [Parameter] public string? UserCode { get; set; }
+    [Parameter] public string? LastOutput { get; set; }
+    [Parameter] public string? LastDiagnostics { get; set; }
+    [Parameter] public List<Loc>? Hints { get; set; }
+
+    /// <summary>Free hint/AI uses per lesson before gems are charged.</summary>
+    [Parameter] public int FreeHints { get; set; } = 3;
+
+    /// <summary>Paid by the parent: returns true when a gem was spent (or none was needed).</summary>
+    [Parameter] public Func<Task<bool>>? ConsumeExtraUse { get; set; }
+
+    /// <summary>Message the parent wants Bit to receive when opened (proactive nudge).</summary>
+    [Parameter] public string? PendingUserMessage { get; set; }
+
+    private readonly List<TutorChatMessage> _messages = [];
+    private string _draft = string.Empty;
+    private bool _waiting;
+    private bool _voiceSupported;
+    private int _hintsShown;
+    private int _hintUses;
+    private bool _hintBusy;
+    private bool _pendingSent;
+    private bool _voiceChecked;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!Visible) return;
+        if (!_voiceChecked)
+        {
+            _voiceChecked = true;
+            _voiceSupported = await Voice.IsSupportedAsync();
+        }
+
+        // Proactive nudge: auto-send the pending message once when opened.
+        if (!_pendingSent && !string.IsNullOrWhiteSpace(PendingUserMessage) && !_waiting)
+        {
+            _pendingSent = true;
+            _draft = PendingUserMessage;
+            await SendAsync();
+        }
+    }
+
+    private void OnDraftChanged(ChangeEventArgs e) => _draft = e.Value?.ToString() ?? string.Empty;
+
+    private void OnKey(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !_waiting && !string.IsNullOrWhiteSpace(_draft))
+            _ = SendAsync();
+    }
+
+    /// <summary>Gem gating: free uses first, then the parent charges gems.</summary>
+    private async Task<bool> TryConsumeUse()
+    {
+        if (_hintUses < FreeHints)
+        {
+            _hintUses++;
+            return true;
+        }
+        if (ConsumeExtraUse is null)
+        {
+            _hintUses++;
+            return true;
+        }
+        _hintBusy = true;
+        try
+        {
+            return await ConsumeExtraUse();
+        }
+        finally
+        {
+            _hintBusy = false;
+        }
+    }
+
+    private async Task ShowNextHint()
+    {
+        if (Hints is not { Count: > 0 } || _hintsShown >= Hints.Count) return;
+        if (!await TryConsumeUse())
+        {
+            _messages.Add(new TutorChatMessage("assistant", I18n.T("bit.noGems")));
+            StateHasChanged();
+            return;
+        }
+        _hintsShown++;
+        StateHasChanged();
+    }
+
+    private async Task SendAsync()
+    {
+        var text = _draft.Trim();
+        if (text.Length == 0 || _waiting) return;
+
+        if (!await TryConsumeUse())
+        {
+            _messages.Add(new TutorChatMessage("assistant", I18n.T("bit.noGems")));
+            StateHasChanged();
+            return;
+        }
+
+        _draft = string.Empty;
+        _messages.Add(new TutorChatMessage("user", text));
+        _waiting = true;
+        var streaming = _messages.Count; // index of the assistant message being streamed
+        _messages.Add(new TutorChatMessage("assistant", string.Empty));
+        StateHasChanged();
+
+        var context = new TutorContext(LessonTitle, ExercisePrompt, ExerciseType, StarterCode, UserCode, LastOutput, LastDiagnostics);
+        var history = _messages.Take(streaming).Select(m => new TutorChatMessage(m.Role, m.Content)).ToList();
+        var request = new TutorChatRequest(I18n.Language, context, history);
+
+        string? fallbackReason = null;
+        if (Game.TutorConfigured)
+        {
+            var (reply, ok, reason) = await Api.StreamTutorAsync(request, delta =>
+            {
+                _messages[streaming] = _messages[streaming] with { Content = _messages[streaming].Content + delta };
+                _ = InvokeAsync(StateHasChanged);
+            });
+
+            if (ok)
+            {
+                _waiting = false;
+                _messages[streaming] = _messages[streaming] with { Content = reply.Trim() };
+                if (Game.Player?.Settings.AutoSpeak == true)
+                    _ = Speak(reply);
+                StateHasChanged();
+                return;
+            }
+            fallbackReason = string.IsNullOrWhiteSpace(reason) ? null : reason;
+        }
+
+        // Fallback: AI unavailable or rate-limited — serve the built-in hints instead.
+        _waiting = false;
+        var offlineMessage = fallbackReason == "tutor-rate-limited"
+            ? I18n.T("bit.rateLimited")
+            : I18n.T("bit.offline");
+        if (!string.IsNullOrWhiteSpace(fallbackReason) && fallbackReason != "tutor-rate-limited")
+            offlineMessage += "\n\n🔎 " + fallbackReason;
+        _messages[streaming] = new TutorChatMessage("assistant", offlineMessage);
+        ShowNextHintSilent();
+        StateHasChanged();
+    }
+
+    private void ShowNextHintSilent()
+    {
+        if (Hints is { Count: > 0 } && _hintsShown < Hints.Count)
+            _hintsShown++;
+    }
+
+    private async Task Speak(string text)
+    {
+        if (!_voiceSupported) return;
+        Voice.Enabled = Game.Player?.Settings.AutoSpeak != false;
+        await Voice.SpeakAsync(text, I18n.Language);
+    }
+
+    private void RequestClose()
+    {
+        Voice.Enabled = Game.Player?.Settings.AutoSpeak != false;
+        _ = Voice.StopAsync();
+        OnClose.InvokeAsync();
+    }
+}

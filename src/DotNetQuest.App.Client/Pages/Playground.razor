@@ -1,0 +1,67 @@
+@page "/playground"
+@using DotNetQuest.App.Client.Components
+@inject GameState Game
+@inject I18nService I18n
+@inject ApiClient Api
+@inject NavigationManager Nav
+
+<div class="page">
+    <h1 class="page-title">🧪 @I18n.T("playground.title")</h1>
+    <p class="page-subtitle muted">@I18n.T("playground.subtitle")</p>
+
+    <textarea class="code-editor mono tall" rows="16" spellcheck="false"
+              value="@_code" @oninput="OnCodeChanged"></textarea>
+
+    <div class="code-actions">
+        <button class="btn btn-primary" disabled="@_running" @onclick="Run">
+            @if (_running)
+            {
+                <span>⏳ @I18n.T("lesson.running")</span>
+            }
+            else
+            {
+                <span>▶ @I18n.T("lesson.run")</span>
+            }
+        </button>
+        <button class="btn btn-ghost" @onclick="ResetCode">@I18n.T("playground.reset")</button>
+    </div>
+
+    @if (_result is not null)
+    {
+        <CodeRunPanel Result="@_result" />
+    }
+</div>
+
+@code {
+    private const string Starter =
+        "// " + "Write any C# you like and press Run!\n" +
+        "// Escribe el C# que quieras y pulsa Run!\n\n" +
+        "Console.WriteLine(\"Hello from the Playground!\");\n\n" +
+        "for (var i = 1; i <= 5; i++)\n" +
+        "{\n" +
+        "    Console.WriteLine($\"DevQuest XP x{i}\");\n" +
+        "}";
+
+    private string _code = Starter;
+    private CodeRunResultDto? _result;
+    private bool _running;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Game.InitializeAsync();
+        if (Game.Player is null) { Nav.NavigateTo("/"); return; }
+    }
+
+    private void OnCodeChanged(ChangeEventArgs e) => _code = e.Value?.ToString() ?? string.Empty;
+
+    private void ResetCode() => _code = Starter;
+
+    private async Task Run()
+    {
+        if (_running) return;
+        _running = true;
+        StateHasChanged();
+        _result = await Api.RunCodeAsync(_code);
+        _running = false;
+    }
+}

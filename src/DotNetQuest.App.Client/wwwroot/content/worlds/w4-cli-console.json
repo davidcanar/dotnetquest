@@ -1,0 +1,1193 @@
+{
+  "id": "w4-cli-console",
+  "order": 4,
+  "track": "command-line",
+  "title": { "en": ".NET CLI & Console Apps", "es": "CLI de .NET y apps de consola" },
+  "subtitle": { "en": "The dotnet command, projects, NuGet, files and real console apps", "es": "El comando dotnet, proyectos, NuGet, archivos y apps de consola reales" },
+  "intro": { "en": "Behind every .NET app is the dotnet CLI. Learn to create, run and fix real projects — the way professionals work every day.", "es": "Detrás de cada app .NET está la CLI de dotnet. Aprende a crear, ejecutar y arreglar proyectos reales, como trabajan los profesionales cada día." },
+  "icon": "💻",
+  "color": "#14b8a6",
+  "cheatSheet": [
+    {
+      "title": { "en": "dotnet commands", "es": "Comandos dotnet" },
+      "items": [
+        { "en": "dotnet new console -o MyApp", "es": "dotnet new console -o MyApp" },
+        { "en": "dotnet run  (inside the project folder)", "es": "dotnet run  (dentro de la carpeta del proyecto)" },
+        { "en": "dotnet build", "es": "dotnet build" },
+        { "en": "dotnet add package Newtonsoft.Json", "es": "dotnet add package Newtonsoft.Json" },
+        { "en": "dotnet --version", "es": "dotnet --version" }
+      ]
+    },
+    {
+      "title": { "en": "Project files", "es": "Archivos del proyecto" },
+      "items": [
+        { "en": "MyApp.csproj — the project manifest (XML)", "es": "MyApp.csproj — el manifiesto del proyecto (XML)" },
+        { "en": "Program.cs — where execution starts", "es": "Program.cs — donde empieza la ejecución" },
+        { "en": "namespace MyApp { } — code organization", "es": "namespace MyApp { } — organización del código" },
+        { "en": "using System.IO; — import a namespace", "es": "using System.IO; — importar un espacio de nombres" }
+      ]
+    },
+    {
+      "title": { "en": "Files", "es": "Archivos" },
+      "items": [
+        { "en": "File.WriteAllText(\"f.txt\", text);", "es": "File.WriteAllText(\"f.txt\", texto);" },
+        { "en": "string text = File.ReadAllText(\"f.txt\");", "es": "string text = File.ReadAllText(\"f.txt\");" },
+        { "en": "File.Exists(\"f.txt\")", "es": "File.Exists(\"f.txt\")" },
+        { "en": "File.AppendAllText(\"f.txt\", more);", "es": "File.AppendAllText(\"f.txt\", mas);" }
+      ]
+    },
+    {
+      "title": { "en": "Errors", "es": "Errores" },
+      "items": [
+        { "en": "CS errors = compile time (won't run)", "es": "Errores CS = tiempo de compilación (no ejecuta)" },
+        { "en": "Exceptions = runtime (crashes while running)", "es": "Excepciones = tiempo de ejecución (falla al correr)" },
+        { "en": "try { risky } catch (Exception ex) { recover }", "es": "try { arriesgado } catch (Exception ex) { recupera }" }
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "u1",
+      "title": { "en": "The dotnet CLI", "es": "La CLI de dotnet" },
+      "lessons": [
+        {
+          "id": "w4-l01-what",
+          "kind": "lesson",
+          "title": { "en": "What is the .NET SDK?", "es": "¿Qué es el SDK de .NET?" },
+          "tip": { "en": "The SDK (Software Development Kit) bundles the compiler, the runtime and the dotnet command. It's the whole toolbox in one installer.", "es": "El SDK (Software Development Kit) incluye el compilador, el runtime y el comando dotnet. Es toda la caja de herramientas en un instalador." },
+          "exercises": [
+            {
+              "id": "w4-l01e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "What does the 'SDK' in '.NET SDK' stand for?", "es": "¿Qué significa 'SDK' en '.NET SDK'?" },
+              "options": [
+                { "en": "Software Development Kit", "es": "Software Development Kit" },
+                { "en": "System Developer Keyboard", "es": "System Developer Keyboard" },
+                { "en": "Source Deployment Kit", "es": "Source Deployment Kit" },
+                { "en": "Super Dot Kernel", "es": "Super Dot Kernel" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Software Development Kit: everything you need to BUILD and RUN .NET apps.", "es": "Software Development Kit: todo lo necesario para COMPILAR y EJECUTAR apps .NET." },
+              "hints": [ { "en": "It's a kit... for developing software.", "es": "Es un kit... para desarrollar software." } ]
+            },
+            {
+              "id": "w4-l01e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Which command shows which .NET version is installed?", "es": "¿Qué comando muestra qué versión de .NET está instalada?" },
+              "options": [
+                { "en": "dotnet --version", "es": "dotnet --version" },
+                { "en": "dotnet version", "es": "dotnet version" },
+                { "en": "dotnet show version", "es": "dotnet show version" },
+                { "en": "net version", "es": "net version" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "dotnet --version (two dashes) prints the SDK version. --info gives even more detail.", "es": "dotnet --version (dos guiones) muestra la versión del SDK. --info da aún más detalle." },
+              "hints": [ { "en": "Double-dash flags are the CLI convention.", "es": "Las banderas con doble guion son la convención de la CLI." } ]
+            },
+            {
+              "id": "w4-l01e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": { "en": "A machine can have several .NET SDKs installed at once.", "es": "Una máquina puede tener varios SDK de .NET instalados a la vez." },
+              "answerIndex": 1,
+              "explanation": { "en": "True — side-by-side SDKs are officially supported; each project picks the one it needs.", "es": "Verdadero: los SDK conviven oficialmente y cada proyecto elige el que necesita." },
+              "hints": [ { "en": "This very game runs on .NET 10 while other projects may use .NET 8.", "es": "Este mismo juego corre en .NET 10 mientras otros proyectos usan .NET 8." } ]
+            },
+            {
+              "id": "w4-l01e4",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match each piece of the .NET world to its job:", "es": "Relaciona cada pieza del mundo .NET con su trabajo:" },
+              "pairs": [
+                { "left": { "en": "SDK", "es": "SDK" }, "right": { "en": "compiles your code", "es": "compila tu código" } },
+                { "left": { "en": "Runtime", "es": "Runtime" }, "right": { "en": "executes compiled apps", "es": "ejecuta las apps compiladas" } },
+                { "left": { "en": "CLI", "es": "CLI" }, "right": { "en": "command-line interface (dotnet)", "es": "interfaz de línea de comandos (dotnet)" } },
+                { "left": { "en": "NuGet", "es": "NuGet" }, "right": { "en": "package manager / app store for code", "es": "gestor de paquetes / tienda de código" } }
+              ],
+              "explanation": { "en": "SDK builds, runtime runs, CLI commands it, NuGet feeds it libraries.", "es": "El SDK compila, el runtime ejecuta, la CLI lo comanda y NuGet le da librerías." },
+              "hints": [ { "en": "NuGet is where libraries come from.", "es": "NuGet es de donde salen las librerías." } ]
+            }
+          ]
+        },
+        {
+          "id": "w4-l02-new",
+          "kind": "lesson",
+          "title": { "en": "Creating Projects", "es": "Crear proyectos" },
+          "tip": { "en": "dotnet new console -o MyApp scaffolds a working console app in seconds. -o names the output folder.", "es": "dotnet new console -o MyApp crea una app de consola funcional en segundos. -o nombra la carpeta." },
+          "exercises": [
+            {
+              "id": "w4-l02e1",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the command that creates a console app in a folder called Todo:", "es": "Completa el comando que crea una app de consola en la carpeta Todo:" },
+              "code": "dotnet new ___ -o Todo",
+              "blanks": [ { "answer": "console", "caseSensitive": false } ],
+              "explanation": { "en": "console is the template: a minimal program that prints Hello, World! and exits.", "es": "console es la plantilla: un programa mínimo que imprime Hello, World! y termina." },
+              "hints": [ { "en": "This world is all about console apps.", "es": "Este mundo va de apps de consola." } ]
+            },
+            {
+              "id": "w4-l02e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "What does the -o flag do in `dotnet new console -o Todo`?", "es": "¿Qué hace la bandera -o en `dotnet new console -o Todo`?" },
+              "options": [
+                { "en": "Puts the new project in a folder named Todo", "es": "Pone el nuevo proyecto en una carpeta llamada Todo" },
+                { "en": "Opens the project in an editor", "es": "Abre el proyecto en un editor" },
+                { "en": "Optimizes the build", "es": "Optimiza la compilación" },
+                { "en": "Marks it as official", "es": "Lo marca como oficial" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "-o = output directory. Without it, the template uses the current folder's name.", "es": "-o = directorio de salida. Sin ella, la plantilla usa el nombre de la carpeta actual." },
+              "hints": [ { "en": "O for output.", "es": "O de output (salida)." } ]
+            },
+            {
+              "id": "w4-l02e3",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match each template to what it creates:", "es": "Relaciona cada plantilla con lo que crea:" },
+              "pairs": [
+                { "left": { "en": "console", "es": "console" }, "right": { "en": "terminal app (this world!)", "es": "app de terminal (¡este mundo!)" } },
+                { "left": { "en": "webapi", "es": "webapi" }, "right": { "en": "HTTP API server", "es": "servidor de API HTTP" } },
+                { "left": { "en": "blazor", "es": "blazor" }, "right": { "en": "web UI in C#", "es": "UI web en C#" } },
+                { "left": { "en": "xunit", "es": "xunit" }, "right": { "en": "test project", "es": "proyecto de pruebas" } }
+              ],
+              "explanation": { "en": "dotnet new has templates for everything — world 8 and 9 will use webapi and blazor!", "es": "dotnet new tiene plantillas para todo: ¡los mundos 8 y 9 usarán webapi y blazor!" },
+              "hints": [ { "en": "xunit is the testing framework this game itself uses.", "es": "xunit es el framework de pruebas que usa este mismo juego." } ]
+            },
+            {
+              "id": "w4-l02e4",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "After creating a project, which two files are the heart of it?", "es": "Tras crear un proyecto, ¿qué dos archivos son su corazón?" },
+              "options": [
+                { "en": "Program.cs and MyApp.csproj", "es": "Program.cs y MyApp.csproj" },
+                { "en": "index.html and style.css", "es": "index.html y style.css" },
+                { "en": "README.md and .gitignore", "es": "README.md y .gitignore" },
+                { "en": "app.exe and app.dll", "es": "app.exe y app.dll" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Program.cs holds your code; the .csproj describes the project to the build system.", "es": "Program.cs guarda tu código; el .csproj describe el proyecto al sistema de compilación." },
+              "hints": [ { "en": "One is code, one is configuration.", "es": "Uno es código, otro configuración." } ]
+            }
+          ]
+        },
+        {
+          "id": "w4-l03-run",
+          "kind": "lesson",
+          "title": { "en": "dotnet run & build", "es": "dotnet run y build" },
+          "tip": { "en": "dotnet run = compile + execute in one step. dotnet build just compiles and reports errors — great for checking your work.", "es": "dotnet run = compila y ejecuta en un paso. dotnet build solo compila y reporta errores: ideal para revisar tu trabajo." },
+          "exercises": [
+            {
+              "id": "w4-l03e1",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the command that compiles AND runs the app:", "es": "Completa el comando que compila Y ejecuta la app:" },
+              "code": "dotnet ___",
+              "blanks": [ { "answer": "run", "caseSensitive": false } ],
+              "explanation": { "en": "dotnet run is your inner loop: change code, run, repeat.", "es": "dotnet run es tu ciclo: cambia código, ejecuta, repite." },
+              "hints": [ { "en": "Three letters. What you want the program to do.", "es": "Tres letras. Lo que quieres que haga el programa." } ]
+            },
+            {
+              "id": "w4-l03e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "You only want to CHECK for compile errors without running. Which command?", "es": "Solo quieres REVISAR errores de compilación sin ejecutar. ¿Qué comando?" },
+              "options": [
+                { "en": "dotnet build", "es": "dotnet build" },
+                { "en": "dotnet check", "es": "dotnet check" },
+                { "en": "dotnet test", "es": "dotnet test" },
+                { "en": "dotnet verify", "es": "dotnet verify" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "dotnet build compiles and lists errors/warnings — no execution.", "es": "dotnet build compila y lista errores/avisos, sin ejecutar." },
+              "hints": [ { "en": "What do builders do to buildings?", "es": "¿Qué hacen los constructores con los edificios?" } ]
+            },
+            {
+              "id": "w4-l03e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Where must your terminal be when you run `dotnet run`?", "es": "¿Dónde debe estar tu terminal al ejecutar `dotnet run`?" },
+              "options": [
+                { "en": "Inside the project folder (next to the .csproj)", "es": "Dentro de la carpeta del proyecto (junto al .csproj)" },
+                { "en": "In C:\\", "es": "En C:\\" },
+                { "en": "Anywhere — it finds projects globally", "es": "En cualquier parte: encuentra proyectos globalmente" },
+                { "en": "Inside the bin folder", "es": "Dentro de la carpeta bin" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "dotnet run operates on the project in the CURRENT folder — it looks for a .csproj there.", "es": "dotnet run opera sobre el proyecto de la carpeta ACTUAL: busca ahí un .csproj." },
+              "hints": [ { "en": "The command needs to find your .csproj.", "es": "El comando necesita encontrar tu .csproj." } ]
+            },
+            {
+              "id": "w4-l03e4",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": { "en": "Order the daily workflow of a .NET developer:", "es": "Ordena el flujo de trabajo diario de un developer .NET:" },
+              "code": "dotnet new console -o MyApp\ncd MyApp\ndotnet run\ndotnet build",
+              "explanation": { "en": "Create → enter the folder → run it → build to check. The loop repeats all day.", "es": "Crear → entrar a la carpeta → ejecutar → compilar para revisar. El ciclo se repite todo el día." },
+              "hints": [ { "en": "You can't cd into a folder that doesn't exist yet.", "es": "No puedes entrar a una carpeta que aún no existe." } ]
+            }
+          ]
+        },
+        {
+          "id": "w4-l04-quiz1",
+          "kind": "quiz",
+          "title": { "en": "Unit 1 Quiz", "es": "Examen de la unidad 1" },
+          "tip": { "en": "CLI basics — show the machine who's boss!", "es": "Lo básico de la CLI: ¡demuéstrale a la máquina quién manda!" },
+          "exercises": [
+            {
+              "id": "w4-l04e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": { "en": "Which command adds an external library to your project?", "es": "¿Qué comando añade una librería externa a tu proyecto?" },
+              "options": [
+                { "en": "dotnet add package Newtonsoft.Json", "es": "dotnet add package Newtonsoft.Json" },
+                { "en": "dotnet install Newtonsoft.Json", "es": "dotnet install Newtonsoft.Json" },
+                { "en": "dotnet get Newtonsoft.Json", "es": "dotnet get Newtonsoft.Json" },
+                { "en": "nuget add Newtonsoft.Json", "es": "nuget add Newtonsoft.Json" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "dotnet add package <Name> downloads it from NuGet and updates your .csproj automatically.", "es": "dotnet add package <Nombre> la descarga de NuGet y actualiza tu .csproj automáticamente." },
+              "hints": [ { "en": "You ADD a PACKAGE.", "es": "AÑADES un PACKAGE." } ]
+            },
+            {
+              "id": "w4-l04e2",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": { "en": "Complete the flag to create the project in a folder named WebShop:", "es": "Completa la bandera para crear el proyecto en una carpeta WebShop:" },
+              "code": "dotnet new console ___ WebShop",
+              "blanks": [ { "answer": "-o", "caseSensitive": false } ],
+              "explanation": { "en": "-o (output) names the folder and the project.", "es": "-o (output) nombra la carpeta y el proyecto." },
+              "hints": [ { "en": "Dash + one letter.", "es": "Guion + una letra." } ]
+            },
+            {
+              "id": "w4-l04e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "dotnet run and dotnet build do exactly the same thing.", "es": "dotnet run y dotnet build hacen exactamente lo mismo." },
+              "answerIndex": 0,
+              "explanation": { "en": "False — build compiles only; run compiles AND executes.", "es": "Falso: build solo compila; run compila Y ejecuta." },
+              "hints": [ { "en": "One of them starts your program.", "es": "Uno de ellos arranca tu programa." } ]
+            },
+            {
+              "id": "w4-l04e4",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": { "en": "What file did `dotnet new console -o Shop` NOT create?", "es": "¿Qué archivo NO creó `dotnet new console -o Shop`?" },
+              "options": [
+                { "en": "Shop.slnx", "es": "Shop.slnx" },
+                { "en": "Shop.csproj", "es": "Shop.csproj" },
+                { "en": "Program.cs", "es": "Program.cs" },
+                { "en": "obj/ folder contents", "es": "contenido de la carpeta obj/" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "A solution file is created by dotnet new sln — the template makes just the project.", "es": "El archivo de solución lo crea dotnet new sln; la plantilla solo crea el proyecto." },
+              "hints": [ { "en": "Solution = a group of projects.", "es": "Solución = grupo de proyectos." } ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": { "en": "Projects & Code Files", "es": "Proyectos y archivos de código" },
+      "lessons": [
+        {
+          "id": "w4-l05-csproj",
+          "kind": "lesson",
+          "title": { "en": "The .csproj File", "es": "El archivo .csproj" },
+          "tip": { "en": "The .csproj is the project's ID card: its name, .NET version and dependencies. XML, but friendly.", "es": "El .csproj es la tarjeta de identidad del proyecto: nombre, versión de .NET y dependencias. XML, pero amigable." },
+          "exercises": [
+            {
+              "id": "w4-l05e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "What does <TargetFramework>net10.0</TargetFramework> mean?", "es": "¿Qué significa <TargetFramework>net10.0</TargetFramework>?" },
+              "options": [
+                { "en": "The project is built for .NET 10", "es": "El proyecto se compila para .NET 10" },
+                { "en": "The project targets Windows 10 only", "es": "El proyecto apunta solo a Windows 10" },
+                { "en": "The project needs 10 GB of RAM", "es": "El proyecto necesita 10 GB de RAM" },
+                { "en": "It's the 10th project in the solution", "es": "Es el décimo proyecto de la solución" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "TargetFramework picks which .NET version compiles and runs your code.", "es": "TargetFramework elige qué versión de .NET compila y ejecuta tu código." },
+              "hints": [ { "en": "Framework = which .NET.", "es": "Framework = qué .NET." } ]
+            },
+            {
+              "id": "w4-l05e2",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": { "en": "You should edit files inside the obj/ folder.", "es": "Deberías editar archivos dentro de la carpeta obj/." },
+              "answerIndex": 0,
+              "explanation": { "en": "False! obj/ (and bin/) are build OUTPUT — the compiler regenerates them; never hand-edit.", "es": "¡Falso! obj/ (y bin/) son SALIDA de compilación: el compilador los regenera; nunca los edites a mano." },
+              "hints": [ { "en": "What the machine writes, the machine rewrites.", "es": "Lo que la máquina escribe, la máquina lo reescribe." } ]
+            },
+            {
+              "id": "w4-l05e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Where does `dotnet add package` record the new dependency?", "es": "¿Dónde registra `dotnet add package` la nueva dependencia?" },
+              "options": [
+                { "en": "In the .csproj file", "es": "En el archivo .csproj" },
+                { "en": "In Program.cs", "es": "En Program.cs" },
+                { "en": "In appsettings.json", "es": "En appsettings.json" },
+                { "en": "In your user profile only", "es": "Solo en tu perfil de usuario" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "A <PackageReference> line appears in the .csproj — versioned dependencies live there.", "es": "Aparece una línea <PackageReference> en el .csproj: las dependencias versionadas viven ahí." },
+              "hints": [ { "en": "The project's ID card gets a new line.", "es": "La tarjeta de identidad del proyecto recibe una línea nueva." } ]
+            },
+            {
+              "id": "w4-l05e4",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": { "en": "Order the layers of a .NET project from outermost to innermost:", "es": "Ordena las capas de un proyecto .NET de fuera hacia dentro:" },
+              "code": "Solution (.slnx)\nProject (.csproj)\nSource files (.cs)\nMethods and statements",
+              "explanation": { "en": "Solutions group projects; projects contain files; files contain code.", "es": "Las soluciones agrupan proyectos; los proyectos contienen archivos; los archivos contienen código." },
+              "hints": [ { "en": "Biggest container first.", "es": "Primero el contenedor más grande." } ]
+            }
+          ]
+        },
+        {
+          "id": "w4-l06-namespaces",
+          "kind": "lesson",
+          "title": { "en": "Namespaces", "es": "Espacios de nombres" },
+          "tip": { "en": "A namespace is a last name for your types: DotNetQuest.Services.Logger. They prevent name collisions between libraries.", "es": "Un namespace es el apellido de tus tipos: DotNetQuest.Services.Logger. Evitan colisiones de nombres entre librerías." },
+          "exercises": [
+            {
+              "id": "w4-l06e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Why do namespaces exist?", "es": "¿Por qué existen los namespaces?" },
+              "options": [
+                { "en": "So two libraries can both define a class named Logger without conflict", "es": "Para que dos librerías definan una clase Logger sin conflicto" },
+                { "en": "To make compilation faster", "es": "Para compilar más rápido" },
+                { "en": "Because folders cannot hold code", "es": "Porque las carpetas no pueden guardar código" },
+                { "en": "To encrypt your code", "es": "Para cifrar tu código" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Namespaces scope names: MyLib.Logger vs OtherLib.Logger coexist peacefully.", "es": "Los namespaces dan ámbito a los nombres: MyLib.Logger y OtherLib.Logger conviven en paz." },
+              "hints": [ { "en": "Think of full names avoiding confusion between two Marias.", "es": "Piensa en nombres completos para no confundir a dos Marías." } ]
+            },
+            {
+              "id": "w4-l06e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the declaration of the namespace Shop.Orders:", "es": "Completa la declaración del namespace Shop.Orders:" },
+              "code": "___ Shop.Orders\n{\n    class Order { }\n}",
+              "blanks": [ { "answer": "namespace", "caseSensitive": true } ],
+              "explanation": { "en": "namespace + dotted name + braces. Everything inside gets that full name.", "es": "namespace + nombre con puntos + llaves. Todo dentro recibe ese nombre completo." },
+              "hints": [ { "en": "Nine letters, the concept's own name.", "es": "Nueve letras, el propio nombre del concepto." } ]
+            },
+            {
+              "id": "w4-l06e3",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "Will this compile?", "es": "¿Compilará esto?" },
+              "code": "namespace A\n{\n    class Tool { }\n}\nnamespace B\n{\n    class Tool { }\n}\nConsole.WriteLine(\"ok\");",
+              "options": [
+                { "en": "Yes — A.Tool and B.Tool are different types", "es": "Sí: A.Tool y B.Tool son tipos distintos" },
+                { "en": "No — duplicate class name", "es": "No: nombre de clase duplicado" },
+                { "en": "Yes, but only if A and B are merged", "es": "Sí, pero solo si A y B se fusionan" },
+                { "en": "No — namespaces can't hold classes", "es": "No: los namespaces no pueden contener clases" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Same short name in different namespaces is perfectly legal — that's the point!", "es": "El mismo nombre corto en namespaces distintos es perfectamente legal: ¡para eso existen!" },
+              "hints": [ { "en": "Remember: namespaces are last names.", "es": "Recuerda: los namespaces son apellidos." } ]
+            },
+            {
+              "id": "w4-l06e4",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": { "en": "This program can't find List<T>. Add the missing piece so it prints 2.", "es": "Este programa no encuentra List<T>. Añade lo que falta para que muestre 2." },
+              "starter": "var list = new List<int> { 5, 6 };\nConsole.WriteLine(list.Count);",
+              "tests": [ { "name": "prints 2", "expectedOutput": "2", "match": "exact" } ],
+              "explanation": { "en": "using System.Collections.Generic; imports the namespace that holds List<T>. (Your own runner adds implicit usings — but knowing WHY matters!)", "es": "using System.Collections.Generic; importa el namespace que contiene List<T>. (Tu runner añade usings implícitos, ¡pero saber POR QUÉ importa!)" },
+              "hints": [
+                { "en": "Start the file with a using directive for System.Collections.Generic.", "es": "Empieza el archivo con un using para System.Collections.Generic." }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w4-l07-using",
+          "kind": "lesson",
+          "title": { "en": "using Directives", "es": "Directivas using" },
+          "tip": { "en": "using System.IO; at the top of a file lets you write File.ReadAllText instead of System.IO.File.ReadAllText — a local nickname for a namespace.", "es": "using System.IO; al inicio del archivo te permite escribir File.ReadAllText en vez de System.IO.File.ReadAllText: un apodo local para el namespace." },
+          "exercises": [
+            {
+              "id": "w4-l07e1",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": { "en": "Order a proper program file from top to bottom:", "es": "Ordena un archivo de programa correcto de arriba a abajo:" },
+              "code": "using System.IO;\n\nConsole.WriteLine(\"starting\");\nFile.WriteAllText(\"log.txt\", \"done\");",
+              "explanation": { "en": "using directives go first, then your program statements.", "es": "Los using van primero, después tus instrucciones." },
+              "hints": [ { "en": "Imports before code — same as most languages.", "es": "Imports antes del código, como en casi todos los lenguajes." } ]
+            },
+            {
+              "id": "w4-l07e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Without any using directives, how must you refer to the Console class?", "es": "Sin directivas using, ¿cómo debes referirte a la clase Console?" },
+              "options": [
+                { "en": "System.Console", "es": "System.Console" },
+                { "en": "Console.System", "es": "Console.System" },
+                { "en": "global::Console.System", "es": "global::Console.System" },
+                { "en": "Console can't be used without usings", "es": "No se puede usar Console sin usings" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Its full name is System.Console. The using lets you drop the System. prefix.", "es": "Su nombre completo es System.Console. El using te permite quitar el prefijo System." },
+              "hints": [ { "en": "What namespace does Console live in?", "es": "¿En qué namespace vive Console?" } ]
+            },
+            {
+              "id": "w4-l07e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": { "en": "Modern .NET templates add common usings implicitly (implicit usings), so Console works without any using line.", "es": "Las plantillas modernas de .NET añaden usings comunes implícitamente (implicit usings), así Console funciona sin línea using." },
+              "answerIndex": 1,
+              "explanation": { "en": "True — new projects include <ImplicitUsings>enable</ImplicitUsings>, which auto-imports System, System.Linq and friends.", "es": "Verdadero: los proyectos nuevos incluyen <ImplicitUsings>enable</ImplicitUsings>, que importa System, System.Linq y amigos." },
+              "hints": [ { "en": "You've been writing Console all along without usings in this game!", "es": "¡Has escrito Console sin usings en este juego desde el principio!" } ]
+            },
+            {
+              "id": "w4-l07e4",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match the namespace to what you find inside:", "es": "Relaciona el namespace con lo que hay dentro:" },
+              "pairs": [
+                { "left": { "en": "System", "es": "System" }, "right": { "en": "Console, Math, DateTime", "es": "Console, Math, DateTime" } },
+                { "left": { "en": "System.IO", "es": "System.IO" }, "right": { "en": "File, Directory", "es": "File, Directory" } },
+                { "left": { "en": "System.Linq", "es": "System.Linq" }, "right": { "en": "Where, Select, Sum", "es": "Where, Select, Sum" } },
+                { "left": { "en": "System.Collections.Generic", "es": "System.Collections.Generic" }, "right": { "en": "List, Dictionary, HashSet", "es": "List, Dictionary, HashSet" } }
+              ],
+              "explanation": { "en": "Know these four namespaces and you can find almost anything in .NET.", "es": "Conociendo estos cuatro namespaces encontrarás casi cualquier cosa en .NET." },
+              "hints": [ { "en": "IO = input/output = files.", "es": "IO = entrada/salida = archivos." } ]
+            }
+          ]
+        },
+        {
+          "id": "w4-l08-quiz2",
+          "kind": "quiz",
+          "title": { "en": "Unit 2 Quiz", "es": "Examen de la unidad 2" },
+          "tip": { "en": "Projects, namespaces, usings — the skeleton of every app.", "es": "Proyectos, namespaces, usings: el esqueleto de toda app." },
+          "exercises": [
+            {
+              "id": "w4-l08e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": { "en": "Which file would you edit to add a NuGet package reference by hand?", "es": "¿Qué archivo editarías para añadir a mano una referencia NuGet?" },
+              "options": [
+                { "en": "MyApp.csproj", "es": "MyApp.csproj" },
+                { "en": "Program.cs", "es": "Program.cs" },
+                { "en": "appsettings.json", "es": "appsettings.json" },
+                { "en": "obj/project.assets.json", "es": "obj/project.assets.json" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "PackageReference entries live in the .csproj — though dotnet add package does it for you.", "es": "Las entradas PackageReference viven en el .csproj, aunque dotnet add package lo hace por ti." },
+              "hints": [ { "en": "The project's ID card.", "es": "La tarjeta de identidad del proyecto." } ]
+            },
+            {
+              "id": "w4-l08e2",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": { "en": "Complete the fully-qualified call:", "es": "Completa la llamada totalmente calificada:" },
+              "code": "System.___.WriteLine(\"hi\");",
+              "blanks": [ { "answer": "Console", "caseSensitive": true } ],
+              "explanation": { "en": "System.Console.WriteLine — namespace, class, method.", "es": "System.Console.WriteLine: namespace, clase, método." },
+              "hints": [ { "en": "The class you know and love.", "es": "La clase que conoces y adoras." } ]
+            },
+            {
+              "id": "w4-l08e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "Two different namespaces can each contain a class with the same short name.", "es": "Dos namespaces distintos pueden contener cada uno una clase con el mismo nombre corto." },
+              "answerIndex": 1,
+              "explanation": { "en": "True — full names differ (A.Tool vs B.Tool), so there's no conflict.", "es": "Verdadero: los nombres completos difieren (A.Tool vs B.Tool), no hay conflicto." },
+              "hints": [ { "en": "Last names to the rescue.", "es": "Los apellidos al rescate." } ]
+            },
+            {
+              "id": "w4-l08e4",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": { "en": "Which folder should NEVER be committed to source control?", "es": "¿Qué carpeta NUNCA debería subirse al control de versiones?" },
+              "options": [
+                { "en": "bin/ and obj/ (build output)", "es": "bin/ y obj/ (salida de compilación)" },
+                { "en": "The folder with Program.cs", "es": "La carpeta con Program.cs" },
+                { "en": "The folder with the .csproj", "es": "La carpeta con el .csproj" },
+                { "en": "None — commit everything", "es": "Ninguna: se sube todo" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "bin/ and obj/ are regenerated by build. Committing them just bloats the repo.", "es": "bin/ y obj/ se regeneran al compilar. Subirlas solo infla el repositorio." },
+              "hints": [ { "en": "This very game's .gitignore excludes them.", "es": "El .gitignore de este juego las excluye." } ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": { "en": "When Things Break", "es": "Cuando algo se rompe" },
+      "lessons": [
+        {
+          "id": "w4-l09-cserrors",
+          "kind": "lesson",
+          "title": { "en": "Reading Compiler Errors", "es": "Leer errores del compilador" },
+          "tip": { "en": "CS-prefixed errors happen BEFORE the program runs. The message names the file, line and problem — read it like a to-do note!", "es": "Los errores CS aparecen ANTES de ejecutar. El mensaje nombra archivo, línea y problema: ¡léelos como notas de pendientes!" },
+          "exercises": [
+            {
+              "id": "w4-l09e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match each compiler error to its usual cause:", "es": "Relaciona cada error del compilador con su causa habitual:" },
+              "pairs": [
+                { "left": { "en": "CS1002: ; expected", "es": "CS1002: se esperaba ;" }, "right": { "en": "missing semicolon", "es": "falta punto y coma" } },
+                { "left": { "en": "CS0103: name does not exist", "es": "CS0103: el nombre no existe" }, "right": { "en": "typo or missing using", "es": "error de tipeo o falta un using" } },
+                { "left": { "en": "CS0029: cannot convert type", "es": "CS0029: no se puede convertir" }, "right": { "en": "assigning a string to an int", "es": "asignar un string a un int" } },
+                { "left": { "en": "CS8025: parsing error", "es": "CS8025: error de análisis" }, "right": { "en": "a missing } bracket", "es": "falta una llave }" } }
+              ],
+              "explanation": { "en": "Every CS code has a meaning — Google the code when the message isn't clear.", "es": "Cada código CS tiene significado: busca el código si el mensaje no queda claro." },
+              "hints": [ { "en": "'; expected' is the most common error in the universe.", "es": "'; expected' es el error más común del universo." } ]
+            },
+            {
+              "id": "w4-l09e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "Error at line 42: CS0103 'consol' does not exist. What's the fix?", "es": "Error en la línea 42: CS0103 'consol' no existe. ¿Cuál es el arreglo?" },
+              "options": [
+                { "en": "Fix the casing: Console", "es": "Corregir mayúsculas: Console" },
+                { "en": "Reinstall the .NET SDK", "es": "Reinstalar el SDK de .NET" },
+                { "en": "Delete line 42", "es": "Borrar la línea 42" },
+                { "en": "Rename your project to 'consol'", "es": "Renombrar el proyecto a 'consol'" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "C# is case-sensitive: consol vs Console. The error even shows you the exact wrong spelling.", "es": "C# distingue mayúsculas: consol vs Console. El error te muestra la ortografía exacta del problema." },
+              "hints": [ { "en": "Compare the spelling letter by letter.", "es": "Compara la ortografía letra por letra." } ]
+            },
+            {
+              "id": "w4-l09e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": { "en": "If your program compiles, it cannot crash at runtime.", "es": "Si tu programa compila, no puede fallar en ejecución." },
+              "answerIndex": 0,
+              "explanation": { "en": "False! Compiling proves the SYNTAX is valid — runtime errors (exceptions) still lurk: bad input, missing files, divisions by zero...", "es": "¡Falso! Compilar demuestra que la SINTAXIS es válida: los errores de ejecución siguen al acecho (entrada inválida, archivos que faltan, divisiones entre cero...)." },
+              "hints": [ { "en": "This game literally catches runtime errors from your code!", "es": "¡Este juego literalmente captura errores en tiempo de ejecución de tu código!" } ]
+            },
+            {
+              "id": "w4-l09e4",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": { "en": "The compiler says 'CS1002: ; expected'. Make this program compile and print ok.", "es": "El compilador dice 'CS1002: ; expected'. Haz que compile y muestre ok." },
+              "starter": "Console.WriteLine(\"ok\")",
+              "tests": [ { "name": "prints ok", "expectedOutput": "ok", "match": "exact" } ],
+              "explanation": { "en": "One missing semicolon — the universe's most common bug, fixed in one character.", "es": "Un punto y coma perdido: el bug más común del universo, arreglado con un carácter." },
+              "hints": [ { "en": "End of statement = end of sentence.", "es": "Fin de instrucción = fin de frase." } ]
+            }
+          ]
+        },
+        {
+          "id": "w4-l10-exceptions",
+          "kind": "lesson",
+          "title": { "en": "Exceptions: Runtime Crashes", "es": "Excepciones: fallos en ejecución" },
+          "tip": { "en": "An exception is the runtime's way of saying 'I can't do this': FormatException for bad parses, KeyNotFoundException for missing keys...", "es": "Una excepción es como el runtime dice 'no puedo': FormatException para conversiones malas, KeyNotFoundException para claves ausentes..." },
+          "exercises": [
+            {
+              "id": "w4-l10e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What happens when this runs? (The runner appends the error to the output.)", "es": "¿Qué pasa al ejecutar esto? (El runner añade el error a la salida.)" },
+              "code": "Console.WriteLine(\"start\");\nint x = int.Parse(\"not a number\");\nConsole.WriteLine(x);",
+              "options": [
+                { "en": "start, then FormatException", "es": "start y luego FormatException" },
+                { "en": "start, then 0", "es": "start y luego 0" },
+                { "en": "start, then x", "es": "start y luego x" },
+                { "en": "It does not compile", "es": "No compila" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "int.Parse throws FormatException when the text isn't numeric. The first line printed fine — crashes happen mid-run.", "es": "int.Parse lanza FormatException si el texto no es numérico. La primera línea sí se imprimió: los fallos ocurren a mitad de camino." },
+              "hints": [ { "en": "Output before the crash still appears!", "es": "¡La salida previa al fallo sí aparece!" } ]
+            },
+            {
+              "id": "w4-l10e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match the exception to its trigger:", "es": "Relaciona la excepción con su detonante:" },
+              "pairs": [
+                { "left": { "en": "FormatException", "es": "FormatException" }, "right": { "en": "int.Parse(\"hello\")", "es": "int.Parse(\"hello\")" } },
+                { "left": { "en": "KeyNotFoundException", "es": "KeyNotFoundException" }, "right": { "en": "dict[missing key]", "es": "dict[clave inexistente]" } },
+                { "left": { "en": "DivideByZeroException", "es": "DivideByZeroException" }, "right": { "en": "10 / 0 (integers)", "es": "10 / 0 (enteros)" } },
+                { "left": { "en": "FileNotFoundException", "es": "FileNotFoundException" }, "right": { "en": "reading a file that isn't there", "es": "leer un archivo inexistente" } }
+              ],
+              "explanation": { "en": "Exception names are descriptions — read them and you know what went wrong.", "es": "Los nombres de las excepciones son descripciones: léelos y sabrás qué falló." },
+              "hints": [ { "en": "The names literally describe the mistake.", "es": "Los nombres describen literalmente el error." } ]
+            },
+            {
+              "id": "w4-l10e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "int.Parse throws on bad input. Which method tries WITHOUT throwing?", "es": "int.Parse falla con entrada inválida. ¿Qué método lo intenta SIN lanzar excepción?" },
+              "options": [
+                { "en": "int.TryParse", "es": "int.TryParse" },
+                { "en": "int.ParseSoft", "es": "int.ParseSoft" },
+                { "en": "int.Convert", "es": "int.Convert" },
+                { "en": "int.MaybeParse", "es": "int.MaybeParse" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "TryParse returns bool (did it work?) and outputs the value via out: if (int.TryParse(s, out int n))", "es": "TryParse devuelve bool (¿salió bien?) y entrega el valor con out: if (int.TryParse(s, out int n))" },
+              "hints": [ { "en": "Try before you buy.", "es": "Prueba antes de comprar." } ]
+            },
+            {
+              "id": "w4-l10e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Use int.TryParse on the input line. If it works print \"n=<number>\", otherwise print \"not a number\".", "es": "Usa int.TryParse con la línea de entrada. Si funciona muestra \"n=<número>\", si no \"not a number\"." },
+              "starter": "// Read a line, TryParse it, print the result\n",
+              "tests": [
+                { "name": "valid number", "expectedOutput": "n=42", "match": "exact", "stdin": "42" },
+                { "name": "invalid input", "expectedOutput": "not a number", "match": "exact", "stdin": "hello" }
+              ],
+              "explanation": { "en": "if (int.TryParse(line, out int n)) — the out variable is ready inside the if. Bulletproof parsing!", "es": "if (int.TryParse(line, out int n)) — la variable out queda lista dentro del if. ¡Conversión a prueba de balas!" },
+              "hints": [
+                { "en": "var line = Console.ReadLine(); if (int.TryParse(line, out int n)) ... else ...", "es": "var line = Console.ReadLine(); if (int.TryParse(line, out int n)) ... else ..." }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w4-l11-trycatch",
+          "kind": "lesson",
+          "title": { "en": "try / catch", "es": "try / catch" },
+          "tip": { "en": "Wrap risky code in try { } and land softly in catch { } — your program survives instead of crashing.", "es": "Envuelve el código arriesgado en try { } y aterriza suave en catch { }: tu programa sobrevive en vez de fallar." },
+          "exercises": [
+            {
+              "id": "w4-l11e1",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "try\n{\n    int x = int.Parse(\"oops\");\n    Console.WriteLine(\"never here\");\n}\ncatch\n{\n    Console.WriteLine(\"caught!\");\n}\nConsole.WriteLine(\"after\");",
+              "options": [
+                { "en": "caught!\nafter", "es": "caught!\nafter" },
+                { "en": "never here\ncaught!", "es": "never here\ncaught!" },
+                { "en": "caught!", "es": "caught!" },
+                { "en": "It crashes", "es": "Falla" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "The exception jumps to catch (skipping the rest of try), then execution continues after the block.", "es": "La excepción salta al catch (saltándose el resto del try) y luego la ejecución continúa." },
+              "hints": [ { "en": "Everything after the crash point inside try is skipped.", "es": "Todo lo que sigue al punto de fallo dentro del try se salta." } ]
+            },
+            {
+              "id": "w4-l11e2",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": { "en": "Build a guarded division:", "es": "Construye una división protegida:" },
+              "code": "try\n{\n    Console.WriteLine(10 / 0);\n}\ncatch (Exception ex)\n{\n    Console.WriteLine($\"error: {ex.Message}\");\n}",
+              "explanation": { "en": "catch (Exception ex) captures the exception object so you can log ex.Message.", "es": "catch (Exception ex) captura el objeto para registrar ex.Message." },
+              "hints": [ { "en": "try opens the block, catch follows it.", "es": "try abre el bloque, catch lo sigue." } ]
+            },
+            {
+              "id": "w4-l11e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": { "en": "Catching every exception and ignoring it (empty catch) is good practice.", "es": "Capturar todas las excepciones e ignorarlas (catch vacío) es buena práctica." },
+              "answerIndex": 0,
+              "explanation": { "en": "False — silent catches hide bugs. At minimum, log the error.", "es": "Falso: los catch silenciosos esconden bugs. Como mínimo, registra el error." },
+              "hints": [ { "en": "Silent failures are the worst failures.", "es": "Los fallos silenciosos son los peores." } ]
+            },
+            {
+              "id": "w4-l11e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Divide 10 by the input number inside try/catch. On success print the result; on any exception print \"bad input\".", "es": "Divide 10 entre el número de entrada dentro de try/catch. Si sale bien muestra el resultado; con cualquier excepción muestra \"bad input\"." },
+              "starter": "// try { parse & divide } catch { bad input }\n",
+              "tests": [
+                { "name": "divides fine", "expectedOutput": "5", "match": "exact", "stdin": "2" },
+                { "name": "zero crashes", "expectedOutput": "bad input", "match": "exact", "stdin": "0" }
+              ],
+              "explanation": { "en": "int division by zero throws DivideByZeroException — caught, and your app lives on.", "es": "La división entera entre cero lanza DivideByZeroException: se captura y tu app sobrevive." },
+              "hints": [
+                { "en": "try { int d = int.Parse(Console.ReadLine()); Console.WriteLine(10 / d); } catch { Console.WriteLine(\"bad input\"); }", "es": "try { int d = int.Parse(Console.ReadLine()); Console.WriteLine(10 / d); } catch { Console.WriteLine(\"bad input\"); }" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w4-l12-quiz3",
+          "kind": "quiz",
+          "title": { "en": "Unit 3 Quiz", "es": "Examen de la unidad 3" },
+          "tip": { "en": "Debugging mindset: read, locate, understand, fix.", "es": "Mentalidad de depuración: leer, localizar, entender, arreglar." },
+          "exercises": [
+            {
+              "id": "w4-l12e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Symptom → most likely cause. Match them:", "es": "Síntoma → causa probable. Relaciónalos:" },
+              "pairs": [
+                { "left": { "en": "Program won't compile", "es": "El programa no compila" }, "right": { "en": "syntax error (CS...)", "es": "error de sintaxis (CS...)" } },
+                { "left": { "en": "Crashes when parsing user text", "es": "Falla al convertir texto del usuario" }, "right": { "en": "FormatException — use TryParse", "es": "FormatException: usa TryParse" } },
+                { "left": { "en": "Infinite loop, no output", "es": "Bucle infinito, sin salida" }, "right": { "en": "counter never changes", "es": "el contador nunca cambia" } },
+                { "left": { "en": "Wrong result, no crash", "es": "Resultado incorrecto, sin fallo" }, "right": { "en": "logic bug — trace variables", "es": "bug de lógica: sigue las variables" } }
+              ],
+              "explanation": { "en": "Classify the problem first — each class has its own debugging recipe.", "es": "Clasifica el problema primero: cada clase tiene su receta de depuración." },
+              "hints": [ { "en": "Compile = won't start; logic = runs but lies.", "es": "Compilación = no arranca; lógica = corre pero miente." } ]
+            },
+            {
+              "id": "w4-l12e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": { "en": "What's the FIRST step when you hit an error you don't understand?", "es": "¿Cuál es el PRIMER paso ante un error que no entiendes?" },
+              "options": [
+                { "en": "Read the whole message (and the line number)", "es": "Leer el mensaje completo (y el número de línea)" },
+                { "en": "Rewrite the whole program", "es": "Reescribir todo el programa" },
+                { "en": "Delete the failing line", "es": "Borrar la línea que falla" },
+                { "en": "Restart the computer", "es": "Reiniciar la computadora" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Errors are messages written FOR you. The line number points at the crime scene.", "es": "Los errores son mensajes escritos PARA ti. El número de línea señala la escena del crimen." },
+              "hints": [ { "en": "The answer is usually already on screen.", "es": "La respuesta suele estar ya en pantalla." } ]
+            },
+            {
+              "id": "w4-l12e3",
+              "type": "output",
+              "xp": 12,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "try\n{\n    Console.WriteLine(\"A\");\n}\nfinally\n{\n    Console.WriteLine(\"C\");\n}",
+              "options": [
+                { "en": "A\nC", "es": "A\nC" },
+                { "en": "A", "es": "A" },
+                { "en": "C", "es": "C" },
+                { "en": "It does not compile — finally needs a catch", "es": "No compila: finally necesita catch" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "finally always runs — with or without an exception. Perfect for cleanup.", "es": "finally siempre se ejecuta, con o sin excepción. Perfecto para limpiar." },
+              "hints": [ { "en": "finally never skips.", "es": "finally nunca se salta." } ]
+            },
+            {
+              "id": "w4-l12e4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "Console.WriteLine of your variables is a legitimate, classic debugging technique.", "es": "Usar Console.WriteLine con tus variables es una técnica de depuración legítima y clásica." },
+              "answerIndex": 1,
+              "explanation": { "en": "True — 'printf debugging' is how most developers start every hunt. Proper debuggers come later.", "es": "Verdadero: la 'depuración con prints' es cómo empieza la mayoría. Los depuradores vienen después." },
+              "hints": [ { "en": "You've seen the output panel in this game do exactly this.", "es": "Has visto el panel de salida de este juego hacer justo eso." } ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u4",
+      "title": { "en": "Files & Data", "es": "Archivos y datos" },
+      "lessons": [
+        {
+          "id": "w4-l13-filewrite",
+          "kind": "lesson",
+          "title": { "en": "Writing Files", "es": "Escribir archivos" },
+          "tip": { "en": "File.WriteAllText(path, content) creates or overwrites a file in one call. Your programs can finally remember things!", "es": "File.WriteAllText(ruta, contenido) crea o sobreescribe un archivo en una llamada. ¡Tus programas por fin pueden recordar cosas!" },
+          "exercises": [
+            {
+              "id": "w4-l13e1",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the class that handles files:", "es": "Completa la clase que maneja archivos:" },
+              "code": "using System.IO;\n\nFile.___(\"note.txt\", \"hello file\");",
+              "blanks": [ { "answer": "WriteAllText", "caseSensitive": true } ],
+              "explanation": { "en": "WriteAllText = create/overwrite with this exact text.", "es": "WriteAllText = crear/sobreescribir con este texto exacto." },
+              "hints": [ { "en": "Write + All + Text.", "es": "Write + All + Text." } ]
+            },
+            {
+              "id": "w4-l13e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "What happens if WriteAllText is called on an EXISTING file?", "es": "¿Qué pasa si llamas WriteAllText sobre un archivo EXISTENTE?" },
+              "options": [
+                { "en": "It overwrites the whole file", "es": "Sobreescribe todo el archivo" },
+                { "en": "It adds to the end", "es": "Añade al final" },
+                { "en": "It throws an exception", "es": "Lanza una excepción" },
+                { "en": "It does nothing", "es": "No hace nada" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "WriteAllText always replaces. To add to the end, use AppendAllText.", "es": "WriteAllText siempre reemplaza. Para añadir al final usa AppendAllText." },
+              "hints": [ { "en": "'Write all text' is literal.", "es": "'Write all text' es literal." } ]
+            },
+            {
+              "id": "w4-l13e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Write \"DevQuest was here\" into save.txt, then read it back and print it.", "es": "Escribe \"DevQuest was here\" en save.txt, luego léelo y muéstralo." },
+              "starter": "// Write, then read, then print\n",
+              "tests": [ { "name": "writes and reads back", "expectedOutput": "DevQuest was here", "match": "exact" } ],
+              "explanation": { "en": "Write then ReadAllText — the simplest possible persistence. Programs remember!", "es": "Escribir y luego ReadAllText: la persistencia más simple. ¡Los programas recuerdan!" },
+              "hints": [
+                { "en": "File.WriteAllText(\"save.txt\", \"DevQuest was here\"); then Console.WriteLine(File.ReadAllText(\"save.txt\"));", "es": "File.WriteAllText(\"save.txt\", \"DevQuest was here\"); luego Console.WriteLine(File.ReadAllText(\"save.txt\"));" }
+              ]
+            },
+            {
+              "id": "w4-l13e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Append \"line1\\n\" then \"line2\\n\" to log.txt using AppendAllText, then print the whole file.", "es": "Añade \"line1\\n\" y luego \"line2\\n\" a log.txt con AppendAllText, y muestra el archivo completo." },
+              "starter": "// Two appends, then read and print\n",
+              "tests": [ { "name": "log has both lines", "expectedOutput": "line1\nline2", "match": "exact" } ],
+              "explanation": { "en": "AppendAllText adds to the end without touching what's already there — that's a log!", "es": "AppendAllText añade al final sin tocar lo que ya está: ¡eso es un log!" },
+              "hints": [
+                { "en": "File.AppendAllText(\"log.txt\", \"line1\\n\"); — twice, then ReadAllText.", "es": "File.AppendAllText(\"log.txt\", \"line1\\n\"); dos veces, luego ReadAllText." }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w4-l14-fileread",
+          "kind": "lesson",
+          "title": { "en": "Reading Files", "es": "Leer archivos" },
+          "tip": { "en": "File.ReadAllText reads everything into one string; File.ReadAllLines gives a string[] with one entry per line.", "es": "File.ReadAllText lee todo a un string; File.ReadAllLines da un string[] con una entrada por línea." },
+          "exercises": [
+            {
+              "id": "w4-l14e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match each File method to its return:", "es": "Relaciona cada método de File con su retorno:" },
+              "pairs": [
+                { "left": { "en": "ReadAllText", "es": "ReadAllText" }, "right": { "en": "one big string", "es": "un solo string" } },
+                { "left": { "en": "ReadAllLines", "es": "ReadAllLines" }, "right": { "en": "string[] (one per line)", "es": "string[] (uno por línea)" } },
+                { "left": { "en": "Exists", "es": "Exists" }, "right": { "en": "bool", "es": "bool" } },
+                { "left": { "en": "Delete", "es": "Delete" }, "right": { "en": "nothing (void)", "es": "nada (void)" } }
+              ],
+              "explanation": { "en": "Pick ReadAllText for whole-text processing, ReadAllLines for line-by-line work.", "es": "ReadAllText para procesar texto completo; ReadAllLines para trabajar línea a línea." },
+              "hints": [ { "en": "Lines = plural = array.", "es": "Lines = plural = arreglo." } ]
+            },
+            {
+              "id": "w4-l14e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "What should you check BEFORE reading a file that might not exist?", "es": "¿Qué debes comprobar ANTES de leer un archivo que podría no existir?" },
+              "options": [
+                { "en": "File.Exists(path)", "es": "File.Exists(path)" },
+                { "en": "File.IsReady(path)", "es": "File.IsReady(path)" },
+                { "en": "path != null only", "es": "solo path != null" },
+                { "en": "Nothing — reading auto-creates it", "es": "Nada: leer lo crea automáticamente" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Reading a missing file throws FileNotFoundException. Check Exists, or use try/catch.", "es": "Leer un archivo inexistente lanza FileNotFoundException. Comprueba Exists o usa try/catch." },
+              "hints": [ { "en": "You learned this exception in unit 3!", "es": "¡Viste esta excepción en la unidad 3!" } ]
+            },
+            {
+              "id": "w4-l14e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Write \"red\\ngreen\\nblue\" into colors.txt, then print HOW MANY lines it has using ReadAllLines.", "es": "Escribe \"red\\ngreen\\nblue\" en colors.txt y muestra CUÁNTAS líneas tiene usando ReadAllLines." },
+              "starter": "// Write, then ReadAllLines, print the count\n",
+              "tests": [ { "name": "counts 3 lines", "expectedOutput": "3", "match": "exact" } ],
+              "explanation": { "en": "File.ReadAllLines(path).Length — files and arrays work together naturally.", "es": "File.ReadAllLines(path).Length: archivos y arreglos trabajan juntos de forma natural." },
+              "hints": [
+                { "en": "var lines = File.ReadAllLines(\"colors.txt\"); Console.WriteLine(lines.Length);", "es": "var lines = File.ReadAllLines(\"colors.txt\"); Console.WriteLine(lines.Length);" }
+              ]
+            },
+            {
+              "id": "w4-l14e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Guarded read: if data.txt exists, print its content; otherwise print \"no file\". (Don't create it!)", "es": "Lectura protegida: si data.txt existe, muestra su contenido; si no, muestra \"no file\". (¡No lo crees!)" },
+              "starter": "// Check Exists first\n",
+              "tests": [ { "name": "handles missing file", "expectedOutput": "no file", "match": "exact" } ],
+              "explanation": { "en": "if (File.Exists(path)) ... else ... — the polite way to touch files.", "es": "if (File.Exists(path)) ... else ...: la forma amable de tocar archivos." },
+              "hints": [
+                { "en": "if (File.Exists(\"data.txt\")) { Console.WriteLine(File.ReadAllText(\"data.txt\")); } else { Console.WriteLine(\"no file\"); }", "es": "if (File.Exists(\"data.txt\")) { Console.WriteLine(File.ReadAllText(\"data.txt\")); } else { Console.WriteLine(\"no file\"); }" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w4-l15-quiz4",
+          "kind": "quiz",
+          "title": { "en": "Unit 4 Quiz", "es": "Examen de la unidad 4" },
+          "tip": { "en": "File I/O check — write, read, guard!", "es": "Control de archivos: ¡escribir, leer, proteger!" },
+          "exercises": [
+            {
+              "id": "w4-l15e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": { "en": "Which namespace is required for the File class?", "es": "¿Qué namespace se necesita para la clase File?" },
+              "options": [
+                { "en": "System.IO", "es": "System.IO" },
+                { "en": "System.Files", "es": "System.Files" },
+                { "en": "System.Text", "es": "System.Text" },
+                { "en": "System.Data", "es": "System.Data" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "IO = input/output — files, directories, streams.", "es": "IO = input/output: archivos, directorios, streams." },
+              "hints": [ { "en": "Two letters: I and O.", "es": "Dos letras: I y O." } ]
+            },
+            {
+              "id": "w4-l15e2",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": { "en": "Complete the method that adds to the end of a file:", "es": "Completa el método que añade al final de un archivo:" },
+              "code": "File.___(\"log.txt\", \"new entry\\n\");",
+              "blanks": [ { "answer": "AppendAllText", "caseSensitive": true } ],
+              "explanation": { "en": "Append = add to the end, preserving existing content.", "es": "Append = añadir al final conservando lo existente." },
+              "hints": [ { "en": "Append + All + Text.", "es": "Append + All + Text." } ]
+            },
+            {
+              "id": "w4-l15e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "File.ReadAllText on a huge 2 GB file is a great idea.", "es": "File.ReadAllText sobre un archivo de 2 GB es una gran idea." },
+              "answerIndex": 0,
+              "explanation": { "en": "False — it loads EVERYTHING into memory. For big files, read line by line (streaming).", "es": "Falso: carga TODO en memoria. Para archivos grandes, lee línea a línea (streaming)." },
+              "hints": [ { "en": "Your RAM says no.", "es": "Tu RAM dice que no." } ]
+            },
+            {
+              "id": "w4-l15e4",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": { "en": "Build a safe file read:", "es": "Construye una lectura segura de archivo:" },
+              "code": "if (File.Exists(\"f.txt\"))\n{\n    Console.WriteLine(File.ReadAllText(\"f.txt\"));\n}",
+              "explanation": { "en": "Check first, read second — no exceptions needed.", "es": "Primero comprobar, luego leer: sin excepciones." },
+              "hints": [ { "en": "The if opens, Exists asks, ReadAllText answers.", "es": "El if abre, Exists pregunta, ReadAllText responde." } ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u5",
+      "title": { "en": "Console Pro & Boss", "es": "Consola pro y Jefe" },
+      "lessons": [
+        {
+          "id": "w4-l16-args",
+          "kind": "lesson",
+          "title": { "en": "Program Arguments", "es": "Argumentos de programa" },
+          "tip": { "en": "Programs can receive startup values: dotnet run -- add milk passes \"add milk\" as args. Real CLI tools live on this.", "es": "Los programas pueden recibir valores de arranque: dotnet run -- add milk pasa \"add milk\" como args. Las herramientas CLI reales viven de esto." },
+          "exercises": [
+            {
+              "id": "w4-l16e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "In `dotnet run -- copy file1 file2`, what does the -- do?", "es": "En `dotnet run -- copy file1 file2`, ¿qué hace el --?" },
+              "options": [
+                { "en": "Separates dotnet's own flags from YOUR program's arguments", "es": "Separa las banderas de dotnet de los argumentos de TU programa" },
+                { "en": "Starts a comment", "es": "Inicia un comentario" },
+                { "en": "Runs two commands", "es": "Ejecuta dos comandos" },
+                { "en": "Nothing decorative", "es": "Nada, es decorativo" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Everything after -- belongs to your app; everything before belongs to dotnet.", "es": "Todo lo que va después del -- es de tu app; lo anterior es de dotnet." },
+              "hints": [ { "en": "A fence between two owners.", "es": "Una valla entre dos dueños." } ]
+            },
+            {
+              "id": "w4-l16e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": { "en": "In a top-level program, how do you receive the startup arguments?", "es": "En un programa de nivel superior, ¿cómo recibes los argumentos de arranque?" },
+              "options": [
+                { "en": "args (a string[] variable that exists automatically)", "es": "args (una variable string[] que existe automáticamente)" },
+                { "en": "Environment.Arguments", "es": "Environment.Arguments" },
+                { "en": "Console.Args", "es": "Console.Args" },
+                { "en": "Arguments must be declared manually", "es": "Debes declarar los argumentos manualmente" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Top-level programs get an invisible `string[] args` — loop over it like any array.", "es": "Los programas de nivel superior reciben un `string[] args` invisible: recórrelo como cualquier arreglo." },
+              "hints": [ { "en": "Four letters, like the classic C main signature.", "es": "Cuatro letras, como en el clásico main de C." } ]
+            },
+            {
+              "id": "w4-l16e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": { "en": "Command-line tools like git or dotnet itself are, deep down, programs that read arguments.", "es": "Herramientas como git o el propio dotnet son, en el fondo, programas que leen argumentos." },
+              "answerIndex": 1,
+              "explanation": { "en": "True! git commit -m \"msg\" is just a program parsing args. You're learning how CLIs are made.", "es": "¡Verdadero! git commit -m \"msg\" es un programa interpretando argumentos. Estás aprendiendo cómo se hacen las CLIs." },
+              "hints": [ { "en": "You type them in a terminal... and they react.", "es": "Los escribes en la terminal... y reaccionan." } ]
+            },
+            {
+              "id": "w4-l16e4",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": { "en": "Build code that prints every startup argument on its own line:", "es": "Construye el código que muestra cada argumento de arranque en su línea:" },
+              "code": "foreach (var arg in args)\n{\n    Console.WriteLine(arg);\n}",
+              "explanation": { "en": "args is just a string[] — everything you know about arrays applies.", "es": "args es un string[] normal: todo lo que sabes de arreglos aplica." },
+              "hints": [ { "en": "foreach over args, print each.", "es": "foreach sobre args, imprime cada uno." } ]
+            }
+          ]
+        },
+        {
+          "id": "w4-l17-consoletour",
+          "kind": "lesson",
+          "title": { "en": "The Console Toolbox", "es": "La caja de Console" },
+          "tip": { "en": "Console has more than WriteLine: ReadKey waits for a key press, SetCursorPosition moves the cursor, Clear wipes the screen — mini-UIs are possible!", "es": "Console tiene más que WriteLine: ReadKey espera una tecla, SetCursorPosition mueve el cursor, Clear limpia la pantalla. ¡Las mini-UIs son posibles!" },
+          "exercises": [
+            {
+              "id": "w4-l17e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match each Console member to its purpose:", "es": "Relaciona cada miembro de Console con su propósito:" },
+              "pairs": [
+                { "left": { "en": "WriteLine", "es": "WriteLine" }, "right": { "en": "print with a line break", "es": "imprimir con salto de línea" } },
+                { "left": { "en": "ReadLine", "es": "ReadLine" }, "right": { "en": "wait for the user to type a line", "es": "esperar que el usuario escriba una línea" } },
+                { "left": { "en": "Clear", "es": "Clear" }, "right": { "en": "wipe the screen", "es": "limpiar la pantalla" } },
+                { "left": { "en": "ForegroundColor", "es": "ForegroundColor" }, "right": { "en": "color the text", "es": "colorear el texto" } }
+              ],
+              "explanation": { "en": "These four alone can build text adventures and dashboards.", "es": "Solo con estos cuatro puedes crear aventuras de texto y dashboards." },
+              "hints": [ { "en": "Fore-ground = the text itself.", "es": "Fore-ground = el texto en sí." } ]
+            },
+            {
+              "id": "w4-l17e2",
+              "type": "output",
+              "xp": 10,
+              "prompt": { "en": "What does this print?", "es": "¿Qué muestra esto?" },
+              "code": "Console.Write(\"A\");\nConsole.Write(\"B\");\nConsole.WriteLine(\"C\");\nConsole.Write(\"D\");",
+              "options": [
+                { "en": "ABC\nD", "es": "ABC\nD" },
+                { "en": "ABCD", "es": "ABCD" },
+                { "en": "A\nB\nC\nD", "es": "A\nB\nC\nD" },
+                { "en": "ABC D", "es": "ABC D" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "Write doesn't break the line; WriteLine does after printing. So ABC on one line, D after.", "es": "Write no salta línea; WriteLine sí tras imprimir. ABC en una línea, D después." },
+              "hints": [ { "en": "Only WriteLine breaks lines.", "es": "Solo WriteLine rompe la línea." } ]
+            },
+            {
+              "id": "w4-l17e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": { "en": "Complete the method that wipes the screen:", "es": "Completa el método que limpia la pantalla:" },
+              "code": "Console.___();",
+              "blanks": [ { "answer": "Clear", "caseSensitive": true } ],
+              "explanation": { "en": "Console.Clear() — fresh screen, no arguments needed.", "es": "Console.Clear(): pantalla nueva, sin argumentos." },
+              "hints": [ { "en": "Five letters. What you do to a whiteboard.", "es": "Cinco letras. Lo que haces con una pizarra." } ]
+            },
+            {
+              "id": "w4-l17e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": { "en": "Print a mini banner: \"===\" then \"DEV QUEST\" then \"===\" (three lines).", "es": "Muestra un mini banner: \"===\" luego \"DEV QUEST\" luego \"===\" (tres líneas)." },
+              "starter": "// Three lines: === / DEV QUEST / ===\n",
+              "tests": [ { "name": "prints banner", "expectedOutput": "===\nDEV QUEST\n===", "match": "exact" } ],
+              "explanation": { "en": "Simple but yours: you can now decorate any console app.", "es": "Simple pero tuyo: ya puedes decorar cualquier app de consola." },
+              "hints": [ { "en": "Three Console.WriteLine calls.", "es": "Tres llamadas Console.WriteLine." } ]
+            }
+          ]
+        },
+        {
+          "id": "w4-l18-quiz5",
+          "kind": "quiz",
+          "title": { "en": "Unit 5 Quiz", "es": "Examen de la unidad 5" },
+          "tip": { "en": "Last quiz of the world — CLI mastery incoming!", "es": "¡Último examen del mundo! Dominio CLI inminente." },
+          "exercises": [
+            {
+              "id": "w4-l18e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": { "en": "What type is the `args` variable in a top-level program?", "es": "¿De qué tipo es la variable `args` en un programa de nivel superior?" },
+              "options": [
+                { "en": "string[]", "es": "string[]" },
+                { "en": "List<string>", "es": "List<string>" },
+                { "en": "string", "es": "string" },
+                { "en": "Dictionary<string, string>", "es": "Dictionary<string, string>" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "A plain string array — one entry per space-separated argument.", "es": "Un arreglo de strings: una entrada por argumento separado por espacios." },
+              "hints": [ { "en": "The classic C heritage.", "es": "La herencia clásica de C." } ]
+            },
+            {
+              "id": "w4-l18e2",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": { "en": "Console.Write(\"hi\") prints hi and moves to the next line.", "es": "Console.Write(\"hi\") muestra hi y salta a la siguiente línea." },
+              "answerIndex": 0,
+              "explanation": { "en": "False — that's WriteLine. Write stays on the same line.", "es": "Falso: eso es WriteLine. Write se queda en la misma línea." },
+              "hints": [ { "en": "Line is in the name for a reason.", "es": "'Line' está en el nombre por algo." } ]
+            },
+            {
+              "id": "w4-l18e3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": { "en": "Which command passes the `add milk` text to your program as arguments?", "es": "¿Qué comando pasa el texto `add milk` a tu programa como argumentos?" },
+              "options": [
+                { "en": "dotnet run -- add milk", "es": "dotnet run -- add milk" },
+                { "en": "dotnet run add milk", "es": "dotnet run add milk" },
+                { "en": "dotnet -- add milk run", "es": "dotnet -- add milk run" },
+                { "en": "dotnet args add milk", "es": "dotnet args add milk" }
+              ],
+              "answerIndex": 0,
+              "explanation": { "en": "The -- fence hands everything after it to YOUR program.", "es": "La valla -- entrega todo lo que sigue a TU programa." },
+              "hints": [ { "en": "Two dashes guard the border.", "es": "Dos guiones custodian la frontera." } ]
+            },
+            {
+              "id": "w4-l18e4",
+              "type": "match",
+              "xp": 15,
+              "prompt": { "en": "Match the task to the best tool:", "es": "Relaciona la tarea con la mejor herramienta:" },
+              "pairs": [
+                { "left": { "en": "remember data between runs", "es": "recordar datos entre ejecuciones" }, "right": { "en": "a file", "es": "un archivo" } },
+                { "left": { "en": "ask the user for input", "es": "pedir datos al usuario" }, "right": { "en": "Console.ReadLine", "es": "Console.ReadLine" } },
+                { "left": { "en": "configure the app at launch", "es": "configurar la app al arrancar" }, "right": { "en": "args", "es": "args" } },
+                { "left": { "en": "collect a list of unique names", "es": "juntar nombres únicos" }, "right": { "en": "HashSet<string>", "es": "HashSet<string>" } }
+              ],
+              "explanation": { "en": "Choosing the right tool per problem IS programming.", "es": "Elegir la herramienta correcta para cada problema ES programar." },
+              "hints": [ { "en": "Persistence = file; input = ReadLine.", "es": "Persistencia = archivo; entrada = ReadLine." } ]
+            }
+          ]
+        },
+        {
+          "id": "w4-l19-boss",
+          "kind": "boss",
+          "title": { "en": "BOSS: The Terminal Sage", "es": "JEFE: El Sabio del Terminal" },
+          "tip": { "en": "Everything in this world at once: stdin, files, exceptions. Defeat the Sage and command line mastery is yours! 💻", "es": "Todo este mundo a la vez: stdin, archivos, excepciones. ¡Vence al Sabio y domina la línea de comandos! 💻" },
+          "exercises": [
+            {
+              "id": "w4-l19e1",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Trial 1: read two lines (a name and a number) and print \"<name> has <number> XP\".", "es": "Prueba 1: lee dos líneas (nombre y número) y muestra \"<nombre> has <número> XP\"." },
+              "starter": "// Two ReadLines, one interpolated print\n",
+              "tests": [ { "name": "greets with xp", "expectedOutput": "Ada has 42 XP", "match": "exact", "stdin": "Ada\n42" } ],
+              "explanation": { "en": "Two ReadLine calls, interpolation, done.", "es": "Dos ReadLine, interpolación, listo." },
+              "hints": [
+                { "en": "Store each ReadLine in a variable, then print with interpolation.", "es": "Guarda cada ReadLine en una variable y muestra con interpolación." }
+              ]
+            },
+            {
+              "id": "w4-l19e2",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Trial 2: read lines until an empty one. Each non-empty line is a number; print their SUM (one number).", "es": "Prueba 2: lee líneas hasta una vacía. Cada línea no vacía es un número; muestra su SUMA (un número)." },
+              "starter": "// Loop, parse each line, accumulate, print total\n",
+              "tests": [
+                { "name": "sums the numbers", "expectedOutput": "60", "match": "exact", "stdin": "10\n20\n30\n\n" }
+              ],
+              "explanation": { "en": "Loop + int.Parse + accumulator. The console just became a calculator.", "es": "Bucle + int.Parse + acumulador. La consola acaba de volverse calculadora." },
+              "hints": [
+                { "en": "while (true) { var line = Console.ReadLine(); if (string.IsNullOrEmpty(line)) break; total += int.Parse(line); }", "es": "while (true) { var line = Console.ReadLine(); if (string.IsNullOrEmpty(line)) break; total += int.Parse(line); }" }
+              ]
+            },
+            {
+              "id": "w4-l19e3",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Trial 3: read lines until empty. For each line print \"<line> ok\", but if the line is \"crash\", int.Parse will throw — wrap it in try/catch and print \"survived!\" instead.", "es": "Prueba 3: lee líneas hasta una vacía. Por cada línea muestra \"<línea> ok\", pero si la línea es \"crash\", int.Parse lanzará error: envuélvelo en try/catch y muestra \"survived!\"." },
+              "starter": "// Loop lines; try to parse each; catch the crash\n",
+              "tests": [
+                { "name": "survives the crash", "expectedOutput": "hello ok\nsurvived!\nworld ok", "match": "exact", "stdin": "hello\ncrash\nworld\n\n" }
+              ],
+              "explanation": { "en": "try { int.Parse(line); Console.WriteLine($\"{line} ok\"); } catch { Console.WriteLine(\"survived!\"); } — resilience achieved.", "es": "try { int.Parse(line); Console.WriteLine($\"{line} ok\"); } catch { Console.WriteLine(\"survived!\"); }: resiliencia conseguida." },
+              "hints": [
+                { "en": "For \"hello\" the parse succeeds so the ok-line prints; for \"crash\" the parse throws.", "es": "Con \"hello\" el parse funciona y se muestra la línea ok; con \"crash\" el parse lanza error." }
+              ]
+            },
+            {
+              "id": "w4-l19e4",
+              "type": "code",
+              "xp": 15,
+              "prompt": { "en": "Final trial: read a line, save it to memory.txt, read the file back and print \"saved: <content>\". The Sage bows to your persistence (literally)!", "es": "Prueba final: lee una línea, guárdala en memory.txt, relee el archivo y muestra \"saved: <contenido>\". ¡El Sabio se inclina ante tu persistencia (literalmente)!" },
+              "starter": "// ReadLine -> WriteAllText -> ReadAllText -> print\n",
+              "tests": [ { "name": "persists and reads back", "expectedOutput": "saved: the sage is wise", "match": "exact", "stdin": "the sage is wise" } ],
+              "explanation": { "en": "Input → file → output: the full journey of a real console app. World conquered! 🏆", "es": "Entrada → archivo → salida: el viaje completo de una app de consola real. ¡Mundo conquistado! 🏆" },
+              "hints": [
+                { "en": "var line = Console.ReadLine(); File.WriteAllText(\"memory.txt\", line); Console.WriteLine($\"saved: {File.ReadAllText(\"memory.txt\")}\");", "es": "var line = Console.ReadLine(); File.WriteAllText(\"memory.txt\", line); Console.WriteLine($\"saved: {File.ReadAllText(\"memory.txt\")}\");" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

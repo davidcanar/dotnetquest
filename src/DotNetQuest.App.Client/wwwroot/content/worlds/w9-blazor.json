@@ -1,0 +1,2449 @@
+{
+  "id": "w9-blazor",
+  "order": 9,
+  "track": "web",
+  "title": {
+    "en": "Blazor",
+    "es": "Blazor"
+  },
+  "subtitle": {
+    "en": "Interactive web UIs written in C# — components, bindings, lifecycle",
+    "es": "UIs web interactivas escritas en C#: componentes, bindings, ciclo de vida"
+  },
+  "intro": {
+    "en": "Blazor is web UI in C#: no JavaScript required. You're INSIDE a Blazor app right now — this entire game is Blazor WebAssembly teaching you itself!",
+    "es": "Blazor es UI web en C#: sin necesidad de JavaScript. ¡Estás DENTRO de una app Blazor ahora mismo: este juego entero es Blazor WebAssembly enseñándose a sí mismo!"
+  },
+  "icon": "💜",
+  "color": "#7c3aed",
+  "cheatSheet": [
+    {
+      "title": {
+        "en": "Components (.razor)",
+        "es": "Componentes (.razor)"
+      },
+      "items": [
+        {
+          "en": "<h3>Hello @Name</h3>  — @ injects C# into markup",
+          "es": "<h3>Hello @Name</h3>  — @ inyecta C# en el marcado"
+        },
+        {
+          "en": "@code { private string Name = \"Bit\"; }",
+          "es": "@code { private string Name = \"Bit\"; }"
+        },
+        {
+          "en": "<MyChild Size=\"5\" />  — parameters via attributes",
+          "es": "<MyChild Size=\"5\" />  — parámetros por atributos"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Data & events",
+        "es": "Datos y eventos"
+      },
+      "items": [
+        {
+          "en": "<input @bind=\"nickname\" />  — two-way binding",
+          "es": "<input @bind=\"nickname\" />  — binding bidireccional"
+        },
+        {
+          "en": "<button @onclick=\"Attack\">Hit!</button>",
+          "es": "<button @onclick=\"Attack\">Hit!</button>"
+        },
+        {
+          "en": "StateHasChanged() asks the component to re-render",
+          "es": "StateHasChanged() pide redibujar el componente"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Lifecycle",
+        "es": "Ciclo de vida"
+      },
+      "items": [
+        {
+          "en": "OnInitialized / OnInitializedAsync — load data",
+          "es": "OnInitialized / OnInitializedAsync — cargar datos"
+        },
+        {
+          "en": "OnParametersSet — react to new parameters",
+          "es": "OnParametersSet — reaccionar a parámetros"
+        },
+        {
+          "en": "Render modes: Server (SignalR) · WebAssembly (in-browser)",
+          "es": "Modos: Server (SignalR) · WebAssembly (en el navegador)"
+        }
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "u1",
+      "title": {
+        "en": "Components",
+        "es": "Componentes"
+      },
+      "lessons": [
+        {
+          "id": "w9-l01-what",
+          "kind": "lesson",
+          "title": {
+            "en": "What is Blazor?",
+            "es": "¿Qué es Blazor?"
+          },
+          "tip": {
+            "en": "Blazor lets you build interactive web UIs with C# instead of JavaScript. 'Blazor' = Blazor + Razor? No: Browser + Razor!",
+            "es": "Blazor permite construir UIs web interactivas con C# en vez de JavaScript. 'Blazor' = Browser + Razor."
+          },
+          "exercises": [
+            {
+              "id": "w9-l01e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What language do you write Blazor components in?",
+                "es": "¿En qué lenguaje se escriben los componentes Blazor?"
+              },
+              "options": [
+                {
+                  "en": "C# (with Razor markup)",
+                  "es": "C# (con marcado Razor)"
+                },
+                {
+                  "en": "JavaScript only",
+                  "es": "Solo JavaScript"
+                },
+                {
+                  "en": "Python",
+                  "es": "Python"
+                },
+                {
+                  "en": "Java",
+                  "es": "Java"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Razor syntax mixes HTML with C#. Your C# skills transfer directly to the web.",
+                "es": "La sintaxis Razor mezcla HTML con C#. Tus habilidades de C# pasan directo a la web."
+              },
+              "hints": [
+                {
+                  "en": "The whole point: your existing language.",
+                  "es": "El objetivo: tu lenguaje actual."
+                }
+              ]
+            },
+            {
+              "id": "w9-l01e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the Blazor hosting model to how it runs:",
+                "es": "Relaciona el modelo de hospedaje con su forma de correr:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Blazor WebAssembly",
+                    "es": "Blazor WebAssembly"
+                  },
+                  "right": {
+                    "en": "runs IN the browser (this game!)",
+                    "es": "corre EN el navegador (¡este juego!)"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Blazor Server",
+                    "es": "Blazor Server"
+                  },
+                  "right": {
+                    "en": "runs on server, UI streams over SignalR",
+                    "es": "corre en el servidor y la UI viaja por SignalR"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "MAUI Blazor",
+                    "es": "MAUI Blazor"
+                  },
+                  "right": {
+                    "en": "native desktop/mobile app shell",
+                    "es": "cáscara nativa de escritorio/móvil"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Same components, different homes. This game chose WebAssembly.",
+                "es": "Mismos componentes, distintos hogares. Este juego eligió WebAssembly."
+              },
+              "hints": [
+                {
+                  "en": "WebAssembly downloads .NET into the browser.",
+                  "es": "WebAssembly descarga .NET al navegador."
+                }
+              ]
+            },
+            {
+              "id": "w9-l01e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "Blazor means you can build rich web apps without writing JavaScript.",
+                "es": "Blazor permite crear apps web ricas sin escribir JavaScript."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — that's its raison d'être. JS interop exists when needed, but C# does the heavy lifting.",
+                "es": "Verdadero: esa es su razón de ser. Existe interop con JS para casos especiales, pero C# carga con el trabajo."
+              },
+              "hints": [
+                {
+                  "en": "Why would .NET fans build it?",
+                  "es": "¿Por qué la comunidad .NET lo crearía?"
+                }
+              ]
+            },
+            {
+              "id": "w9-l01e4",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What is Razor?",
+                "es": "¿Qué es Razor?"
+              },
+              "options": [
+                {
+                  "en": "Syntax mixing HTML markup with C# code",
+                  "es": "Sintaxis que mezcla HTML con código C#"
+                },
+                {
+                  "en": "A blade weapon in the game",
+                  "es": "Un arma del juego"
+                },
+                {
+                  "en": "A database engine",
+                  "es": "Un motor de base de datos"
+                },
+                {
+                  "en": "A CSS framework",
+                  "es": "Un framework CSS"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Razor files (.razor) = markup with @-switches into C#. Elegant and terse.",
+                "es": "Los archivos .razor = marcado con interruptores @ hacia C#. Elegante y conciso."
+              },
+              "hints": [
+                {
+                  "en": "The @ symbol is the door between worlds.",
+                  "es": "El símbolo @ es la puerta entre mundos."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w9-l02-razor",
+          "kind": "lesson",
+          "title": {
+            "en": "Razor Syntax",
+            "es": "Sintaxis Razor"
+          },
+          "tip": {
+            "en": "@ switches from HTML into C#: <p>@score</p> renders the variable. @code { } block holds fields, methods, logic.",
+            "es": "@ cambia de HTML a C#: <p>@score</p> muestra la variable. El bloque @code { } guarda campos, métodos y lógica."
+          },
+          "exercises": [
+            {
+              "id": "w9-l02e1",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the symbol that injects C# into markup:",
+                "es": "Completa el símbolo que inyecta C# en el marcado:"
+              },
+              "code": "<p>Your score: ___Score</p>",
+              "blanks": [
+                {
+                  "answer": "@",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "@Score renders the variable's value inside the paragraph.",
+                "es": "@Score muestra el valor de la variable dentro del párrafo."
+              },
+              "hints": [
+                {
+                  "en": "One character.",
+                  "es": "Un solo carácter."
+                }
+              ]
+            },
+            {
+              "id": "w9-l02e2",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": {
+                "en": "Order a minimal counter component:",
+                "es": "Ordena un componente contador mínimo:"
+              },
+              "code": "<p>Count: @count</p>\n<button @onclick=\"Bump\">+1</button>\n@code {\n    private int count = 0;\n    private void Bump() => count++;\n}",
+              "explanation": {
+                "en": "Markup, interactivity, then the @code block with state and handler.",
+                "es": "Marcado, interactividad y luego el bloque @code con estado y manejador."
+              },
+              "hints": [
+                {
+                  "en": "Display, button, code block.",
+                  "es": "Mostrar, botón, bloque de código."
+                }
+              ]
+            },
+            {
+              "id": "w9-l02e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What does @code { } contain in a .razor file?",
+                "es": "¿Qué contiene el bloque @code { } en un archivo .razor?"
+              },
+              "options": [
+                {
+                  "en": "The component's C#: fields, properties, methods",
+                  "es": "El C# del componente: campos, propiedades, métodos"
+                },
+                {
+                  "en": "CSS styles",
+                  "es": "Estilos CSS"
+                },
+                {
+                  "en": "JavaScript imports",
+                  "es": "Importaciones de JavaScript"
+                },
+                {
+                  "en": "Database queries",
+                  "es": "Consultas de base de datos"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "@code compiles into a real C# class — the component IS a class.",
+                "es": "@code se compila en una clase C# real: el componente ES una clase."
+              },
+              "hints": [
+                {
+                  "en": "The C# home of the component.",
+                  "es": "El hogar C# del componente."
+                }
+              ]
+            },
+            {
+              "id": "w9-l02e4",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "In `<p>Hello, @user.Name</p>`, what renders if user is null?",
+                "es": "En `<p>Hello, @user.Name</p>`, ¿qué pasa si user es null?"
+              },
+              "options": [
+                {
+                  "en": "NullReferenceException — guard with @if first",
+                  "es": "NullReferenceException: protégelo con @if primero"
+                },
+                {
+                  "en": "Renders \"null\"",
+                  "es": "Muestra \"null\""
+                },
+                {
+                  "en": "Renders nothing, silently",
+                  "es": "No muestra nada"
+                },
+                {
+                  "en": "The page reloads",
+                  "es": "La página se recarga"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Razor is still C# — nulls crash. Guard with @if (user != null) or the ? operator.",
+                "es": "Razor sigue siendo C#: los null fallan. Protégete con @if (user != null) o el operador ?."
+              },
+              "hints": [
+                {
+                  "en": "You learned this in the nullability world!",
+                  "es": "¡Lo aprendiste en el mundo de nullabilidad!"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w9-l03-params",
+          "kind": "lesson",
+          "title": {
+            "en": "Component Parameters",
+            "es": "Parámetros de componentes"
+          },
+          "tip": {
+            "en": "Components take parameters like methods take arguments: [Parameter] public int Size { get; set; } — then <MyCard Size=\"5\" />.",
+            "es": "Los componentes reciben parámetros como los métodos argumentos: [Parameter] public int Size { get; set; } — luego <MyCard Size=\"5\" />."
+          },
+          "exercises": [
+            {
+              "id": "w9-l03e1",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the attribute declaring a component parameter:",
+                "es": "Completa el atributo que declara un parámetro de componente:"
+              },
+              "code": "@code {\n    [___]\n    public string Title { get; set; } = \"\";\n}",
+              "blanks": [
+                {
+                  "answer": "Parameter",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "[Parameter] marks the property as settable from the parent's tag.",
+                "es": "[Parameter] marca la propiedad como asignable desde la etiqueta del padre."
+              },
+              "hints": [
+                {
+                  "en": "Nine letters.",
+                  "es": "Nueve letras."
+                }
+              ]
+            },
+            {
+              "id": "w9-l03e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Parent writes <HealthBar Value=\"75\" />. How does HealthBar receive 75?",
+                "es": "El padre escribe <HealthBar Value=\"75\" />. ¿Cómo recibe HealthBar el 75?"
+              },
+              "options": [
+                {
+                  "en": "[Parameter] public int Value { get; set; }",
+                  "es": "[Parameter] public int Value { get; set; }"
+                },
+                {
+                  "en": "Via a global variable",
+                  "es": "Por una variable global"
+                },
+                {
+                  "en": "It can't — numbers must be strings",
+                  "es": "No puede: los números deben ser strings"
+                },
+                {
+                  "en": "Through the database",
+                  "es": "A través de la base de datos"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Attribute name = parameter name. Types convert automatically.",
+                "es": "Nombre de atributo = nombre de parámetro. Los tipos se convierten solos."
+              },
+              "hints": [
+                {
+                  "en": "The attribute decorates the property.",
+                  "es": "El atributo decora la propiedad."
+                }
+              ]
+            },
+            {
+              "id": "w9-l03e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "Components compose: a GamePage component can contain many HealthBar components.",
+                "es": "Los componentes se componen: un GamePage puede contener muchos HealthBar."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — composition is THE pattern: small components nest into screens.",
+                "es": "Verdadero: la composición es EL patrón; componentes pequeños anidan en pantallas."
+              },
+              "hints": [
+                {
+                  "en": "Legos, all the way down.",
+                  "es": "Ladrillos Lego hasta el fondo."
+                }
+              ]
+            },
+            {
+              "id": "w9-l03e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: simulate a component parameter. class HealthBar { [Parameter-like] public int Value } — write Render() => new string('❤', Value / 25). Print Render() for Value=100.",
+                "es": "EJECUTABLE: simula un parámetro. class HealthBar { public int Value } — escribe Render() => new string('❤', Value / 25). Muestra Render() con Value=100."
+              },
+              "starter": "// class with Value + Render method\n",
+              "tests": [
+                {
+                  "name": "full health bar",
+                  "expectedOutput": "❤❤❤❤",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Render methods turn parameters into display — exactly what Blazor components do.",
+                "es": "Los métodos Render convierten parámetros en pantalla: exactamente lo que hacen los componentes Blazor."
+              },
+              "hints": [
+                {
+                  "en": "100 / 25 = 4 hearts.",
+                  "es": "100 / 25 = 4 corazones."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w9-l04-quiz1",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 1 Quiz",
+            "es": "Examen de la unidad 1"
+          },
+          "tip": {
+            "en": "Component fundamentals!",
+            "es": "¡Fundamentos de componentes!"
+          },
+          "exercises": [
+            {
+              "id": "w9-l04e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the Razor piece to its job:",
+                "es": "Relaciona la pieza Razor con su trabajo:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "@variable",
+                    "es": "@variable"
+                  },
+                  "right": {
+                    "en": "render a value into markup",
+                    "es": "renderiza un valor en el marcado"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "@code { }",
+                    "es": "@code { }"
+                  },
+                  "right": {
+                    "en": "the component's C# logic",
+                    "es": "la lógica C# del componente"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "[Parameter]",
+                    "es": "[Parameter]"
+                  },
+                  "right": {
+                    "en": "receives values from the parent",
+                    "es": "recibe valores del padre"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "@bind",
+                    "es": "@bind"
+                  },
+                  "right": {
+                    "en": "two-way input binding",
+                    "es": "binding bidireccional de entrada"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Four symbols cover most component anatomy.",
+                "es": "Cuatro símbolos cubren la anatomía de casi todo componente."
+              },
+              "hints": [
+                {
+                  "en": "@bind was made for inputs.",
+                  "es": "@bind nació para inputs."
+                }
+              ]
+            },
+            {
+              "id": "w9-l04e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "This game's Bit mascot on the home screen is...",
+                "es": "El mascote Bit de la pantalla de inicio de este juego es..."
+              },
+              "options": [
+                {
+                  "en": "A Blazor component (BitMascot.razor) taking Size and Pose parameters",
+                  "es": "Un componente Blazor (BitMascot.razor) con parámetros Size y Pose"
+                },
+                {
+                  "en": "A video",
+                  "es": "Un video"
+                },
+                {
+                  "en": "A stock photo",
+                  "es": "Una foto de archivo"
+                },
+                {
+                  "en": "JavaScript animation",
+                  "es": "Animación JavaScript"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "<BitMascot Pose=\"wave\" Size=\"180\" /> — real component parameters, real composition.",
+                "es": "<BitMascot Pose=\"wave\" Size=\"180\" />: parámetros reales, composición real."
+              },
+              "hints": [
+                {
+                  "en": "You've seen his poses change across screens.",
+                  "es": "Viste cómo cambian sus poses entre pantallas."
+                }
+              ]
+            },
+            {
+              "id": "w9-l04e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Blazor WebAssembly downloads the .NET runtime into the browser.",
+                "es": "Blazor WebAssembly descarga el runtime de .NET al navegador."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — that's why the first load is slower, but then everything runs client-side at native speed.",
+                "es": "Verdadero: por eso la primera carga tarda más, pero luego todo corre del lado del cliente a velocidad nativa."
+              },
+              "hints": [
+                {
+                  "en": "Where does the C# execute for WebAssembly?",
+                  "es": "¿Dónde ejecuta su C# WebAssembly?"
+                }
+              ]
+            },
+            {
+              "id": "w9-l04e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: component render logic. class Star { public int Count; public string Render() => new string('★', Count); } — print new Star{Count=5}.Render().",
+                "es": "EJECUTABLE: lógica de render. class Star { public int Count; public string Render() => new string('★', Count); } — muestra new Star{Count=5}.Render()."
+              },
+              "starter": "// render method test\n",
+              "tests": [
+                {
+                  "name": "five stars",
+                  "expectedOutput": "★★★★★",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Render logic as pure C#: testable, reusable, honest.",
+                "es": "Lógica de render como C# puro: testeable, reutilizable, honesta."
+              },
+              "hints": [
+                {
+                  "en": "Object initializer syntax: new Star { Count = 5 }",
+                  "es": "Sintaxis de inicializador: new Star { Count = 5 }"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": {
+        "en": "Data & Events",
+        "es": "Datos y eventos"
+      },
+      "lessons": [
+        {
+          "id": "w9-l05-binding",
+          "kind": "lesson",
+          "title": {
+            "en": "@bind: Two-Way Input",
+            "es": "@bind: entrada bidireccional"
+          },
+          "tip": {
+            "en": "<input @bind=\"nickname\" /> keeps the variable and the input in perfect sync — type updates the variable; code changes update the input.",
+            "es": "<input @bind=\"nickname\" /> mantiene variable e input en sincronía perfecta: teclear actualiza la variable y el código actualiza el input."
+          },
+          "exercises": [
+            {
+              "id": "w9-l05e1",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the two-way binding directive:",
+                "es": "Completa la directiva de binding bidireccional:"
+              },
+              "code": "<input @___=\"playerName\" />",
+              "blanks": [
+                {
+                  "answer": "bind",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "@bind = two-way: the variable IS the input's value.",
+                "es": "@bind = bidireccional: la variable ES el valor del input."
+              },
+              "hints": [
+                {
+                  "en": "Four letters.",
+                  "es": "Cuatro letras."
+                }
+              ]
+            },
+            {
+              "id": "w9-l05e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What does @bind=\"score\" on an input give you over plain value attributes?",
+                "es": "¿Qué da @bind=\"score\" sobre atributos de valor simples?"
+              },
+              "options": [
+                {
+                  "en": "Automatic two-way sync between input and variable",
+                  "es": "Sincronización automática bidireccional entre input y variable"
+                },
+                {
+                  "en": "Faster typing",
+                  "es": "Escritura más rápida"
+                },
+                {
+                  "en": "It hides the input",
+                  "es": "Oculta el input"
+                },
+                {
+                  "en": "Validation for free",
+                  "es": "Validación gratis"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "One attribute replaces manual event wiring — the variable always mirrors the box.",
+                "es": "Un atributo sustituye el cableado manual: la variable siempre refleja la caja."
+              },
+              "hints": [
+                {
+                  "en": "Two directions, zero code.",
+                  "es": "Dos direcciones, cero código."
+                }
+              ]
+            },
+            {
+              "id": "w9-l05e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "This game's nickname editor uses two-way binding to update your player as you type.",
+                "es": "El editor de apodo de este juego usa binding bidireccional para actualizar tu jugador mientras escribes."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — the onboarding and profile pages bind inputs straight to state.",
+                "es": "Verdadero: las páginas de onboarding y perfil vinculan inputs directo al estado."
+              },
+              "hints": [
+                {
+                  "en": "You typed your nickname somewhere...",
+                  "es": "Escribiste tu apodo en algún lugar..."
+                }
+              ]
+            },
+            {
+              "id": "w9-l05e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: simulate two-way binding. class Bound { public string Text = \"\"; public void Set(string v) { Text = v; } } — set \"hello\", print Text.ToUpper().",
+                "es": "EJECUTABLE: simula el binding. class Bound { public string Text = \"\"; public void Set(string v) { Text = v; } } — asigna \"hello\" y muestra Text.ToUpper()."
+              },
+              "starter": "// bind simulation\n",
+              "tests": [
+                {
+                  "name": "bound text",
+                  "expectedOutput": "HELLO",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "State and input in lockstep — that's all @bind does, minus the plumbing.",
+                "es": "Estado e input al unísono: eso hace @bind, sin el cableado."
+              },
+              "hints": [
+                {
+                  "en": "b.Set(\"hello\"); then Console.WriteLine(b.Text.ToUpper());",
+                  "es": "b.Set(\"hello\"); luego Console.WriteLine(b.Text.ToUpper());"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w9-l06-events",
+          "kind": "lesson",
+          "title": {
+            "en": "@onclick & Events",
+            "es": "@onclick y eventos"
+          },
+          "tip": {
+            "en": "<button @onclick=\"Handle\"> wires clicks to C# methods. Event data arrives as MouseEventArgs when you want it.",
+            "es": "<button @onclick=\"Handle\"> conecta clics a métodos C#. Los datos del evento llegan como MouseEventArgs si los quieres."
+          },
+          "exercises": [
+            {
+              "id": "w9-l06e1",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the click handler wiring:",
+                "es": "Completa la conexión del manejador de clic:"
+              },
+              "code": "<button @___=\"RollDice\">Roll</button>",
+              "blanks": [
+                {
+                  "answer": "onclick",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "@onclick + method name = click-to-C#.",
+                "es": "@onclick + nombre de método = del clic a C#."
+              },
+              "hints": [
+                {
+                  "en": "on + the event name.",
+                  "es": "on + el nombre del evento."
+                }
+              ]
+            },
+            {
+              "id": "w9-l06e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "After a button's handler changes a variable, what does Blazor do?",
+                "es": "Tras cambiar una variable en el manejador de un botón, ¿qué hace Blazor?"
+              },
+              "options": [
+                {
+                  "en": "Automatically re-renders the component with fresh values",
+                  "es": "Redibuja automáticamente el componente con valores nuevos"
+                },
+                {
+                  "en": "Nothing — you must reload the page",
+                  "es": "Nada: debes recargar la página"
+                },
+                {
+                  "en": "Shows a confirmation dialog",
+                  "es": "Muestra un diálogo de confirmación"
+                },
+                {
+                  "en": "Saves to the database",
+                  "es": "Guarda en la base de datos"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "UI events trigger automatic re-render — that's why counters just work in Blazor.",
+                "es": "Los eventos de UI disparan redibujos automáticos: por eso los contadores simplemente funcionan en Blazor."
+              },
+              "hints": [
+                {
+                  "en": "Blazor is watching events for you.",
+                  "es": "Blazor vigila los eventos por ti."
+                }
+              ]
+            },
+            {
+              "id": "w9-l06e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: class Die { public int Face; private Random r = new(); public void Roll() => Face = r.Next(1, 7); } — roll it and print a value between 1 and 6 (game checks range).",
+                "es": "EJECUTABLE: class Die { public int Face; private Random r = new(); public void Roll() => Face = r.Next(1, 7); } — lánzala y muestra un valor entre 1 y 6 (el juego valida el rango)."
+              },
+              "starter": "// roll and print\n",
+              "tests": [
+                {
+                  "name": "die in range",
+                  "expectedOutput": "1-6",
+                  "match": "contains"
+                }
+              ],
+              "explanation": {
+                "en": "Event handlers mutate state; Blazor repaints. Same circle as every UI framework.",
+                "es": "Los manejadores mutan el estado y Blazor repinta. El mismo ciclo de todo framework de UI."
+              },
+              "hints": [
+                {
+                  "en": "d.Roll(); Console.WriteLine($\"rolled {d.Face}\"); — output contains 1-6.",
+                  "es": "d.Roll(); Console.WriteLine($\"rolled {d.Face}\"); — la salida contiene 1-6."
+                }
+              ]
+            },
+            {
+              "id": "w9-l06e4",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What's the Blazor equivalent of a button's Click event in WPF?",
+                "es": "¿Cuál es el equivalente Blazor del evento Click de un botón en WPF?"
+              },
+              "options": [
+                {
+                  "en": "@onclick — same idea, Razor syntax",
+                  "es": "@onclick: misma idea, sintaxis Razor"
+                },
+                {
+                  "en": "@import",
+                  "es": "@import"
+                },
+                {
+                  "en": "[Parameter]",
+                  "es": "[Parameter]"
+                },
+                {
+                  "en": "@page",
+                  "es": "@page"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Different syntax, identical concept — your WPF knowledge transfers.",
+                "es": "Otra sintaxis, concepto idéntico: tu conocimiento de WPF se transfiere."
+              },
+              "hints": [
+                {
+                  "en": "Both are click wires.",
+                  "es": "Ambos conectan clics."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w9-l07-quiz2",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 2 Quiz",
+            "es": "Examen de la unidad 2"
+          },
+          "tip": {
+            "en": "Binding + events check!",
+            "es": "¡Control de binding y eventos!"
+          },
+          "exercises": [
+            {
+              "id": "w9-l07e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "@bind updates the variable on which event by default?",
+                "es": "¿@bind actualiza la variable en qué evento por defecto?"
+              },
+              "options": [
+                {
+                  "en": "onchange (when the input loses focus)",
+                  "es": "onchange (cuando el input pierde el foco)"
+                },
+                {
+                  "en": "every keystroke",
+                  "es": "cada tecla"
+                },
+                {
+                  "en": "every 5 seconds",
+                  "es": "cada 5 segundos"
+                },
+                {
+                  "en": "on form submit only",
+                  "es": "solo al enviar el formulario"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Default = onchange. Use @bind:event=\"oninput\" for per-keystroke updates.",
+                "es": "Por defecto onchange. Usa @bind:event=\"oninput\" para actualización por tecla."
+              },
+              "hints": [
+                {
+                  "en": "Focus lost, value synced.",
+                  "es": "Pierde el foco, se sincroniza."
+                }
+              ]
+            },
+            {
+              "id": "w9-l07e2",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": {
+                "en": "Order a working input + live echo:",
+                "es": "Ordena un input con eco en vivo:"
+              },
+              "code": "<input @bind=\"msg\" />\n<p>You typed: @msg</p>\n@code {\n    private string msg = \"\";\n}",
+              "explanation": {
+                "en": "Input bound, output rendered, state declared — a complete loop.",
+                "es": "Input vinculado, salida renderizada y estado declarado: un ciclo completo."
+              },
+              "hints": [
+                {
+                  "en": "Input, display, state.",
+                  "es": "Input, display, estado."
+                }
+              ]
+            },
+            {
+              "id": "w9-l07e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Event handlers in Blazor are just C# methods.",
+                "es": "Los manejadores de eventos en Blazor son simplemente métodos C#."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — no JavaScript handler wiring; your C# method is the handler.",
+                "es": "Verdadero: sin cableado de JavaScript; tu método C# ES el manejador."
+              },
+              "hints": [
+                {
+                  "en": "What language have all your handlers been in?",
+                  "es": "¿En qué lenguaje han estado tus manejadores?"
+                }
+              ]
+            },
+            {
+              "id": "w9-l07e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: class Toggler { public bool On; public void Toggle() => On = !On; } — toggle twice and print the final state.",
+                "es": "EJECUTABLE: class Toggler { public bool On; public void Toggle() => On = !On; } — alterna dos veces y muestra el estado final."
+              },
+              "starter": "// toggle twice, print\n",
+              "tests": [
+                {
+                  "name": "double toggle",
+                  "expectedOutput": "False",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Event-driven state: every click flips it. Two clicks = back to start.",
+                "es": "Estado dirigido por eventos: cada clic alterna. Dos clics = de vuelta al inicio."
+              },
+              "hints": [
+                {
+                  "en": "t.Toggle(); t.Toggle(); Console.WriteLine(t.On);",
+                  "es": "t.Toggle(); t.Toggle(); Console.WriteLine(t.On);"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": {
+        "en": "Lifecycle & Hosting",
+        "es": "Ciclo de vida y hospedaje"
+      },
+      "lessons": [
+        {
+          "id": "w9-l08-lifecycle",
+          "kind": "lesson",
+          "title": {
+            "en": "Component Lifecycle",
+            "es": "Ciclo de vida del componente"
+          },
+          "tip": {
+            "en": "Components live: born (OnInitialized), fed (OnParametersSet), alive (render), gone (Dispose). Load your data in OnInitializedAsync — this game's pages all do.",
+            "es": "Los componentes viven: nacen (OnInitialized), se alimentan (OnParametersSet), viven (render) y mueren (Dispose). Carga datos en OnInitializedAsync; todas las páginas de este juego lo hacen."
+          },
+          "exercises": [
+            {
+              "id": "w9-l08e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the lifecycle method to its moment:",
+                "es": "Relaciona el método del ciclo de vida con su momento:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "OnInitializedAsync",
+                    "es": "OnInitializedAsync"
+                  },
+                  "right": {
+                    "en": "component born — load initial data",
+                    "es": "nace el componente: carga datos iniciales"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "OnParametersSet",
+                    "es": "OnParametersSet"
+                  },
+                  "right": {
+                    "en": "parent sent new parameter values",
+                    "es": "el padre envió nuevos parámetros"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "OnAfterRender",
+                    "es": "OnAfterRender"
+                  },
+                  "right": {
+                    "en": "HTML is in the browser — JS interop safe",
+                    "es": "el HTML está en el navegador: interop JS seguro"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Dispose",
+                    "es": "Dispose"
+                  },
+                  "right": {
+                    "en": "cleanup subscriptions",
+                    "es": "limpia suscripciones"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Born, fed, rendered, gone — each moment has a hook.",
+                "es": "Nace, se alimenta, se renderiza, muere: cada momento tiene su gancho."
+              },
+              "hints": [
+                {
+                  "en": "Cleanup comes last.",
+                  "es": "La limpieza va al final."
+                }
+              ]
+            },
+            {
+              "id": "w9-l08e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Where should a page load its data from the API?",
+                "es": "¿Dónde debe cargar sus datos una página desde la API?"
+              },
+              "options": [
+                {
+                  "en": "OnInitializedAsync",
+                  "es": "OnInitializedAsync"
+                },
+                {
+                  "en": "Dispose",
+                  "es": "Dispose"
+                },
+                {
+                  "en": "In the HTML",
+                  "es": "En el HTML"
+                },
+                {
+                  "en": "In the constructor of another page",
+                  "es": "En el constructor de otra página"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Born → load. This game's leaderboard fetches its scores there.",
+                "es": "Nace → carga. La clasificación de este juego obtiene sus datos ahí."
+              },
+              "hints": [
+                {
+                  "en": "The birth hook.",
+                  "es": "El gancho de nacimiento."
+                }
+              ]
+            },
+            {
+              "id": "w9-l08e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Calling StateHasChanged() asks Blazor to re-render the component.",
+                "es": "Llamar StateHasChanged() pide a Blazor redibujar el componente."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — needed when state changes OUTSIDE the normal event flow (like a timer or background task).",
+                "es": "Verdadero: necesario cuando el estado cambia fuera del flujo normal de eventos (un temporizador, una tarea en segundo plano)."
+              },
+              "hints": [
+                {
+                  "en": "Manual refresh request.",
+                  "es": "Petición manual de refresco."
+                }
+              ]
+            },
+            {
+              "id": "w9-l08e4",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the async lifecycle override:",
+                "es": "Completa la sobrescritura async del ciclo de vida:"
+              },
+              "code": "protected override async Task ___Async()\n{\n    _players = await api.GetPlayersAsync();\n}",
+              "blanks": [
+                {
+                  "answer": "OnInitialized",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "OnInitializedAsync is the async birth hook.",
+                "es": "OnInitializedAsync es el gancho de nacimiento asíncrono."
+              },
+              "hints": [
+                {
+                  "en": "The birth method's name.",
+                  "es": "El nombre del método de nacimiento."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w9-l09-routing",
+          "kind": "lesson",
+          "title": {
+            "en": "Routing Pages",
+            "es": "Enrutado de páginas"
+          },
+          "tip": {
+            "en": "@page \"/home\" turns a component into a reachable URL. NavigationManager.NavigateTo(\"/home\") moves you there — how this game moves between screens.",
+            "es": "@page \"/home\" convierte un componente en una URL alcanzable. NavigationManager.NavigateTo(\"/home\") te lleva ahí: así se mueve este juego entre pantallas."
+          },
+          "exercises": [
+            {
+              "id": "w9-l09e1",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the route directive for the /shop page:",
+                "es": "Completa la directiva de ruta para la página /shop:"
+              },
+              "code": "@___ \"/shop\"",
+              "blanks": [
+                {
+                  "answer": "page",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "@page binds a URL to the component — one line per route.",
+                "es": "@page vincula una URL al componente: una línea por ruta."
+              },
+              "hints": [
+                {
+                  "en": "Four letters, p start.",
+                  "es": "Cuatro letras, empieza con p."
+                }
+              ]
+            },
+            {
+              "id": "w9-l09e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the URL to this game's actual pages:",
+                "es": "Relaciona la URL con las páginas reales de este juego:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "/home",
+                    "es": "/home"
+                  },
+                  "right": {
+                    "en": "the quest map",
+                    "es": "el mapa de aventura"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "/shop",
+                    "es": "/shop"
+                  },
+                  "right": {
+                    "en": "gem shop",
+                    "es": "tienda de gemas"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "/trophies",
+                    "es": "/trophies"
+                  },
+                  "right": {
+                    "en": "certificate shelf",
+                    "es": "vitrina de certificados"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "/lightning",
+                    "es": "/lightning"
+                  },
+                  "right": {
+                    "en": "60-second sprint",
+                    "es": "sprint de 60 segundos"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "You've visited all of these — every one is a @page component.",
+                "es": "Has visitado todas: cada una es un componente @page."
+              },
+              "hints": [
+                {
+                  "en": "You earned a certificate page...",
+                  "es": "Hay una página de certificados..."
+                }
+              ]
+            },
+            {
+              "id": "w9-l09e3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "How does C# code move the user to another page?",
+                "es": "¿Cómo mueve el código C# al usuario a otra página?"
+              },
+              "options": [
+                {
+                  "en": "NavigationManager.NavigateTo(\"/path\")",
+                  "es": "NavigationManager.NavigateTo(\"/path\")"
+                },
+                {
+                  "en": "window.location.reload()",
+                  "es": "window.location.reload()"
+                },
+                {
+                  "en": "Console.WriteLine(\"/path\")",
+                  "es": "Console.WriteLine(\"/path\")"
+                },
+                {
+                  "en": "Routes are fixed at startup",
+                  "es": "Las rutas se fijan al arrancar"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Inject NavigationManager and navigate programmatically — after lesson completion, for example.",
+                "es": "Inyecta NavigationManager y navega por código, por ejemplo al completar una lección."
+              },
+              "hints": [
+                {
+                  "en": "The manager of navigation.",
+                  "es": "El administrador de la navegación."
+                }
+              ]
+            },
+            {
+              "id": "w9-l09e4",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the route parameter syntax for a lesson page:",
+                "es": "Completa la sintaxis de parámetro de ruta para una página de lección:"
+              },
+              "code": "@page \"/lesson/{worldId}/{___}\"",
+              "blanks": [
+                {
+                  "answer": "lessonId",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "This game's own lesson URL is /lesson/{worldId}/{lessonId} — two route parameters.",
+                "es": "La URL de lección de este juego es /lesson/{worldId}/{lessonId}: dos parámetros de ruta."
+              },
+              "hints": [
+                {
+                  "en": "Which lesson?",
+                  "es": "¿Qué lección?"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w9-l10-quiz3",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 3 Quiz",
+            "es": "Examen de la unidad 3"
+          },
+          "tip": {
+            "en": "Lifecycle + routing check!",
+            "es": "¡Control de ciclo de vida y rutas!"
+          },
+          "exercises": [
+            {
+              "id": "w9-l10e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Where does THIS game check whether you're signed in before showing a page?",
+                "es": "¿Dónde comprueba ESTE juego si iniciaste sesión antes de mostrar una página?"
+              },
+              "options": [
+                {
+                  "en": "In each page's OnInitializedAsync, redirecting if needed",
+                  "es": "En el OnInitializedAsync de cada página, redirigiendo si hace falta"
+                },
+                {
+                  "en": "It doesn't check",
+                  "es": "No comprueba nada"
+                },
+                {
+                  "en": "Only in the CSS",
+                  "es": "Solo en el CSS"
+                },
+                {
+                  "en": "On the browser's behalf",
+                  "es": "En nombre del navegador"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Pages call Game.InitializeAsync() and redirect to / or /onboarding when needed — lifecycle as security.",
+                "es": "Las páginas llaman Game.InitializeAsync() y redirigen si hace falta: el ciclo de vida como seguridad."
+              },
+              "hints": [
+                {
+                  "en": "Born → check → render.",
+                  "es": "Nace → comprueba → dibuja."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10e2",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Blazor routing is client-side: page switches don't reload the whole app.",
+                "es": "El enrutado de Blazor es del lado del cliente: cambiar de página no recarga toda la app."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — SPA navigation. Only the components swap; your WASM runtime stays loaded.",
+                "es": "Verdadero: navegación SPA. Solo cambian los componentes; el runtime WASM sigue cargado."
+              },
+              "hints": [
+                {
+                  "en": "Did the app reload when you switched pages?",
+                  "es": "¿Se recargó la app al cambiar de página?"
+                }
+              ]
+            },
+            {
+              "id": "w9-l10e3",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the injected service for navigation:",
+                "es": "Completa el servicio inyectado para navegar:"
+              },
+              "code": "@inject Navigation___ Nav",
+              "blanks": [
+                {
+                  "answer": "Manager",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "NavigationManager — inject, then NavigateTo.",
+                "es": "NavigationManager: inyecta y navega."
+              },
+              "hints": [
+                {
+                  "en": "It manages navigation.",
+                  "es": "Administra la navegación."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10e4",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Deep linking means...",
+                "es": "Deep linking significa..."
+              },
+              "options": [
+                {
+                  "en": "sharing a URL straight to a specific page (like /world/w9-blazor)",
+                  "es": "compartir una URL directa a una página concreta (como /world/w9-blazor)"
+                },
+                {
+                  "en": "diving deep into code",
+                  "es": "profundizar en el código"
+                },
+                {
+                  "en": "linking databases",
+                  "es": "conectar bases de datos"
+                },
+                {
+                  "en": "a type of phishing",
+                  "es": "un tipo de phishing"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Because routes are real URLs, you can bookmark or share ANY screen — try copying this lesson's URL!",
+                "es": "Como las rutas son URLs reales, puedes marcar o compartir cualquier pantalla. ¡Prueba a copiar la URL de esta lección!"
+              },
+              "hints": [
+                {
+                  "en": "Deep = deep into the app.",
+                  "es": "Deep = profundo en la app."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u4",
+      "title": {
+        "en": "Boss",
+        "es": "Jefe"
+      },
+      "lessons": [
+        {
+          "id": "w9-l11-boss",
+          "kind": "boss",
+          "title": {
+            "en": "BOSS: The Null Reference",
+            "es": "JEFE: La Referencia Nula"
+          },
+          "tip": {
+            "en": "The final boss of the web world is the classic crash itself: NullReferenceException. Defeat it with guarded Blazor logic and the entire web track is yours! 💜🛡️",
+            "es": "El jefe final del mundo web es el crash clásico: NullReferenceException. Véncelo con lógica Blazor protegida y ¡todo el mundo web es tuyo! 💜🛡️"
+          },
+          "exercises": [
+            {
+              "id": "w9-l11e1",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 1: a component receives string? PlayerName which may be null. Write RenderName(string? n) returning n ?? \"anonymous\". Print it for null.",
+                "es": "Puerta 1: un componente recibe string? PlayerName que puede ser null. Escribe RenderName(string? n) que devuelva n ?? \"anonymous\". Muéstralo con null."
+              },
+              "starter": "// null-guarded render\n",
+              "tests": [
+                {
+                  "name": "anonymous fallback",
+                  "expectedOutput": "anonymous",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "The ?? guard turned a crash into a graceful default.",
+                "es": "El ?? convirtió un crash en un valor por defecto elegante."
+              },
+              "hints": [
+                {
+                  "en": "n ?? \"anonymous\"",
+                  "es": "n ?? \"anonymous\""
+                }
+              ]
+            },
+            {
+              "id": "w9-l11e2",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 2: same render, but with a real name \"ada\" — print RenderName(\"ada\").",
+                "es": "Puerta 2: el mismo render con un nombre real \"ada\" — muestra RenderName(\"ada\")."
+              },
+              "starter": "// render with real value\n",
+              "tests": [
+                {
+                  "name": "real name",
+                  "expectedOutput": "ada",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "The guard only steps in when needed — real values pass untouched.",
+                "es": "La guardia solo actúa cuando hace falta: los valores reales pasan intactos."
+              },
+              "hints": [
+                {
+                  "en": "Same method, different argument.",
+                  "es": "Mismo método, otro argumento."
+                }
+              ]
+            },
+            {
+              "id": "w9-l11e3",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 3: guarded member access. string? hero = null; print hero?.Length ?? 0 (expect 0), then with hero = \"bit\" print again (expect 3).",
+                "es": "Puerta 3: acceso seguro. string? hero = null; muestra hero?.Length ?? 0 (espera 0) y con hero = \"bit\" muéstralo otra vez (espera 3)."
+              },
+              "starter": "// ?. and ?? combined\n",
+              "tests": [
+                {
+                  "name": "lengths",
+                  "expectedOutput": "0\n3",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "?. then ?? — the complete null-safety sentence, in two operators.",
+                "es": "?. y ?? — la frase completa de seguridad null en dos operadores."
+              },
+              "hints": [
+                {
+                  "en": "Console.WriteLine(hero?.Length ?? 0); — twice with assignment between.",
+                  "es": "Console.WriteLine(hero?.Length ?? 0); dos veces con la asignación en medio."
+                }
+              ]
+            },
+            {
+              "id": "w9-l11e4",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Final gate: combine EVERYTHING — record Hero(string Name, int Hp); list of 2 heroes (one Hp 0). Use LINQ + property pattern to count defeated heroes (Hp 0) and print \"defeated: 1\".",
+                "es": "Puerta final: combina TODO — record Hero(string Name, int Hp); lista de 2 héroes (uno con Hp 0). Usa LINQ + patrón de propiedades para contar héroes derrotados (Hp 0) y muestra \"defeated: 1\"."
+              },
+              "starter": "// LINQ + records + patterns + null safety\n",
+              "tests": [
+                {
+                  "name": "defeated count",
+                  "expectedOutput": "defeated: 1",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Records, LINQ, patterns, null guards — every skill from Worlds 5-9 in one expression. The Null Reference kneels. You are a modern C# developer! 💜👑",
+                "es": "Records, LINQ, patrones y guardias null: todas las habilidades de los Mundos 5-9 en una expresión. La Referencia Nula se arrodilla. ¡Ya eres un desarrollador C# moderno! 💜👑"
+              },
+              "hints": [
+                {
+                  "en": "$\"defeated: {heroes.Count(h => h is Hero { Hp: 0 })}\"",
+                  "es": "$\"defeated: {heroes.Count(h => h is Hero { Hp: 0 })}\""
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3b",
+      "title": {
+        "en": "Forms & the Real World",
+        "es": "Formularios y el mundo real"
+      },
+      "lessons": [
+        {
+          "id": "w9-l10b-forms",
+          "kind": "lesson",
+          "title": {
+            "en": "EditForm & Validation",
+            "es": "EditForm y validación"
+          },
+          "tip": {
+            "en": "Blazor's EditForm + data annotations give whole forms validation with almost no code: declare rules on your model, the form enforces them and shows messages.",
+            "es": "El EditForm de Blazor y las anotaciones de datos dan validación completa con casi nada de código: declara reglas en el modelo y el formulario las aplica mostrando mensajes."
+          },
+          "exercises": [
+            {
+              "id": "w9-l10be1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "[Required] on a model property makes the EditForm...",
+                "es": "[Required] en una propiedad del modelo hace que el EditForm..."
+              },
+              "options": [
+                {
+                  "en": "refuse submission while the field is empty, showing a message",
+                  "es": "rechace el envío mientras el campo esté vacío mostrando un mensaje"
+                },
+                {
+                  "en": "hide the field",
+                  "es": "oculte el campo"
+                },
+                {
+                  "en": "fill it automatically",
+                  "es": "lo rellene automáticamente"
+                },
+                {
+                  "en": "encrypt the value",
+                  "es": "cifre el valor"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Attributes ARE the validation rules — Required, MaxLength, Range and friends.",
+                "es": "Los atributos SON las reglas: Required, MaxLength, Range y amigos."
+              },
+              "hints": [
+                {
+                  "en": "The attribute enforces itself.",
+                  "es": "El atributo se aplica solo."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10be2",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the attribute requiring at least 2 characters:",
+                "es": "Completa el atributo que exige al menos 2 caracteres:"
+              },
+              "code": "[___Length(2)]\npublic string Nickname { get; set; } = \"\";",
+              "blanks": [
+                {
+                  "answer": "Min",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "MinLength(2) — the nickname rule this very game uses!",
+                "es": "MinLength(2): ¡la regla de apodo que usa este mismo juego!"
+              },
+              "hints": [
+                {
+                  "en": "Min + Length.",
+                  "es": "Min + Length."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10be3",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: validate manually like EditForm does — model with Name (required, non-empty) and Age (0-150); Validate() returns list of error strings. Test with empty name and age 999: print the two errors.",
+                "es": "EJECUTABLE: valida manualmente como hace EditForm — modelo con Name (obligatorio) y Age (0-150); Validate() devuelve la lista de errores. Prueba con nombre vacío y edad 999: muestra los dos errores."
+              },
+              "starter": "// Validate() returns List<string> of errors\n",
+              "tests": [
+                {
+                  "name": "two errors",
+                  "expectedOutput": "name required\nage out of range",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Validation as pure functions returning error lists — exactly how the real components do it internally.",
+                "es": "Validación como funciones puras que devuelven errores: así lo hacen los componentes reales por dentro."
+              },
+              "hints": [
+                {
+                  "en": "if (string.IsNullOrWhiteSpace(Name)) errors.Add(\"name required\");",
+                  "es": "if (string.IsNullOrWhiteSpace(Name)) errors.Add(\"name required\");"
+                }
+              ]
+            },
+            {
+              "id": "w9-l10be4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Client-side validation alone is enough for security.",
+                "es": "La validación del lado del cliente basta para la seguridad."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — client checks are UX; the SERVER must validate again (this game's nickname endpoint re-checks everything).",
+                "es": "Falso: las comprobaciones del cliente son UX; el SERVIDOR debe validar de nuevo (el endpoint de apodos de este juego re-valida todo)."
+              },
+              "hints": [
+                {
+                  "en": "Who owns the server?",
+                  "es": "¿Quién posee el servidor?"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w9-l10c-interop",
+          "kind": "lesson",
+          "title": {
+            "en": "JavaScript Interop",
+            "es": "Interop con JavaScript"
+          },
+          "tip": {
+            "en": "When C# can't reach (speech synthesis, canvas, browser APIs), Blazor opens a bridge: IJSRuntime.InvokeAsync(\"jsFunction\", args). This game's Bit voice and confetti use it!",
+            "es": "Cuando C# no alcanza (síntesis de voz, canvas, APIs del navegador), Blazor abre un puente: IJSRuntime.InvokeAsync(\"jsFunction\", args). ¡La voz de Bit y las confeti de este juego lo usan!"
+          },
+          "exercises": [
+            {
+              "id": "w9-l10ce1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "When would Blazor need JavaScript interop?",
+                "es": "¿Cuándo necesita Blazor la interop con JavaScript?"
+              },
+              "options": [
+                {
+                  "en": "Browser capabilities without .NET APIs (speech, canvas, media)",
+                  "es": "Capacidades del navegador sin APIs .NET (voz, canvas, medios)"
+                },
+                {
+                  "en": "Every single line of code",
+                  "es": "Cada línea de código"
+                },
+                {
+                  "en": "Only for database access",
+                  "es": "Solo para acceso a bases de datos"
+                },
+                {
+                  "en": "Never — interop was removed",
+                  "es": "Nunca: se eliminó la interop"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "C# first, JS only at the browser boundary — that's the Blazor philosophy.",
+                "es": "Primero C#, JS solo en la frontera del navegador: la filosofía Blazor."
+              },
+              "hints": [
+                {
+                  "en": "Browser-only features.",
+                  "es": "Características exclusivas del navegador."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10ce2",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match this game's features to their likely implementation:",
+                "es": "Relaciona las funciones de este juego con su implementación probable:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Bit's voice",
+                    "es": "La voz de Bit"
+                  },
+                  "right": {
+                    "en": "JS interop: speechSynthesis",
+                    "es": "interop JS: speechSynthesis"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "confetti bursts",
+                    "es": "ráfagas de confeti"
+                  },
+                  "right": {
+                    "en": "JS interop: canvas animation",
+                    "es": "interop JS: animación canvas"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "quiz grading",
+                    "es": "calificación de quizzes"
+                  },
+                  "right": {
+                    "en": "pure C# (Grader class)",
+                    "es": "C# puro (clase Grader)"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "XP calculation",
+                    "es": "cálculo de PX"
+                  },
+                  "right": {
+                    "en": "pure C# (shared library)",
+                    "es": "C# puro (librería compartida)"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "C# for logic, JS only for browser powers — now you can see the split in a real app.",
+                "es": "C# para la lógica, JS solo para poderes del navegador: así se ve la división en una app real."
+              },
+              "hints": [
+                {
+                  "en": "Game logic vs. browser tricks.",
+                  "es": "Lógica del juego contra trucos del navegador."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10ce3",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the injected service for JS interop:",
+                "es": "Completa el servicio inyectado para la interop JS:"
+              },
+              "code": "@inject IJS___ JS",
+              "blanks": [
+                {
+                  "answer": "Runtime",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "IJSRuntime — inject it, then InvokeAsync(\"functionName\", args).",
+                "es": "IJSRuntime: inyéctala y usa InvokeAsync(\"funcion\", args)."
+              },
+              "hints": [
+                {
+                  "en": "Runtime for JavaScript.",
+                  "es": "El runtime de JavaScript."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10ce4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Good Blazor architecture keeps most logic in C# and limits JS interop to browser-specific needs.",
+                "es": "Una buena arquitectura Blazor mantiene la lógica en C# y limita la interop JS a necesidades del navegador."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — C# logic is testable and reusable; JS interop is the spice, not the meal.",
+                "es": "Verdadero: la lógica C# es testeable y reutilizable; la interop JS es la especia, no el plato."
+              },
+              "hints": [
+                {
+                  "en": "Spice, not meal.",
+                  "es": "Especia, no plato."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w9-l10d-css",
+          "kind": "lesson",
+          "title": {
+            "en": "CSS Isolation",
+            "es": "Aislamiento de CSS"
+          },
+          "tip": {
+            "en": "A component's styles live in ComponentName.razor.css — Blazor scopes them to that component only. No more CSS name collisions across a big app.",
+            "es": "Los estilos de un componente viven en Componente.razor.css: Blazor los limita a ese componente. Se acabaron las colisiones de CSS en apps grandes."
+          },
+          "exercises": [
+            {
+              "id": "w9-l10de1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Where do a component's private styles go?",
+                "es": "¿Dónde van los estilos privados de un componente?"
+              },
+              "options": [
+                {
+                  "en": "ComponentName.razor.css — scoped to that component",
+                  "es": "Componente.razor.css: limitados a ese componente"
+                },
+                {
+                  "en": "Inside the @code block",
+                  "es": "Dentro del bloque @code"
+                },
+                {
+                  "en": "In the database",
+                  "es": "En la base de datos"
+                },
+                {
+                  "en": "In a JavaScript file",
+                  "es": "En un archivo JavaScript"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Same name as the component plus .css. Blazor rewrites selectors with scopes.",
+                "es": "El mismo nombre del componente más .css. Blazor reescribe los selectores con ámbitos."
+              },
+              "hints": [
+                {
+                  "en": "Companion file.",
+                  "es": "Archivo compañero."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10de2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Two components both define a `.title` CSS class with different styles. With CSS isolation...",
+                "es": "Dos componentes definen la clase CSS .title con estilos distintos. Con aislamiento CSS..."
+              },
+              "options": [
+                {
+                  "en": "each gets its own — no collision",
+                  "es": "cada uno tiene el suyo: sin colisiones"
+                },
+                {
+                  "en": "the first one wins everywhere",
+                  "es": "el primero gana en todas partes"
+                },
+                {
+                  "en": "the app fails to build",
+                  "es": "la app no compila"
+                },
+                {
+                  "en": "both styles merge",
+                  "es": "ambos estilos se combinan"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Scoping rewrites class names per component — collisions impossible.",
+                "es": "El ámbito reescribe las clases por componente: colisiones imposibles."
+              },
+              "hints": [
+                {
+                  "en": "Isolated means isolated.",
+                  "es": "Aislado significa aislado."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10de3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Global styles (like this game's app.css) still exist alongside isolated styles.",
+                "es": "Los estilos globales (como el app.css de este juego) coexisten con los aislados."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — global theme in app.css, component specifics isolated. Hybrid is the norm.",
+                "es": "Verdadero: tema global en app.css y especificidades aisladas. El híbrido es la norma."
+              },
+              "hints": [
+                {
+                  "en": "Theme global, details local.",
+                  "es": "Tema global, detalles locales."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10de4",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "A .razor.css file's styles apply to...",
+                "es": "Los estilos de un .razor.css aplican a..."
+              },
+              "options": [
+                {
+                  "en": "only the elements of that component",
+                  "es": "solo los elementos de ese componente"
+                },
+                {
+                  "en": "the whole app",
+                  "es": "toda la app"
+                },
+                {
+                  "en": "only buttons",
+                  "es": "solo botones"
+                },
+                {
+                  "en": "printed output only",
+                  "es": "solo la impresión"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "That's the isolation: styles can't leak in or out.",
+                "es": "Eso es el aislamiento: los estilos no entran ni salen."
+              },
+              "hints": [
+                {
+                  "en": "Scoped to the component.",
+                  "es": "Limitado al componente."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w9-l10de5-pwa",
+          "kind": "lesson",
+          "title": {
+            "en": "PWA: Installable Blazor",
+            "es": "PWA: Blazor instalable"
+          },
+          "tip": {
+            "en": "Add a service worker and a manifest, and your Blazor app installs like a native app and works offline. The web app that pretends to be desktop — full circle with world 10!",
+            "es": "Añade un service worker y un manifiesto, y tu app Blazor se instala como una app nativa y funciona sin conexión. La app web que finge ser de escritorio: círculo completo con el mundo 10."
+          },
+          "exercises": [
+            {
+              "id": "w9-l10de5e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What makes a Blazor app a PWA (Progressive Web App)?",
+                "es": "¿Qué convierte una app Blazor en PWA (Progressive Web App)?"
+              },
+              "options": [
+                {
+                  "en": "A service worker for offline + a manifest for installation",
+                  "es": "Un service worker para offline y un manifiesto para instalarla"
+                },
+                {
+                  "en": "A special license from Microsoft",
+                  "es": "Una licencia especial de Microsoft"
+                },
+                {
+                  "en": "Removing all CSS",
+                  "es": "Quitar todo el CSS"
+                },
+                {
+                  "en": "Rewriting it in JavaScript",
+                  "es": "Reescribirla en JavaScript"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Service worker caches assets; the manifest gives name, icons and install behavior.",
+                "es": "El service worker cachea recursos; el manifiesto da nombre, iconos e instalación."
+              },
+              "hints": [
+                {
+                  "en": "Two additions: cache + identity.",
+                  "es": "Dos adiciones: caché e identidad."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10de5e2",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "A PWA can work with no internet connection after its first load.",
+                "es": "Una PWA puede funcionar sin internet tras su primera carga."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — the service worker serves cached files. Games like this one could run entirely offline (it's a Phase 5 plan here!).",
+                "es": "Verdadero: el service worker sirve archivos cacheados. Juegos como este podrían correr 100% offline (¡está planeado para la fase 5!)."
+              },
+              "hints": [
+                {
+                  "en": "What are service workers for?",
+                  "es": "¿Para qué sirven los service workers?"
+                }
+              ]
+            },
+            {
+              "id": "w9-l10de5e3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Why does offline support matter for a learning game?",
+                "es": "¿Por qué importa el soporte offline para un juego educativo?"
+              },
+              "options": [
+                {
+                  "en": "Practice anywhere — planes, subways, rural areas — progress syncs later",
+                  "es": "Practicar en cualquier lugar: aviones, metro, zonas rurales; el progreso se sincroniza después"
+                },
+                {
+                  "en": "It doesn't matter at all",
+                  "es": "No importa en absoluto"
+                },
+                {
+                  "en": "It makes the game heavier",
+                  "es": "Vuelve el juego más pesado"
+                },
+                {
+                  "en": "Only for premium users",
+                  "es": "Solo para usuarios premium"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Learning happens everywhere — offline support removes the last excuse.",
+                "es": "El aprendizaje ocurre en todos lados: el soporte offline elimina la última excusa."
+              },
+              "hints": [
+                {
+                  "en": "Think about where people study.",
+                  "es": "Piensa dónde estudia la gente."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10de5e4",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the PWA piece to its role:",
+                "es": "Relaciona la pieza PWA con su rol:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Service worker",
+                    "es": "Service worker"
+                  },
+                  "right": {
+                    "en": "caches files for offline",
+                    "es": "cachea archivos para offline"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Manifest",
+                    "es": "Manifest"
+                  },
+                  "right": {
+                    "en": "name, icons, install behavior",
+                    "es": "nombre, iconos e instalación"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "HTTPS",
+                    "es": "HTTPS"
+                  },
+                  "right": {
+                    "en": "required for service workers",
+                    "es": "requerido por los service workers"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "App shell",
+                    "es": "App shell"
+                  },
+                  "right": {
+                    "en": "the UI skeleton cached first",
+                    "es": "el esqueleto de UI cacheado primero"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Four pieces, one installable app.",
+                "es": "Cuatro piezas, una app instalable."
+              },
+              "hints": [
+                {
+                  "en": "The skeleton loads first.",
+                  "es": "El esqueleto carga primero."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w9-l10de6-rehydrate",
+          "kind": "lesson",
+          "title": {
+            "en": "State & Rehydration",
+            "es": "Estado y rehidratación"
+          },
+          "tip": {
+            "en": "When a Blazor WebAssembly app boots, components are 'dehydrated': empty until data arrives. Rehydration = fill the page with fetched data and render again. Load spinners exist for this moment.",
+            "es": "Cuando una app Blazor WebAssembly arranca, los componentes están 'deshidratados': vacíos hasta que llegan los datos. La rehidratación = llenar la página con datos y redibujar. Los spinners existen para ese momento."
+          },
+          "exercises": [
+            {
+              "id": "w9-l10de6e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "First page load shows a spinner, then data appears. What happened?",
+                "es": "La primera carga muestra un spinner y luego aparecen los datos. ¿Qué ocurrió?"
+              },
+              "options": [
+                {
+                  "en": "OnInitializedAsync fetched data, then the component re-rendered",
+                  "es": "OnInitializedAsync obtuvo los datos y el componente se redibujó"
+                },
+                {
+                  "en": "The spinner never goes away",
+                  "es": "El spinner nunca desaparece"
+                },
+                {
+                  "en": "JavaScript rendered the data",
+                  "es": "JavaScript dibujó los datos"
+                },
+                {
+                  "en": "The user imagined it",
+                  "es": "El usuario lo imaginó"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Render (empty) → fetch → render (with data). Two renders, one smooth experience.",
+                "es": "Render (vacío) → obtener → render (con datos). Dos renders, una experiencia fluida."
+              },
+              "hints": [
+                {
+                  "en": "Lifecycle + re-render.",
+                  "es": "Ciclo de vida + re-render."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10de6e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: simulate rehydration — string? players = null; print \"loading\" while null (via ternary), then set players = \"ada,bit\" and print the data. Expect: loading, then ada,bit.",
+                "es": "EJECUTABLE: simula la rehidratación — string? players = null; muestra \"loading\" mientras sea null (ternaria), luego asigna \"ada,bit\" y muestra los datos. Espera: loading y ada,bit."
+              },
+              "starter": "// null state, then rehydrated state\n",
+              "tests": [
+                {
+                  "name": "rehydration",
+                  "expectedOutput": "loading\nada,bit",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "players is null ? 'loading' : players — the whole rehydration UI pattern in one ternary.",
+                "es": "players es null ? 'loading' : players: todo el patrón de rehidratación en una ternaria."
+              },
+              "hints": [
+                {
+                  "en": "Console.WriteLine(players ?? \"loading\"); twice with assignment between.",
+                  "es": "Console.WriteLine(players ?? \"loading\"); dos veces con la asignación en medio."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10de6e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Showing a loading state improves perceived performance even when data takes time.",
+                "es": "Mostrar un estado de carga mejora el rendimiento percibido aunque los datos tarden."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — perceived performance is real performance for users. A spinner says 'working on it'.",
+                "es": "Verdadero: el rendimiento percibido es rendimiento real para el usuario. Un spinner dice 'estamos en ello'."
+              },
+              "hints": [
+                {
+                  "en": "Perceived vs actual.",
+                  "es": "Percibido contra real."
+                }
+              ]
+            },
+            {
+              "id": "w9-l10de6e4",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the boot phase to what the user sees:",
+                "es": "Relaciona la fase de arranque con lo que ve el usuario:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Downloading .NET WASM",
+                    "es": "Descargando .NET WASM"
+                  },
+                  "right": {
+                    "en": "Blazor loading bar",
+                    "es": "barra de carga de Blazor"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Component initializing",
+                    "es": "Componente inicializando"
+                  },
+                  "right": {
+                    "en": "loading spinner",
+                    "es": "spinner de carga"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Data arrived",
+                    "es": "Datos recibidos"
+                  },
+                  "right": {
+                    "en": "the real content",
+                    "es": "el contenido real"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "fetch failed",
+                    "es": "fallo al obtener"
+                  },
+                  "right": {
+                    "en": "error state with retry",
+                    "es": "estado de error con reintento"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Design all four states and your app feels professional.",
+                "es": "Diseña los cuatro estados y tu app se sentirá profesional."
+              },
+              "hints": [
+                {
+                  "en": "Every phase deserves a screen.",
+                  "es": "Cada fase merece una pantalla."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

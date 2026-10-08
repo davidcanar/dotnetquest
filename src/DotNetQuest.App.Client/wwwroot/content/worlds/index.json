@@ -1,0 +1,194 @@
+[
+  {
+    "id": "w1-csharp-basics",
+    "order": 1,
+    "track": "foundations",
+    "title": {
+      "en": "C# Fundamentals",
+      "es": "Fundamentos de C#"
+    },
+    "subtitle": {
+      "en": "Your very first steps: variables, decisions, loops and arrays",
+      "es": "Tus primeros pasos: variables, decisiones, bucles y arreglos"
+    },
+    "icon": "🧱",
+    "color": "#5b5bd6",
+    "available": true
+  },
+  {
+    "id": "w2-methods-collections",
+    "order": 2,
+    "track": "foundations",
+    "title": {
+      "en": "Methods & Collections",
+      "es": "Métodos y colecciones"
+    },
+    "subtitle": {
+      "en": "Organize code and master Lists, Dictionaries and more",
+      "es": "Organiza tu código y domina Lists, Dictionaries y más"
+    },
+    "icon": "🧰",
+    "color": "#0ea5e9",
+    "available": true
+  },
+  {
+    "id": "w3-oop",
+    "order": 3,
+    "track": "foundations",
+    "title": {
+      "en": "Object-Oriented C#",
+      "es": "C# orientado a objetos"
+    },
+    "subtitle": {
+      "en": "Classes, inheritance, interfaces, polymorphism, generics",
+      "es": "Clases, herencia, interfaces, polimorfismo, genéricos"
+    },
+    "icon": "🧬",
+    "color": "#8b5cf6",
+    "available": true
+  },
+  {
+    "id": "w4-cli-console",
+    "order": 4,
+    "track": "command-line",
+    "title": {
+      "en": ".NET CLI & Console Apps",
+      "es": "CLI de .NET y apps de consola"
+    },
+    "subtitle": {
+      "en": "The dotnet command, projects, NuGet, files and real console apps",
+      "es": "El comando dotnet, proyectos, NuGet, archivos y apps de consola reales"
+    },
+    "icon": "💻",
+    "color": "#14b8a6",
+    "available": true
+  },
+  {
+    "id": "w5-linq",
+    "order": 5,
+    "track": "modern-csharp",
+    "title": {
+      "en": "LINQ & Lambdas",
+      "es": "LINQ y lambdas"
+    },
+    "subtitle": {
+      "en": "Query any collection like a pro",
+      "es": "Consulta cualquier colección como un pro"
+    },
+    "icon": "🔗",
+    "color": "#f59e0b",
+    "available": true
+  },
+  {
+    "id": "w6-async-modern",
+    "order": 6,
+    "track": "modern-csharp",
+    "title": {
+      "en": "Async, Records & Patterns",
+      "es": "Async, records y patrones"
+    },
+    "subtitle": {
+      "en": "async/await, records, pattern matching and nullability",
+      "es": "async/await, records, pattern matching y nullability"
+    },
+    "icon": "🚀",
+    "color": "#ef4444",
+    "available": true
+  },
+  {
+    "id": "w7-ef-core",
+    "order": 7,
+    "track": "data",
+    "title": {
+      "en": "Entity Framework Core",
+      "es": "Entity Framework Core"
+    },
+    "subtitle": {
+      "en": "Databases without SQL pain: EF Core + SQLite",
+      "es": "Bases de datos sin dolor: EF Core + SQLite"
+    },
+    "icon": "🗄️",
+    "color": "#22c55e",
+    "available": true
+  },
+  {
+    "id": "w8-web-apis",
+    "order": 8,
+    "track": "web",
+    "title": {
+      "en": "ASP.NET Core Web APIs",
+      "es": "Web APIs con ASP.NET Core"
+    },
+    "subtitle": {
+      "en": "Build HTTP APIs with minimal APIs and controllers",
+      "es": "Crea APIs HTTP con minimal APIs y controllers"
+    },
+    "icon": "🌐",
+    "color": "#3b82f6",
+    "available": true
+  },
+  {
+    "id": "w9-blazor",
+    "order": 9,
+    "track": "web",
+    "title": {
+      "en": "Blazor",
+      "es": "Blazor"
+    },
+    "subtitle": {
+      "en": "Interactive web UIs with C# — components, bindings, state",
+      "es": "UIs web interactivas con C#: componentes, bindings, estado"
+    },
+    "icon": "💜",
+    "color": "#7c3aed",
+    "available": true
+  },
+  {
+    "id": "w10-desktop-wpf",
+    "order": 10,
+    "track": "windows",
+    "title": {
+      "en": "WPF & Windows Desktop",
+      "es": "WPF y escritorio Windows"
+    },
+    "subtitle": {
+      "en": "XAML, data binding and MVVM for Windows apps",
+      "es": "XAML, data binding y MVVM para apps de Windows"
+    },
+    "icon": "🪟",
+    "color": "#0ea5e9",
+    "available": true
+  },
+  {
+    "id": "w11-maui",
+    "order": 11,
+    "track": "multiplatform",
+    "title": {
+      "en": ".NET MAUI",
+      "es": ".NET MAUI"
+    },
+    "subtitle": {
+      "en": "One codebase for Android, iOS, Windows and macOS",
+      "es": "Un solo código para Android, iOS, Windows y macOS"
+    },
+    "icon": "📱",
+    "color": "#f472b6",
+    "available": true
+  },
+  {
+    "id": "w12-pro-skills",
+    "order": 12,
+    "track": "pro",
+    "title": {
+      "en": "Testing & Pro Skills",
+      "es": "Testing y habilidades pro"
+    },
+    "subtitle": {
+      "en": "xUnit, DI, logging, design patterns and performance",
+      "es": "xUnit, DI, logging, patrones de diseño y rendimiento"
+    },
+    "icon": "🎖️",
+    "color": "#64748b",
+    "available": true
+  }
+]

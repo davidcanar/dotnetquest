@@ -1,0 +1,100 @@
+@namespace DotNetQuest.App.Client.Components
+@using DotNetQuest.Shared.Content
+
+<div class="match">
+    <div class="match-cols">
+        <div class="match-col">
+            @for (var i = 0; i < Pairs.Count; i++)
+            {
+                var idx = i;
+                <button class="match-card @LeftClass(idx)" disabled="@Disabled" @onclick="() => PickLeft(idx)">
+                    <span>@I18n.Pick(Pairs[idx].Left.En, Pairs[idx].Left.Es)</span>
+                    @if (_selection[idx] is int r)
+                    {
+                        <span class="match-badge">@(_rightPositions[r] + 1)</span>
+                    }
+                </button>
+            }
+        </div>
+        <div class="match-col">
+            @foreach (var r in _rightOrder)
+            {
+                var right = r;
+                <button class="match-card @RightClass(right)" disabled="@Disabled" @onclick="() => PickRight(right)">
+                    <span class="match-badge">@(_rightPositions[right] + 1)</span>
+                    <span>@I18n.Pick(Pairs[right].Right.En, Pairs[right].Right.Es)</span>
+                </button>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<MatchPair> Pairs { get; set; } = [];
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public EventCallback<List<int>> SelectionChanged { get; set; }
+    [Inject] private I18nService I18n { get; set; } = default!;
+
+    private List<int> _rightOrder = [];
+    private int?[] _selection = [];
+    private int[] _rightPositions = [];
+    private int? _pickedLeft;
+    private bool _initialized;
+
+    protected override void OnParametersSet()
+    {
+        if (_initialized || Pairs.Count == 0) return;
+        _initialized = true;
+        var seed = Pairs.Count * 131 + Pairs[0].Left.En.Length;
+        var rng = new Random(seed);
+        _rightOrder = Enumerable.Range(0, Pairs.Count).OrderBy(_ => rng.Next()).ToList();
+        _rightPositions = new int[Pairs.Count];
+        for (var pos = 0; pos < _rightOrder.Count; pos++)
+            _rightPositions[_rightOrder[pos]] = pos;
+        _selection = new int?[Pairs.Count];
+    }
+
+    private string LeftClass(int idx) =>
+        _pickedLeft == idx ? "picked" : _selection[idx] is not null ? "paired" : "";
+
+    private string RightClass(int right)
+    {
+        var owner = _selection.ToList().IndexOf(right);
+        if (owner < 0) return "";
+        return _pickedLeft == owner ? "picked" : "paired";
+    }
+
+    private async Task PickLeft(int idx)
+    {
+        if (_selection[idx] is not null)
+        {
+            // Unpair.
+            _selection[idx] = null;
+            _pickedLeft = null;
+            await Notify();
+            return;
+        }
+        _pickedLeft = idx;
+    }
+
+    private async Task PickRight(int right)
+    {
+        if (_pickedLeft is not int left)
+            return;
+
+        // If this right was already paired to another left, free it.
+        for (var i = 0; i < _selection.Length; i++)
+            if (_selection[i] == right)
+                _selection[i] = null;
+
+        _selection[left] = right;
+        _pickedLeft = null;
+        await Notify();
+    }
+
+    private async Task Notify()
+    {
+        var result = _selection.Select(s => s ?? -1).ToList();
+        await SelectionChanged.InvokeAsync(result);
+    }
+}

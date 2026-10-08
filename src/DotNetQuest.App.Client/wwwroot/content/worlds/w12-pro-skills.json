@@ -1,0 +1,2357 @@
+{
+  "id": "w12-pro-skills",
+  "order": 12,
+  "track": "pro",
+  "title": {
+    "en": "Testing & Pro Skills",
+    "es": "Testing y habilidades pro"
+  },
+  "subtitle": {
+    "en": "Real xUnit tests (executed in this sandbox!), dependency injection, design patterns and performance thinking",
+    "es": "Pruebas xUnit reales (¡ejecutadas en este sandbox!), inyección de dependencias, patrones de diseño y pensamiento de rendimiento"
+  },
+  "intro": {
+    "en": "The professional finish: automated tests, dependency injection, design patterns and performance. And here's the magic — the xUnit tests you write in this world RUN FOR REAL in this sandbox. This very game is tested exactly this way!",
+    "es": "El acabado profesional: pruebas automáticas, inyección de dependencias, patrones de diseño y rendimiento. Y la magia: las pruebas xUnit que escribas en este mundo SE EJECUTAN de verdad en este sandbox. ¡Este juego se prueba exactamente así!"
+  },
+  "icon": "🎖️",
+  "color": "#64748b",
+  "cheatSheet": [
+    {
+      "title": {
+        "en": "xUnit",
+        "es": "xUnit"
+      },
+      "items": [
+        {
+          "en": "[Fact] public void Adds() { Assert.Equal(4, Add(2, 2)); }",
+          "es": "[Fact] public void Adds() { Assert.Equal(4, Add(2, 2)); }"
+        },
+        {
+          "en": "[Theory] [InlineData(1,2,3)] public void Sum(int a,int b,int r) { Assert.Equal(r, Add(a,b)); }",
+          "es": "[Theory] [InlineData(1,2,3)] public void Sum(int a,int b,int r) { Assert.Equal(r, Add(a,b)); }"
+        },
+        {
+          "en": "Assert.Equal / NotEqual / True / False / Throws<T>",
+          "es": "Assert.Equal / NotEqual / True / False / Throws<T>"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "AAA pattern",
+        "es": "Patrón AAA"
+      },
+      "items": [
+        {
+          "en": "Arrange — set up the objects",
+          "es": "Arrange — prepara los objetos"
+        },
+        {
+          "en": "Act — call the behavior",
+          "es": "Act — llama al comportamiento"
+        },
+        {
+          "en": "Assert — verify the result",
+          "es": "Assert — verifica el resultado"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "DI",
+        "es": "DI"
+      },
+      "items": [
+        {
+          "en": "services.AddSingleton<IService, Service>();",
+          "es": "services.AddSingleton<IService, Service>();"
+        },
+        {
+          "en": "AddScoped = per request · AddTransient = every resolve",
+          "es": "AddScoped = por petición · AddTransient = cada resolución"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Patterns",
+        "es": "Patrones"
+      },
+      "items": [
+        {
+          "en": "Strategy: swap behavior via interface",
+          "es": "Strategy: cambia comportamiento vía interfaz"
+        },
+        {
+          "en": "Factory: create objects through one door",
+          "es": "Factory: crea objetos por una sola puerta"
+        },
+        {
+          "en": "StringBuilder for loops that build text",
+          "es": "StringBuilder para bucles que construyen texto"
+        }
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "u1",
+      "title": {
+        "en": "xUnit: Real Tests",
+        "es": "xUnit: pruebas reales"
+      },
+      "lessons": [
+        {
+          "id": "w12-l01-firsttest",
+          "kind": "lesson",
+          "title": {
+            "en": "Your First REAL Test",
+            "es": "Tu primera prueba REAL"
+          },
+          "tip": {
+            "en": "[Fact] marks a test; Assert.Equal(expected, actual) verifies. Write it here and the sandbox genuinely runs it — a failing assertion shows exactly what went wrong.",
+            "es": "[Fact] marca una prueba; Assert.Equal(esperado, actual) verifica. Escríbela aquí y el sandbox la ejecuta de verdad: un fallo muestra exactamente qué salió mal."
+          },
+          "exercises": [
+            {
+              "id": "w12-l01e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What attribute marks a parameterless xUnit test?",
+                "es": "¿Qué atributo marca una prueba xUnit sin parámetros?"
+              },
+              "options": [
+                {
+                  "en": "[Fact]",
+                  "es": "[Fact]"
+                },
+                {
+                  "en": "[Test]",
+                  "es": "[Test]"
+                },
+                {
+                  "en": "[TestMethod]",
+                  "es": "[TestMethod]"
+                },
+                {
+                  "en": "[Check]",
+                  "es": "[Check]"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "[Fact] = 'this method is one proven truth about the code'.",
+                "es": "[Fact] = 'este método es una verdad probada sobre el código'."
+              },
+              "hints": [
+                {
+                  "en": "Five letters, starts with F.",
+                  "es": "Cinco letras, empieza con F."
+                }
+              ]
+            },
+            {
+              "id": "w12-l01e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE TEST RUN: complete the test so Assert.Equal passes — make it verify Add(2,2) returns 4 (the Add method is provided).",
+                "es": "EJECUCIÓN REAL: completa la prueba para que Assert.Equal pase — verifica que Add(2,2) devuelve 4 (el método Add ya está dado)."
+              },
+              "starter": "public class Calculator\n{\n    public int Add(int a, int b) => a + b;\n}\n\npublic class CalculatorTests\n{\n    [Fact]\n    public void Add_returns_sum()\n    {\n        var calc = new Calculator();\n        Assert.Equal(4, calc.Add(2, ___));\n    }\n}",
+              "tests": [],
+              "explanation": {
+                "en": "The sandbox discovered your [Fact], executed it, and the assertion passed. Real testing, for real!",
+                "es": "El sandbox descubrió tu [Fact], la ejecutó y la aserción pasó. ¡Pruebas reales de verdad!"
+              },
+              "hints": [
+                {
+                  "en": "2 + ___ must equal 4.",
+                  "es": "2 + ___ debe ser igual a 4."
+                }
+              ],
+              "xunit": true
+            },
+            {
+              "id": "w12-l01e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What does a FAILED Assert.Equal show you?",
+                "es": "¿Qué muestra un Assert.Equal FALLIDO?"
+              },
+              "options": [
+                {
+                  "en": "Expected vs actual values — the diff",
+                  "es": "Esperado contra real: la diferencia"
+                },
+                {
+                  "en": "Nothing — tests fail silently",
+                  "es": "Nada: fallan en silencio"
+                },
+                {
+                  "en": "Only the line number",
+                  "es": "Solo el número de línea"
+                },
+                {
+                  "en": "A stack trace of the whole program",
+                  "es": "El stack de todo el programa"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "xUnit failures show expected and actual — debugging guidance built in.",
+                "es": "Los fallos de xUnit muestran esperado y real: guía de depuración integrada."
+              },
+              "hints": [
+                {
+                  "en": "It names both sides of the comparison.",
+                  "es": "Nombra ambos lados de la comparación."
+                }
+              ]
+            },
+            {
+              "id": "w12-l01e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE: write a FAILING test on purpose — assert Add(2,2) equals 5. Run it and see the failure report. Then... leave it failing, rebels welcome (the run just needs to complete).",
+                "es": "EN VIVO: escribe una prueba FALLIDA a propósito — afirma que Add(2,2) es 5. Ejecútala y mira el reporte de fallo. Déjala fallando, son bienvenidos los rebeldes (solo debe completarse la ejecución)."
+              },
+              "starter": "public class Calculator\n{\n    public int Add(int a, int b) => a + b;\n}\n\npublic class CalculatorTests\n{\n    [Fact]\n    public void Deliberately_wrong()\n    {\n        var calc = new Calculator();\n        Assert.Equal(5, calc.Add(2, 2));\n    }\n}",
+              "tests": [],
+              "explanation": {
+                "en": "You just read a real failure report: 'Expected: 5, Actual: 4'. Reading failures calmly is a professional superpower.",
+                "es": "Acabas de leer un reporte de fallo real: 'Expected: 5, Actual: 4'. Leer fallos con calma es un superpoder profesional."
+              },
+              "hints": [
+                {
+                  "en": "The starter already fails — just run it.",
+                  "es": "El inicio ya falla: solo ejecútalo."
+                }
+              ],
+              "xunit": true
+            }
+          ]
+        },
+        {
+          "id": "w12-l02-theory",
+          "kind": "lesson",
+          "title": {
+            "en": "[Theory]: One Test, Many Cases",
+            "es": "[Theory]: una prueba, muchos casos"
+          },
+          "tip": {
+            "en": "[Theory] + [InlineData(1, 2, 3)] runs the SAME test with different data rows. Ten cases, one method — the highest-value testing trick in C#.",
+            "es": "[Theory] + [InlineData(1, 2, 3)] ejecuta la MISMA prueba con distintos datos. Diez casos con un solo método: el truco de pruebas de mayor valor en C#."
+          },
+          "exercises": [
+            {
+              "id": "w12-l02e1",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE: this [Theory] checks three multiplication rows. Complete the lambda body so all rows pass (factor × value).",
+                "es": "EN VIVO: esta [Theory] comprueba tres filas de multiplicación. Completa el cuerpo para que todas pasen (factor × valor)."
+              },
+              "starter": "public class Multiplier\n{\n    public int Scale(int value, int factor) => value * factor;\n}\n\npublic class MultiplierTests\n{\n    [Theory]\n    [InlineData(5, 2, 10)]\n    [InlineData(3, 3, 9)]\n    [InlineData(0, 99, 0)]\n    public void Scales_values(int value, int factor, int expected)\n    {\n        var m = new Multiplier();\n        Assert.Equal(expected, ___);\n    }\n}",
+              "tests": [],
+              "explanation": {
+                "en": "Three assertions executed from one method — each row reported separately.",
+                "es": "Tres aserciones ejecutadas desde un método: cada fila se reporta por separado."
+              },
+              "hints": [
+                {
+                  "en": "m.Scale(value, factor)",
+                  "es": "m.Scale(value, factor)"
+                }
+              ],
+              "xunit": true
+            },
+            {
+              "id": "w12-l02e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Fact vs Theory — what's the difference?",
+                "es": "Fact contra Theory: ¿cuál es la diferencia?"
+              },
+              "options": [
+                {
+                  "en": "Fact = fixed case; Theory = parameterized with data rows",
+                  "es": "Fact = caso fijo; Theory = parametrizada con filas de datos"
+                },
+                {
+                  "en": "Theory is for math only",
+                  "es": "Theory es solo para matemáticas"
+                },
+                {
+                  "en": "They are aliases",
+                  "es": "Son alias"
+                },
+                {
+                  "en": "Fact runs faster",
+                  "es": "Fact corre más rápido"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Facts prove one thing; Theories prove a rule across many rows.",
+                "es": "Los Facts prueban una cosa; las Theories prueban una regla en muchas filas."
+              },
+              "hints": [
+                {
+                  "en": "One truth vs. a general law.",
+                  "es": "Una verdad contra una ley general."
+                }
+              ]
+            },
+            {
+              "id": "w12-l02e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE: write a Theory testing that IsEven is true for 2 and 4, false for 3. The IsEven helper is given; add the attribute rows AND the assertion.",
+                "es": "EN VIVO: escribe una Theory que pruebe que IsEven es true para 2 y 4, y false para 3. El helper IsEven está dado; añade las filas y la aserción."
+              },
+              "starter": "public class MathChecks\n{\n    public bool IsEven(int n) => n % 2 == 0;\n}\n\npublic class MathChecksTests\n{\n    [Theory]\n    // add InlineData rows: (2, true), (4, true), (3, false)\n    public void Parity(int n, bool expected)\n    {\n        var m = new MathChecks();\n        // assert here\n    }\n}",
+              "tests": [],
+              "explanation": {
+                "en": "Three rows, one method — your test coverage tripled with two attribute lines.",
+                "es": "Tres filas, un método: tu cobertura se triplicó con dos líneas de atributos."
+              },
+              "hints": [
+                {
+                  "en": "[InlineData(2, true)] [InlineData(4, true)] [InlineData(3, false)] then Assert.Equal(expected, m.IsEven(n));",
+                  "es": "[InlineData(2, true)] [InlineData(4, true)] [InlineData(3, false)] luego Assert.Equal(expected, m.IsEven(n));"
+                }
+              ],
+              "xunit": true
+            },
+            {
+              "id": "w12-l02e4",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "One InlineData row is WRONG (expected value doesn't match the code). What happens?",
+                "es": "Una fila de InlineData está MAL (el valor esperado no coincide con el código). ¿Qué pasa?"
+              },
+              "options": [
+                {
+                  "en": "Only that row fails — the others still pass, showing exactly which case broke",
+                  "es": "Solo esa fila falla: las demás pasan y muestra exactamente qué caso se rompió"
+                },
+                {
+                  "en": "All rows fail",
+                  "es": "Todas las filas fallan"
+                },
+                {
+                  "en": "The wrong row is skipped silently",
+                  "es": "La fila incorrecta se salta en silencio"
+                },
+                {
+                  "en": "The code auto-fixes itself",
+                  "es": "El código se arregla solo"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Per-row isolation tells you precisely which input behaves unexpectedly — data-driven debugging.",
+                "es": "El aislamiento por fila te dice exactamente qué entrada se comporta mal: depuración dirigida por datos."
+              },
+              "hints": [
+                {
+                  "en": "Rows are independent.",
+                  "es": "Las filas son independientes."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w12-l03-aaa",
+          "kind": "lesson",
+          "title": {
+            "en": "AAA: Arrange, Act, Assert",
+            "es": "AAA: Arrange, Act, Assert"
+          },
+          "tip": {
+            "en": "Every test reads in three beats: ARRANGE the world, ACT once, ASSERT the outcome. Discipline that keeps tests readable forever.",
+            "es": "Toda prueba tiene tres tiempos: ARRANCA el mundo, ACTÚA una vez y VERIFICA el resultado. La disciplina que mantiene las pruebas legibles para siempre."
+          },
+          "exercises": [
+            {
+              "id": "w12-l03e1",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": {
+                "en": "Order the AAA test beats:",
+                "es": "Ordena los tiempos de una prueba AAA:"
+              },
+              "code": "// Arrange\nvar calc = new Calculator();\n// Act\nvar result = calc.Add(2, 2);\n// Assert\nAssert.Equal(4, result);",
+              "explanation": {
+                "en": "Setup, single action, verification — in that order, always.",
+                "es": "Preparación, una acción y verificación, en ese orden siempre."
+              },
+              "hints": [
+                {
+                  "en": "The alphabet order: A-A-A.",
+                  "es": "Orden alfabético: A-A-A."
+                }
+              ]
+            },
+            {
+              "id": "w12-l03e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE: write a proper AAA test for a PasswordValidator: IsStrong(\"LongEnough1!\") should be true. (Arrange the validator, act, assert.)",
+                "es": "EN VIVO: escribe una prueba AAA correcta para un PasswordValidator: IsStrong(\"LongEnough1!\") debe ser true. (Arrange, act, assert.)"
+              },
+              "starter": "public class PasswordValidator\n{\n    public bool IsStrong(string password) => password.Length >= 10;\n}\n\npublic class PasswordValidatorTests\n{\n    [Fact]\n    public void Strong_password_passes()\n    {\n        // Arrange\n        // Act\n        // Assert\n    }\n}",
+              "tests": [],
+              "explanation": {
+                "en": "Arrange: validator. Act: IsStrong. Assert: Equal(true, result). Textbook.",
+                "es": "Arrange: validator. Act: IsStrong. Assert: Equal(true, result). De libro."
+              },
+              "hints": [
+                {
+                  "en": "var v = new PasswordValidator(); var result = v.IsStrong(\"LongEnough1!\"); Assert.True(result);",
+                  "es": "var v = new PasswordValidator(); var result = v.IsStrong(\"LongEnough1!\"); Assert.True(result);"
+                }
+              ],
+              "xunit": true
+            },
+            {
+              "id": "w12-l03e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "How many ACTS should one test contain?",
+                "es": "¿Cuántas ACCIONES debe contener una prueba?"
+              },
+              "options": [
+                {
+                  "en": "One — testing multiple behaviors in one test muddies failures",
+                  "es": "Una: probar varios comportamientos en una prueba confunde los fallos"
+                },
+                {
+                  "en": "As many as fit",
+                  "es": "Las que quepan"
+                },
+                {
+                  "en": "Exactly three",
+                  "es": "Exactamente tres"
+                },
+                {
+                  "en": "Zero — only assertions",
+                  "es": "Cero: solo aserciones"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "One act per test: when it fails, the test NAME tells you exactly what broke.",
+                "es": "Una acción por prueba: cuando falla, el NOMBRE te dice qué se rompió."
+              },
+              "hints": [
+                {
+                  "en": "One behavior, one test, one reason to fail.",
+                  "es": "Un comportamiento, una prueba, una razón de fallo."
+                }
+              ]
+            },
+            {
+              "id": "w12-l03e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE: test TWO behaviors separately — string.IsNullOrWhiteSpace: empty string is whitespace (true), \"hi\" is not (false). Two [Fact]s, one act each.",
+                "es": "EN VIVO: prueba DOS comportamientos por separado — string.IsNullOrWhiteSpace: cadena vacía es whitespace (true) y \"hi\" no (false). Dos [Fact], una acción cada uno."
+              },
+              "starter": "public class WhitespaceTests\n{\n    [Fact]\n    public void Empty_is_whitespace() { /* arrange act assert */ }\n\n    [Fact]\n    public void Hi_is_not_whitespace() { /* arrange act assert */ }\n}",
+              "tests": [],
+              "explanation": {
+                "en": "Two facts, two names, two clear signals. Both must pass — whitespace really is whitespace!",
+                "es": "Dos facts, dos nombres, dos señales claras. Ambas deben pasar: ¡el vacío realmente es whitespace!"
+              },
+              "hints": [
+                {
+                  "en": "Assert.True(string.IsNullOrWhiteSpace(\"\")); and Assert.False(string.IsNullOrWhiteSpace(\"hi\"));",
+                  "es": "Assert.True(string.IsNullOrWhiteSpace(\"\")); y Assert.False(string.IsNullOrWhiteSpace(\"hi\"));"
+                }
+              ],
+              "xunit": true
+            }
+          ]
+        },
+        {
+          "id": "w12-l04-quiz1",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 1 Quiz",
+            "es": "Examen de la unidad 1"
+          },
+          "tip": {
+            "en": "Testing fundamentals — the pro foundation!",
+            "es": "¡Fundamentos de testing: la base profesional!"
+          },
+          "exercises": [
+            {
+              "id": "w12-l04e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the test concept to its purpose:",
+                "es": "Relaciona el concepto de pruebas con su propósito:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "[Fact]",
+                    "es": "[Fact]"
+                  },
+                  "right": {
+                    "en": "one fixed test case",
+                    "es": "un caso de prueba fijo"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "[Theory]",
+                    "es": "[Theory]"
+                  },
+                  "right": {
+                    "en": "one test, many data rows",
+                    "es": "una prueba, muchas filas de datos"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Assert.Equal",
+                    "es": "Assert.Equal"
+                  },
+                  "right": {
+                    "en": "expected == actual or fail",
+                    "es": "esperado == real o falla"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "AAA",
+                    "es": "AAA"
+                  },
+                  "right": {
+                    "en": "readable test structure",
+                    "es": "estructura legible de pruebas"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "The testing vocabulary — four terms, instant professionalism.",
+                "es": "El vocabulario de pruebas: cuatro términos, profesionalismo instantáneo."
+              },
+              "hints": [
+                {
+                  "en": "Theory = data-driven.",
+                  "es": "Theory = dirigida por datos."
+                }
+              ]
+            },
+            {
+              "id": "w12-l04e2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Why do automated tests make refactoring SAFE?",
+                "es": "¿Por qué las pruebas automáticas hacen SEGURO refactorizar?"
+              },
+              "options": [
+                {
+                  "en": "If behavior changes by accident, a test turns red immediately",
+                  "es": "Si el comportamiento cambia por accidente, una prueba se pone roja al instante"
+                },
+                {
+                  "en": "Tests prevent typos forever",
+                  "es": "Las pruebas previenen typos para siempre"
+                },
+                {
+                  "en": "Refactoring can't break anything anyway",
+                  "es": "Refactorizar no puede romper nada"
+                },
+                {
+                  "en": "Tests make the app faster",
+                  "es": "Las pruebas hacen la app más rápida"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Tests are a safety net: change boldly, and the suite tells you what snapped.",
+                "es": "Las pruebas son una red de seguridad: cambia con valentía y la suite te dice qué se rompió."
+              },
+              "hints": [
+                {
+                  "en": "Red means stop and look.",
+                  "es": "Rojo significa detente y mira."
+                }
+              ]
+            },
+            {
+              "id": "w12-l04e3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "This very game is tested with xUnit — the same framework you just used.",
+                "es": "Este mismo juego se prueba con xUnit: el mismo framework que acabas de usar."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — 55 tests check the grader, XP math, streak logic, content quality and the code-execution sandbox. Eating our own dog food!",
+                "es": "Verdadero: 55 pruebas verifican el calificador, las matemáticas de PX, las rachas, la calidad del contenido y el sandbox. ¡Comemos nuestra propia comida!"
+              },
+              "hints": [
+                {
+                  "en": "How do you think the runner got so reliable?",
+                  "es": "¿Cómo crees que el sandbox se volvió tan confiable?"
+                }
+              ]
+            },
+            {
+              "id": "w12-l04e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "LIVE FINAL: test the Greeter — Greet(\"ada\") returns \"hi ada\", and Greet(\"\") returns \"hi stranger\". Two facts, AAA style.",
+                "es": "FINAL EN VIVO: prueba el Greeter — Greet(\"ada\") devuelve \"hi ada\" y Greet(\"\") devuelve \"hi stranger\". Dos facts, estilo AAA."
+              },
+              "starter": "public class Greeter\n{\n    public string Greet(string name) =>\n        string.IsNullOrWhiteSpace(name) ? \"hi stranger\" : $\"hi {name}\";\n}\n\npublic class GreeterTests\n{\n    // two [Fact]s with AAA\n}",
+              "tests": [],
+              "explanation": {
+                "en": "Real tests, real framework, real sandbox — you're testing like a professional now.",
+                "es": "Pruebas reales, framework real, sandbox real: ya pruebas como profesional."
+              },
+              "hints": [
+                {
+                  "en": "Assert.Equal(\"hi ada\", g.Greet(\"ada\")); and Assert.Equal(\"hi stranger\", g.Greet(\"\"));",
+                  "es": "Assert.Equal(\"hi ada\", g.Greet(\"ada\")); y Assert.Equal(\"hi stranger\", g.Greet(\"\"));"
+                }
+              ],
+              "xunit": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": {
+        "en": "Dependency Injection",
+        "es": "Inyección de dependencias"
+      },
+      "lessons": [
+        {
+          "id": "w12-l05-di",
+          "kind": "lesson",
+          "title": {
+            "en": "DI: The ServiceCollection",
+            "es": "DI: ServiceCollection"
+          },
+          "tip": {
+            "en": "Microsoft.Extensions.DependencyInjection is THE .NET container — used by ASP.NET Core, MAUI, WPF apps and this game. Register once, resolve anywhere.",
+            "es": "Microsoft.Extensions.DependencyInjection es EL contenedor de .NET: lo usan ASP.NET Core, MAUI, WPF y este juego. Registra una vez y resuelve donde sea."
+          },
+          "exercises": [
+            {
+              "id": "w12-l05e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What does DI give you over `new Service()` everywhere?",
+                "es": "¿Qué da la DI sobre `new Service()` por todas partes?"
+              },
+              "options": [
+                {
+                  "en": "Swap implementations centrally + testable fakes",
+                  "es": "Cambiar implementaciones de forma central + falsos testeables"
+                },
+                {
+                  "en": "Faster arithmetic",
+                  "es": "Aritmética más rápida"
+                },
+                {
+                  "en": "Smaller executable",
+                  "es": "Ejecutable más pequeño"
+                },
+                {
+                  "en": "Nothing — it's fashion",
+                  "es": "Nada: es moda"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "One registration line changes the implementation for the WHOLE app — and fakes make testing trivial.",
+                "es": "Una línea de registro cambia la implementación para TODA la app, y los falsos hacen trivial el testing."
+              },
+              "hints": [
+                {
+                  "en": "You used fakes in the MAUI world.",
+                  "es": "Usaste falsos en el mundo MAUI."
+                }
+              ]
+            },
+            {
+              "id": "w12-l05e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE with the REAL Microsoft DI container: register IGreeter → Greeter, build the provider, resolve and print Greet().",
+                "es": "EJECUTABLE con el contenedor REAL de Microsoft DI: registra IGreeter → Greeter, construye el provider, resuelve y muestra Greet()."
+              },
+              "starter": "using Microsoft.Extensions.DependencyInjection;\n\ninterface IGreeter { string Greet(); }\nclass Greeter : IGreeter { public string Greet() => \"hello from DI\"; }\n\n// ServiceCollection: register, BuildServiceProvider, resolve, print\n",
+              "tests": [
+                {
+                  "name": "resolved via DI",
+                  "expectedOutput": "hello from DI",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "The genuine Microsoft.Extensions.DependencyInjection container — the same engine this game's server runs on.",
+                "es": "El contenedor genuino de Microsoft.Extensions.DependencyInjection: el mismo motor que usa el servidor de este juego."
+              },
+              "hints": [
+                {
+                  "en": "var services = new ServiceCollection(); services.AddSingleton<IGreeter, Greeter>(); var provider = services.BuildServiceProvider(); Console.WriteLine(provider.GetService<IGreeter>()!.Greet());",
+                  "es": "var services = new ServiceCollection(); services.AddSingleton<IGreeter, Greeter>(); var provider = services.BuildServiceProvider(); Console.WriteLine(provider.GetService<IGreeter>()!.Greet());"
+                }
+              ]
+            },
+            {
+              "id": "w12-l05e3",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the lifetime to its scope:",
+                "es": "Relaciona el ciclo de vida con su alcance:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Singleton",
+                    "es": "Singleton"
+                  },
+                  "right": {
+                    "en": "one instance for the whole app",
+                    "es": "una instancia para toda la app"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Scoped",
+                    "es": "Scoped"
+                  },
+                  "right": {
+                    "en": "one instance per request/scope",
+                    "es": "una instancia por petición o ámbito"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Transient",
+                    "es": "Transient"
+                  },
+                  "right": {
+                    "en": "a fresh instance every resolve",
+                    "es": "una instancia nueva en cada resolución"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Lifetimes are a correctness decision, not a preference.",
+                "es": "Los ciclos de vida son una decisión de corrección, no de gusto."
+              },
+              "hints": [
+                {
+                  "en": "Counter state = Singleton. Fresh helper = Transient.",
+                  "es": "Contador = Singleton. Helper nuevo = Transient."
+                }
+              ]
+            },
+            {
+              "id": "w12-l05e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: prove lifetimes — register Counter as TRANSIENT, resolve it twice, increment each, print both counts (expect 1 and 1).",
+                "es": "EJECUTABLE: demuestra los ciclos — registra Counter como TRANSIENT, resuélvelo dos veces, incrementa cada uno y muestra ambos conteos (1 y 1)."
+              },
+              "starter": "using Microsoft.Extensions.DependencyInjection;\n\nclass Counter { public int N; }\n\n// transient = fresh instances\n",
+              "tests": [
+                {
+                  "name": "transient fresh",
+                  "expectedOutput": "1\n1",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Transient = brand-new object every time. (Singleton would print 1 and 2!)",
+                "es": "Transient = objeto nuevo cada vez. (¡Singleton mostraría 1 y 2!)"
+              },
+              "hints": [
+                {
+                  "en": "services.AddTransient<Counter>(); var a = provider.GetService<Counter>(); a.N++; ...",
+                  "es": "services.AddTransient<Counter>(); var a = provider.GetService<Counter>(); a.N++; ..."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2b",
+      "title": {
+        "en": "Design Patterns & Logging",
+        "es": "Patrones de diseño y logging"
+      },
+      "lessons": [
+        {
+          "id": "w12-l06b-factory",
+          "kind": "lesson",
+          "title": {
+            "en": "Factory: One Creation Door",
+            "es": "Factory: una sola puerta de creación"
+          },
+          "tip": {
+            "en": "Factory centralizes object creation: callers ask the factory for a 'CSV exporter' and get the right class. When creation rules change, one file changes.",
+            "es": "Factory centraliza la creación: quien llama pide un 'exportador CSV' y recibe la clase correcta. Si cambian las reglas de creación, cambia un solo archivo."
+          },
+          "exercises": [
+            {
+              "id": "w12-l06be1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Why centralize creation in a factory?",
+                "es": "¿Por qué centralizar la creación en una factory?"
+              },
+              "options": [
+                {
+                  "en": "Creation logic lives once — changes touch one file",
+                  "es": "La lógica de creación vive una sola vez: los cambios tocan un archivo"
+                },
+                {
+                  "en": "Factories make objects bigger",
+                  "es": "Las factories hacen objetos más grandes"
+                },
+                {
+                  "en": "It's required by xUnit",
+                  "es": "xUnit lo exige"
+                },
+                {
+                  "en": "No real reason",
+                  "es": "Sin razón real"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Creation rules change (new formats, new dependencies) — factories contain that blast radius.",
+                "es": "Las reglas de creación cambian (nuevos formatos, dependencias): las factories contienen el radio de impacto."
+              },
+              "hints": [
+                {
+                  "en": "One door, easy to guard.",
+                  "es": "Una puerta, fácil de custodiar."
+                }
+              ]
+            },
+            {
+              "id": "w12-l06be2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: ExporterFactory.Create(\"csv\") → CsvExporter (Write → \"a,b,c\"), Create(\"json\") → JsonExporter (Write → \"{a:1}\"). Print both Write()s through the factory.",
+                "es": "EJECUTABLE: ExporterFactory.Create(\"csv\") → CsvExporter (Write → \"a,b,c\"), Create(\"json\") → JsonExporter (Write → \"{a:1}\"). Muestra ambos Write() vía la factory."
+              },
+              "starter": "// interface + two exporters + factory switch\n",
+              "tests": [
+                {
+                  "name": "both exporters",
+                  "expectedOutput": "a,b,c\n{a:1}",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "The factory switch is the whole pattern: string in, correct exporter out.",
+                "es": "El switch de la factory es todo el patrón: entra un string, sale el exportador correcto."
+              },
+              "hints": [
+                {
+                  "en": "static IExporter Create(string kind) => kind == \"csv\" ? new CsvExporter() : new JsonExporter();",
+                  "es": "static IExporter Create(string kind) => kind == \"csv\" ? new CsvExporter() : new JsonExporter();"
+                }
+              ]
+            },
+            {
+              "id": "w12-l06be3",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the pattern to its one-line essence:",
+                "es": "Relaciona el patrón con su esencia:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Strategy",
+                    "es": "Strategy"
+                  },
+                  "right": {
+                    "en": "swap behavior",
+                    "es": "intercambia comportamiento"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Factory",
+                    "es": "Factory"
+                  },
+                  "right": {
+                    "en": "centralize creation",
+                    "es": "centraliza la creación"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Observer",
+                    "es": "Observer"
+                  },
+                  "right": {
+                    "en": "notify subscribers of events",
+                    "es": "notifica eventos a suscriptores"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Singleton",
+                    "es": "Singleton"
+                  },
+                  "right": {
+                    "en": "one shared instance",
+                    "es": "una instancia compartida"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Pattern names are a shared vocabulary — one word communicates a whole design.",
+                "es": "Los nombres de patrones son vocabulario compartido: una palabra comunica todo el diseño."
+              },
+              "hints": [
+                {
+                  "en": "Observer = events, like PropertyChanged.",
+                  "es": "Observer = eventos, como PropertyChanged."
+                }
+              ]
+            },
+            {
+              "id": "w12-l06be4",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "INotifyPropertyChanged (from WPF) is which pattern in disguise?",
+                "es": "INotifyPropertyChanged (de WPF) ¿qué patrón es disfrazado?"
+              },
+              "options": [
+                {
+                  "en": "Observer — subscribers react to property changes",
+                  "es": "Observer: los suscriptores reaccionan a cambios de propiedades"
+                },
+                {
+                  "en": "Factory",
+                  "es": "Factory"
+                },
+                {
+                  "en": "Singleton",
+                  "es": "Singleton"
+                },
+                {
+                  "en": "Strategy",
+                  "es": "Strategy"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "You've been using Observer since the WPF world — patterns were hiding in plain sight all along.",
+                "es": "Has usado Observer desde el mundo WPF: los patrones estuvieron a la vista todo el tiempo."
+              },
+              "hints": [
+                {
+                  "en": "Subscribers listen for events.",
+                  "es": "Los suscriptores escuchan eventos."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w12-l06c-logging",
+          "kind": "lesson",
+          "title": {
+            "en": "Logging",
+            "es": "Logging"
+          },
+          "tip": {
+            "en": "Professional apps log through ILogger, never Console directly: levels (Debug/Info/Warning/Error), pluggable sinks, and correlation. The game's server logs every DB command this way.",
+            "es": "Las apps profesionales registran vía ILogger, nunca Console directo: niveles (Debug/Info/Warning/Error), destinos intercambiables y correlación. El servidor de este juego registra así cada comando de base de datos."
+          },
+          "exercises": [
+            {
+              "id": "w12-l06ce1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the log level to its use:",
+                "es": "Relaciona el nivel de log con su uso:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Debug",
+                    "es": "Debug"
+                  },
+                  "right": {
+                    "en": "developer detail, usually off",
+                    "es": "detalle para desarrolladores, normalmente apagado"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Information",
+                    "es": "Information"
+                  },
+                  "right": {
+                    "en": "normal events (app started)",
+                    "es": "eventos normales (arranque)"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Warning",
+                    "es": "Warning"
+                  },
+                  "right": {
+                    "en": "recovered problems worth watching",
+                    "es": "problemas recuperados que conviene vigilar"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Error",
+                    "es": "Error"
+                  },
+                  "right": {
+                    "en": "failures needing attention",
+                    "es": "fallos que requieren atención"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Levels let operators filter: production shows Warning+, development shows everything.",
+                "es": "Los niveles permiten filtrar: producción muestra Warning+ y desarrollo todo."
+              },
+              "hints": [
+                {
+                  "en": "Severity ordering.",
+                  "es": "Orden por severidad."
+                }
+              ]
+            },
+            {
+              "id": "w12-l06ce2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: mini logger — class Logger { Log(level, msg) => Console.WriteLine($\"[{level}] {msg}\"); } — log Warning \"cache low\" and Error \"disk full\".",
+                "es": "EJECUTABLE: mini logger — class Logger { Log(nivel, msg) => Console.WriteLine($\"[{nivel}] {msg}\"); } — registra Warning \"cache low\" y Error \"disk full\"."
+              },
+              "starter": "// level + message logger\n",
+              "tests": [
+                {
+                  "name": "two log lines",
+                  "expectedOutput": "[Warning] cache low\n[Error] disk full",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Every serious logger is this shape at heart — levels + messages + destinations.",
+                "es": "Todo logger serio tiene esta forma en esencia: niveles, mensajes y destinos."
+              },
+              "hints": [
+                {
+                  "en": "logger.Log(\"Warning\", \"cache low\");",
+                  "es": "logger.Log(\"Warning\", \"cache low\");"
+                }
+              ]
+            },
+            {
+              "id": "w12-l06ce3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Why inject ILogger instead of Console directly?",
+                "es": "¿Por qué inyectar ILogger en vez de usar Console directo?"
+              },
+              "options": [
+                {
+                  "en": "Sinks can change (file, cloud, test capture) without touching the code",
+                  "es": "Los destinos pueden cambiar (archivo, nube, captura en pruebas) sin tocar el código"
+                },
+                {
+                  "en": "Console is deprecated",
+                  "es": "Console está obsoleto"
+                },
+                {
+                  "en": "ILogger is faster to type",
+                  "es": "ILogger es más rápido de escribir"
+                },
+                {
+                  "en": "It colors the text",
+                  "es": "Colorea el texto"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Injected loggers route anywhere — and in tests, they capture silently for assertions.",
+                "es": "Los loggers inyectados se enrutan a cualquier lugar y en pruebas capturan silenciosamente para aserciones."
+              },
+              "hints": [
+                {
+                  "en": "Same DI reasoning as always.",
+                  "es": "El mismo razonamiento DI de siempre."
+                }
+              ]
+            },
+            {
+              "id": "w12-l06ce4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Logging sensitive user data (passwords) to files is acceptable if the log is 'temporary'.",
+                "es": "Registrar datos sensibles (contraseñas) en archivos es aceptable si el log es 'temporal'."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — logs live long and travel far. Never log secrets; log identifiers instead.",
+                "es": "Falso: los logs viven mucho y viajan lejos. Nunca registres secretos; registra identificadores."
+              },
+              "hints": [
+                {
+                  "en": "Logs outlive the request.",
+                  "es": "Los logs viven más que la petición."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w12-l06d-code-review",
+          "kind": "lesson",
+          "title": {
+            "en": "Code Review Culture",
+            "es": "Cultura de code review"
+          },
+          "tip": {
+            "en": "Professionals review each other's code: catching bugs early, sharing knowledge, keeping style consistent. Reviewing is a gift, not an attack — and receiving one makes the code better.",
+            "es": "Los profesionales revisan el código ajeno: atrapan bugs temprano, comparten conocimiento y mantienen el estilo. Revisar es un regalo, no un ataque, y recibir una revisión mejora el código."
+          },
+          "exercises": [
+            {
+              "id": "w12-l06ce5",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Best review comment style?",
+                "es": "¿Mejor estilo de comentario de revisión?"
+              },
+              "options": [
+                {
+                  "en": "\"This could overflow with large inputs — consider a checked sum?\"",
+                  "es": "\"Esto podría desbordar con entradas grandes: ¿una suma checked?\""
+                },
+                {
+                  "en": "\"This is garbage.\"",
+                  "es": "\"Esto es basura.\""
+                },
+                {
+                  "en": "\"My style is better.\"",
+                  "es": "\"Mi estilo es mejor.\""
+                },
+                {
+                  "en": "No comments — just approve",
+                  "es": "Sin comentarios: solo aprueba"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Point at the code, explain the risk, suggest a direction — never attack the person.",
+                "es": "Señala el código, explica el riesgo y sugiere una dirección: nunca ataques a la persona."
+              },
+              "hints": [
+                {
+                  "en": "Critique code, not people.",
+                  "es": "Critica el código, no a la persona."
+                }
+              ]
+            },
+            {
+              "id": "w12-l06ce6",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Reviews only benefit the author of the code.",
+                "es": "Las revisiones solo benefician al autor del código."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — reviewers learn the codebase, the team shares knowledge, and the app gets sturdier. Everyone wins.",
+                "es": "Falso: quien revisa aprende el código, el equipo comparte conocimiento y la app se vuelve más sólida. Todos ganan."
+              },
+              "hints": [
+                {
+                  "en": "Knowledge sharing.",
+                  "es": "Compartir conocimiento."
+                }
+              ]
+            },
+            {
+              "id": "w12-l06ce7",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: you're reviewing this snippet — it silently returns -1 on negative input instead of throwing. Write Review(x) that returns \"ok\" for x >= 0 and \"throws on negative: flag this\" for x < 0. Print for 5 and -1.",
+                "es": "EJECUTABLE: estás revisando este fragmento — devuelve -1 silenciosamente con entradas negativas en vez de lanzar. Escribe Review(x) que devuelva \"ok\" para x >= 0 y \"throws on negative: flag this\" para x < 0. Muestra para 5 y -1."
+              },
+              "starter": "// review gate: silent error return vs exception\n",
+              "tests": [
+                {
+                  "name": "review findings",
+                  "expectedOutput": "ok\nthrows on negative: flag this",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Silent error returns hide bugs from callers — flagging them IS the review.",
+                "es": "Los retornos silenciosos de error ocultan bugs: señalarlos ES la revisión."
+              },
+              "hints": [
+                {
+                  "en": "x >= 0 ? \"ok\" : \"throws on negative: flag this\"",
+                  "es": "x >= 0 ? \"ok\" : \"throws on negative: flag this\""
+                }
+              ]
+            },
+            {
+              "id": "w12-l06ce8",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What's the ideal size of a review request (pull request)?",
+                "es": "¿Cuál es el tamaño ideal de una solicitud de revisión (pull request)?"
+              },
+              "options": [
+                {
+                  "en": "Small and focused — one logical change",
+                  "es": "Pequeño y enfocado: un cambio lógico"
+                },
+                {
+                  "en": "A whole month of work",
+                  "es": "Un mes completo de trabajo"
+                },
+                {
+                  "en": "The entire application",
+                  "es": "Toda la aplicación"
+                },
+                {
+                  "en": "Size doesn't matter",
+                  "es": "El tamaño no importa"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Small PRs get real reviews; giant PRs get rubber-stamped approvals.",
+                "es": "Los PR pequeños reciben revisiones reales; los gigantes reciben aprobaciones automáticas."
+              },
+              "hints": [
+                {
+                  "en": "Small enough to read with coffee.",
+                  "es": "Suficientemente pequeño para leer con café."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": {
+        "en": "Patterns & Performance",
+        "es": "Patrones y rendimiento"
+      },
+      "lessons": [
+        {
+          "id": "w12-l06-strategy",
+          "kind": "lesson",
+          "title": {
+            "en": "Strategy Pattern",
+            "es": "Patrón Strategy"
+          },
+          "tip": {
+            "en": "Strategy: define a family of algorithms behind one interface and swap them at runtime. Discount calculators, sort orders, AI difficulty — all Strategy.",
+            "es": "Strategy: define una familia de algoritmos tras una interfaz y cámbialos en tiempo de ejecución. Calculadoras de descuento, órdenes de orden, dificultad de IA: todo es Strategy."
+          },
+          "exercises": [
+            {
+              "id": "w12-l06e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "A game has three damage formulas (normal, critical, poison) selectable at runtime. Best design?",
+                "es": "Un juego tiene tres fórmulas de daño (normal, crítico, veneno) seleccionables en ejecución. ¿Mejor diseño?"
+              },
+              "options": [
+                {
+                  "en": "IDamageStrategy with three implementations, chosen by key",
+                  "es": "IDamageStrategy con tres implementaciones elegibles por clave"
+                },
+                {
+                  "en": "One method with 12 if/else branches",
+                  "es": "Un método con 12 ramas if/else"
+                },
+                {
+                  "en": "Three copies of the whole game",
+                  "es": "Tres copias del juego completo"
+                },
+                {
+                  "en": "A global enum checked everywhere",
+                  "es": "Un enum global comprobado por todas partes"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Strategy isolates each formula; adding a fourth is a new class, not an edit.",
+                "es": "Strategy aísla cada fórmula; añadir la cuarta es una clase nueva, no una edición."
+              },
+              "hints": [
+                {
+                  "en": "Add, don't edit.",
+                  "es": "Añade, no edites."
+                }
+              ]
+            },
+            {
+              "id": "w12-l06e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: interface IDiscount { double Apply(double price); } — NoDiscount, HalfDiscount. Print Apply(100) through both.",
+                "es": "EJECUTABLE: interfaz IDiscount { double Apply(double price); } — NoDiscount y HalfDiscount. Muestra Apply(100) con ambas."
+              },
+              "starter": "// interface + two strategies + two calls\n",
+              "tests": [
+                {
+                  "name": "both discounts",
+                  "expectedOutput": "100\n50",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Caller code never changes when strategies change — the Strategy promise.",
+                "es": "El código llamador nunca cambia cuando cambian las estrategias: la promesa de Strategy."
+              },
+              "hints": [
+                {
+                  "en": "Print via the interface variable, swapping implementations.",
+                  "es": "Muestra usando la variable de la interfaz, intercambiando implementaciones."
+                }
+              ]
+            },
+            {
+              "id": "w12-l06e3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Which SOLID principle does Strategy express most directly?",
+                "es": "¿Qué principio SOLID expresa Strategy más directamente?"
+              },
+              "options": [
+                {
+                  "en": "Open/Closed — open to extension, closed to modification",
+                  "es": "Open/Closed: abierto a extensión, cerrado a modificación"
+                },
+                {
+                  "en": "Single Responsibility",
+                  "es": "Responsabilidad única"
+                },
+                {
+                  "en": "Dependency Inversion",
+                  "es": "Inversión de dependencias"
+                },
+                {
+                  "en": "Interface Segregation",
+                  "es": "Segregación de interfaces"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "New strategies extend the system without touching existing code — the O in SOLID.",
+                "es": "Nuevas estrategias extienden el sistema sin tocar código existente: la O de SOLID."
+              },
+              "hints": [
+                {
+                  "en": "Extend without editing.",
+                  "es": "Extiende sin editar."
+                }
+              ]
+            },
+            {
+              "id": "w12-l06e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: runtime strategy swap — variable strategy starts as NoDiscount; print Apply(50); swap to HalfDiscount; print Apply(50). Same call site, different behavior.",
+                "es": "EJECUTABLE: intercambio en caliente — la variable strategy empieza como NoDiscount; muestra Apply(50); cambia a HalfDiscount; muestra Apply(50). Mismo sitio de llamada, distinto comportamiento."
+              },
+              "starter": "// one variable, two behaviors\n",
+              "tests": [
+                {
+                  "name": "runtime swap",
+                  "expectedOutput": "50\n25",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "The call site didn't change a character — the strategy did all the work.",
+                "es": "El sitio de llamada no cambió ni un carácter: la estrategia hizo todo el trabajo."
+              },
+              "hints": [
+                {
+                  "en": "IDiscount strategy = new NoDiscount(); ... strategy = new HalfDiscount();",
+                  "es": "IDiscount strategy = new NoDiscount(); ... strategy = new HalfDiscount();"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w12-l07-performance",
+          "kind": "lesson",
+          "title": {
+            "en": "Performance Thinking",
+            "es": "Pensamiento de rendimiento"
+          },
+          "tip": {
+            "en": "Rule one: MEASURE before optimizing (Stopwatch). Rule two: the classic trap is string concatenation in loops — each + copies the whole string. StringBuilder appends in place.",
+            "es": "Regla uno: MIDE antes de optimizar (Stopwatch). Regla dos: la trampa clásica es concatenar strings en bucles; cada + copia todo el string. StringBuilder añade en su lugar."
+          },
+          "exercises": [
+            {
+              "id": "w12-l07e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Building text from 10,000 parts in a loop. Best tool?",
+                "es": "Construir texto de 10,000 partes en un bucle. ¿Mejor herramienta?"
+              },
+              "options": [
+                {
+                  "en": "StringBuilder + Append",
+                  "es": "StringBuilder + Append"
+                },
+                {
+                  "en": "result += part on a string",
+                  "es": "result += part sobre un string"
+                },
+                {
+                  "en": "A database",
+                  "es": "Una base de datos"
+                },
+                {
+                  "en": "Console.WriteLine per part",
+                  "es": "Console.WriteLine por parte"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Strings are immutable: each += allocates a NEW string copying everything so far. StringBuilder appends into one buffer.",
+                "es": "Los strings son inmutables: cada += asigna un string NUEVO copiando todo. StringBuilder añade a un solo buffer."
+              },
+              "hints": [
+                {
+                  "en": "Immutable + loop = quadratic pain.",
+                  "es": "Inmutable + bucle = dolor cuadrático."
+                }
+              ]
+            },
+            {
+              "id": "w12-l07e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: use StringBuilder to build \"012345\" from a loop of 0..5 and print it.",
+                "es": "EJECUTABLE: usa StringBuilder para construir \"012345\" desde un bucle 0..5 y muéstralo."
+              },
+              "starter": "using System.Text;\n\n// loop + Append + print\n",
+              "tests": [
+                {
+                  "name": "built string",
+                  "expectedOutput": "012345",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "sb.Append(i) in a loop — the professional way to build text.",
+                "es": "sb.Append(i) en un bucle: la forma profesional de construir texto."
+              },
+              "hints": [
+                {
+                  "en": "var sb = new StringBuilder(); for (int i = 0; i < 6; i++) sb.Append(i);",
+                  "es": "var sb = new StringBuilder(); for (int i = 0; i < 6; i++) sb.Append(i);"
+                }
+              ]
+            },
+            {
+              "id": "w12-l07e3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Your code feels slow. What do you do FIRST?",
+                "es": "Tu código parece lento. ¿Qué haces PRIMERO?"
+              },
+              "options": [
+                {
+                  "en": "Measure with a Stopwatch/profiler to find the real hotspot",
+                  "es": "Medir con Stopwatch o profiler para encontrar el punto lento real"
+                },
+                {
+                  "en": "Rewrite everything in another language",
+                  "es": "Reescribir todo en otro lenguaje"
+                },
+                {
+                  "en": "Add caching everywhere",
+                  "es": "Añadir caché por todas partes"
+                },
+                {
+                  "en": "Guess and change random things",
+                  "es": "Adivinar y cambiar cosas al azar"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Measurement beats intuition — hotspots are rarely where you think. This game itself timed its runner with Stopwatch!",
+                "es": "Medir supera a la intuición: los puntos lentos rara vez están donde crees. ¡Este juego midió su sandbox con Stopwatch!"
+              },
+              "hints": [
+                {
+                  "en": "Numbers, not vibes.",
+                  "es": "Números, no corazonadas."
+                }
+              ]
+            },
+            {
+              "id": "w12-l07e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: measure! Time a 100ms Task.Delay with Stopwatch and print \"took <ms>ms\" (the runner accepts anything 95-200).",
+                "es": "EJECUTABLE: mide — cronometra un Task.Delay de 100ms con Stopwatch y muestra \"took <ms>ms\" (el sistema acepta entre 95 y 200)."
+              },
+              "starter": "using System.Diagnostics;\n\n// Stopwatch around a delay\n",
+              "tests": [
+                {
+                  "name": "measured",
+                  "expectedOutput": "took 1",
+                  "match": "contains"
+                }
+              ],
+              "explanation": {
+                "en": "Stopwatch is the first tool of performance work: numbers before opinions.",
+                "es": "Stopwatch es la primera herramienta del rendimiento: números antes que opiniones."
+              },
+              "hints": [
+                {
+                  "en": "var sw = Stopwatch.StartNew(); await Task.Delay(100); sw.Stop(); Console.WriteLine($\"took {sw.ElapsedMilliseconds}ms\");",
+                  "es": "var sw = Stopwatch.StartNew(); await Task.Delay(100); sw.Stop(); Console.WriteLine($\"took {sw.ElapsedMilliseconds}ms\");"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3b",
+      "title": {
+        "en": "Performance Pro",
+        "es": "Rendimiento pro"
+      },
+      "lessons": [
+        {
+          "id": "w12-l07b-bigo",
+          "kind": "lesson",
+          "title": {
+            "en": "Big-O in Plain Words",
+            "es": "Big-O en palabras simples"
+          },
+          "tip": {
+            "en": "O(1) instant · O(log n) halves the search (sorted lookup) · O(n) reads all · O(n²) reads all × all (nested loops). The exponent is the emergency.",
+            "es": "O(1) instantáneo · O(log n) parte a la mitad la búsqueda · O(n) lee todo · O(n²) lee todo × todo (bucles anidados). El exponente es la emergencia."
+          },
+          "exercises": [
+            {
+              "id": "w12-l07be1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the complexity to the scenario:",
+                "es": "Relaciona la complejidad con el escenario:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "O(1)",
+                    "es": "O(1)"
+                  },
+                  "right": {
+                    "en": "dictionary lookup by key",
+                    "es": "búsqueda en diccionario por clave"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "O(log n)",
+                    "es": "O(log n)"
+                  },
+                  "right": {
+                    "en": "binary search on sorted data",
+                    "es": "búsqueda binaria en datos ordenados"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "O(n)",
+                    "es": "O(n)"
+                  },
+                  "right": {
+                    "en": "one loop over the list",
+                    "es": "un bucle sobre la lista"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "O(n²)",
+                    "es": "O(n²)"
+                  },
+                  "right": {
+                    "en": "loop inside a loop",
+                    "es": "bucle dentro de bucle"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Nested loops are the classic O(n²) smell — 1000×1000 = a million steps.",
+                "es": "Los bucles anidados son el clásico O(n²): 1000×1000 = un millón de pasos."
+              },
+              "hints": [
+                {
+                  "en": "Loop in loop = multiply.",
+                  "es": "Bucle dentro de bucle = multiplicar."
+                }
+              ]
+            },
+            {
+              "id": "w12-l07be2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: feel O(n²) — nested loops counting pairs for n=50 (50×49/2 = 1225 pairs). Print the pair count using two loops.",
+                "es": "EJECUTABLE: siente O(n²) — bucles anidados contando pares para n=50 (50×49/2 = 1225 pares). Muestra el conteo con dos bucles."
+              },
+              "starter": "// count unique pairs with two nested loops\n",
+              "tests": [
+                {
+                  "name": "pair count",
+                  "expectedOutput": "1225",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "The inner loop shrinks as i grows — still O(n²) territory. Feel the weight.",
+                "es": "El bucle interno se encoge conforme i crece: sigue siendo O(n²). Siente el peso."
+              },
+              "hints": [
+                {
+                  "en": "int pairs = 0; for i, for j = i+1 ... pairs++ then print.",
+                  "es": "int pairs = 0; para i, para j = i+1 ... pairs++ y muestra."
+                }
+              ]
+            },
+            {
+              "id": "w12-l07be3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Searching a sorted list of 1,000,000 items: linear scan vs binary search — roughly how many checks?",
+                "es": "Buscar en una lista ordenada de 1,000,000 de elementos: escaneo lineal contra búsqueda binaria, ¿cuántas comprobaciones aproximadamente?"
+              },
+              "options": [
+                {
+                  "en": "1,000,000 vs ~20",
+                  "es": "1,000,000 contra ~20"
+                },
+                {
+                  "en": "1,000,000 vs 500,000",
+                  "es": "1,000,000 contra 500,000"
+                },
+                {
+                  "en": "Both about 20",
+                  "es": "Ambas unas 20"
+                },
+                {
+                  "en": "Both about a million",
+                  "es": "Ambas cerca de un millón"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "O(log n) halves repeatedly: 20 halvings cover a million. That's why sorted+binary matters.",
+                "es": "O(log n) divide a la mitad: 20 mitades cubren un millón. Por eso importan ordenar y la búsqueda binaria."
+              },
+              "hints": [
+                {
+                  "en": "2^20 ≈ one million.",
+                  "es": "2^20 ≈ un millón."
+                }
+              ]
+            },
+            {
+              "id": "w12-l07be4",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Premature optimization (tuning before measuring) usually helps.",
+                "es": "La optimización prematura (ajustar antes de medir) normalmente ayuda."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — it complicates code for wins that may not matter. Measure, find the hotspot, THEN optimize there.",
+                "es": "Falso: complica el código por ganancias que quizá no importen. Mide, encuentra el punto lento y optimiza AHÍ."
+              },
+              "hints": [
+                {
+                  "en": "Knuth: premature optimization is the root of all evil.",
+                  "es": "Knuth: la optimización prematura es la raíz de todos los males."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u4",
+      "title": {
+        "en": "BOSS: The Final Gate",
+        "es": "JEFE: La Puerta Final"
+      },
+      "lessons": [
+        {
+          "id": "w12-l08-boss",
+          "kind": "boss",
+          "title": {
+            "en": "BOSS: The Final Gate",
+            "es": "JEFE: La Puerta Final"
+          },
+          "tip": {
+            "en": "Tests + DI + Strategy + performance, in one gauntlet. Pass the Final Gate and you've completed DevQuest — a C# developer forged by playing. 🎓",
+            "es": "Pruebas + DI + Strategy + rendimiento en una sola prueba final. Supera la Puerta Final y habrás completado DevQuest: un desarrollador C# forjado jugando. 🎓"
+          },
+          "exercises": [
+            {
+              "id": "w12-l08e1",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 1 — TEST IT: the given ScoreService adds bonus. Write TWO facts: adds correctly (100+50 → 150) and handles zero bonus. Real xUnit, real run.",
+                "es": "Puerta 1 — PRUÉBALO: el ScoreService dado suma bonos. Escribe DOS facts: suma correcta (100+50 → 150) y bono cero. xUnit real, ejecución real."
+              },
+              "starter": "public class ScoreService\n{\n    public int AddBonus(int score, int bonus) => score + bonus;\n}\n\npublic class ScoreServiceTests\n{\n    // two [Fact]s, AAA style\n}",
+              "tests": [],
+              "explanation": {
+                "en": "Two facts, both green — the service is proven.",
+                "es": "Dos facts en verde: el servicio queda probado."
+              },
+              "hints": [
+                {
+                  "en": "Assert.Equal(150, s.AddBonus(100, 50)); and Assert.Equal(100, s.AddBonus(100, 0));",
+                  "es": "Assert.Equal(150, s.AddBonus(100, 50)); y Assert.Equal(100, s.AddBonus(100, 0));"
+                }
+              ],
+              "xunit": true
+            },
+            {
+              "id": "w12-l08e2",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 2 — THEORY IT: same service, convert to a [Theory] with InlineData rows (100,50 → 150), (0,0 → 0), (10,90 → 100).",
+                "es": "Puerta 2 — TEORIZA: el mismo servicio, conviértelo en [Theory] con filas (100,50 → 150), (0,0 → 0), (10,90 → 100)."
+              },
+              "starter": "public class ScoreService\n{\n    public int AddBonus(int score, int bonus) => score + bonus;\n}\n\npublic class ScoreServiceTests\n{\n    [Theory]\n    // rows + assert\n}",
+              "tests": [],
+              "explanation": {
+                "en": "Three cases from one method — the professional upgrade of gate 1.",
+                "es": "Tres casos desde un método: la mejora profesional de la puerta 1."
+              },
+              "hints": [
+                {
+                  "en": "[InlineData(100, 50, 150)] [InlineData(0, 0, 0)] [InlineData(10, 90, 100)] then Assert.Equal(expected, svc.AddBonus(score, bonus));",
+                  "es": "[InlineData(100, 50, 150)] [InlineData(0, 0, 0)] [InlineData(10, 90, 100)] luego Assert.Equal(expected, svc.AddBonus(score, bonus));"
+                }
+              ],
+              "xunit": true
+            },
+            {
+              "id": "w12-l08e3",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Gate 3 — INJECT IT: register ScoreService in the real DI container and resolve it; print AddBonus(100, 50).",
+                "es": "Puerta 3 — INYÉCTALO: registra ScoreService en el contenedor real de DI, resuélvelo y muestra AddBonus(100, 50)."
+              },
+              "starter": "using Microsoft.Extensions.DependencyInjection;\n\npublic class ScoreService\n{\n    public int AddBonus(int score, int bonus) => score + bonus;\n}\n\n// register + resolve + call\n",
+              "tests": [
+                {
+                  "name": "DI-resolved service",
+                  "expectedOutput": "150",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Tested service, DI-delivered: the production shape of .NET apps.",
+                "es": "Servicio probado y entregado por DI: la forma de producción de las apps .NET."
+              },
+              "hints": [
+                {
+                  "en": "AddSingleton<ScoreService, ScoreService>() — then provider.GetRequiredService<ScoreService>().AddBonus(100, 50)",
+                  "es": "AddSingleton<ScoreService, ScoreService>() — luego provider.GetRequiredService<ScoreService>().AddBonus(100, 50)"
+                }
+              ]
+            },
+            {
+              "id": "w12-l08e4",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "FINAL GATE — STRATEGY: two bonus strategies (NoBonus → +0, DoubleBonus → +100 on a 100 score) swapped through one interface. Print AddBonus(100) through BOTH. Cross the gate — you finished DevQuest! 🎓🏆",
+                "es": "PUERTA FINAL — STRATEGY: dos estrategias de bono (NoBonus → +0, DoubleBonus → +100 sobre score 100) intercambiables por una interfaz. Muestra AddBonus(100) con AMBAS. Cruzar la puerta: ¡DevQuest completado! 🎓🏆"
+              },
+              "starter": "using Microsoft.Extensions.DependencyInjection;\n\n// interface IBonus + two strategies + swap\n",
+              "tests": [
+                {
+                  "name": "strategy swap",
+                  "expectedOutput": "100\n200",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "You crossed the Final Gate with tests, DI, and strategy in hand. DevQuest is COMPLETE — and so is your transformation: from Console.WriteLine to full-stack .NET developer. Welcome to the profession! 🎓🤖💜",
+                "es": "Cruzaste la Puerta Final con pruebas, DI y strategy en mano. DevQuest está COMPLETO y también tu transformación: de Console.WriteLine a desarrollador full-stack .NET. ¡Bienvenido a la profesión! 🎓🤖💜"
+              },
+              "hints": [
+                {
+                  "en": "IBonus with int Apply(int score); two implementations; swap the variable and call Apply(100) twice.",
+                  "es": "IBonus con int Apply(int score); dos implementaciones; cambia la variable y llama Apply(100) dos veces."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3c",
+      "title": {
+        "en": "Pro Extras",
+        "es": "Extras profesionales"
+      },
+      "lessons": [
+        {
+          "id": "w12-l07c-cleancode",
+          "kind": "lesson",
+          "title": {
+            "en": "Clean Code Habits",
+            "es": "Hábitos de código limpio"
+          },
+          "tip": {
+            "en": "Names are documentation: TryParse beats DoIt2. Small methods, one purpose each, and comments only where the WHY isn't obvious. Future-you is your first reader.",
+            "es": "Los nombres son documentación: TryParse supera a DoIt2. Métodos pequeños con un propósito y comentarios solo donde el PORQUÉ no sea obvio. Tu yo del futuro es tu primer lector."
+          },
+          "exercises": [
+            {
+              "id": "w12-l07ce1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Which name best describes what it does?",
+                "es": "¿Qué nombre describe mejor lo que hace?"
+              },
+              "options": [
+                {
+                  "en": "CalculateInvoiceTotal",
+                  "es": "CalculateInvoiceTotal"
+                },
+                {
+                  "en": "Process",
+                  "es": "Process"
+                },
+                {
+                  "en": "DoStuff",
+                  "es": "DoStuff"
+                },
+                {
+                  "en": "Method1",
+                  "es": "Method1"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "A name that says WHAT removes the need to read the body — free documentation.",
+                "es": "Un nombre que dice QUÉ elimina la necesidad de leer el cuerpo: documentación gratis."
+              },
+              "hints": [
+                {
+                  "en": "Verb + specific noun.",
+                  "es": "Verbo + sustantivo específico."
+                }
+              ]
+            },
+            {
+              "id": "w12-l07ce2",
+              "type": "bugfix",
+              "xp": 20,
+              "prompt": {
+                "en": "This method works but lies with its name — it claims Divide but multiplies. Fix the NAME (rename to Multiply), keep behavior, and the test passes.",
+                "es": "Este método funciona pero miente con su nombre: dice Divide pero multiplica. Corrige el NOMBRE (renómbralo a Multiply), conserva el comportamiento y la prueba pasará."
+              },
+              "starter": "public class Math2\n{\n    public int Divide(int a, int b) => a * b;\n}",
+              "tests": [
+                {
+                  "name": "renamed",
+                  "expectedOutput": "6",
+                  "match": "contains"
+                }
+              ],
+              "explanation": {
+                "en": "Names must match behavior — lying names are worse than bad names.",
+                "es": "Los nombres deben coincidir con el comportamiento: los nombres que mienten son peores que los malos nombres."
+              },
+              "hints": [
+                {
+                  "en": "Rename Divide → Multiply (a * b stays).",
+                  "es": "Renombra Divide → Multiply (a * b se queda)."
+                }
+              ]
+            },
+            {
+              "id": "w12-l07ce3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Shorter code is always better code.",
+                "es": "El código más corto siempre es mejor código."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — readability wins over brevity. A clear 10-line method beats a cryptic 3-line one.",
+                "es": "Falso: la legibilidad gana a la brevedad. Un método claro de 10 líneas supera uno críptico de 3."
+              },
+              "hints": [
+                {
+                  "en": "Optimize for reading.",
+                  "es": "Optimiza para leer."
+                }
+              ]
+            },
+            {
+              "id": "w12-l07ce4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "RUNNABLE: refactor-by-extraction — extract the greeting logic into a method Greet(string name) and call it for \"ada\" and \"\" (with the empty fallback). Expect: hi ada, hi stranger.",
+                "es": "EJECUTABLE: refactoriza extrayendo — extrae la lógica del saludo a un método Greet(string name) y llámalo con \"ada\" y \"\" (con el respaldo). Espera: hi ada y hi stranger."
+              },
+              "starter": "// extract Greet(name) with empty-name fallback\n",
+              "tests": [
+                {
+                  "name": "extracted greeting",
+                  "expectedOutput": "hi ada\nhi stranger",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Extraction turns a tangled block into a named, tested, reusable unit.",
+                "es": "La extracción convierte un bloque enredado en una unidad nombrada, probada y reutilizable."
+              },
+              "hints": [
+                {
+                  "en": "static string Greet(string name) => string.IsNullOrWhiteSpace(name) ? \"hi stranger\" : $\"hi {name}\";",
+                  "es": "static string Greet(string name) => string.IsNullOrWhiteSpace(name) ? \"hi stranger\" : $\"hi {name}\";"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w12-l07d-git",
+          "kind": "lesson",
+          "title": {
+            "en": "Git: The Time Machine",
+            "es": "Git: la máquina del tiempo"
+          },
+          "tip": {
+            "en": "Git snapshots your code: commit = save point, branch = parallel experiment, merge = combine. Professionals commit small and often — like this project's phase commits!",
+            "es": "Git fotografía tu código: commit = punto de guardado, branch = experimento paralelo, merge = combinación. Los profesionales hacen commits pequeños y frecuentes, ¡como los commits por fase de este proyecto!"
+          },
+          "exercises": [
+            {
+              "id": "w12-l07de1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the git command to its effect:",
+                "es": "Relaciona el comando git con su efecto:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "git commit",
+                    "es": "git commit"
+                  },
+                  "right": {
+                    "en": "save a snapshot locally",
+                    "es": "guarda una instantánea local"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "git push",
+                    "es": "git push"
+                  },
+                  "right": {
+                    "en": "upload commits to the server",
+                    "es": "sube los commits al servidor"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "git branch",
+                    "es": "git branch"
+                  },
+                  "right": {
+                    "en": "create a parallel line of work",
+                    "es": "crea una línea de trabajo paralela"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "git merge",
+                    "es": "git merge"
+                  },
+                  "right": {
+                    "en": "combine two lines of work",
+                    "es": "combina dos líneas de trabajo"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Commit locally, push to share, branch to experiment, merge to combine.",
+                "es": "Commit local, push para compartir, branch para experimentar, merge para combinar."
+              },
+              "hints": [
+                {
+                  "en": "Push = publish.",
+                  "es": "Push = publicar."
+                }
+              ]
+            },
+            {
+              "id": "w12-l07de2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "A teammate's change broke the build. Fastest recovery?",
+                "es": "El cambio de un compañero rompió la compilación. ¿Recuperación más rápida?"
+              },
+              "options": [
+                {
+                  "en": "Check out the last known-good commit",
+                  "es": "Volver al último commit que funcionaba"
+                },
+                {
+                  "en": "Delete the repository and start over",
+                  "es": "Borrar el repositorio y empezar de nuevo"
+                },
+                {
+                  "en": "Manually undo every file",
+                  "es": "Deshacer cada archivo a mano"
+                },
+                {
+                  "en": "Blame and argue first",
+                  "es": "Culpar y discutir primero"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Commits are save points — roll back to green, then investigate calmly.",
+                "es": "Los commits son puntos de guardado: vuelve al verde e investiga con calma."
+              },
+              "hints": [
+                {
+                  "en": "The time machine exists.",
+                  "es": "La máquina del tiempo existe."
+                }
+              ]
+            },
+            {
+              "id": "w12-l07de3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "bin/ and obj/ folders should be committed so builds are faster.",
+                "es": "Las carpetas bin/ y obj/ deberían subirse para compilar más rápido."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — build outputs are regenerated; .gitignore excludes them (this project does).",
+                "es": "Falso: las salidas de compilación se regeneran; el .gitignore las excluye (como este proyecto)."
+              },
+              "hints": [
+                {
+                  "en": "Commit source, not outputs.",
+                  "es": "Sube fuentes, no salidas."
+                }
+              ]
+            },
+            {
+              "id": "w12-l07de4",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Best commit message style?",
+                "es": "¿Mejor estilo de mensaje de commit?"
+              },
+              "options": [
+                {
+                  "en": "\"Fix streak reset when crossing midnight (UTC)\"",
+                  "es": "\"Corregir reinicio de racha al cruzar la medianoche (UTC)\""
+                },
+                {
+                  "en": "\"changes\"",
+                  "es": "\"cambios\""
+                },
+                {
+                  "en": "\"asdf\"",
+                  "es": "\"asdf\""
+                },
+                {
+                  "en": "\"final final v2 real\"",
+                  "es": "\"final final v2 real\""
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Say WHAT and WHY — your teammates (and future you) will thank you.",
+                "es": "Di QUÉ y POR QUÉ: tus compañeros (y tu yo futuro) lo agradecerán."
+              },
+              "hints": [
+                {
+                  "en": "Messages are documentation.",
+                  "es": "Los mensajes son documentación."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w12-l07e-agile",
+          "kind": "lesson",
+          "title": {
+            "en": "Working Like a Team",
+            "es": "Trabajar como equipo"
+          },
+          "tip": {
+            "en": "Pro teams ship in small iterations: pick a task, build it, test it, review it, ship it. Agile isn't meetings — it's short feedback loops. You've lived it: this game was built in exactly 5 shipped phases.",
+            "es": "Los equipos pro entregan en iteraciones pequeñas: elige una tarea, constrúyela, pruébala, revísala, publícala. Ágil no son reuniones: son ciclos cortos de retroalimentación. Ya lo viviste: este juego se construyó en exactamente 5 fases entregadas."
+          },
+          "exercises": [
+            {
+              "id": "w12-l07ae1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the iteration step to its output:",
+                "es": "Relaciona el paso de iteración con su resultado:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Build",
+                    "es": "Construir"
+                  },
+                  "right": {
+                    "en": "working feature",
+                    "es": "funcionalidad funcionando"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Test",
+                    "es": "Probar"
+                  },
+                  "right": {
+                    "en": "proof it behaves",
+                    "es": "prueba de que se comporta bien"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Review",
+                    "es": "Revisar"
+                  },
+                  "right": {
+                    "en": "improved quality",
+                    "es": "mejor calidad"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Ship",
+                    "es": "Entregar"
+                  },
+                  "right": {
+                    "en": "value in users' hands",
+                    "es": "valor en manos de los usuarios"
+                  }
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Small loops, real feedback, constant delivery.",
+                "es": "Ciclos pequeños, retroalimentación real, entrega constante."
+              },
+              "hints": [
+                {
+                  "en": "Each step feeds the next.",
+                  "es": "Cada paso alimenta al siguiente."
+                }
+              ]
+            },
+            {
+              "id": "w12-l07ae2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Why ship small and often instead of one big launch?",
+                "es": "¿Por qué entregar pequeño y frecuente en vez de un gran lanzamiento?"
+              },
+              "options": [
+                {
+                  "en": "Feedback arrives early; mistakes stay small and fixable",
+                  "es": "La retroalimentación llega temprano y los errores quedan pequeños y reparables"
+                },
+                {
+                  "en": "Big launches are cheaper",
+                  "es": "Los grandes lanzamientos son más baratos"
+                },
+                {
+                  "en": "Small releases have no bugs",
+                  "es": "Las entregas pequeñas no tienen bugs"
+                },
+                {
+                  "en": "It doesn't matter either way",
+                  "es": "No importa de ninguna forma"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Small batches = small mistakes = fast learning. This game fixed dozens of bugs within days of each phase.",
+                "es": "Lotes pequeños = errores pequeños = aprendizaje rápido. Este juego arregló docenas de bugs días después de cada fase."
+              },
+              "hints": [
+                {
+                  "en": "Fail small, learn fast.",
+                  "es": "Falla pequeño, aprende rápido."
+                }
+              ]
+            },
+            {
+              "id": "w12-l07ae3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Reading documentation is part of the professional workflow, not a weakness.",
+                "es": "Leer documentación es parte del flujo profesional, no una debilidad."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — pros look things up constantly. Microsoft Learn is a bookmark, not a shame.",
+                "es": "Verdadero: los profesionales consultan constantemente. Microsoft Learn es un marcador, no una vergüenza."
+              },
+              "hints": [
+                {
+                  "en": "Nobody memorizes everything.",
+                  "es": "Nadie memoriza todo."
+                }
+              ]
+            },
+            {
+              "id": "w12-l07ae4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "GRADUATION DRILL: one final pipeline combining four worlds — LINQ Select over numbers 1..5 (squared), a record Result(int Value, string Grade) created per item via pattern-matched grade (>= 10 => \"big\", else \"small\"), printed as \"value:grade\". Expect: 1:small, 4:small, 9:small, 16:big, 25:big.",
+                "es": "DRILL DE GRADUACIÓN: un pipeline final que combina cuatro mundos — LINQ Select sobre 1..5 (al cuadrado), un record Result(int Value, string Grade) creado por elemento con patrón (>= 10 => \"big\", si no \"small\"), mostrado como \"valor:grado\". Espera: 1:small, 4:small, 9:small, 16:big, 25:big."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\n// LINQ + records + patterns in one pipeline\n\nrecord Result(int Value, string Grade);",
+              "tests": [
+                {
+                  "name": "graduation pipeline",
+                  "expectedOutput": "1:small\n4:small\n9:small\n16:big\n25:big",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "LINQ, records, pattern matching in a single expression chain. You've crossed the Final Gate — DevQuest is COMPLETE! 🎓🤖💜",
+                "es": "LINQ, records y patrones en una sola cadena de expresiones. ¡Cruzaste la Puerta Final: DevQuest está COMPLETO! 🎓🤖💜"
+              },
+              "hints": [
+                {
+                  "en": "nums.Select(n => { var sq = n * n; return new Result(sq, sq >= 10 ? \"big\" : \"small\"); }) then print r.Value + \":\" + r.Grade",
+                  "es": "nums.Select(n => { var sq = n * n; return new Result(sq, sq >= 10 ? \"big\" : \"small\"); }) luego muestra r.Value + \":\" + r.Grade"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

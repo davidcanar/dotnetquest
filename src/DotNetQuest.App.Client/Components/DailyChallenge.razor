@@ -1,0 +1,111 @@
+@namespace DotNetQuest.App.Client.Components
+@using DotNetQuest.Shared
+@using DotNetQuest.Shared.Content
+@inject I18nService I18n
+@inject Confetti Confetti
+
+<div class="modal-backdrop">
+    <div class="modal challenge-modal">
+        <div class="challenge-head">
+            🎯 <strong>@I18n.T("challenge.modalTitle")</strong>
+        </div>
+        <p class="challenge-reward">⚡@Shared.Shop.DailyChallengeXp · 💎@Shared.Shop.DailyChallengeGems</p>
+
+        @if (Exercise.Prompt is not null)
+        {
+            <h3 class="exercise-prompt">@I18n.Pick(Exercise.Prompt.En, Exercise.Prompt.Es)</h3>
+        }
+
+        @switch (Exercise.Type)
+        {
+            case ExerciseTypes.Mcq or ExerciseTypes.TrueFalse or ExerciseTypes.Output:
+                <div class="options">
+                    @for (var i = 0; i < (Exercise.Options?.Count ?? 0); i++)
+                    {
+                        var idx = i;
+                        <button class="option @OptClass(idx)" disabled="@_answered" @onclick="() => Pick(idx)">
+                            <span class="option-letter">@((char)('A' + i))</span>
+                            <span>@(Exercise.Type == ExerciseTypes.Output ? Exercise.Options![idx].En : I18n.Pick(Exercise.Options![idx].En, Exercise.Options[idx].Es))</span>
+                        </button>
+                    }
+                </div>
+                break;
+            case ExerciseTypes.FillBlank or ExerciseTypes.TypeIn:
+                @if (Exercise.Type == ExerciseTypes.FillBlank && !string.IsNullOrEmpty(Exercise.Code))
+                {
+                    <pre class="code-block">@Exercise.Code</pre>
+                }
+                <input class="text-input mono big-input" value="@_text" disabled="@_answered"
+                       @oninput="e => _text = e.Value?.ToString() ?? string.Empty" />
+                break;
+        }
+
+        @if (_answered)
+        {
+            <div class="feedback @(_correct ? "good" : "bad")">
+                <strong>@(_correct ? I18n.T("challenge.nailed") : I18n.T("challenge.missed"))</strong>
+                @if (Exercise.Explanation is not null)
+                {
+                    <p>@I18n.Pick(Exercise.Explanation.En, Exercise.Explanation.Es)</p>
+                }
+            </div>
+        }
+
+        <div class="challenge-actions">
+            @if (_answered)
+            {
+                <button class="btn btn-primary btn-block" @onclick="Finish">
+                    @(_correct ? I18n.T("challenge.collect") : I18n.T("common.close"))
+                </button>
+            }
+            else if (Exercise.Type is ExerciseTypes.FillBlank or ExerciseTypes.TypeIn)
+            {
+                <button class="btn btn-primary btn-block" disabled="@string.IsNullOrWhiteSpace(_text)" @onclick="CheckText">
+                    @I18n.T("lesson.check")
+                </button>
+            }
+            <button class="btn btn-ghost btn-block" @onclick="Cancel">@I18n.T("challenge.later")</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public ExerciseContent Exercise { get; set; } = null!;
+    [Parameter] public EventCallback<bool> OnFinished { get; set; }
+    [Parameter] public EventCallback OnCancelled { get; set; }
+
+    private string _text = string.Empty;
+    private bool _answered;
+    private bool _correct;
+    private int? _picked;
+
+    private string OptClass(int idx)
+    {
+        if (!_answered) return "";
+        if (idx == Exercise.AnswerIndex) return "correct";
+        if (idx == _picked) return "wrong";
+        return "";
+    }
+
+    private async Task Pick(int idx)
+    {
+        if (_answered) return;
+        _picked = idx;
+        _correct = idx == Exercise.AnswerIndex;
+        _answered = true;
+        if (_correct) await Confetti.BurstAsync();
+    }
+
+    private void CheckText()
+    {
+        if (_answered) return;
+        var result = Grader.Check(Exercise, new AnswerSubmission(Text: _text, Blanks: [_text]));
+        _correct = result.Correct;
+        _answered = true;
+        if (_correct) _ = Confetti.BurstAsync();
+    }
+
+    private async Task Finish() => await OnFinished.InvokeAsync(_correct);
+
+    private async Task Cancel() => await OnCancelled.InvokeAsync();
+}

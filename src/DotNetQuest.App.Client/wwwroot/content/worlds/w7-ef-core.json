@@ -1,0 +1,2246 @@
+{
+  "id": "w7-ef-core",
+  "order": 7,
+  "track": "data",
+  "title": {
+    "en": "Entity Framework Core",
+    "es": "Entity Framework Core"
+  },
+  "subtitle": {
+    "en": "Real databases, no SQL required: entities, DbContext, CRUD and queries",
+    "es": "Bases de datos reales sin SQL: entidades, DbContext, CRUD y consultas"
+  },
+  "intro": {
+    "en": "Every real app needs to REMEMBER. Here you wire a real SQLite database to C# classes with EF Core — and yes, the databases in these exercises are completely real!",
+    "es": "Toda app real necesita RECORDAR. Aquí conectas una base de datos SQLite real a clases de C# con EF Core, y sí: ¡las bases de estos ejercicios son completamente reales!"
+  },
+  "icon": "🗄️",
+  "color": "#22c55e",
+  "cheatSheet": [
+    {
+      "title": {
+        "en": "The pieces",
+        "es": "Las piezas"
+      },
+      "items": [
+        {
+          "en": "class Product { public int Id; public string Name; }  // entity",
+          "es": "class Product { public int Id; public string Name; }  // entidad"
+        },
+        {
+          "en": "class Shop : DbContext { public DbSet<Product> Products => Set<Product>(); }",
+          "es": "class Shop : DbContext { public DbSet<Product> Products => Set<Product>(); }"
+        },
+        {
+          "en": "options.UseSqlite(\"Data Source=shop.db\")",
+          "es": "options.UseSqlite(\"Data Source=shop.db\")"
+        },
+        {
+          "en": "db.Database.EnsureCreated();",
+          "es": "db.Database.EnsureCreated();"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "CRUD",
+        "es": "CRUD"
+      },
+      "items": [
+        {
+          "en": "db.Products.Add(new Product { Name = \"Sword\" }); db.SaveChanges();",
+          "es": "db.Products.Add(new Product { Name = \"Sword\" }); db.SaveChanges();"
+        },
+        {
+          "en": "var all = db.Products.ToList();",
+          "es": "var all = db.Products.ToList();"
+        },
+        {
+          "en": "p.Name = \"Axe\"; db.SaveChanges();  // update",
+          "es": "p.Name = \"Axe\"; db.SaveChanges();  // actualizar"
+        },
+        {
+          "en": "db.Products.Remove(p); db.SaveChanges();",
+          "es": "db.Products.Remove(p); db.SaveChanges();"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Queries",
+        "es": "Consultas"
+      },
+      "items": [
+        {
+          "en": "db.Products.Where(p => p.Price > 10)",
+          "es": "db.Products.Where(p => p.Price > 10)"
+        },
+        {
+          "en": "db.Products.OrderBy(p => p.Name).First()",
+          "es": "db.Products.OrderBy(p => p.Name).First()"
+        },
+        {
+          "en": "db.Products.Count()",
+          "es": "db.Products.Count()"
+        },
+        {
+          "en": "db.Products.Find(3)  // by primary key",
+          "es": "db.Products.Find(3)  // por clave primaria"
+        }
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "u1",
+      "title": {
+        "en": "Databases & EF",
+        "es": "Bases de datos y EF"
+      },
+      "lessons": [
+        {
+          "id": "w7-l01-why",
+          "kind": "lesson",
+          "title": {
+            "en": "Why Databases?",
+            "es": "¿Por qué bases de datos?"
+          },
+          "tip": {
+            "en": "Variables die when the program ends. A database is a program's long-term memory: fast, safe, searchable. Every serious app has one.",
+            "es": "Las variables mueren al terminar el programa. Una base de datos es la memoria a largo plazo: rápida, segura, consultable. Toda app seria tiene una."
+          },
+          "exercises": [
+            {
+              "id": "w7-l01e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Your app closes. Where do its List<T> variables go?",
+                "es": "Tu app se cierra. ¿A dónde van sus variables List<T>?"
+              },
+              "options": [
+                {
+                  "en": "They vanish — memory is temporary",
+                  "es": "Desaparecen: la memoria es temporal"
+                },
+                {
+                  "en": "They save to disk automatically",
+                  "es": "Se guardan en disco automáticamente"
+                },
+                {
+                  "en": "They move to the cloud",
+                  "es": "Se mueven a la nube"
+                },
+                {
+                  "en": "They wait in the recycle bin",
+                  "es": "Esperan en la papelera"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "RAM is wiped when the process exits. Databases exist precisely to survive that.",
+                "es": "La RAM se borra al salir el proceso. Las bases de datos existen para sobrevivir a eso."
+              },
+              "hints": [
+                {
+                  "en": "Where did your game progress live before SQLite?",
+                  "es": "¿Dónde vivía tu progreso antes de SQLite?"
+                }
+              ]
+            },
+            {
+              "id": "w7-l01e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What is SQLite?",
+                "es": "¿Qué es SQLite?"
+              },
+              "options": [
+                {
+                  "en": "A tiny, file-based database engine — the world's most deployed DB",
+                  "es": "Un motor de base de datos pequeño basado en archivo: el más desplegado del mundo"
+                },
+                {
+                  "en": "A special kind of C# list",
+                  "es": "Un tipo especial de lista de C#"
+                },
+                {
+                  "en": "A cloud-only service",
+                  "es": "Un servicio que solo existe en la nube"
+                },
+                {
+                  "en": "A programming language",
+                  "es": "Un lenguaje de programación"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "SQLite is a whole database in one file — your phone uses it dozens of times a day.",
+                "es": "SQLite es una base de datos entera en un archivo: tu teléfono la usa decenas de veces al día."
+              },
+              "hints": [
+                {
+                  "en": "This very game stores your progress in it!",
+                  "es": "¡Este mismo juego guarda tu progreso en ella!"
+                }
+              ]
+            },
+            {
+              "id": "w7-l01e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "Writing plain text files is usually better than a database for app data.",
+                "es": "Escribir archivos de texto suele ser mejor que una base de datos para datos de una app."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — text files have no fast search, no concurrency safety, no structure. Fine for logs, wrong for data.",
+                "es": "Falso: sin búsquedas rápidas, sin concurrencia, sin estructura. Útiles para logs, malas para datos."
+              },
+              "hints": [
+                {
+                  "en": "How would you find all users named Ada in a 1 GB text file... fast?",
+                  "es": "¿Cómo buscarías a todos los Ada en 1 GB de texto... rápido?"
+                }
+              ]
+            },
+            {
+              "id": "w7-l01e4",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the data home to its best use:",
+                "es": "Relaciona cada hogar de datos con su mejor uso:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Variable",
+                    "es": "Variable"
+                  },
+                  "right": {
+                    "en": "lives while the program runs",
+                    "es": "vive mientras corre el programa"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Text file",
+                    "es": "Archivo de texto"
+                  },
+                  "right": {
+                    "en": "logs and simple exports",
+                    "es": "logs y exportaciones simples"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Database",
+                    "es": "Base de datos"
+                  },
+                  "right": {
+                    "en": "structured, searchable app data",
+                    "es": "datos de app estructurados y consultables"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Configuration file",
+                    "es": "Archivo de configuración"
+                  },
+                  "right": {
+                    "en": "settings, not user data",
+                    "es": "ajustes, no datos de usuario"
+                  }
+                }
+              ],
+              "explanation": {
+                "en": "Pick the right home for each kind of data.",
+                "es": "Elige el hogar correcto para cada tipo de dato."
+              },
+              "hints": [
+                {
+                  "en": "Settings ≠ data.",
+                  "es": "Ajustes ≠ datos."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w7-l02-orm",
+          "kind": "lesson",
+          "title": {
+            "en": "What EF Core Is",
+            "es": "Qué es EF Core"
+          },
+          "tip": {
+            "en": "EF Core is an ORM: it maps C# classes ↔ database tables, so you query with LINQ instead of writing SQL strings.",
+            "es": "EF Core es un ORM: mapea clases de C# ↔ tablas de la base, así consultas con LINQ en vez de escribir SQL."
+          },
+          "exercises": [
+            {
+              "id": "w7-l02e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "ORM stands for Object-Relational Mapper. What does it map?",
+                "es": "ORM significa Object-Relational Mapper. ¿Qué mapea?"
+              },
+              "options": [
+                {
+                  "en": "C# classes ↔ database tables",
+                  "es": "Clases de C# ↔ tablas de la base"
+                },
+                {
+                  "en": "C# code ↔ machine code",
+                  "es": "Código C# ↔ código máquina"
+                },
+                {
+                  "en": "Objects ↔ JSON",
+                  "es": "Objetos ↔ JSON"
+                },
+                {
+                  "en": "Methods ↔ endpoints",
+                  "es": "Métodos ↔ endpoints"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Your Product class becomes a Products table; rows come back as Product objects.",
+                "es": "Tu clase Product se vuelve una tabla Products; las filas regresan como objetos Product."
+              },
+              "hints": [
+                {
+                  "en": "Object world ↔ relational world.",
+                  "es": "Mundo de objetos ↔ mundo relacional."
+                }
+              ]
+            },
+            {
+              "id": "w7-l02e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match each EF Core piece to its role:",
+                "es": "Relaciona cada pieza de EF Core con su rol:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Entity",
+                    "es": "Entidad"
+                  },
+                  "right": {
+                    "en": "a C# class = one table's row shape",
+                    "es": "una clase C# = la forma de una fila"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "DbContext",
+                    "es": "DbContext"
+                  },
+                  "right": {
+                    "en": "your session with the database",
+                    "es": "tu sesión con la base de datos"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "DbSet<Product>",
+                    "es": "DbSet<Product>"
+                  },
+                  "right": {
+                    "en": "one table you can query",
+                    "es": "una tabla consultable"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "SaveChanges",
+                    "es": "SaveChanges"
+                  },
+                  "right": {
+                    "en": "writes your changes to the DB",
+                    "es": "escribe tus cambios en la base"
+                  }
+                }
+              ],
+              "explanation": {
+                "en": "Entity = shape, DbContext = session, DbSet = table, SaveChanges = commit.",
+                "es": "Entidad = forma, DbContext = sesión, DbSet = tabla, SaveChanges = confirmar."
+              },
+              "hints": [
+                {
+                  "en": "SaveChanges is the 'actually write it' moment.",
+                  "es": "SaveChanges es el momento de 'escribir de verdad'."
+                }
+              ]
+            },
+            {
+              "id": "w7-l02e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "With EF Core you must write SQL strings for every query.",
+                "es": "Con EF Core debes escribir cadenas SQL para cada consulta."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — that's the whole point! LINQ queries like db.Products.Where(...) translate to SQL for you.",
+                "es": "Falso: ¡ese es el punto! LINQ como db.Products.Where(...) se traduce a SQL por ti."
+              },
+              "hints": [
+                {
+                  "en": "Why would the ORM exist then?",
+                  "es": "¿Para qué existiría el ORM entonces?"
+                }
+              ]
+            },
+            {
+              "id": "w7-l02e4",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the property exposing the Products table:",
+                "es": "Completa la propiedad que expone la tabla Products:"
+              },
+              "code": "class Shop : DbContext\n{\n    public ___<Product> Products => Set<Product>();\n}",
+              "blanks": [
+                {
+                  "answer": "DbSet",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "DbSet<Entity> = one table handle inside your DbContext.",
+                "es": "DbSet<Entidad> = el manejador de una tabla dentro de tu DbContext."
+              },
+              "hints": [
+                {
+                  "en": "Db + Set.",
+                  "es": "Db + Set."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w7-l03-firstdb",
+          "kind": "lesson",
+          "title": {
+            "en": "Your First Real Database",
+            "es": "Tu primera base de datos real"
+          },
+          "tip": {
+            "en": "Let's make a REAL database right now: an entity class, a DbContext with UseSqlite, EnsureCreated — then Add + SaveChanges + read it back. It's all real!",
+            "es": "Creemos una base de datos REAL ahora mismo: clase entidad, DbContext con UseSqlite, EnsureCreated, luego Add + SaveChanges y leer. ¡Todo es real!"
+          },
+          "exercises": [
+            {
+              "id": "w7-l03e1",
+              "type": "parsons",
+              "xp": 15,
+              "prompt": {
+                "en": "Order the code-first workflow:",
+                "es": "Ordena el flujo code-first:"
+              },
+              "code": "class Product { public int Id; public string Name = \"\"; }\nclass Shop : DbContext { public DbSet<Product> Products => Set<Product>(); protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=shop.db\"); }\nusing var db = new Shop();\ndb.Database.EnsureCreated();",
+              "explanation": {
+                "en": "Entity → DbContext → connect → create the database. Four steps every EF app starts with.",
+                "es": "Entidad → DbContext → conectar → crear la base. Cuatro pasos con los que empieza toda app EF."
+              },
+              "hints": [
+                {
+                  "en": "Shape first, session second, connection third, creation last.",
+                  "es": "Primero la forma, luego la sesión, conexión y creación."
+                }
+              ]
+            },
+            {
+              "id": "w7-l03e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the SQLite connection string:",
+                "es": "Completa la cadena de conexión de SQLite:"
+              },
+              "code": "o.UseSqlite(\"___ Source=quest.db\");",
+              "blanks": [
+                {
+                  "answer": "Data",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Data Source=<file> is SQLite's classic connection string.",
+                "es": "Data Source=<archivo> es la cadena clásica de SQLite."
+              },
+              "hints": [
+                {
+                  "en": "Where does the data come from?",
+                  "es": "¿De dónde vienen los datos?"
+                }
+              ]
+            },
+            {
+              "id": "w7-l03e3",
+              "type": "fillblank",
+              "xp": 20,
+              "prompt": {
+                "en": "Run this EXACT program — it creates a real database, saves a real row, reads it back. Just complete the missing SaveChanges line name.",
+                "es": "Ejecuta este programa EXACTO: crea una base real, guarda una fila real y la lee. Solo completa el nombre del método que falta."
+              },
+              "blanks": [
+                {
+                  "answer": "SaveChanges",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Without SaveChanges the Add only lives in memory — the database never hears about it!",
+                "es": "Sin SaveChanges el Add solo vive en memoria: ¡la base nunca se entera!"
+              },
+              "hints": [
+                {
+                  "en": "The write-to-database moment.",
+                  "es": "El momento de escribir en la base."
+                }
+              ],
+              "code": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Players.Add(new Player { Name = \"Ada\" });\ndb.___();\nConsole.WriteLine(db.Players.Single().Name);\n\nclass Player\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Player> Players => Set<Player>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}"
+            },
+            {
+              "id": "w7-l03e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Build the full setup yourself: entity Item (Id, Name), DbContext with UseSqlite \"Data Source=quest.db\", create it, save one item \"gem\", print it back.",
+                "es": "Construye la configuración completa tú: entidad Item (Id, Name), DbContext con UseSqlite \"Data Source=quest.db\", créala, guarda un item \"gem\" y muéstralo."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\n// entity + context + create + save + read\n",
+              "tests": [
+                {
+                  "name": "real roundtrip",
+                  "expectedOutput": "gem",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "You just persisted data to a REAL database from C# classes. This is how every app remembers.",
+                "es": "Acabas de persistir datos en una base REAL desde clases C#. Así recuerda toda app."
+              },
+              "hints": [
+                {
+                  "en": "Copy the pattern from the previous exercise and change the names.",
+                  "es": "Copia el patrón del ejercicio anterior y cambia los nombres."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w7-l04-quiz1",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 1 Quiz",
+            "es": "Examen de la unidad 1"
+          },
+          "tip": {
+            "en": "Databases + EF basics — you've got this!",
+            "es": "Bases + básicos de EF: ¡tú puedes!"
+          },
+          "exercises": [
+            {
+              "id": "w7-l04e1",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "What does `using var db = new Shop();` accomplish with DbContext?",
+                "es": "¿Qué logra `using var db = new Shop();` con un DbContext?"
+              },
+              "options": [
+                {
+                  "en": "It closes/releases the database connection when done",
+                  "es": "Cierra/libera la conexión al terminar"
+                },
+                {
+                  "en": "It deletes the database",
+                  "es": "Borra la base de datos"
+                },
+                {
+                  "en": "It makes queries faster",
+                  "es": "Hace las consultas más rápidas"
+                },
+                {
+                  "en": "Nothing special",
+                  "es": "Nada especial"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "DbContext is IDisposable — `using` guarantees the connection is released.",
+                "es": "DbContext es IDisposable: `using` garantiza liberar la conexión."
+              },
+              "hints": [
+                {
+                  "en": "Always close what you open.",
+                  "es": "Siempre cierra lo que abres."
+                }
+              ]
+            },
+            {
+              "id": "w7-l04e2",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "EnsureCreated creates the database and tables if they don't exist.",
+                "es": "EnsureCreated crea la base y las tablas si no existen."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — perfect for exercises and prototypes (real apps use migrations).",
+                "es": "Verdadero: perfecto para ejercicios y prototipos (las apps reales usan migraciones)."
+              },
+              "hints": [
+                {
+                  "en": "Ensure = make sure it exists.",
+                  "es": "Ensure = asegurarse de que exista."
+                }
+              ]
+            },
+            {
+              "id": "w7-l04e3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "You call Add() but forget SaveChanges(). What does the database contain?",
+                "es": "Llamas Add() pero olvidas SaveChanges(). ¿Qué contiene la base?"
+              },
+              "options": [
+                {
+                  "en": "Nothing new — the row was never written",
+                  "es": "Nada nuevo: la fila nunca se escribió"
+                },
+                {
+                  "en": "The new row instantly",
+                  "es": "La fila nueva al instante"
+                },
+                {
+                  "en": "The row after 30 seconds",
+                  "es": "La fila tras 30 segundos"
+                },
+                {
+                  "en": "Only half the row",
+                  "es": "Solo media fila"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "EF tracks changes in memory; SaveChanges is the commit.",
+                "es": "EF rastrea cambios en memoria; SaveChanges es el commit."
+              },
+              "hints": [
+                {
+                  "en": "Tracking ≠ writing.",
+                  "es": "Rastrear ≠ escribir."
+                }
+              ]
+            },
+            {
+              "id": "w7-l04e4",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the base class every DbContext inherits:",
+                "es": "Completa la clase base de la que hereda todo DbContext:"
+              },
+              "code": "class Shop : ___\n{\n    public DbSet<Item> Items => Set<Item>();\n}",
+              "blanks": [
+                {
+                  "answer": "DbContext",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "DbContext is EF Core's session base class.",
+                "es": "DbContext es la clase base de sesión de EF Core."
+              },
+              "hints": [
+                {
+                  "en": "Db + Context.",
+                  "es": "Db + Context."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": {
+        "en": "CRUD",
+        "es": "CRUD"
+      },
+      "lessons": [
+        {
+          "id": "w7-l05-create",
+          "kind": "lesson",
+          "title": {
+            "en": "Create",
+            "es": "Create"
+          },
+          "tip": {
+            "en": "Creating = Add + SaveChanges. The C stands for Create — the first letter of CRUD (Create, Read, Update, Delete).",
+            "es": "Crear = Add + SaveChanges. La C de CRUD (Create, Read, Update, Delete)."
+          },
+          "exercises": [
+            {
+              "id": "w7-l05e1",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Complete the given setup: add TWO products (\"sword\", \"shield\") and print how many rows the table has.",
+                "es": "Completa la configuración dada: añade DOS productos (\"sword\", \"shield\") y muestra cuántas filas tiene la tabla."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\n// Add both products, SaveChanges, print db.Products.Count()\n\nclass Product\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Product> Products => Set<Product>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "two rows",
+                  "expectedOutput": "2",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Count() counts rows — your two Adds became two real rows.",
+                "es": "Count() cuenta filas: tus dos Add se volvieron dos filas reales."
+              },
+              "hints": [
+                {
+                  "en": "db.Products.Add(...); twice, SaveChanges, then Console.WriteLine(db.Products.Count());",
+                  "es": "db.Products.Add(...); dos veces, SaveChanges, luego Console.WriteLine(db.Products.Count());"
+                }
+              ]
+            },
+            {
+              "id": "w7-l05e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "After SaveChanges, your new Product object's Id is...",
+                "es": "Tras SaveChanges, el Id de tu nuevo Product es..."
+              },
+              "options": [
+                {
+                  "en": "Filled in automatically by the database (1, 2, 3...)",
+                  "es": "Rellenado automáticamente por la base (1, 2, 3...)"
+                },
+                {
+                  "en": "Still 0 forever",
+                  "es": "Siempre 0"
+                },
+                {
+                  "en": "A random number",
+                  "es": "Un número aleatorio"
+                },
+                {
+                  "en": "-1",
+                  "es": "-1"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Auto-increment keys flow back into your object after SaveChanges.",
+                "es": "Las claves autoincrementales regresan a tu objeto tras SaveChanges."
+              },
+              "hints": [
+                {
+                  "en": "EF reads back the generated key.",
+                  "es": "EF lee la clave generada."
+                }
+              ]
+            },
+            {
+              "id": "w7-l05e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Add products and print EACH generated Id: add \"a\", \"b\", \"c\", then print their Ids in order (each on its own line).",
+                "es": "Añade productos y muestra CADA Id generado: agrega \"a\", \"b\", \"c\" y muestra sus Ids en orden (uno por línea)."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\n// add three, save, print the three ids\n\nclass Product\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Product> Products => Set<Product>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "ids 1 2 3",
+                  "expectedOutput": "1\n2\n3",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Keep references to your objects and the database hands you their new identities.",
+                "es": "Guarda referencias a tus objetos y la base te entrega sus nuevas identidades."
+              },
+              "hints": [
+                {
+                  "en": "var a = new Product { Name = \"a\" }; ... after SaveChanges: Console.WriteLine(a.Id);",
+                  "es": "var a = new Product { Name = \"a\" }; ... tras SaveChanges: Console.WriteLine(a.Id);"
+                }
+              ]
+            },
+            {
+              "id": "w7-l05e4",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Can you call SaveChanges() twice to save two different Adds?",
+                "es": "¿Puedes llamar SaveChanges() dos veces para guardar dos Add distintos?"
+              },
+              "options": [
+                {
+                  "en": "Yes — each call writes whatever is pending",
+                  "es": "Sí: cada llamada escribe lo pendiente"
+                },
+                {
+                  "en": "No — it only works once per DbContext",
+                  "es": "No: solo funciona una vez por DbContext"
+                },
+                {
+                  "en": "Yes, but only on Sundays",
+                  "es": "Sí, pero solo los domingos"
+                },
+                {
+                  "en": "No — it throws",
+                  "es": "No: lanza excepción"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "SaveChanges flushes pending changes — call it as often as your logic needs.",
+                "es": "SaveChanges vuelca los cambios pendientes: llámalo tantas veces como tu lógica necesite."
+              },
+              "hints": [
+                {
+                  "en": "It's a flush, not a one-shot.",
+                  "es": "Es un flush, no un disparo único."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w7-l06-read",
+          "kind": "lesson",
+          "title": {
+            "en": "Read",
+            "es": "Read"
+          },
+          "tip": {
+            "en": "Reading = querying the DbSet. ToList() gives every row as objects; Find(id) grabs one by key.",
+            "es": "Leer = consultar el DbSet. ToList() da todas las filas como objetos; Find(id) toma una por clave."
+          },
+          "exercises": [
+            {
+              "id": "w7-l06e1",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Seed code adds 3 products. Print each Name on its own line by querying the table.",
+                "es": "El código inicial añade 3 productos. Muestra cada Name en su línea consultando la tabla."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Products.AddRange(\n    new Product { Name = \"sword\" },\n    new Product { Name = \"shield\" },\n    new Product { Name = \"potion\" });\ndb.SaveChanges();\n// Query and print each name\n\nclass Product\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Product> Products => Set<Product>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "three names",
+                  "expectedOutput": "sword\nshield\npotion",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "foreach over the DbSet — each row arrives as a real Product object.",
+                "es": "foreach sobre el DbSet: cada fila llega como un objeto Product real."
+              },
+              "hints": [
+                {
+                  "en": "foreach (var p in db.Products) Console.WriteLine(p.Name);",
+                  "es": "foreach (var p in db.Products) Console.WriteLine(p.Name);"
+                }
+              ]
+            },
+            {
+              "id": "w7-l06e2",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the lookup by primary key (row with Id = 2):",
+                "es": "Completa la búsqueda por clave primaria (fila con Id = 2):"
+              },
+              "code": "var p = db.Products.___(2);",
+              "blanks": [
+                {
+                  "answer": "Find",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Find(key) is the fastest way to grab one row by its primary key.",
+                "es": "Find(clave) es la forma más rápida de tomar una fila por su clave primaria."
+              },
+              "hints": [
+                {
+                  "en": "Four letters — treasure hunters do it.",
+                  "es": "Cuatro letras: lo hacen los buscadores de tesoros."
+                }
+              ]
+            },
+            {
+              "id": "w7-l06e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What does Find(id) return when no row has that key?",
+                "es": "¿Qué devuelve Find(id) si ninguna fila tiene esa clave?"
+              },
+              "options": [
+                {
+                  "en": "null",
+                  "es": "null"
+                },
+                {
+                  "en": "An empty object",
+                  "es": "Un objeto vacío"
+                },
+                {
+                  "en": "It throws immediately",
+                  "es": "Lanza excepción de inmediato"
+                },
+                {
+                  "en": "The first row",
+                  "es": "La primera fila"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Find returns null when missing — always null-check before using.",
+                "es": "Find devuelve null si no existe: siempre revisa antes de usar."
+              },
+              "hints": [
+                {
+                  "en": "The gentle failure.",
+                  "es": "El fallo amable."
+                }
+              ]
+            },
+            {
+              "id": "w7-l06e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Three players are seeded. Find the player with Id = 2 and print their Name (guard with a null check!).",
+                "es": "Hay 3 players precargados. Encuentra el player con Id = 2 y muestra su Name (¡protege con null check!)."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Players.AddRange(\n    new Player { Name = \"ada\" },\n    new Player { Name = \"bit\" },\n    new Player { Name = \"max\" });\ndb.SaveChanges();\n// Find id 2 and print the name\n\nclass Player\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Player> Players => Set<Player>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "finds bit",
+                  "expectedOutput": "bit",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Ids start at 1 and increment in insert order — \"bit\" was inserted second.",
+                "es": "Los Ids empiezan en 1 y crecen en orden de inserción: \"bit\" se insertó segundo."
+              },
+              "hints": [
+                {
+                  "en": "var p = db.Players.Find(2); if (p != null) Console.WriteLine(p.Name);",
+                  "es": "var p = db.Players.Find(2); if (p != null) Console.WriteLine(p.Name);"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w7-l07-update",
+          "kind": "lesson",
+          "title": {
+            "en": "Update",
+            "es": "Update"
+          },
+          "tip": {
+            "en": "To update: FETCH the object, CHANGE its properties, SaveChanges. EF tracks the changes and writes only what's different.",
+            "es": "Para actualizar: OBTÉN el objeto, CAMBIA sus propiedades, SaveChanges. EF rastrea los cambios y escribe solo lo distinto."
+          },
+          "exercises": [
+            {
+              "id": "w7-l07e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Which sequence correctly updates a row?",
+                "es": "¿Qué secuencia actualiza correctamente una fila?"
+              },
+              "options": [
+                {
+                  "en": "Find → modify property → SaveChanges",
+                  "es": "Find → modificar propiedad → SaveChanges"
+                },
+                {
+                  "en": "Add → Find → SaveChanges",
+                  "es": "Add → Find → SaveChanges"
+                },
+                {
+                  "en": "Remove → modify → SaveChanges",
+                  "es": "Remove → modificar → SaveChanges"
+                },
+                {
+                  "en": "Just modify — no fetch, no save",
+                  "es": "Solo modificar: sin fetch ni save"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "EF must TRACK the object (via fetch) before it knows what to update.",
+                "es": "EF debe RASTREAR el objeto (vía fetch) antes de saber qué actualizar."
+              },
+              "hints": [
+                {
+                  "en": "Fetch, change, commit.",
+                  "es": "Obtener, cambiar, confirmar."
+                }
+              ]
+            },
+            {
+              "id": "w7-l07e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Seed adds product \"sword\" priced 10 (Id 1). Update its Name to \"legendary sword\" and print the new name from a fresh query.",
+                "es": "El seed añade \"sword\" con precio 10 (Id 1). Actualiza su Name a \"legendary sword\" y muestra el nuevo nombre con una consulta nueva."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Products.Add(new Product { Name = \"sword\" });\ndb.SaveChanges();\n// fetch id 1, rename, save, print fresh query result\n\nclass Product\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Product> Products => Set<Product>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "renamed",
+                  "expectedOutput": "legendary sword",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Modify + SaveChanges — one UPDATE sentence reaches the database.",
+                "es": "Modificar + SaveChanges: un UPDATE llega a la base."
+              },
+              "hints": [
+                {
+                  "en": "var p = db.Products.Find(1); p.Name = \"legendary sword\"; db.SaveChanges();",
+                  "es": "var p = db.Products.Find(1); p.Name = \"legendary sword\"; db.SaveChanges();"
+                }
+              ]
+            },
+            {
+              "id": "w7-l07e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "Changing a property on a fetched entity automatically updates the database instantly.",
+                "es": "Cambiar una propiedad de una entidad obtenida actualiza la base al instante."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — changes are tracked in memory until SaveChanges is called.",
+                "es": "Falso: los cambios se rastrean en memoria hasta llamar SaveChanges."
+              },
+              "hints": [
+                {
+                  "en": "When does EF ever write without being told?",
+                  "es": "¿Cuándo escribiría EF sin que se lo digas?"
+                }
+              ]
+            },
+            {
+              "id": "w7-l07e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Two players seeded: ada (score 10), bit (score 10). Double ada's score (fetch by Id 1, set 20, save), then print both \"name:score\" lines.",
+                "es": "Dos players: ada (score 10), bit (score 10). Duplica el score de ada (Id 1 → 20, save) y muestra ambos \"nombre:score\"."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Players.AddRange(\n    new Player { Name = \"ada\", Score = 10 },\n    new Player { Name = \"bit\", Score = 10 });\ndb.SaveChanges();\n// update ada, then print both\n\nclass Player\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n    public int Score { get; set; }\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Player> Players => Set<Player>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "only ada doubled",
+                  "expectedOutput": "ada:20\nbit:10",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Surgical updates: one row changed, the other untouched.",
+                "es": "Actualización quirúrgica: una fila cambia, la otra no."
+              },
+              "hints": [
+                {
+                  "en": "Fetch by Id 1, Score = 20 (or *= 2), save, then loop and print.",
+                  "es": "Obtén por Id 1, Score = 20 (o *= 2), save y muestra."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w7-l08-delete",
+          "kind": "lesson",
+          "title": {
+            "en": "Delete",
+            "es": "Delete"
+          },
+          "tip": {
+            "en": "Delete = Remove + SaveChanges. Fetch the object (or build one with the right Id) and hand it to Remove.",
+            "es": "Borrar = Remove + SaveChanges. Obtén el objeto (o crea uno con el Id correcto) y pásalo a Remove."
+          },
+          "exercises": [
+            {
+              "id": "w7-l08e1",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Three products seeded. Remove the one named \"shield\" and print the remaining count.",
+                "es": "Hay 3 productos. Elimina el que se llama \"shield\" y muestra cuántos quedan."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Products.AddRange(\n    new Product { Name = \"sword\" },\n    new Product { Name = \"shield\" },\n    new Product { Name = \"potion\" });\ndb.SaveChanges();\n// find 'shield', remove it, save, print count\n\nclass Product\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Product> Products => Set<Product>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "two remain",
+                  "expectedOutput": "2",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Find it, Remove it, commit it — the D of CRUD.",
+                "es": "Buscar, Remove, confirmar: la D de CRUD."
+              },
+              "hints": [
+                {
+                  "en": "var shield = db.Products.First(p => p.Name == \"shield\"); db.Products.Remove(shield); db.SaveChanges();",
+                  "es": "var shield = db.Products.First(p => p.Name == \"shield\"); db.Products.Remove(shield); db.SaveChanges();"
+                }
+              ]
+            },
+            {
+              "id": "w7-l08e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "What's the difference between Remove and RemoveRange?",
+                "es": "¿Qué diferencia hay entre Remove y RemoveRange?"
+              },
+              "options": [
+                {
+                  "en": "RemoveRange deletes many entities in one call",
+                  "es": "RemoveRange borra varias entidades en una llamada"
+                },
+                {
+                  "en": "RemoveRange is faster but dangerous — it clears the whole table",
+                  "es": "RemoveRange es más rápido pero peligroso: vacía la tabla"
+                },
+                {
+                  "en": "They are identical",
+                  "es": "Son idénticos"
+                },
+                {
+                  "en": "RemoveRange only works on databases",
+                  "es": "RemoveRange solo funciona en bases de datos"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "RemoveRange(collection) = bulk delete of the given rows.",
+                "es": "RemoveRange(colección) = borrado en lote de las filas dadas."
+              },
+              "hints": [
+                {
+                  "en": "Range = many at once.",
+                  "es": "Range = muchos a la vez."
+                }
+              ]
+            },
+            {
+              "id": "w7-l08e3",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the delete-by-id shortcut (attach a stub entity with the right key):",
+                "es": "Completa el atajo de borrado por id (adjunta una entidad con la clave correcta):"
+              },
+              "code": "db.Products.Remove(new Product { Id = 3 });\ndb.___();",
+              "blanks": [
+                {
+                  "answer": "SaveChanges",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "A stub with just the primary key is enough for Remove — EF deletes by key.",
+                "es": "Un stub con la clave primaria basta para Remove: EF borra por clave."
+              },
+              "hints": [
+                {
+                  "en": "The commit again.",
+                  "es": "El commit otra vez."
+                }
+              ]
+            },
+            {
+              "id": "w7-l08e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Boss drill: seed {a, b, c}, delete ALL products whose name starts with 'a'... just kidding — delete the FIRST one by Id 1, then print every remaining name.",
+                "es": "Drill de jefe: precarga {a, b, c}, borra el PRIMERO por Id 1 y muestra cada nombre restante."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Products.AddRange(\n    new Product { Name = \"a\" },\n    new Product { Name = \"b\" },\n    new Product { Name = \"c\" });\ndb.SaveChanges();\n// remove id 1, save, print remaining names\n\nclass Product\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Product> Products => Set<Product>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "b and c remain",
+                  "expectedOutput": "b\nc",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Delete + read-back: the full cycle of data life.",
+                "es": "Borrar y releer: el ciclo completo de la vida del dato."
+              },
+              "hints": [
+                {
+                  "en": "db.Products.Remove(new Product { Id = 1 }); then foreach the rest.",
+                  "es": "db.Products.Remove(new Product { Id = 1 }); luego foreach al resto."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": {
+        "en": "Queries",
+        "es": "Consultas"
+      },
+      "lessons": [
+        {
+          "id": "w7-l09-where",
+          "kind": "lesson",
+          "title": {
+            "en": "Where: Filtering",
+            "es": "Where: filtrar"
+          },
+          "tip": {
+            "en": "Where(p => condition) keeps only the rows matching. It's your database's search bar.",
+            "es": "Where(p => condición) conserva solo las filas que cumplen: es la barra de búsqueda de tu base."
+          },
+          "exercises": [
+            {
+              "id": "w7-l09e1",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Seed code provided (4 items, two cheap two pricey). Print only names of items with Price >= 20.",
+                "es": "Código inicial dado (4 items, dos baratos y dos caros). Muestra solo los nombres de los items con Price >= 20."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Items.AddRange(\n    new Item { Name = \"stick\", Price = 5 },\n    new Item { Name = \"sword\", Price = 25 },\n    new Item { Name = \"shield\", Price = 20 },\n    new Item { Name = \"button\", Price = 1 });\ndb.SaveChanges();\n// print names where Price >= 20\n\nclass Item\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n    public int Price { get; set; }\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Item> Items => Set<Item>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "pricey only",
+                  "expectedOutput": "sword\nshield",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Where translates your lambda into a real SQL WHERE clause — the database does the filtering.",
+                "es": "Where traduce tu lambda a un WHERE SQL real: la base hace el filtrado."
+              },
+              "hints": [
+                {
+                  "en": "foreach (var i in db.Items.Where(i => i.Price >= 20)) ...",
+                  "es": "foreach (var i in db.Items.Where(i => i.Price >= 20)) ..."
+                }
+              ]
+            },
+            {
+              "id": "w7-l09e2",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Where does the filtering ACTUALLY happen with db.Items.Where(...) before ToList()?",
+                "es": "¿Dónde ocurre REALMENTE el filtrado con db.Items.Where(...) antes de ToList()?"
+              },
+              "options": [
+                {
+                  "en": "In the database — via generated SQL",
+                  "es": "En la base de datos, con SQL generado"
+                },
+                {
+                  "en": "In your program's memory, on all rows",
+                  "es": "En la memoria del programa, sobre todas las filas"
+                },
+                {
+                  "en": "In the compiler",
+                  "es": "En el compilador"
+                },
+                {
+                  "en": "Nowhere — Where is decoration",
+                  "es": "En ningún lado: Where es decoración"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "EF translates the expression to SQL and only matching rows travel to your app. Efficient!",
+                "es": "EF traduce la expresión a SQL y solo las filas que cumplen viajan a tu app. ¡Eficiente!"
+              },
+              "hints": [
+                {
+                  "en": "Who is the filtering professional?",
+                  "es": "¿Quién es el profesional del filtrado?"
+                }
+              ]
+            },
+            {
+              "id": "w7-l09e3",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Players seeded with scores. Print names of players with Score > 100, in the order they appear.",
+                "es": "Players con scores. Muestra los nombres de los que tengan Score > 100, en orden de aparición."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Players.AddRange(\n    new Player { Name = \"ada\", Score = 250 },\n    new Player { Name = \"bit\", Score = 40 },\n    new Player { Name = \"max\", Score = 180 });\ndb.SaveChanges();\n// print names where Score > 100\n\nclass Player\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n    public int Score { get; set; }\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Player> Players => Set<Player>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "high scorers",
+                  "expectedOutput": "ada\nmax",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "ada and max — a leaderboard filter in four lines of LINQ.",
+                "es": "ada y max: un filtro de clasificación en cuatro líneas de LINQ."
+              },
+              "hints": [
+                {
+                  "en": "Same pattern as the first exercise, different condition.",
+                  "es": "El mismo patrón del primer ejercicio con otra condición."
+                }
+              ]
+            },
+            {
+              "id": "w7-l09e4",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the filter for cheap items:",
+                "es": "Completa el filtro de items baratos:"
+              },
+              "code": "var cheap = db.Items.___(i => i.Price < 10);",
+              "blanks": [
+                {
+                  "answer": "Where",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Where — the most used method in all of data access.",
+                "es": "Where: el método más usado en todo el acceso a datos."
+              },
+              "hints": [
+                {
+                  "en": "Five letters, W start.",
+                  "es": "Cinco letras, empieza con W."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w7-l10-ordercount",
+          "kind": "lesson",
+          "title": {
+            "en": "Order, Count & First",
+            "es": "Order, Count y First"
+          },
+          "tip": {
+            "en": "OrderBy sorts (use ThenBy for ties), Count counts, First takes the top — and FirstOrDefault returns null instead of crashing.",
+            "es": "OrderBy ordena (ThenBy para empates), Count cuenta, First toma el primero, y FirstOrDefault devuelve null en vez de fallar."
+          },
+          "exercises": [
+            {
+              "id": "w7-l10e1",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Print all player names sorted by Score from highest to lowest (OrderByDescending).",
+                "es": "Muestra los nombres ordenados por Score de mayor a menor (OrderByDescending)."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Players.AddRange(\n    new Player { Name = \"ada\", Score = 250 },\n    new Player { Name = \"bit\", Score = 900 },\n    new Player { Name = \"max\", Score = 60 });\ndb.SaveChanges();\n// print names by score descending\n\nclass Player\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n    public int Score { get; set; }\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Player> Players => Set<Player>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "leaderboard order",
+                  "expectedOutput": "bit\nada\nmax",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "You just built a leaderboard query — the exact one this game uses!",
+                "es": "¡Acabas de crear una consulta de clasificación como la que usa este juego!"
+              },
+              "hints": [
+                {
+                  "en": "db.Players.OrderByDescending(p => p.Score) then select names.",
+                  "es": "db.Players.OrderByDescending(p => p.Score) y luego los nombres."
+                }
+              ]
+            },
+            {
+              "id": "w7-l10e2",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Print how many players have Score >= 100.",
+                "es": "Muestra cuántos players tienen Score >= 100."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Players.AddRange(\n    new Player { Name = \"a\", Score = 100 },\n    new Player { Name = \"b\", Score = 99 },\n    new Player { Name = \"c\", Score = 500 });\ndb.SaveChanges();\n// print the count of score >= 100\n\nclass Player\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n    public int Score { get; set; }\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Player> Players => Set<Player>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "counts two",
+                  "expectedOutput": "2",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Count with a condition — the database returns just a number.",
+                "es": "Count con condición: la base devuelve solo un número."
+              },
+              "hints": [
+                {
+                  "en": "db.Players.Count(p => p.Score >= 100);",
+                  "es": "db.Players.Count(p => p.Score >= 100);"
+                }
+              ]
+            },
+            {
+              "id": "w7-l10e3",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "Why prefer FirstOrDefault over First?",
+                "es": "¿Por qué preferir FirstOrDefault sobre First?"
+              },
+              "options": [
+                {
+                  "en": "It returns null when nothing matches instead of throwing",
+                  "es": "Devuelve null si nada coincide en vez de lanzar excepción"
+                },
+                {
+                  "en": "It is faster",
+                  "es": "Es más rápido"
+                },
+                {
+                  "en": "It returns a default object with values",
+                  "es": "Devuelve un objeto por defecto con valores"
+                },
+                {
+                  "en": "No real difference",
+                  "es": "Sin diferencia real"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "First throws when the sequence is empty; FirstOrDefault hands you null to check.",
+                "es": "First lanza excepción si está vacío; FirstOrDefault te da null para comprobar."
+              },
+              "hints": [
+                {
+                  "en": "Default = the null fallback.",
+                  "es": "Default = el null de respaldo."
+                }
+              ]
+            },
+            {
+              "id": "w7-l10e4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Print the name of the player with the LOWEST score (order ascending, take first).",
+                "es": "Muestra el nombre del player con el score MÁS BAJO (ordena ascendente y toma el primero)."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Players.AddRange(\n    new Player { Name = \"ada\", Score = 250 },\n    new Player { Name = \"bit\", Score = 90 },\n    new Player { Name = \"max\", Score = 160 });\ndb.SaveChanges();\n// print lowest scorer's name\n\nclass Player\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n    public int Score { get; set; }\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Player> Players => Set<Player>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "lowest scorer",
+                  "expectedOutput": "bit",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "OrderBy + First = min-by. A classic combo.",
+                "es": "OrderBy + First = el mínimo. Combinación clásica."
+              },
+              "hints": [
+                {
+                  "en": "OrderBy(p => p.Score).First().Name",
+                  "es": "OrderBy(p => p.Score).First().Name"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w7-l11-quiz3",
+          "kind": "quiz",
+          "title": {
+            "en": "Unit 3 Quiz",
+            "es": "Examen de la unidad 3"
+          },
+          "tip": {
+            "en": "Query skills check!",
+            "es": "¡Control de consultas!"
+          },
+          "exercises": [
+            {
+              "id": "w7-l11e1",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the LINQ method to its job:",
+                "es": "Relaciona el método LINQ con su trabajo:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "Where",
+                    "es": "Where"
+                  },
+                  "right": {
+                    "en": "filter rows",
+                    "es": "filtra filas"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "OrderBy",
+                    "es": "OrderBy"
+                  },
+                  "right": {
+                    "en": "sort rows",
+                    "es": "ordena filas"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Count",
+                    "es": "Count"
+                  },
+                  "right": {
+                    "en": "how many rows",
+                    "es": "cuántas filas"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "FirstOrDefault",
+                    "es": "FirstOrDefault"
+                  },
+                  "right": {
+                    "en": "first row or null",
+                    "es": "primera fila o null"
+                  }
+                }
+              ],
+              "explanation": {
+                "en": "Four methods cover 90% of daily queries.",
+                "es": "Cuatro métodos cubren el 90% de las consultas diarias."
+              },
+              "hints": [
+                {
+                  "en": "Names say it all.",
+                  "es": "Los nombres lo dicen todo."
+                }
+              ]
+            },
+            {
+              "id": "w7-l11e2",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "ToList() is required before Where() for the query to work.",
+                "es": "ToList() es obligatorio antes de Where() para que funcione la consulta."
+              },
+              "answerIndex": 0,
+              "explanation": {
+                "en": "False — Where works directly on the DbSet; adding ToList first would fetch EVERYTHING needlessly.",
+                "es": "Falso: Where funciona directo sobre el DbSet; poner ToList antes traería todo sin necesidad."
+              },
+              "hints": [
+                {
+                  "en": "Filter at the source, not after.",
+                  "es": "Filtra en el origen, no después."
+                }
+              ]
+            },
+            {
+              "id": "w7-l11e3",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "OrderByDescending(p => p.Score) followed by First() gives you...",
+                "es": "OrderByDescending(p => p.Score) seguido de First() te da..."
+              },
+              "options": [
+                {
+                  "en": "The top scorer",
+                  "es": "Al de mayor puntaje"
+                },
+                {
+                  "en": "The lowest scorer",
+                  "es": "Al de menor puntaje"
+                },
+                {
+                  "en": "All players",
+                  "es": "Todos los players"
+                },
+                {
+                  "en": "An error — can't combine them",
+                  "es": "Un error: no se combinan"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Highest first, then take it. Exactly how leaderboards work.",
+                "es": "El más alto primero y tómalo. Exactamente como funcionan las clasificaciones."
+              },
+              "hints": [
+                {
+                  "en": "Descending = big to small.",
+                  "es": "Descending = de grande a pequeño."
+                }
+              ]
+            },
+            {
+              "id": "w7-l11e4",
+              "type": "fillblank",
+              "xp": 12,
+              "prompt": {
+                "en": "Complete the sort for names alphabetically:",
+                "es": "Completa el orden alfabético de nombres:"
+              },
+              "code": "var sorted = db.Players.OrderBy(p => p.___);",
+              "blanks": [
+                {
+                  "answer": "Name",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Sort key = the property you care about.",
+                "es": "La clave de orden es la propiedad que te importa."
+              },
+              "hints": [
+                {
+                  "en": "Sort by name...",
+                  "es": "Ordena por nombre..."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w7-l12-projection",
+          "kind": "lesson",
+          "title": {
+            "en": "Select: Shaping Results",
+            "es": "Select: dar forma a resultados"
+          },
+          "tip": {
+            "en": "Select(transform) projects each row into something else — often just ONE property instead of the whole row. Ask for less, receive less.",
+            "es": "Select(transformación) proyecta cada fila en otra cosa: a menudo solo UNA propiedad. Pide menos, recibe menos."
+          },
+          "exercises": [
+            {
+              "id": "w7-l12pe1",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Seed provided: 3 players. Print ONLY the names (use Select on the query), one per line.",
+                "es": "Precarga de 3 players. Muestra SOLO los nombres (usa Select), uno por línea."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Players.AddRange(\n    new Player { Name = \"ada\" },\n    new Player { Name = \"bit\" },\n    new Player { Name = \"max\" });\ndb.SaveChanges();\n// print only names via Select\n\nclass Player\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n    public int Score { get; set; }\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Player> Players => Set<Player>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "names only",
+                  "expectedOutput": "ada\nbit\nmax",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Select(p => p.Name) means the database returns just the names — lean queries.",
+                "es": "Select(p => p.Name) hace que la base devuelva solo nombres: consultas ligeras."
+              },
+              "hints": [
+                {
+                  "en": "db.Players.Select(p => p.Name) then foreach and print.",
+                  "es": "db.Players.Select(p => p.Name), luego foreach e imprime."
+                }
+              ]
+            },
+            {
+              "id": "w7-l12pe2",
+              "type": "mcq",
+              "xp": 12,
+              "prompt": {
+                "en": "Why project with Select instead of fetching whole rows?",
+                "es": "¿Por qué proyectar con Select en vez de traer filas completas?"
+              },
+              "options": [
+                {
+                  "en": "Less data travels — faster queries",
+                  "es": "Viajan menos datos: consultas más rápidas"
+                },
+                {
+                  "en": "Select is the only legal method",
+                  "es": "Select es el único método legal"
+                },
+                {
+                  "en": "It encrypts the results",
+                  "es": "Cifra los resultados"
+                },
+                {
+                  "en": "No reason, it's style",
+                  "es": "Sin razón, es estilo"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Fetching 3 columns of 1M rows when you need one column wastes memory and time.",
+                "es": "Traer 3 columnas de 1M de filas cuando necesitas una desperdicia memoria y tiempo."
+              },
+              "hints": [
+                {
+                  "en": "Think big tables.",
+                  "es": "Piensa en tablas grandes."
+                }
+              ]
+            },
+            {
+              "id": "w7-l12pe3",
+              "type": "truefalse",
+              "xp": 12,
+              "prompt": {
+                "en": "Select can transform rows into entirely different shapes (like name + score pairs).",
+                "es": "Select puede transformar filas en formas totalmente distintas (como pares nombre + score)."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — Select can project into any shape: single values, anonymous objects, DTOs.",
+                "es": "Verdadero: Select proyecta a cualquier forma: valores, objetos anónimos, DTOs."
+              },
+              "hints": [
+                {
+                  "en": "Projection is transformation.",
+                  "es": "Proyección es transformación."
+                }
+              ]
+            },
+            {
+              "id": "w7-l12pe4",
+              "type": "code",
+              "xp": 20,
+              "prompt": {
+                "en": "Players seeded with scores. Print \"name:score\" for each using Select to build the strings.",
+                "es": "Players con scores. Muestra \"nombre:score\" con Select para construir los strings."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Players.AddRange(\n    new Player { Name = \"ada\", Score = 5 },\n    new Player { Name = \"bit\", Score = 7 });\ndb.SaveChanges();\n// print name:score via Select\n\nclass Player\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n    public int Score { get; set; }\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Player> Players => Set<Player>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "shaped output",
+                  "expectedOutput": "ada:5\nbit:7",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Select(p => $\"{p.Name}:{p.Score}\") — shaping data at the query level.",
+                "es": "Select(p => $\"{p.Name}:{p.Score}\"): dar forma a los datos desde la consulta."
+              },
+              "hints": [
+                {
+                  "en": "Project to strings, then print each.",
+                  "es": "Proyecta a strings e imprime cada uno."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u4",
+      "title": {
+        "en": "Relationships & Boss",
+        "es": "Relaciones y Jefe"
+      },
+      "lessons": [
+        {
+          "id": "w7-l12-relationships",
+          "kind": "lesson",
+          "title": {
+            "en": "Relationships",
+            "es": "Relaciones"
+          },
+          "tip": {
+            "en": "Tables relate: an Order knows its CustomerId. EF navigates these links with reference properties — the 'relational' in relational database.",
+            "es": "Las tablas se relacionan: un Order conoce su CustomerId. EF navega esos enlaces con propiedades de referencia: de ahí lo 'relacional'."
+          },
+          "exercises": [
+            {
+              "id": "w7-l12e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "An Order belongs to a Customer. Where does the link live?",
+                "es": "Un Order pertenece a un Customer. ¿Dónde vive el enlace?"
+              },
+              "options": [
+                {
+                  "en": "A CustomerId column inside the Order row",
+                  "es": "Una columna CustomerId dentro de la fila del Order"
+                },
+                {
+                  "en": "Inside the Customer's name",
+                  "es": "Dentro del nombre del Customer"
+                },
+                {
+                  "en": "In a separate settings file",
+                  "es": "En un archivo de configuración aparte"
+                },
+                {
+                  "en": "Links don't exist in databases",
+                  "es": "Los enlaces no existen en las bases de datos"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Foreign key = a column holding the other row's primary key.",
+                "es": "La clave foránea = una columna con la clave primaria de la otra fila."
+              },
+              "hints": [
+                {
+                  "en": "The child remembers its parent's Id.",
+                  "es": "El hijo recuerda el Id del padre."
+                }
+              ]
+            },
+            {
+              "id": "w7-l12e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the relationship to an example:",
+                "es": "Relaciona el tipo de relación con un ejemplo:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "One-to-many",
+                    "es": "Uno a muchos"
+                  },
+                  "right": {
+                    "en": "one customer, many orders",
+                    "es": "un cliente, muchos pedidos"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Many-to-many",
+                    "es": "Muchos a muchos"
+                  },
+                  "right": {
+                    "en": "students ↔ courses",
+                    "es": "estudiantes ↔ cursos"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "One-to-one",
+                    "es": "Uno a uno"
+                  },
+                  "right": {
+                    "en": "player ↔ their single profile",
+                    "es": "jugador ↔ su perfil único"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "Foreign key",
+                    "es": "Clave foránea"
+                  },
+                  "right": {
+                    "en": "column pointing at another row's Id",
+                    "es": "columna que apunta al Id de otra fila"
+                  }
+                }
+              ],
+              "explanation": {
+                "en": "Relationships are the 'relational' in relational databases.",
+                "es": "Las relaciones son lo 'relacional' de las bases relacionales."
+              },
+              "hints": [
+                {
+                  "en": "Count the sides.",
+                  "es": "Cuenta los lados."
+                }
+              ]
+            },
+            {
+              "id": "w7-l12e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "With EF Core you usually express a one-to-many as: class Order { public int CustomerId; public Customer? Customer; }",
+                "es": "Con EF Core uno expresa uno-a-muchos así: class Order { public int CustomerId; public Customer? Customer; }"
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — the Id column AND the navigation property together describe the link.",
+                "es": "Verdadero: la columna Id y la propiedad de navegación describen el enlace juntos."
+              },
+              "hints": [
+                {
+                  "en": "Id + navigation = full picture.",
+                  "es": "Id + navegación = imagen completa."
+                }
+              ]
+            },
+            {
+              "id": "w7-l12e4",
+              "type": "fillblank",
+              "xp": 10,
+              "prompt": {
+                "en": "Complete the foreign key property:",
+                "es": "Completa la propiedad de clave foránea:"
+              },
+              "code": "class Order\n{\n    public int Id { get; set; }\n    public int ___ { get; set; }  // which customer\n}",
+              "blanks": [
+                {
+                  "answer": "CustomerId",
+                  "caseSensitive": true
+                }
+              ],
+              "explanation": {
+                "en": "Convention: <navigation>Id names the foreign key automatically.",
+                "es": "Convención: <navegación>Id nombra la clave foránea automáticamente."
+              },
+              "hints": [
+                {
+                  "en": "Customer + Id.",
+                  "es": "Customer + Id."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w7-l13-migrations",
+          "kind": "lesson",
+          "title": {
+            "en": "Migrations (Concept)",
+            "es": "Migraciones (concepto)"
+          },
+          "tip": {
+            "en": "EnsureCreated is for exercises. Real apps use MIGRATIONS: versioned, reviewable scripts that evolve the database schema safely over time.",
+            "es": "EnsureCreated es para ejercicios. Las apps reales usan MIGRACIONES: scripts versionados y revisables que evolucionan el esquema de forma segura."
+          },
+          "exercises": [
+            {
+              "id": "w7-l13e1",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "You added a Score property to your Player entity. What do migrations do?",
+                "es": "Añadiste Score a tu entidad Player. ¿Qué hacen las migraciones?"
+              },
+              "options": [
+                {
+                  "en": "Generate a script adding the Score column — without losing data",
+                  "es": "Generan un script que añade la columna Score sin perder datos"
+                },
+                {
+                  "en": "Delete the table and start over",
+                  "es": "Borran la tabla y empiezan de cero"
+                },
+                {
+                  "en": "Nothing — properties are ignored",
+                  "es": "Nada: las propiedades se ignoran"
+                },
+                {
+                  "en": "Convert the column to text",
+                  "es": "Convierten la columna a texto"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "Migrations evolve the schema while preserving the data — that's their whole job.",
+                "es": "Las migraciones evolucionan el esquema conservando los datos: ese es su trabajo."
+              },
+              "hints": [
+                {
+                  "en": "Change the shape, keep the stuff.",
+                  "es": "Cambia la forma, conserva el contenido."
+                }
+              ]
+            },
+            {
+              "id": "w7-l13e2",
+              "type": "match",
+              "xp": 15,
+              "prompt": {
+                "en": "Match the dotnet ef command to its effect:",
+                "es": "Relaciona el comando dotnet ef con su efecto:"
+              },
+              "pairs": [
+                {
+                  "left": {
+                    "en": "dotnet ef migrations add X",
+                    "es": "dotnet ef migrations add X"
+                  },
+                  "right": {
+                    "en": "generate a migration script from your entities",
+                    "es": "genera un script de migración desde tus entidades"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "dotnet ef database update",
+                    "es": "dotnet ef database update"
+                  },
+                  "right": {
+                    "en": "apply pending migrations to the database",
+                    "es": "aplica las migraciones pendientes a la base"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "EnsureCreated",
+                    "es": "EnsureCreated"
+                  },
+                  "right": {
+                    "en": "quick-create schema (no versioning)",
+                    "es": "crea el esquema rápido (sin versiones)"
+                  }
+                },
+                {
+                  "left": {
+                    "en": "EnsureDeleted",
+                    "es": "EnsureDeleted"
+                  },
+                  "right": {
+                    "en": "wipe it for a clean test run",
+                    "es": "la borra para una prueba limpia"
+                  }
+                }
+              ],
+              "explanation": {
+                "en": "This game's own database uses migrations — applied automatically at startup!",
+                "es": "¡La base de este juego usa migraciones aplicadas al arrancar!"
+              },
+              "hints": [
+                {
+                  "en": "add = write the script; update = run it.",
+                  "es": "add = escribir el script; update = ejecutarlo."
+                }
+              ]
+            },
+            {
+              "id": "w7-l13e3",
+              "type": "truefalse",
+              "xp": 10,
+              "prompt": {
+                "en": "Migration files should be committed to source control.",
+                "es": "Los archivos de migración deberían subirse al control de versiones."
+              },
+              "answerIndex": 1,
+              "explanation": {
+                "en": "True — they are the database's history; teammates (and servers) apply the same sequence.",
+                "es": "Verdadero: son la historia de la base; compañeros y servidores aplican la misma secuencia."
+              },
+              "hints": [
+                {
+                  "en": "History must be shared.",
+                  "es": "La historia debe compartirse."
+                }
+              ]
+            },
+            {
+              "id": "w7-l13e4",
+              "type": "mcq",
+              "xp": 10,
+              "prompt": {
+                "en": "When is EnsureCreated the RIGHT tool?",
+                "es": "¿Cuándo es EnsureCreated la herramienta CORRECTA?"
+              },
+              "options": [
+                {
+                  "en": "Prototypes, exercises, throwaway test databases",
+                  "es": "Prototipos, ejercicios, bases desechables de prueba"
+                },
+                {
+                  "en": "Production apps with real user data",
+                  "es": "Apps de producción con datos reales de usuarios"
+                },
+                {
+                  "en": "Whenever you want to keep old data",
+                  "es": "Cuando quieras conservar datos antiguos"
+                },
+                {
+                  "en": "Never",
+                  "es": "Nunca"
+                }
+              ],
+              "answerIndex": 0,
+              "explanation": {
+                "en": "It can't evolve an existing schema — that's migrations' territory.",
+                "es": "No puede evolucionar un esquema existente: ese es el territorio de las migraciones."
+              },
+              "hints": [
+                {
+                  "en": "Throwaway vs. precious data.",
+                  "es": "Datos desechables vs. preciosos."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w7-l14-boss",
+          "kind": "boss",
+          "title": {
+            "en": "BOSS: The Data Kraken Returns",
+            "es": "JEFE: El Kraken de datos regresa"
+          },
+          "tip": {
+            "en": "Full CRUD against a real database, in one sitting. Defeat the Kraken and data will never scare you again! 🐙🗄️",
+            "es": "CRUD completo contra una base real, de una sentada. ¡Vence al Kraken y los datos nunca más te asustarán! 🐙🗄️"
+          },
+          "exercises": [
+            {
+              "id": "w7-l14e1",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Trial 1: setup is provided. Insert three heroes (ada:100, bit:250, max:40) and print the name of the strongest (max Score).",
+                "es": "Prueba 1: la base está lista. Inserta tres héroes (ada:100, bit:250, max:40) y muestra al más fuerte (mayor Score)."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\n// insert the three heroes, save, print strongest name\n\nclass Player\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n    public int Score { get; set; }\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Player> Players => Set<Player>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "strongest hero",
+                  "expectedOutput": "bit",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Create + query in one flow.",
+                "es": "Create + consulta en un solo flujo."
+              },
+              "hints": [
+                {
+                  "en": "AddRange, SaveChanges, OrderByDescending(Score).First().Name",
+                  "es": "AddRange, SaveChanges, OrderByDescending(Score).First().Name"
+                }
+              ]
+            },
+            {
+              "id": "w7-l14e2",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Trial 2 (setup provides seeded heroes): double EVERY hero's score, then print all \"name:score\" lines in Id order.",
+                "es": "Prueba 2 (con héroes precargados): duplica el score de TODOS y muestra cada \"nombre:score\" en orden de Id."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Players.AddRange(\n    new Player { Name = \"ada\", Score = 100 },\n    new Player { Name = \"bit\", Score = 250 });\ndb.SaveChanges();\n// double all scores, save, print name:score lines\n\nclass Player\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n    public int Score { get; set; }\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Player> Players => Set<Player>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "all doubled",
+                  "expectedOutput": "ada:200\nbit:500",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Bulk update: fetch all, mutate in the loop, one SaveChanges at the end.",
+                "es": "Actualización masiva: trae todos, muta en el bucle y un SaveChanges al final."
+              },
+              "hints": [
+                {
+                  "en": "foreach (var p in db.Players) p.Score *= 2; then save; then loop again to print.",
+                  "es": "foreach (var p in db.Players) p.Score *= 2; save; luego otro bucle para mostrar."
+                }
+              ]
+            },
+            {
+              "id": "w7-l14e3",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Trial 3 (seeded heroes with scores 200, 500): delete everyone with Score < 300 and print the surviving names.",
+                "es": "Prueba 3 (héroes con scores 200 y 500): elimina a todos con Score < 300 y muestra los sobrevivientes."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Players.AddRange(\n    new Player { Name = \"ada\", Score = 200 },\n    new Player { Name = \"bit\", Score = 500 });\ndb.SaveChanges();\n// remove score < 300, save, print survivors\n\nclass Player\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n    public int Score { get; set; }\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Player> Players => Set<Player>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "only bit survives",
+                  "expectedOutput": "bit",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Filtered delete — the Where and Remove working together.",
+                "es": "Borrado filtrado: Where y Remove trabajando juntos."
+              },
+              "hints": [
+                {
+                  "en": "db.Players.RemoveRange(db.Players.Where(p => p.Score < 300)); save; print survivors.",
+                  "es": "db.Players.RemoveRange(db.Players.Where(p => p.Score < 300)); save; muestra los sobrevivientes."
+                }
+              ]
+            },
+            {
+              "id": "w7-l14e4",
+              "type": "code",
+              "xp": 15,
+              "prompt": {
+                "en": "Final trial: seed {ada:100, bit:500}. Give HALF the total XP pool to the WEAKEST hero: compute the total, set the weakest's score to total/2... simpler: add 300 to the weakest and print all \"name:score\" ordered by score descending.",
+                "es": "Prueba final: precarga {ada:100, bit:500}. Dale 300 al MÁS DÉBIL y muestra todos \"nombre:score\" ordenados por score descendente."
+              },
+              "starter": "using Microsoft.EntityFrameworkCore;\n\nusing var db = new Shop();\ndb.Database.EnsureDeleted();\ndb.Database.EnsureCreated();\ndb.Players.AddRange(\n    new Player { Name = \"ada\", Score = 100 },\n    new Player { Name = \"bit\", Score = 500 });\ndb.SaveChanges();\n// +300 to weakest, save, print sorted desc\n\nclass Player\n{\n    public int Id { get; set; }\n    public string Name { get; set; } = \"\";\n    public int Score { get; set; }\n}\n\nclass Shop : DbContext\n{\n    public DbSet<Player> Players => Set<Player>();\n    protected override void OnConfiguring(DbContextOptionsBuilder o) => o.UseSqlite(\"Data Source=quest.db\");\n}",
+              "tests": [
+                {
+                  "name": "weakest boosted",
+                  "expectedOutput": "bit:500\nada:400",
+                  "match": "exact"
+                }
+              ],
+              "explanation": {
+                "en": "Query, mutate, sort — the full data cycle. The Kraken sinks! 🐙💥🗄️",
+                "es": "Consultar, mutar, ordenar: el ciclo completo. ¡El Kraken se hunde! 🐙💥🗄️"
+              },
+              "hints": [
+                {
+                  "en": "var weak = db.Players.OrderBy(p => p.Score).First(); weak.Score += 300; SaveChanges; print OrderByDescending.",
+                  "es": "var weak = db.Players.OrderBy(p => p.Score).First(); weak.Score += 300; SaveChanges; muestra OrderByDescending."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

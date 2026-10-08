@@ -1,0 +1,216 @@
+@page "/profile"
+@using Microsoft.AspNetCore.Components.Forms
+@using DotNetQuest.App.Client.Components
+@inject GameState Game
+@inject I18nService I18n
+@inject ApiClient Api
+@inject NavigationManager Nav
+
+@if (Game.Player is null)
+{
+    <div class="app-loading"><p class="muted">@I18n.T("app.loading")</p></div>
+}
+else
+{
+    <div class="page profile-page">
+        <h1 class="page-title">👤 @I18n.T("profile.title")</h1>
+
+        <div class="profile-card">
+            <div class="profile-id">
+                <BitMascot Size="84" AvatarId="@Game.Player.AvatarId" />
+                <div>
+                    <h2>@Game.Player.Nickname</h2>
+                    <p class="muted">@I18n.T("topbar.level") @XpCalculator.LevelForXp(Game.Player.XpTotal) · ⚡ @Game.Player.XpTotal XP · 🔥 @Game.Player.StreakCurrent</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-section">
+            <h3>@I18n.T("profile.identity")</h3>
+            <label class="field-label">@I18n.T("onboarding.nickname")</label>
+            <input class="text-input" maxlength="24" value="@_nickname" @oninput="OnNickChanged" />
+            @if (!string.IsNullOrEmpty(_nickMessage))
+            {
+                <p class="field-hint @(_nickOk ? "ok-text" : "error-text")">@_nickMessage</p>
+            }
+
+            <label class="field-label">@I18n.T("profile.certificateName")</label>
+            <input class="text-input" maxlength="64" value="@_certName" @oninput="e => _certName = e.Value?.ToString() ?? string.Empty" />
+            <p class="field-hint">@I18n.T("profile.certificateHint")</p>
+
+            <label class="field-label">@I18n.T("onboarding.avatar")</label>
+            <div class="avatar-grid small">
+                @foreach (var avatar in AvatarRegistry.All)
+                {
+                    var id = avatar.Id;
+                    <button class="avatar-option @(_avatarId == id ? "selected" : "")" @onclick="() => _avatarId = id">
+                        <BitMascot Size="56" AvatarId="@id" />
+                    </button>
+                }
+            </div>
+        </div>
+
+        <div class="profile-section">
+            <h3>@I18n.T("profile.preferences")</h3>
+            <div class="pref-row">
+                <span>@I18n.T("onboarding.language")</span>
+                <div>
+                    <button class="chip @(I18n.Language == "en" ? "chip-active" : "")" @onclick='() => SetLanguage("en")'>EN</button>
+                    <button class="chip @(I18n.Language == "es" ? "chip-active" : "")" @onclick='() => SetLanguage("es")'>ES</button>
+                </div>
+            </div>
+            <div class="pref-row">
+                <span>🔊 @I18n.T("profile.autoSpeak")</span>
+                <button class="chip @(Game.Player.Settings.AutoSpeak ? "chip-active" : "")" @onclick="ToggleAutoSpeak">
+                    @(Game.Player.Settings.AutoSpeak ? I18n.T("common.on") : I18n.T("common.off"))
+                </button>
+            </div>
+            <div class="pref-row">
+                <span>🌙 @I18n.T("profile.darkMode")</span>
+                <button class="chip @(Game.Player.Settings.DarkMode ? "chip-active" : "")" @onclick="ToggleDarkMode">
+                    @(Game.Player.Settings.DarkMode ? I18n.T("common.on") : I18n.T("common.off"))
+                </button>
+            </div>
+        </div>
+
+        <div class="profile-section">
+            <h3>💾 @I18n.T("profile.backup")</h3>
+            <p class="muted">@I18n.T("profile.backupHint")</p>
+            <div class="profile-actions">
+                <a class="btn btn-secondary" href="/api/profile/export" download="devquest-progress.json">⬇️ @I18n.T("profile.export")</a>
+                <label class="btn btn-ghost" style="cursor:pointer">
+                    ⬆️ @I18n.T("profile.import")
+                    <InputFile OnChange="ImportFile" accept=".json" style="display:none" />
+                </label>
+            </div>
+            @if (!string.IsNullOrEmpty(_importMessage))
+            {
+                <p class="field-hint ok-text">@_importMessage</p>
+            }
+        </div>
+
+        <div class="profile-actions">
+            <button class="btn btn-primary" disabled="@_busy" @onclick="Save">@I18n.T("common.save")</button>
+            <button class="btn btn-ghost" @onclick="SignOut">@I18n.T("profile.signOut")</button>
+        </div>
+
+        @if (_saved)
+        {
+            <p class="field-hint ok-text">@I18n.T("profile.saved")</p>
+        }
+    </div>
+}
+
+@code {
+    private string _nickname = string.Empty;
+    private string _certName = string.Empty;
+    private string _avatarId = string.Empty;
+    private bool _nickOk = true;
+    private string _nickMessage = string.Empty;
+    private bool _busy;
+    private bool _saved;
+    private System.Threading.Timer? _debounce;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Game.InitializeAsync();
+        if (Game.Player is null) { Nav.NavigateTo("/"); return; }
+        _nickname = Game.Player.Nickname;
+        _certName = Game.Player.CertificateName ?? string.Empty;
+        _avatarId = Game.Player.AvatarId;
+    }
+
+    private void OnNickChanged(ChangeEventArgs e)
+    {
+        _nickname = e.Value?.ToString() ?? string.Empty;
+        _nickOk = false;
+        _nickMessage = I18n.T("onboarding.nickChecking");
+        _debounce?.Dispose();
+        var value = _nickname;
+        _debounce = new System.Threading.Timer(async _ =>
+        {
+            await InvokeAsync(async () =>
+            {
+                if (value.Trim().Length < 2)
+                {
+                    _nickOk = false;
+                    _nickMessage = I18n.T("onboarding.nickInvalid");
+                }
+                else
+                {
+                    var check = await Game.CheckNicknamePublic(value);
+                    _nickOk = check.Available;
+                    _nickMessage = check.Available ? I18n.T("onboarding.nickFree") : I18n.T("onboarding.nickTaken");
+                }
+                StateHasChanged();
+            });
+        }, null, 350, Timeout.Infinite);
+    }
+
+    private async Task SetLanguage(string lang)
+    {
+        await I18n.SetLanguageAsync(lang);
+        await PersistSettings(lang: lang);
+        Nav.NavigateTo(Nav.Uri, forceLoad: true);
+    }
+
+    private async Task ToggleAutoSpeak() =>
+        await PersistSettings(autoSpeak: !Game.Player!.Settings.AutoSpeak);
+
+    private async Task ToggleDarkMode() =>
+        await PersistSettings(darkMode: !Game.Player!.Settings.DarkMode);
+
+    private async Task PersistSettings(string? lang = null, bool? autoSpeak = null, bool? darkMode = null)
+    {
+        var s = Game.Player!.Settings;
+        var settings = new Shared.Api.PlayerSettingsDto(
+            lang ?? s.Language,
+            autoSpeak ?? s.AutoSpeak,
+            s.Sound,
+            darkMode ?? s.DarkMode);
+        await Game.UpdateProfileAsync(new Shared.Api.ProfileUpdateRequest(null, null, null, settings));
+    }
+
+    private async Task Save()
+    {
+        if (_busy) return;
+        _busy = true;
+        _saved = false;
+        try
+        {
+            var response = await Game.UpdateProfileAsync(new Shared.Api.ProfileUpdateRequest(
+                _nickname.Trim(), _avatarId, _certName, Game.Player!.Settings));
+            _saved = response is not null;
+        }
+        finally
+        {
+            _busy = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task SignOut()
+    {
+        await Game.SignOutAsync();
+        Nav.NavigateTo("/");
+    }
+
+    private string? _importMessage;
+
+    private async Task ImportFile(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var text = await new System.IO.StreamReader(e.File.OpenReadStream(maxAllowedSize: 512 * 1024)).ReadToEndAsync();
+            var imported = await Api.ImportProgressAsync(text);
+            _importMessage = imported ? I18n.T("profile.imported") : I18n.T("shop.failed");
+            await Game.RefreshPlayerAsync();
+            await Game.RefreshDailyAsync();
+        }
+        catch
+        {
+            _importMessage = I18n.T("shop.failed");
+        }
+        StateHasChanged();
+    }
+}

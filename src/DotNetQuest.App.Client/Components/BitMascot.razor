@@ -1,0 +1,178 @@
+@namespace DotNetQuest.App.Client.Components
+@using DotNetQuest.App.Client.Services
+
+<svg class="bit-mascot @CssClass @PoseClass" width="@Size" height="@Size"
+     viewBox="0 0 200 220" fill="none" role="img" aria-label="Bit the robot">
+    <defs>
+        <linearGradient id="bit-body-@Uid" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="@Avatar.BodyColor" />
+            <stop offset="100%" stop-color="@Avatar.BodyShade" />
+        </linearGradient>
+    </defs>
+
+    @* shadow *@
+    <ellipse cx="100" cy="208" rx="52" ry="8" fill="#0f172a" opacity="0.15" />
+
+    @* antenna *@
+    <line x1="100" y1="42" x2="100" y2="20" stroke="@Avatar.BodyShade" stroke-width="5" stroke-linecap="round" />
+    @if (Avatar.Accessory == "star")
+    {
+        <path d="M100 6 L104 16 L114 16 L106 22 L109 32 L100 26 L91 32 L94 22 L86 16 L96 16 Z"
+              fill="#facc15" stroke="#eab308" stroke-width="1.5" />
+    }
+    else
+    {
+        <circle cx="100" cy="16" r="7" fill="@Avatar.BodyColor" stroke="@Avatar.BodyShade" stroke-width="3"
+                class="bit-antenna" />
+    }
+
+    @* ears *@
+    <rect x="42" y="72" width="14" height="26" rx="6" fill="@Avatar.BodyShade" />
+    <rect x="144" y="72" width="14" height="26" rx="6" fill="@Avatar.BodyShade" />
+
+    @* head *@
+    <rect x="52" y="40" width="96" height="80" rx="22" fill="url(#bit-body-@Uid)" stroke="@Avatar.BodyShade" stroke-width="4" />
+    <rect x="62" y="52" width="76" height="56" rx="14" fill="@Avatar.FaceColor" />
+
+    @* headset accessory *@
+    @if (Avatar.Accessory == "headset")
+    {
+        <path d="M46 76 C46 38 154 38 154 76" stroke="#e2e8f0" stroke-width="7" stroke-linecap="round" fill="none" />
+        <rect x="38" y="70" width="14" height="26" rx="6" fill="#e2e8f0" />
+        <rect x="148" y="70" width="14" height="26" rx="6" fill="#e2e8f0" />
+    }
+
+    @* eyes *@
+    @switch (Pose)
+    {
+        case BitPoses.Happy or BitPoses.Talk or BitPoses.Wave:
+            <circle cx="84" cy="74" r="7" fill="#f8fafc" />
+            <circle cx="116" cy="74" r="7" fill="#f8fafc" />
+            <circle cx="86" cy="76" r="3" fill="@Avatar.FaceColor" />
+            <circle cx="118" cy="76" r="3" fill="@Avatar.FaceColor" />
+            break;
+        case BitPoses.Think:
+            <circle cx="84" cy="70" r="7" fill="#f8fafc" />
+            <circle cx="116" cy="70" r="7" fill="#f8fafc" />
+            <circle cx="86" cy="68" r="3" fill="@Avatar.FaceColor" />
+            <circle cx="118" cy="68" r="3" fill="@Avatar.FaceColor" />
+            break;
+        case BitPoses.Cheer:
+            <path d="M76 74 Q84 66 92 74" stroke="#f8fafc" stroke-width="5" stroke-linecap="round" fill="none" />
+            <path d="M108 74 Q116 66 124 74" stroke="#f8fafc" stroke-width="5" stroke-linecap="round" fill="none" />
+            break;
+        case BitPoses.Sad:
+            <path d="M76 72 Q84 78 92 72" stroke="#f8fafc" stroke-width="5" stroke-linecap="round" fill="none" />
+            <path d="M108 72 Q116 78 124 72" stroke="#f8fafc" stroke-width="5" stroke-linecap="round" fill="none" />
+            break;
+        case BitPoses.Sleep:
+            <path d="M77 74 L91 74" stroke="#f8fafc" stroke-width="5" stroke-linecap="round" />
+            <path d="M109 74 L123 74" stroke="#f8fafc" stroke-width="5" stroke-linecap="round" />
+            @((MarkupString)("<text x='138' y='48' font-size='22' fill='#94a3b8' font-weight='bold'>z</text>"))
+            @((MarkupString)("<text x='152' y='34' font-size='16' fill='#cbd5e1' font-weight='bold'>z</text>"))
+            break;
+    }
+
+    @* glasses accessory (over eyes) *@
+    @if (Avatar.Accessory == "glasses")
+    {
+        <circle cx="84" cy="74" r="14" stroke="#f8fafc" stroke-width="3.5" fill="none" />
+        <circle cx="116" cy="74" r="14" stroke="#f8fafc" stroke-width="3.5" fill="none" />
+        <line x1="98" y1="74" x2="102" y2="74" stroke="#f8fafc" stroke-width="3.5" />
+    }
+
+    @* mouth *@
+    @if (Pose == BitPoses.Cheer)
+    {
+        <path d="M84 88 Q100 102 116 88 Z" fill="#f8fafc" />
+    }
+    else if (Pose == BitPoses.Sad)
+    {
+        <path d="M90 94 Q100 86 110 94" stroke="#f8fafc" stroke-width="4" stroke-linecap="round" fill="none" />
+    }
+    else if (Pose == BitPoses.Sleep)
+    {
+        <circle cx="100" cy="92" r="4" fill="#f8fafc" />
+    }
+    else if (Pose == BitPoses.Think)
+    {
+        <line x1="90" y1="92" x2="112" y2="88" stroke="#f8fafc" stroke-width="4" stroke-linecap="round" />
+    }
+    else
+    {
+        <path d="M88 90 Q100 98 112 90" stroke="#f8fafc" stroke-width="4" stroke-linecap="round" fill="none"
+              class="@(Talking ? "bit-mouth-talk" : "")" />
+        @if (Talking)
+        {
+            <ellipse cx="100" cy="93" rx="7" ry="4" fill="#f8fafc" class="bit-mouth-oval" />
+        }
+    }
+
+    @* neck *@
+    <rect x="92" y="118" width="16" height="10" fill="@Avatar.BodyShade" />
+
+    @* body *@
+    <rect x="66" y="126" width="68" height="62" rx="18" fill="url(#bit-body-@Uid)" stroke="@Avatar.BodyShade" stroke-width="4" />
+    <circle cx="100" cy="156" r="14" fill="@Avatar.FaceColor" />
+    <circle cx="100" cy="156" r="6" fill="@Avatar.BodyColor" class="bit-chest-light" />
+
+    @* arms *@
+    @switch (Pose)
+    {
+        case BitPoses.Wave:
+            <rect x="128" y="108" width="34" height="14" rx="7" fill="@Avatar.BodyShade"
+                  transform="rotate(-45 128 115)" class="bit-arm-wave" />
+            <rect x="42" y="132" width="26" height="13" rx="6.5" fill="@Avatar.BodyShade" />
+            break;
+        case BitPoses.Cheer:
+            <rect x="128" y="102" width="34" height="14" rx="7" fill="@Avatar.BodyShade"
+                  transform="rotate(-55 128 109)" class="bit-arm-left-up" />
+            <rect x="38" y="102" width="34" height="14" rx="7" fill="@Avatar.BodyShade"
+                  transform="rotate(55 72 109)" />
+            break;
+        case BitPoses.Think:
+            <rect x="132" y="130" width="30" height="13" rx="6.5" fill="@Avatar.BodyShade"
+                  transform="rotate(-60 132 136)" />
+            <rect x="42" y="132" width="26" height="13" rx="6.5" fill="@Avatar.BodyShade" />
+            break;
+        case BitPoses.Sleep:
+            <rect x="128" y="140" width="30" height="13" rx="6.5" fill="@Avatar.BodyShade" />
+            <rect x="42" y="140" width="30" height="13" rx="6.5" fill="@Avatar.BodyShade" />
+            break;
+        default:
+            <rect x="130" y="134" width="30" height="13" rx="6.5" fill="@Avatar.BodyShade" />
+            <rect x="40" y="134" width="30" height="13" rx="6.5" fill="@Avatar.BodyShade" />
+            break;
+    }
+
+    @* legs *@
+    <rect x="78" y="186" width="16" height="16" rx="7" fill="@Avatar.BodyShade" />
+    <rect x="106" y="186" width="16" height="16" rx="7" fill="@Avatar.BodyShade" />
+</svg>
+
+@code {
+    private static int _nextId = 1;
+    private string Uid { get; } = $"u{_nextId++}";
+
+    /// <summary>One of <see cref="BitPoses"/>.</summary>
+    [Parameter] public string Pose { get; set; } = BitPoses.Happy;
+
+    [Parameter] public int Size { get; set; } = 140;
+
+    /// <summary>Avatar id for color/accessory variants (mascot defaults to classic).</summary>
+    [Parameter] public string? AvatarId { get; set; }
+
+    [Parameter] public bool Talking { get; set; }
+
+    [Parameter] public string CssClass { get; set; } = string.Empty;
+
+    private AvatarRegistry.AvatarDef Avatar => AvatarRegistry.Get(AvatarId ?? "bit-classic");
+
+    private string PoseClass => Pose switch
+    {
+        BitPoses.Cheer => "bit-pose-cheer",
+        BitPoses.Wave => "bit-pose-wave",
+        BitPoses.Sleep => "bit-pose-sleep",
+        _ => "bit-pose-idle"
+    };
+}

@@ -1,0 +1,81 @@
+@page "/leaderboard"
+@using DotNetQuest.App.Client.Components
+@inject GameState Game
+@inject I18nService I18n
+@inject ApiClient Api
+@inject NavigationManager Nav
+
+<div class="page">
+    <h1 class="page-title">🏆 @I18n.T("leaderboard.title")</h1>
+    <p class="page-subtitle muted">@I18n.T("leaderboard.subtitle")</p>
+
+    <div class="lb-tabs">
+        <button class="chip @(_range == "all" ? "chip-active" : "")" @onclick='() => Load("all")'>@I18n.T("leaderboard.tabAll")</button>
+        <button class="chip @(_range == "week" ? "chip-active" : "")" @onclick='() => Load("week")'>@I18n.T("leaderboard.tabWeek")</button>
+    </div>
+
+    @if (_loading)
+    {
+        <p class="muted">@I18n.T("app.loading")</p>
+    }
+    else if (_board is null || _board.Top.Count == 0)
+    {
+        <p class="muted">@I18n.T("leaderboard.empty")</p>
+    }
+    else
+    {
+        <div class="leaderboard">
+            @foreach (var entry in _board.Top)
+            {
+                <div class="lb-row @(entry.IsMe ? "me" : "")">
+                    <span class="lb-rank @RankClass(entry.Rank)">@entry.Rank</span>
+                    <BitMascot Size="36" AvatarId="@entry.AvatarId" />
+                    <span class="lb-name">@entry.Nickname</span>
+                    <span class="lb-level muted">@I18n.T("topbar.level") @entry.Level</span>
+                    <span class="lb-streak">🔥 @entry.StreakCurrent</span>
+                    <span class="lb-xp">⚡ @entry.XpTotal</span>
+                </div>
+            }
+            @if (_board.Me is not null)
+            {
+                <div class="lb-row me separated">
+                    <span class="lb-rank">@_board.Me.Rank</span>
+                    <BitMascot Size="36" AvatarId="@_board.Me.AvatarId" />
+                    <span class="lb-name">@_board.Me.Nickname</span>
+                    <span class="lb-level muted">@I18n.T("topbar.level") @_board.Me.Level</span>
+                    <span class="lb-streak">🔥 @_board.Me.StreakCurrent</span>
+                    <span class="lb-xp">⚡ @_board.Me.XpTotal</span>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private LeaderboardResponse? _board;
+    private bool _loading = true;
+    private string _range = "all";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Game.InitializeAsync();
+        if (Game.Player is null) { Nav.NavigateTo("/"); return; }
+        await Load("all");
+    }
+
+    private async Task Load(string range)
+    {
+        _range = range;
+        _loading = true;
+        _board = await Api.GetLeaderboardAsync(range);
+        _loading = false;
+    }
+
+    private static string RankClass(int rank) => rank switch
+    {
+        1 => "gold",
+        2 => "silver",
+        3 => "bronze",
+        _ => ""
+    };
+}

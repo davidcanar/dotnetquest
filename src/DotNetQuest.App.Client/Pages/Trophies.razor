@@ -1,0 +1,102 @@
+@page "/trophies"
+@using System.Net.Http.Json
+@using DotNetQuest.App.Client.Components
+@using DotNetQuest.Shared
+@using DotNetQuest.Shared.Content
+@inject GameState Game
+@inject I18nService I18n
+@inject ApiClient Api
+@inject NavigationManager Nav
+
+<div class="page">
+    <h1 class="page-title">🏅 @I18n.T("trophies.title")</h1>
+    <p class="page-subtitle muted">@I18n.T("trophies.subtitle")</p>
+
+    @* Grand graduation *@
+    @{
+        var grandEligible = _worlds.Count > 0 && _worlds.All(w => w.Completed);
+    }
+    <div class="trophy-card grand @(grandEligible || _grandIssued ? "unlocked" : "")">
+        <div class="trophy-icon">🎓</div>
+        <div class="trophy-info">
+            <h3>@I18n.T("trophies.graduation")</h3>
+            <p class="muted">@I18n.T("trophies.graduationHint")</p>
+        </div>
+        @if (grandEligible || _grandIssued)
+        {
+            <a class="btn btn-primary" href="@GrandHref" download>⬇️ @I18n.T("trophies.download")</a>
+        }
+        else
+        {
+            <span class="soon-badge">🔒 @I18n.T("worlds.comingSoon")</span>
+        }
+    </div>
+
+    @foreach (var world in _worlds)
+    {
+        <div class="trophy-card @(world.Completed ? "unlocked" : "")" style="--world-color:@world.Item.Color">
+            <div class="trophy-icon" style="background:@world.Item.Color">@world.Item.Icon</div>
+            <div class="trophy-info">
+                <h3>@I18n.Pick(world.Item.Title.En, world.Item.Title.Es)</h3>
+                <div class="world-progress">
+                    <div class="progress-track"><div class="progress-fill" style="width:@world.Percent%"></div></div>
+                    <span class="progress-label">@world.CompletedCount/@world.Total</span>
+                </div>
+                @if (world.IssuedAt is not null)
+                {
+                    <p class="trophy-date">🗓️ @DateTime.Parse(world.IssuedAt).ToString("yyyy-MM-dd")</p>
+                }
+            </div>
+            @if (world.Completed)
+            {
+                <a class="btn btn-primary" href="@BuildHref(world)" download>⬇️ @I18n.T("trophies.download")</a>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private record WorldRow(WorldIndexItem Item, WorldContent Content, int CompletedCount, int Total, int Percent, bool Completed, string? IssuedAt);
+
+    private List<WorldRow> _worlds = [];
+    private bool _grandIssued;
+
+    private string GrandHref => BuildHrefRaw("_grand", "DevQuest", "DevQuest",
+        _worlds.Sum(w => w.Total), _worlds.Sum(w => w.CompletedCount * 3), grand: true);
+
+    private string BuildHrefRaw(string worldId, string titleEn, string titleEs, int lessons, int stars, bool grand) =>
+        $"/api/certificates/{worldId}?lessons={lessons}&titleEn={Uri.EscapeDataString(titleEn)}" +
+        $"&titleEs={Uri.EscapeDataString(titleEs)}&grand={grand}&stars={stars}" +
+        $"&xp=0&lang={I18n.Language}";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Game.InitializeAsync();
+        if (Game.Player is null) { Nav.NavigateTo("/"); return; }
+
+        var issued = await Api.GetCertificatesAsync() ?? [];
+        var issuedById = issued.ToDictionary(c => c.WorldId, c => c.IssuedAtUtc);
+        _grandIssued = issuedById.ContainsKey("_grand");
+
+        var index = await Game.GetWorldIndexAsync();
+        foreach (var item in index.Where(w => w.Available).OrderBy(w => w.Order))
+        {
+            var world = await Game.GetWorldAsync(item.Id);
+            if (world is null) continue;
+            var (completed, total) = Game.GetWorldProgress(world);
+            _worlds.Add(new WorldRow(item, world, completed, total,
+                total == 0 ? 0 : completed * 100 / total,
+                completed >= total,
+                issuedById.GetValueOrDefault(item.Id)));
+        }
+    }
+
+    private string BuildHref(WorldRow world) => BuildHrefRaw(
+        world.Item.Id,
+        world.Item.Title.En,
+        world.Item.Title.Es,
+        world.Total,
+        world.CompletedCount * 3,
+        grand: false);
+
+}
