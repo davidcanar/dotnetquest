@@ -156,5 +156,7 @@
   "profile.backupHint": "Exporta tu progreso a un archivo JSON o restáuralo en otra computadora.",
   "profile.export": "Exportar progreso",
   "profile.import": "Importar progreso",
-  "profile.imported": "¡Progreso restaurado! ✔"
+  "profile.imported": "¡Progreso restaurado! ✔",
+  "lesson.watchVideo": "Ver vídeo",
+  "lesson.closeVideo": "Cerrar"
 }

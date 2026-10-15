@@ -318,3 +318,11 @@
     text-align: center;
     word-break: break-word;
 }
+
+/* ---- Lesson video button + modal ---- */
+.exercise-actions { display: flex; gap: 8px; align-items: center; }
+.video-btn { background: linear-gradient(135deg, #7c5cff, #5a3ee0); color: #fff; border: none;
+  box-shadow: 0 4px 14px rgba(124, 92, 255, .35); }
+.video-btn:active { transform: translateY(1px); }
+.modal.video-modal { max-width: 760px; width: 92vw; display: flex; flex-direction: column; gap: 12px; }
+.lesson-video { width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; background: #000; display: block; }

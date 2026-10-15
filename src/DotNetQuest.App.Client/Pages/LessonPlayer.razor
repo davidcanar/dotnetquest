@@ -8,6 +8,8 @@
 @inject BitVoice Voice
 @inject Confetti Confetti
 @inject NavigationManager Nav
+@inject HttpClient Http
+@inject IJSRuntime JS
 
 @if (WorldData is null || Lesson is null)
 {
@@ -124,6 +126,10 @@ else if (CurrentExercise is not null)
                     <button class="btn btn-primary btn-block" @onclick="StartLesson">
                         @I18n.T("lesson.start") →
                     </button>
+                    @if (_videoChecked && _videoAvailable)
+                    {
+                        <button class="btn btn-ghost btn-block video-btn" @onclick="OpenVideo">🎬 @I18n.T("lesson.watchVideo")</button>
+                    }
                 }
             </div>
         }
@@ -132,7 +138,13 @@ else if (CurrentExercise is not null)
             <div class="exercise-area">
                 <div class="exercise-head">
                     <span class="exercise-count">@(_index + 1)/@Lesson.Exercises.Count</span>
-                    <button class="btn btn-small ask-bit" @onclick="OpenBit">🤖 @I18n.T("lesson.askBit")</button>
+                    <div class="exercise-actions">
+                        @if (_videoChecked && _videoAvailable)
+                        {
+                            <button class="btn btn-small video-btn" @onclick="OpenVideo">🎬 @I18n.T("lesson.watchVideo")</button>
+                        }
+                        <button class="btn btn-small ask-bit" @onclick="OpenBit">🤖 @I18n.T("lesson.askBit")</button>
+                    </div>
                 </div>
 
                 @if (_nudgeVisible)
@@ -302,6 +314,16 @@ else if (CurrentExercise is not null)
                  PendingUserMessage="@_pendingNudge"
                  ConsumeExtraUse="ConsumeHintUse" />
 
+        @if (_videoVisible)
+        {
+            <div class="modal-backdrop" @onclick="CloseVideo">
+                <div class="modal video-modal" @onclick:stopPropagation="true">
+                    <video controls autoplay="autoplay" src="@VideoUrl" class="lesson-video"></video>
+                    <button class="btn btn-ghost btn-block" @onclick="CloseVideo">✕ @I18n.T("lesson.closeVideo")</button>
+                </div>
+            </div>
+        }
+
         @if (_exitConfirm)
         {
             <div class="modal-backdrop" @onclick="() => _exitConfirm = false">
@@ -353,6 +375,50 @@ else
 
     private bool _bitVisible;
     private bool _exitConfirm;
+    private bool _videoVisible;
+    private bool _videoChecked;
+    private bool _videoAvailable;
+
+    private string VideoUrl => $"videos/{LessonId}-{I18n.Language}.webm";
+
+    private async Task OpenVideo()
+    {
+        // re-check availability for the current language before opening
+        try
+        {
+            using var req = new HttpRequestMessage(HttpMethod.Head, VideoUrl);
+            using var resp = await Http.SendAsync(req);
+            if (!resp.IsSuccessStatusCode) { _videoAvailable = false; _videoChecked = true; return; }
+        }
+        catch { _videoAvailable = false; _videoChecked = true; return; }
+        _videoVisible = true;
+        StateHasChanged();
+    }
+
+    private async Task CloseVideo()
+    {
+        _videoVisible = false;
+        // stop playback/audio when the modal closes
+        await JS.InvokeVoidAsync("eval", "document.querySelectorAll('video').forEach(v => v.pause())");
+        StateHasChanged();
+    }
+
+    private async Task CheckVideoAsync()
+    {
+        try
+        {
+            using var req = new HttpRequestMessage(HttpMethod.Head, $"videos/{LessonId}-{I18n.Language}.webm");
+            using var resp = await Http.SendAsync(req);
+            _videoAvailable = resp.IsSuccessStatusCode;
+        }
+        catch
+        {
+            _videoAvailable = false;
+        }
+        _videoChecked = true;
+        StateHasChanged();
+    }
+
     private bool _nudgeVisible;
     private string? _pendingNudge;
     private readonly Dictionary<string, int> _wrongCounts = [];
@@ -395,6 +461,8 @@ else
             _noHearts = true;
             StartRegenTimer();
         }
+
+        await CheckVideoAsync();
     }
 
     private System.Threading.Timer? _regenTimer;
